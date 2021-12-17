@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.v2Rank">
+	<select id="getAnswerRank2" parameterType="hashMap" resultType="v2Rank">
+		SELECT * 
+		FROM 
+			(SELECT 
+				TOP (#{n_total}) ROW_NUMBER() OVER(ORDER BY ReadAlmoney desc) AS rownum,
+				Seq, 
+				QuestionSeq, 
+				Answer, 
+				ReadCount, 
+				ReadAlmoney, 
+				PointCount,
+				Section1 
+		 	FROM V2_RANKA  with(nolock)
+	 		) A 
+	 	WHERE 
+			rownum BETWEEN #{st_num} AND #{en_num}
+	</select>
+	
+	<select id="getAnswerRankCount" parameterType="hashMap" resultType="int">
+		SELECT count(Seq) as count 
+		FROM 
+			(SELECT 
+				TOP (${n_total}) ROW_NUMBER() OVER(ORDER BY ReadAlmoney desc) AS rownum,
+				AnswerSeq AS Seq, 
+				QuestionSeq, 
+				Answer, 
+				ReadCount, 
+				ReadAlmoney, 
+				PointCount,
+				Section1 
+		 	FROM T_ANSWER_RANK T
+	 		) A 
+	</select>
+	
+	<select id="getAnswerRank" parameterType="hashMap" resultType="v2Rank">
+		SELECT * 
+		FROM 
+			(SELECT 
+				TOP (${n_total}) ROW_NUMBER() OVER(ORDER BY ReadAlmoney desc) AS rownum,
+				Seq, 
+				QuestionSeq, 
+				Answer, 
+				ReadCount, 
+				ReadAlmoney, 
+				PointCount,
+				Section1,
+				lang,
+				nation 
+		 	FROM (
+					SELECT  
+						TOP (1000) AnswerSeq AS Seq, QuestionSeq, MemberSeq, Answer, FlagUse, ReadCount, ReadAlmoney, 
+						PointCount, Section1, lang, nation 
+					FROM
+						 T_ANSWER_RANK
+					WHERE  
+						FlagUse = 'Y'
+						<if test="lang != ''">
+							AND lang = #{lang}
+						</if>
+					ORDER BY ReadAlmoney DESC
+				) T
+	 		) A 
+	 	WHERE 
+			rownum BETWEEN #{st_num} AND #{en_num}
+	</select>
+	
+	<select id="getPointRankByUserSeq" resultType="v2Rank">
+		select 
+			*, 
+			rank() over(order by PointSum desc) as PointRank2
+			,(
+				select count(*)
+				from LOG_VIEW
+				where MemberSeq = #{userSeq}
+					and ContentSeq = V2.Seq
+					and [Type] = 1
+			) as AlmoneyCnt
+			
+		from
+			(
+				select A.Seq
+					, A.QuestionSeq
+					, A.MemberSeq
+					, A.Answer
+					, A.FlagNickName
+					, A.FlagChoice
+					, A.ReadCount
+					, convert(varchar, A.regdate, 20) as regdate
+					, A.PointCount1
+					, A.PointCount2
+					, A.PointCount3
+					, A.PointCount4
+					, A.PointCount5
+					, A.PointCount6
+					, A.PointCount1 * 7 + A.PointCount2 * 3 + (A.PointCount3 * 1) - (A.PointCount4 * 1) - (A.PointCount5 * 3) as PointSum
+					, A.lang
+					, A.nation
+					, M.NickName
+					, M.Photo
+					, M.Lv
+					, L.EarnQueView as Q_Almoney
+					, L.EarnAnsChoice + L.EarnAnsView as A_Almoney
+					, L.EarnAnsChoice + L.EarnAnsExt + L.EarnAnsView + L.EarnAnswerer + L.EarnChildAns + L.EarnChildQue + L.EarnEsti + L.EarnEvent + L.EarnJoin + L.EarnQueExt + L.EarnQueView + L.EarnRefund as EarnTotal
+					, M.A_ChoicedCount
+					, M.A_Count
+					, M.Intro
+					, isnull(
+				(
+					select sum(Almoney)
+					from T_EXTRA_ALMONEY
+					where Type = 'A'
+						and ContentsSeq = A.Seq
+				), 0) as ExtraAlmoney
+					,
+				(
+					select count(*)
+					from T_SIREN as S
+						left outer join T_SIREN_REPORTER as SR on S.Type = SR.Type
+																and S.ContentsSeq = SR.ContentsSeq
+					where S.Type = 'A'
+						and S.ContentsSeq = A.Seq
+						and S.Result = 0
+				) as SirenN
+					, isnull(E.PointCountNo, 0) as PointCountNo
+					, isnull(E.PointCount6_Yn, 'N') as PointCount6_Yn
+					, (select count(*) from T_REPLY_ANSWER TRA with(nolock) where TRA.AnswerSeq = A.Seq AND FlagUse = 'Y' ) AS CNTSUMReplayanswer 
+				from T_ANSWER as A with(nolock)
+					left outer join T_MEMBERS as M with(nolock) on A.MemberSeq = M.Seq
+					left outer join V_LOG_ALMONEY_COMBINED as L on L.MemberSeq = M.Seq
+					left outer join LOG_ESTIMATE as E with(nolock) on E.MemberSeq = #{userSeq}
+						and A.Seq = E.Seq
+				where A.QuestionSeq = #{questionSeq}
+					and A.FlagUse = 'Y'
+			) as V2
+			order by PointSum desc
+	</select>
+	
+	<select id="getPointRankByUserSeqTop3" resultType="v2Rank">
+		select 
+			TOP 3 *, 
+			rank() over(order by PointSum desc) as PointRank2
+			,(
+				select count(*)
+				from LOG_VIEW
+				where MemberSeq = #{userSeq}
+					and ContentSeq = V2.Seq
+					and [Type] = 1
+			) as AlmoneyCnt
+			
+		from
+			(
+				select A.Seq
+					, A.QuestionSeq
+					, A.MemberSeq
+					, A.Answer
+					, A.FlagNickName
+					, A.FlagChoice
+					, A.ReadCount
+					, convert(varchar, A.regdate, 20) as regdate
+					, A.PointCount1
+					, A.PointCount2
+					, A.PointCount3
+					, A.PointCount4
+					, A.PointCount5
+					, A.PointCount6
+					, A.PointCount1 * 7 + A.PointCount2 * 3 + (A.PointCount3 * 1) - (A.PointCount4 * 1) - (A.PointCount5 * 3) as PointSum
+					, A.lang
+					, A.nation
+					, M.NickName
+					, M.Photo
+					, M.Lv
+					, L.EarnQueView as Q_Almoney
+					, L.EarnAnsChoice + L.EarnAnsView as A_Almoney
+					, L.EarnAnsChoice + L.EarnAnsExt + L.EarnAnsView + L.EarnAnswerer + L.EarnChildAns + L.EarnChildQue + L.EarnEsti + L.EarnEvent + L.EarnJoin + L.EarnQueExt + L.EarnQueView + L.EarnRefund as EarnTotal
+					, M.A_ChoicedCount
+					, M.A_Count
+					, M.Intro
+					, isnull(
+				(
+					select sum(Almoney)
+					from T_EXTRA_ALMONEY
+					where Type = 'A'
+						and ContentsSeq = A.Seq
+				), 0) as ExtraAlmoney
+					,
+				(
+					select count(*)
+					from T_SIREN as S
+						left outer join T_SIREN_REPORTER as SR on S.Type = SR.Type
+																and S.ContentsSeq = SR.ContentsSeq
+					where S.Type = 'A'
+						and S.ContentsSeq = A.Seq
+						and S.Result = 0
+				) as SirenN
+					, isnull(E.PointCountNo, 0) as PointCountNo
+					, isnull(E.PointCount6_Yn, 'N') as PointCount6_Yn
+					, (select count(*) from T_REPLY_ANSWER TRA with(nolock) where TRA.AnswerSeq = A.Seq AND FlagUse = 'Y' ) AS CNTSUMReplayanswer
+				from T_ANSWER as A with(nolock)
+					left outer join T_MEMBERS as M with(nolock) on A.MemberSeq = M.Seq
+					left outer join V_LOG_ALMONEY_COMBINED as L on L.MemberSeq = M.Seq
+					left outer join LOG_ESTIMATE as E with(nolock) on E.MemberSeq = #{userSeq}
+						and A.Seq = E.Seq
+				where A.QuestionSeq = #{questionSeq}
+					and A.FlagUse = 'Y'
+			) as V2
+			order by PointSum desc
+	</select>
+</mapper>

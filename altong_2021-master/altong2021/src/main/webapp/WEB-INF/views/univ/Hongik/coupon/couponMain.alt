@@ -1,0 +1,11 @@
+<?
+include $_SERVER['DOCUMENT_ROOT'].'/Common/Global.alt';
+include $_SERVER['DOCUMENT_ROOT'].'/Common/Lib/DataBase.alt';
+include $_SERVER['DOCUMENT_ROOT'].'/Common/Lib/Security.alt';
+
+libLogin($_COOKIE['SESS']);
+
+include_once $_SERVER['DOCUMENT_ROOT'].'/Univ/Hongik/coupon/couponMain.phtml';
+
+
+?>

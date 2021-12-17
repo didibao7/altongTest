@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.ad">
+	<!-- fn_SQL_AD_List -->
+	<select id="getAdCount" resultType="int">
+		SELECT 
+			count(Seq)
+		FROM T_AD AS A  with(nolock) 
+			left outer join (
+							select AdSeq, 
+								sum(case when Type = 0 then 1 else 0 end) as ViewCount, 
+								sum(case when Type = 1 then 1 else 0 end) as PayCount, 
+								sum(case when Type = 2 then 1 else 0 end) as ClickCount 
+							from LOG_AD 
+							group by AdSeq 
+						) as log_ad on log_ad.AdSeq = A.Seq
+		WHERE 
+			Seq > 0 AND FlagUse='Y' 
+		ORDER BY #{psrc_Cond} DESC
+	</select>
+	
+	<!-- fn_SQL_AD_List -->
+	<select id="getAdLimiCount" resultType="int">
+		SELECT 
+			COUNT(Seq) 
+		FROM T_AD AS A  with(nolock) 
+			left outer join (
+							select AdSeq, 
+								sum(case when Type = 0 then 1 else 0 end) as ViewCount, 
+								sum(case when Type = 1 then 1 else 0 end) as PayCount, 
+								sum(case when Type = 2 then 1 else 0 end) as ClickCount 
+							from LOG_AD 
+							group by AdSeq 
+						) as log_ad on log_ad.AdSeq = A.Seq
+		WHERE 
+			Seq > 0 AND FlagUse='Y' 
+			<if test='psrc_Text != ""'>
+				AND ${psrc_Kind} = #{psrc_Text}
+		 	</if>
+	</select>
+	<select id="getAdLimitList" resultType="ad">
+	SELECT * 
+	FROM 
+		(
+		SELECT 
+			TOP ${p_Option} ROW_NUMBER() OVER(ORDER BY A.${psrc_Cond} desc) AS rownum, 
+			A.*, log_ad.ViewCount, log_ad.PayCount, log_ad.ClickCount
+		FROM T_AD AS A  with(nolock) 
+			left outer join (
+							select AdSeq, 
+								sum(case when Type = 0 then 1 else 0 end) as ViewCount, 
+								sum(case when Type = 1 then 1 else 0 end) as PayCount, 
+								sum(case when Type = 2 then 1 else 0 end) as ClickCount 
+							from LOG_AD 
+							group by AdSeq 
+						) as log_ad on log_ad.AdSeq = A.Seq
+		WHERE 
+			Seq > 0 AND FlagUse='Y' 
+			<if test='psrc_Text != ""'>
+				AND ${psrc_Kind = #{psrc_Text}
+		 	</if>
+		) T 
+	WHERE
+		rownum BETWEEN #{st_num} AND #{en_num}
+	</select>
+	
+	<!-- fn_SQL_AD_List -->
+	<select id="getAdList" resultType="ad">
+		SELECT 
+			*, ViewCount, PayCount, ClickCount
+		FROM T_AD AS A  with(nolock) 
+			left outer join (
+							select AdSeq, 
+								sum(case when Type = 0 then 1 else 0 end) as ViewCount, 
+								sum(case when Type = 1 then 1 else 0 end) as PayCount, 
+								sum(case when Type = 2 then 1 else 0 end) as ClickCount 
+							from LOG_AD 
+							group by AdSeq 
+						) as log_ad on log_ad.AdSeq = A.Seq
+		WHERE 
+			Seq > 0 AND FlagUse='Y' 
+			<if test="psrc_Text != ''">
+				AND ${psrc_Kind} = #{psrc_Text}
+		 	</if>
+	</select>
+	
+	<!-- fn_SQL_AD_MaxSeq -->
+	<select id="getAdMaxCode" resultType="int">
+		SELECT MAX(Seq) AS Seq FROM T_AD  with(nolock)
+	</select>
+	
+	<!-- fn_SQL_ad_view -->
+	<select id="getAdView" resultType="ad">
+		SELECT * FROM T_AD  with(nolock) WHERE Seq = #{seq}
+	</select>
+	
+	<!-- fn_SQL_Answer_AD -->
+	<!-- startDt = Date(), endDt = Date() -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getAnswerAd" resultType="ad">
+		SELECT Seq, ADFile, ADFileExt, url, FlagAd 
+		FROM T_AD with(nolock)  
+		WHERE FlagUse = 'Y' AND PeriodStart <![CDATA[<=]]> #{startDt} AND PeriodEnd <![CDATA[>=]]> #{endDt}
+		<if test="userSeq == ''">
+			AND FlagAd = 0
+		</if>
+		<if test='section1 != "0" and section1 != "" '>
+			AND (Section1 = #{Section1} Or Section1 = 0)
+		</if>
+		ORDER BY NEWID()
+	</select>
+	
+	<!-- fn_SQL_AD_Insert -->
+	<insert id="setAd" parameterType="hashMap">
+		insert into T_AD (Seq, Section1, ADFile, ADFileExt, PeriodStart, PeriodEnd, FlagUse, url, FlagAd) 
+		values(#{seq}, #{section1}, #{adFile}, #{adFileExt}, #{periodStart}, #{periodEnnd}, #{flagUse}, #{url}, #{flagAd})
+	</insert>
+	
+	<!-- fn_SQL_ad_Update -->
+	<update id="updateAd">
+		UPDATE T_AD SET
+			Section1 = #{section1},
+			PeriodStart = #{periodStart},
+			PeriodEnd = #{periodEnd},
+			url = #{url},
+			FlagUse = #{flagUse}
+		WHERE Seq = #{seq}
+	</update>
+	
+	<!-- fn_SQL_addel_Update -->
+	<update id="deleteAd">
+		UPDATE T_AD SET 
+			FlagUse = 'N' 
+		WHERE Seq = #{seq}
+	</update>
+</mapper>

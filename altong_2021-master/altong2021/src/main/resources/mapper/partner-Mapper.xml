@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.partner">
+	<!-- fn_SQL_MyPartner_List -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getMyPartnerListCount" resultType="int">
+		SELECT 
+			COUNT(P.Seq) 
+		FROM T_MYPARTNER AS P  with(nolock) 
+		LEFT OUTER JOIN V_MEMBERS AS M  with(nolock) ON P.PartnerSeq = M.seq 
+		WHERE P.MemberSeq = #{userSeq} AND P.FlagPartner = #{flagPartner} 
+	</select>
+	<!-- fn_SQL_MyPartner_List -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getMyPartnerListLimit" resultType="partner">
+		SELECT 
+			TOP #{p_Option} P.FlagPartner, M.Seq AS MemberSeq, M.NickName, M.Photo, M.SumQ, M.SumA, M.CountC, M.CountQ, P.DateReg  
+		FROM T_MYPARTNER AS P  with(nolock) 
+		LEFT OUTER JOIN V_MEMBERS AS M  with(nolock) ON P.PartnerSeq = M.seq 
+		WHERE P.MemberSeq = #{userSeq} AND P.FlagPartner = #{flagPartner} 
+		ORDER BY P.Seq DESC
+	</select>
+	<!-- fn_SQL_MyPartner_List -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getMyPartnerListAll" resultType="partner">
+		SELECT 
+			P.FlagPartner, M.Seq AS MemberSeq, M.NickName, M.Photo, M.SumQ, M.SumA, M.CountC, M.CountQ, P.DateReg  
+		FROM T_MYPARTNER AS P  with(nolock) 
+		LEFT OUTER JOIN V_MEMBERS AS M  with(nolock) ON P.PartnerSeq = M.seq 
+		WHERE P.MemberSeq = #{userSeq} AND P.FlagPartner = #{flagPartner} 
+		ORDER BY P.Seq DESC
+	</select>
+	
+	<!-- fn_SQL_MyFollower_List -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getMyFollowerListCount" resultType="int">
+		SELECT 
+			COUNT(P.Seq) 
+		FROM T_MYPARTNER AS P  with(nolock) 
+		LEFT OUTER JOIN V_MEMBERS AS M  with(nolock) ON P.MemberSeq = M.seq 
+		WHERE P.PartnerSeq = #{userSeq} AND P.FlagPartner = #{flagPartner} 
+	</select>
+	<!-- fn_SQL_MyFollower_List -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getMyFollowerListLimit" resultType="partner">
+		SELECT 
+			TOP #{p_Option} P.FlagPartner, M.Seq AS MemberSeq, M.NickName, M.Photo, M.SumQ, M.SumA, M.CountC, M.CountQ, P.DateReg 
+		FROM T_MYPARTNER AS P  with(nolock) 
+		LEFT OUTER JOIN V_MEMBERS AS M  with(nolock) ON P.MemberSeq = M.seq 
+		WHERE P.PartnerSeq = #{userSeq} AND P.FlagPartner = #{flagPartner} 
+		ORDER BY P.Seq DESC
+	</select>
+	<!-- fn_SQL_MyFollower_List -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getMyFollowerListAll" resultType="partner">
+		SELECT 
+			P.FlagPartner, M.Seq AS MemberSeq, M.NickName, M.Photo, M.SumQ, M.SumA, M.CountC, M.CountQ, P.DateReg 
+		FROM T_MYPARTNER AS P  with(nolock) 
+		LEFT OUTER JOIN V_MEMBERS AS M  with(nolock) ON P.MemberSeq = M.seq 
+		WHERE P.PartnerSeq = #{userSeq} AND P.FlagPartner = #{flagPartner} 
+		ORDER BY P.Seq DESC
+	</select>
+	
+	<!-- fn_SQL_Partner_Select -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getPartnerSelect" resultType="partner">
+		SELECT * 
+		FROM T_MYPARTNER  with(nolock) 
+		WHERE MemberSeq = #{userSeq} AND PartnerSeq = #{partnerSeq} AND FlagPartner = #{flagPartner}
+	</select>
+	
+	<!-- fn_SQL_Partner_Insert -->
+	<!-- userSeq 는 Session 정보임 -->
+	<!-- dateReg 는 ASP 의 Now() -->
+	<insert id="setPartner">
+		INSERT INTO T_MYPARTNER (MemberSeq, PartnerSeq, FlagPartner, DateReg) 
+		VALUES (
+			#{userSeq},
+			#{partnerSeq},
+			#{flagPartner},
+			#{dateReg}
+		)
+	</insert>
+</mapper>

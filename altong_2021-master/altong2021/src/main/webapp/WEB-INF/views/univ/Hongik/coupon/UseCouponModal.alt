@@ -1,0 +1,43 @@
+<div id="UseCouponModal" class="modal">
+	<div class="modal-content">
+		<form name="frm">
+		<div>알맹이 : #Almeng#</div>
+		<div>혜택 : #Service#</div>
+		<div>기한 : #date#</div>
+		<div>※ 중복 사용은 불가합니다.</div>
+		<div>#지도#</div>
+		<div><input type="button" value="쿠폰 제시" onClick="fUseCoupon()"><input type="button" value="취소" onClick="UseCouponModalClose()"></div>
+		</form>
+	</div>
+</div>
+
+<div id="UseCouponLoadingModal" class="modal">
+	<div class="modal-content">
+		<form name="frm">
+		<div>#CouponName#쿠폰을 알맹이 #Almeng#에 제시했습니다.</div>
+		<div class="payment_loader">
+			<div class="sk-circle"></div>
+			<div class="spinner">
+				<p class="rect1"></p>
+				<p class="rect2"></p>
+				<p class="rect3"></p>
+				<p class="rect4"></p>
+				<p class="rect5"></p>
+			</div>
+		</div>
+		<div>알맹이에서 승인하는 동안 잠시만 기다려 주세요...</div>
+		<div><input type="button" value="취소" onClick="UseCouponLoadingModalClose()"></div>
+		</form>
+	</div>
+</div>
+
+<div id="UseCouponSuccessModal" class="modal">
+	<div class="modal-content">
+		<form name="frm">
+		<div><img src="/Univ/Hongik/coupon/img/icon_event.png"></div>
+		<div>성공적으로 승인되었습니다!</div>
+		<div>차액을 알pay로 결제하시겠습니까?</div>
+		<div><input type="button" value="알pay 결제" onClick="fUseCoupon()"><input type="button" value="취소" onClick="UseCouponSuccessModalClose()"></div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,2214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.common">
+	<!-- fn_SQL_MyView_List -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getMyViewListCount" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM LOG_VIEW AS L with(nolock) 
+		inner JOIN T_ANSWER AS A with(nolock) ON L.ContentSeq = A.Seq and A.FlagUse = 'Y' and A.MemberSeq <![CDATA[<>]]> #{userSeq} 
+		inner JOIN T_QUESTION AS Q with(nolock) ON A.QuestionSeq = Q.Seq and Q.FlagUse = 'Y' 
+		WHERE L.MemberSeq = #{userSeq} and Type = 1 
+		<if test="section1 != '0'">
+			AND Q.Section1 = #{section1} 
+		</if>
+	</select>
+	<!-- fn_SQL_MyView_List -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getMyViewListLimit" resultType="logView">
+		SELECT 
+			TOP #{p_Option} L.ContentSeq AS AnswerSeq, convert(char(19), L.DateReg) as conDate, A.Answer, Q.Seq AS QuestionSeq, Q.Section1  
+		FROM LOG_VIEW AS L with(nolock) 
+		inner JOIN T_ANSWER AS A with(nolock) ON L.ContentSeq = A.Seq and A.FlagUse = 'Y' and A.MemberSeq <![CDATA[<>]]> #{userSeq} 
+		inner JOIN T_QUESTION AS Q with(nolock) ON A.QuestionSeq = Q.Seq and Q.FlagUse = 'Y' 
+		WHERE L.MemberSeq = #{userSeq} and Type = 1 
+		<if test="section1 != '0'">
+			AND Q.Section1 = #{section1} 
+		</if>
+		ORDER BY L.DateReg DESC 
+	</select>
+	<!-- fn_SQL_MyView_List -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getMyViewListAll" resultType="logView">
+		SELECT 
+			L.ContentSeq AS AnswerSeq, convert(char(19), L.DateReg) as conDate, A.Answer, Q.Seq AS QuestionSeq, Q.Section1 
+		FROM LOG_VIEW AS L with(nolock) 
+		inner JOIN T_ANSWER AS A with(nolock) ON L.ContentSeq = A.Seq and A.FlagUse = 'Y' and A.MemberSeq <![CDATA[<>]]> #{userSeq} 
+		inner JOIN T_QUESTION AS Q with(nolock) ON A.QuestionSeq = Q.Seq and Q.FlagUse = 'Y' 
+		WHERE L.MemberSeq = #{userSeq} and Type = 1 
+		<if test="section1 != '0'">
+			AND Q.Section1 = #{section1} 
+		</if>
+		ORDER BY L.DateReg DESC 
+	</select>
+
+	<!-- fn_SQL_OtherView_List -->
+	<select id="getOtherViewListCount" resultType="int">
+		SELECT 
+			COUNT(L.Seq) 
+		FROM LOG_ALMONEY AS L  with(nolock) 
+		LEFT OUTER JOIN T_ANSWER AS A  with(nolock) ON L.ContentsSeq = A.Seq 
+		LEFT OUTER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq 
+		WHERE L.TradeType = 'View' AND L.MemberSeq = #{psrc_memberseq} 
+		<if test="section1 != '0'">
+			AND Q.Section1 = #{section1} 
+		</if>
+	</select>
+	<!-- fn_SQL_OtherView_List -->
+	<select id="getOtherViewListLimit" resultType="logView">
+		SELECT 
+			TOP #{p_Option} L.ContentsSeq AS AnswerSeq, L.DateReg, A.Answer, Q.Seq AS QuestionSeq, Q.Section1  
+		FROM LOG_ALMONEY AS L  with(nolock) 
+		LEFT OUTER JOIN T_ANSWER AS A  with(nolock) ON L.ContentsSeq = A.Seq 
+		LEFT OUTER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq 
+		WHERE L.TradeType = 'View' AND L.MemberSeq = #{psrc_memberseq} 
+		<if test="section1 != '0'">
+			AND Q.Section1 = #{section1} 
+		</if>
+		ORDER BY L.Seq DESC
+	</select>
+	<!-- fn_SQL_OtherView_List -->
+	<select id="getOtherViewListAll" resultType="logView">
+		SELECT 
+			L.ContentsSeq AS AnswerSeq, L.DateReg, A.Answer, Q.Seq AS QuestionSeq, Q.Section1 
+		FROM LOG_ALMONEY AS L  with(nolock) 
+		LEFT OUTER JOIN T_ANSWER AS A  with(nolock) ON L.ContentsSeq = A.Seq 
+		LEFT OUTER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq 
+		WHERE L.TradeType = 'View' AND L.MemberSeq = #{psrc_memberseq} 
+		<if test="section1 != '0'">
+			AND Q.Section1 = #{section1} 
+		</if>
+		ORDER BY L.Seq DESC
+	</select>
+	
+	<!-- fn_SQL_member_v_List -->
+	<select id="getMemberVlistCount" resultType="int">
+		SELECT 
+			COUNT(L.Seq) 
+		FROM LOG_ALMONEY AS L  with(nolock) 
+		LEFT OUTER JOIN T_ANSWER AS A  with(nolock) ON L.ContentsSeq = A.Seq 
+		LEFT OUTER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq 
+		WHERE L.TradeType = 'View' AND L.MemberSeq = #{seq} 
+		<if test="section1 != '0'">
+			AND Q.Section1 = #{section1}
+		</if>
+	</select>
+	<!-- fn_SQL_member_v_List -->
+	<select id="getMemberVlistLimit" resultType="logView">
+		SELECT 
+			TOP #{p_Option} L.ContentsSeq AS AnswerSeq, L.DateReg, A.Answer, Q.Seq AS QuestionSeq, Q.Section1  
+		FROM LOG_ALMONEY AS L  with(nolock) 
+		LEFT OUTER JOIN T_ANSWER AS A  with(nolock) ON L.ContentsSeq = A.Seq 
+		LEFT OUTER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq 
+		WHERE L.TradeType = 'View' AND L.MemberSeq = #{seq} 
+		<if test="section1 != '0'">
+			AND Q.Section1 = #{section1}
+		</if>
+		ORDER BY L.Seq DESC 
+	</select>
+	<!-- fn_SQL_member_v_List -->
+	<select id="getMemberVlistAll" resultType="logView">
+		SELECT 
+			L.ContentsSeq AS AnswerSeq, L.DateReg, A.Answer, Q.Seq AS QuestionSeq, Q.Section1   
+		FROM LOG_ALMONEY AS L  with(nolock) 
+		LEFT OUTER JOIN T_ANSWER AS A  with(nolock) ON L.ContentsSeq = A.Seq 
+		LEFT OUTER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq 
+		WHERE L.TradeType = 'View' AND L.MemberSeq = #{seq} 
+		<if test="section1 != '0'">
+			AND Q.Section1 = #{section1}
+		</if>
+		ORDER BY L.Seq DESC 
+	</select>
+	<select id="getAlmoneyAll" resultType="double">
+		SELECT 
+			SUM(Almoney) AS AlmoneyAll 
+		FROM 
+			T_MEMBERS with(nolock)
+	</select>
+	
+	<select id="getAlmoneyBySeq" resultType="hashMap">
+		SELECT 
+			Almoney, 
+			AlpayKR 
+		FROM 
+			T_MEMBERS with(nolock) 
+		WHERE 
+			Seq=#{Seq} and FlagDel='N'
+	</select>
+	
+	<select id="getAlarmBySeq" statementType="CALLABLE" parameterType="int" resultType="hashMap">
+	{
+		call SP2_MEMBER_ALARM_COUNT_GET2(
+		 #{UserSeq, mode=IN}
+		)
+	}
+	</select>
+	
+	<select id="getMsgBySeq" parameterType="int" resultType="int">
+		select 
+			COUNT(*) AS CNT 
+		from T_MESSAGE as S 
+			left outer join T_MEMBERS M on S.sender=M.Seq and M.FlagDel='N' 
+			left outer join T_BLOCK_FRIENDS B on S.receiver=B.MemberSeq 
+												and S.sender=B.BlockMemberSeq 
+		where S.receiver= #{Seq} 
+			and S.FlagUse_receiver='Y' 
+			and S.is_read != 'Y'
+	</select> 
+
+	<!-- SQL_Query_Page(SQL_cmn_cls.vbs) - 사용 안함 -->
+	<!-- getAlmoneyStatisticsView -->
+	<resultMap id="sp2AlmoneyStatView" type="ResultSet">
+		<id column="Members1" property="Members1" />
+		<id column="Members2" property="Members2" />
+		<id column="Members3" property="Members3" />
+		<id column="Almoney1" property="Almoney1" />
+		<id column="Almoney2" property="Almoney2" />
+		<id column="Almoney3" property="Almoney3" />
+		<id column="Question1" property="Question1" />
+		<id column="Question2" property="Question2" />
+		<id column="Question3" property="Question3" />
+		<id column="QestionMoney1" property="QestionMoney1" />
+		<id column="QestionMoney2" property="QestionMoney2" />
+		<id column="QestionMoney3" property="QestionMoney3" />
+		<id column="QuestionEarning1" property="QuestionEarning1" />
+		<id column="QuestionEarning2" property="QuestionEarning2" />
+		<id column="QuestionEarning3" property="QuestionEarning3" />
+		<id column="QuestionNotChhiceAnswer1" property="QuestionNotChhiceAnswer1" />
+		<id column="QuestionNotChhiceAnswer2" property="QuestionNotChhiceAnswer2" />
+		<id column="QuestionNotChhiceAnswer3" property="QuestionNotChhiceAnswer3" />
+		<id column="Answer1" property="Answer1" />
+		<id column="Answer2" property="Answer2" />
+		<id column="Answer3" property="Answer3" />
+		<id column="AnswerChoice1" property="AnswerChoice1" />
+		<id column="AnswerChoice2" property="AnswerChoice2" />
+		<id column="AnswerChoice3" property="AnswerChoice3" />
+		<id column="AnswerEarning1" property="AnswerEarning1" />
+		<id column="AnswerEarning2" property="AnswerEarning2" />
+		<id column="AnswerEarning3" property="AnswerEarning3" />
+		<id column="NoAnsweredQuestion1" property="NoAnsweredQuestion1" />
+		<id column="NoAnsweredQuestion2" property="NoAnsweredQuestion2" />
+		<id column="NoAnsweredQuestion3" property="NoAnsweredQuestion3" />
+		<id column="AdShow1" property="AdShow1" />
+		<id column="AdShow2" property="AdShow2" />
+		<id column="AdShow3" property="AdShow3" />
+		<id column="ESTIMATE1" property="ESTIMATE1" />
+		<id column="ESTIMATE2" property="ESTIMATE2" />
+		<id column="ESTIMATE3" property="ESTIMATE3" />
+		<id column="AdClick1" property="AdClick1" />
+		<id column="AdClick2" property="AdClick2" />
+		<id column="AdClick3" property="AdClick3" />
+		<id column="UnCate" property="UnCate" />
+	</resultMap>
+	<select id="getAlmoneyStatisticsView" resultMap="sp2AlmoneyStatView">
+	{ call SP2_ALMONEY_STATISTICS_VIEW }
+	</select>
+	
+	<select id="getQueRegAlmoneyByLv" resultType="string">
+		SELECT ${value} FROM T_CONFIG WHERE SEQNO='1'
+	</select>
+	
+	<resultMap id="sPmemberLoginCh6" type="ResultSet">
+		<id column="RESULT_CODE" property="RESULT_CODE" />
+		<id column="seq" property="seq" />
+		<id column="Phone" property="Phone" />
+		<id column="Photo" property="Photo" />
+		<id column="NickName" property="NickName" />
+		<id column="Lv" property="Lv" />
+		<id column="DateReg" property="DateReg" />
+		<id column="Almoney" property="Almoney" />
+		<id column="RankQ" property="RankQ" />
+		<id column="RankA" property="RankA" />
+		<id column="FlagSelfAnswer" property="FlagSelfAnswer" />
+		<id column="MemberType" property="MemberType" />
+		<id column="Email" property="Email" />
+		<id column="AlpayKR" property="AlpayKR" />
+		<id column="Almaeng" property="Almaeng" />
+		<id column="AlmaengCode" property="AlmaengCode" />
+		<id column="Univ" property="Univ" />
+	</resultMap>
+	<select id="getMemLoginCh6" statementType="CALLABLE" parameterType="hashMap" resultType="hashMap">
+	{ call SP_MEMBER_LOGIN_CH6(
+		#{LOGIN_COUNTRY, mode=IN},
+		#{LOGIN_ID, mode=IN},
+		#{LOGIN_PW, mode=IN},
+		#{LOGIN_IP, mode=IN},
+		#{LOGIN_DATE, mode=IN}
+	) }
+	</select>
+	
+	<select id="getAuthority" resultType="string">
+		select 
+			Authority 
+		from T_MEMBERS_ADMIN 
+		where MemberSeq = #{UserSeq}
+	</select>
+	
+	<select id="getEventStatus" resultType="String">
+		select [Status] 
+		from V_EVENT 
+		where Q_Seq = #{seq};
+	</select>
+	
+	<select id="getExtraAlmoneyList" resultType="almoney">
+		select M.Seq as UserSeq, M.Nickname, M.nation as nation, E.Almoney, convert(char(19), E.regdate, 20) as conDate
+			from T_EXTRA_ALMONEY E left outer join T_MEMBERS M on E.MemberSeq = M.Seq
+			where E.Type = #{cType} and ContentsSeq = #{contentsSeq}
+			order by E.regdate desc
+	</select>
+	<select id="getExtraAlmoneyListUserTime" resultType="almoney">
+		select top 1 convert(char(19), E.regdate, 20) as conDate
+			from T_EXTRA_ALMONEY E left outer join T_MEMBERS M on E.MemberSeq = M.Seq
+			where E.Type = #{cType} and ContentsSeq = #{contentsSeq} and M.Seq = #{userSeq}
+			order by E.regdate desc
+	</select>
+	
+	<select id="getSumExtraAlmoneyInfo" resultType="almoney">
+		SET ANSI_NULLS ON
+
+		declare @ReturnCode int = 1
+		declare @ErrText varchar(max) = ''
+		declare @tmpTable table(ReturnCode int, ErrText varchar(max))
+		declare @TargetUserSeq int
+		declare @sumExtraAlmoney money = 0
+		declare @nick1 nvarchar(200) = ''
+		declare @nick2 nvarchar(200) = ''
+
+		begin try
+			begin TRAN
+			
+			if @ReturnCode = 1
+			begin
+				select @TargetUserSeq = MemberSeq  from ${qusAnsTbl} where seq = #{contentsSeq} and FlagUse = 'Y'
+				if @TargetUserSeq is null
+					set @ReturnCode = 51
+				else if @TargetUserSeq = #{userSeq}
+					set @ReturnCode = 52
+			end
+
+			if @ReturnCode = 1
+			begin
+				delete @tmpTable
+				insert @tmpTable exec SP_CHANGE_ALMONEY ${typeMe}, #{userSeq}, ${minusExtraAlmoney}, #{contentsSeq}
+				select @ReturnCode = ReturnCode, @ErrText = ErrText from @tmpTable
+			end
+
+			if @ReturnCode = 1
+			begin
+				delete @tmpTable
+				insert @tmpTable exec SP_CHANGE_ALMONEY ${typeYou}, @TargetUserSeq, ${extraAlmoney}, #{contentsSeq}
+				select @ReturnCode = ReturnCode, @ErrText = ErrText from @tmpTable
+			end
+
+			if @ReturnCode = 1
+			begin
+				select @nick1 = NickName from T_MEMBERS where Seq = #{userSeq};
+				select @nick2 = NickName from T_MEMBERS where Seq = @TargetUserSeq;
+			
+				insert into ${tbl} (${qusAnsCol}, MemberSeq, Reply, nick1, nick2, almoney)	values(#{contentsSeq}, 10003513, (select NickName from T_MEMBERS where Seq = #{userSeq}) + '님이 감사의 마음으로 ' + #{extraAlmoneyFmt} + '알을 증정하셨어요.', @nick1, @nick2, ${extraAlmoney})
+				insert into T_EXTRA_ALMONEY(Type, ContentsSeq,  MemberSeq, TargetMemberSeq, Almoney)
+					values(#{cType}, #{contentsSeq}, #{userSeq}, @TargetUserSeq, ${extraAlmoney})
+				if (select sum(Almoney) from T_EXTRA_ALMONEY where Type = #{cType} and ContentsSeq = #{contentsSeq} and MemberSeq = #{userSeq}) > ${maxExtraAlmoney} 
+					set @ReturnCode = 53
+					--set @ReturnCode = 1
+				else
+					select @sumExtraAlmoney = sum(Almoney) from T_EXTRA_ALMONEY where Type = #{cType} and ContentsSeq = #{contentsSeq}
+			end
+
+			if @ReturnCode = 1
+				COMMIT TRAN
+			else
+				ROLLBACK TRAN
+		end try
+		begin catch
+			ROLLBACK TRAN
+			set @ReturnCode = 0
+			set @ErrText = @ErrText + Error_Message()
+		end catch
+
+		select @ReturnCode as ReturnCode, @ErrText as ErrText, @sumExtraAlmoney as sumExtraAlmoney
+	</select>
+	
+	
+	<update id="setCommonAlmoneyStatus">
+		update T_STATUS set
+			 SUM_Q_Almoney = (SELECT ISNULL(SUM(Almoney), 0) FROM T_QUESTION WITH(NOLOCK) WHERE FlagUse = 'Y')
+			,SUM_Q_ViewAlmoney = (select sum(EarnQueView) from V_LOG_ALMONEY_COMBINED)
+	</update>
+	
+	<update id="setCommonEarnStatus">
+		update T_STATUS set
+			 SUM_A_ChoicedAlmoney = (select sum(EarnAnsChoice) from V_LOG_ALMONEY_COMBINED)
+			,SUM_A_ViewAlmoney = (select sum(EarnAnsView) from V_LOG_ALMONEY_COMBINED)
+	</update>
+	<update id="setCommonOrderStatus">
+			SET ANSI_NULLS ON
+		
+			declare @dt datetime2(2) = dateadd(day, -1, getdate())
+			declare @Seq bigint
+			declare @Seq_Order bigint
+		
+			while 1=1
+			begin
+				select top 1 @Seq = Seq, @Seq_Order = Seq_Order from T_QUESTION_OriOrder where regdate <![CDATA[<]]> @dt
+				if @@ROWCOUNT = 0
+					break;
+				else
+				begin
+					update T_QUESTION set Seq_Order = @Seq_Order where Seq = @Seq;
+					delete T_QUESTION_OriOrder where Seq = @Seq;
+				end
+			end
+	</update>
+	
+	<update id="setQuestionReadCount">
+		update T_QUESTION
+		set 
+			ReadCount = ReadCount + 1
+		where Seq = #{seq}
+	</update>
+	
+	<select id="setLogView">
+		declare @ViewDate datetime;
+		declare @IsIncrease int= 1;
+		declare @UserSeq int = ${userSeq};
+		declare @QuestionSeq int = ${questionSeq};
+		select @ViewDate = DATEREG
+		from LOG_VIEW with(nolock)
+		where MEMBERSEQ = @UserSeq
+			and CONTENTSEQ = @QuestionSeq
+			and TYPE = 0;
+		if @ViewDate is null
+			begin
+				insert into LOG_VIEW(MEMBERSEQ, CONTENTSEQ, TYPE)
+			values(@UserSeq, @QuestionSeq, 0);
+		end;
+			else
+			begin
+				if @ViewDate <![CDATA[<]]> dateadd(year, -1, getdate())
+					begin
+						update LOG_VIEW
+						set 
+							DATEREG = getdate()
+						where MEMBERSEQ = @UserSeq
+							and CONTENTSEQ = @QuestionSeq
+							and TYPE = 0;
+				end;
+					else
+					begin
+						set @IsIncrease = 0;
+				end;
+		end;
+		if @IsIncrease = 1
+			begin
+				update T_QUESTION
+				set 
+					READCOUNT = READCOUNT + 1
+				where SEQ = @QuestionSeq;
+		end;
+	</select>
+	
+	<select id="setAlmoneyProcess" statementType="CALLABLE" parameterType="hashMap" resultType="hashMap">
+	{ call SP_ANSWER_VIEW_ALMONEY_INSERT2(
+	  #{aSeq,  mode=IN, jdbcType=BIGINT},
+	  #{userSeq,  mode=IN, jdbcType=INTEGER},
+	  #{adSeq,  mode=IN, jdbcType=INTEGER}
+	 ) 
+	}
+	</select>
+	
+	<insert id="setIpLog">
+		insert into LOG_IP(Type, ContentsSeq, IP) 
+		values(2, #{answerSeq}, #{ipAddr})
+	</insert>
+		
+	<insert id="setJoinIpLog">
+		insert into LOG_IP(Type, ContentsSeq, IP) 
+		values(1, 0, #{ipAddr})
+	</insert>
+	
+	<select id="getFlagChoice" resultType="hashMap">
+		select 
+			MemberSeq, FlagChoice 
+		from 
+			T_QUESTION 
+		where 
+			Seq = #{questionSeq}
+	</select>
+	
+	<update id="setLogViewByMultiParam">
+		declare @viewDate datetime;
+		declare @isIncrease int = 1;
+		SELECT @viewDate=DateReg FROM LOG_VIEW WITH(NOLOCK) WHERE MemberSeq = #{userSeq} AND ContentSeq = #{answerSeq} AND Type = 1;
+		
+		if @viewDate is null
+			INSERT INTO LOG_VIEW(MemberSeq, ContentSeq, Type) VALUES(#{userSeq}, #{answerSeq}, 1);
+		else if @viewDate <![CDATA[<]]> dateadd(year, -1, getdate())
+			UPDATE LOG_VIEW set DateReg=getdate() where MemberSeq = #{userSeq} AND ContentSeq = #{answerSeq} AND Type = 1;
+		else
+			set @isIncrease = 0;
+		
+		if @isIncrease = 1
+		begin
+			UPDATE T_ANSWER SET ReadCount = ReadCount + 1 WHERE Seq = #{answerSeq};
+			update t_question set ReadCount_Answ = ReadCount_Answ + 1 where Seq=#{questionSeq};
+		end;
+	</update>
+	
+	<insert id="setLogAd">
+		insert into LOG_AD
+		(
+			AdSeq
+			, MemberSeq
+			, DateReg
+			, Type
+			, QuestionSeq
+			, IP
+		)
+		values
+		(
+			#{adSeq}
+			, #{userSeq}
+			, sysdatetime()
+			, #{aType}
+			, #{questionSeq}
+			, #{ipAddr}
+		)
+	</insert>
+	
+	<insert id="setQuestionTempSave">
+		declare @RandBool VARCHAR(3) = #{randBool};
+		begin
+			delete T_TEMPSAVE where MemberSeq = #{userSeq} and Type = 'Q';
+			insert into T_TEMPSAVE(MemberSeq, Type, QuestionSeq, Title, Contents) values(#{userSeq}, 'Q', 0, #{title}, #{contents});
+			
+			if @RandBool = 'N' 
+			begin
+				delete T_TEMPSAVE where regdate <![CDATA[<]]> getdate() - 90;
+			end
+		end
+	</insert>
+	
+	<delete id="setQuestionTempDelete">
+		delete T_TEMPSAVE 
+		where 
+			MemberSeq = #{userSeq} and Type = 'A' and QuestionSeq = #{questionSeq}
+	</delete>
+	
+	<delete id="setQuestionTempQueDelete">
+		delete T_TEMPSAVE 
+		where 
+			MemberSeq = #{userSeq} and Type = 'Q'
+	</delete>
+	
+	<select id="getQuestionTemp" resultType="hashMap">
+		select 
+			Title
+			, Contents 
+		from 
+			T_TEMPSAVE 
+		where 
+			MemberSeq = #{userSeq} and Type = 'Q'
+	</select>
+	
+	<insert id="setAnswerTempSave">
+		begin
+			delete T_TEMPSAVE where MemberSeq = #{userSeq} and Type = 'A' and QuestionSeq = #{questionSeq};
+			insert into T_TEMPSAVE(MemberSeq, Type, QuestionSeq, Title, Contents) values(#{userSeq}, 'A', #{questionSeq}, '', #{contents});
+		end
+	</insert>
+	
+	<select id="getAnswerTemp" resultType="String">
+		select 
+			Contents 
+		from 
+			T_TEMPSAVE 
+		where 
+			MemberSeq = #{userSeq} and Type = 'A' and QuestionSeq = #{questionSeq}
+	</select>
+	
+	<select id="getQuestionMeberSeqBySeq" resultType="int">
+		SELECT 
+			MemberSeq 
+		FROM 
+			T_QUESTION 
+		WHERE 
+			Seq = #{questionSeq}
+	</select>
+	
+	<select id="getAnswerCntForAnswer" resultType="int">
+		SELECT 
+			COUNT(Seq) As AnswerCnt1 
+		FROM 
+			T_ANSWER 
+		WHERE 
+			MemberSeq        = #{userSeq} 
+			AND FlagUse          = 'Y' 
+			AND LEFT(DateReg,10) = #{dateReg}
+	</select>
+	
+	<select id="getQuestionCntForQuestion" resultType="int">
+		SELECT 
+			COUNT(Seq) As QuestionCnt1 
+		FROM 
+			T_QUESTION 
+		WHERE 
+			MemberSeq        = #{userSeq} 
+			AND FlagUse          = 'Y' 
+			AND regdate <![CDATA[>=]]> convert(varchar(10), getdate(), 120)
+	</select>
+	
+	<select id="getQuestionCntForQuestion2" resultType="int">
+		SELECT 
+			COUNT(Seq) As QuestionCnt2 
+		FROM 
+			T_QUESTION 
+		WHERE 
+			MemberSeq        = #{userSeq} 
+			AND FlagUse          = 'Y' 
+			AND regdate <![CDATA[>=]]> convert(varchar(10), getdate(), 120) 
+			AND ( Title = #{title} OR Contents = #{contents} )
+	</select>
+	
+	<select id="getQuestionDiff" resultType="int">
+	
+		IF Exists(
+			SELECT 
+			TOP 1 datediff(s, regdate, GETDATE()) as term 
+			FROM 
+				T_QUESTION 
+			WHERE
+				MemberSeq =#{userSeq}
+			AND FlagUse   = 'Y'
+			ORDER BY Seq DESC
+						)
+		BEGIN
+			SELECT 
+			TOP 1 datediff(s, regdate, GETDATE()) as term 
+			FROM 
+					T_QUESTION 
+			WHERE 
+				MemberSeq = #{userSeq}
+			AND FlagUse   = 'Y' 
+			ORDER BY Seq DESC
+		END
+		ELSE
+		BEGIN
+			(
+			select 9999999 cnt
+			)
+		END
+
+	
+
+		
+	</select>
+	
+	<select id="getIsAnswered" resultType="int">
+		SELECT 
+			COUNT(Seq) As isAnswered
+		FROM T_ANSWER 
+		WHERE 
+			QuestionSeq     = #{questionSeq} 
+			AND MemberSeq 	= #{userSeq} 
+			AND FlagUse		= 'Y'
+	</select>
+	
+	<select id="getAnswerCnt2" resultType="int">
+		SELECT 
+			COUNT(Seq) As AnswerCnt2 
+		FROM T_ANSWER 
+		WHERE 
+			MemberSeq 				= #{userSeq} 
+			AND FlagUse				= 'Y' 
+			AND LEFT(DateReg,10)	= #{dateReg} 
+			AND Answer 				= #{contents}
+	</select>
+	
+	<select id="getAnswerDateReg" resultType="String">
+		SELECT 
+			TOP 1 DateReg 
+		FROM 
+			T_ANSWER 
+		WHERE 
+			MemberSeq = #{userSeq} 
+			AND FlagUse   = 'Y' 
+		ORDER BY Seq DESC
+	</select>
+	
+	<select id="getUserReplyCnt" resultType="int">
+		SELECT 
+			COUNT(Seq) As ReplyCnt1 
+		FROM 
+			V2_ALL_REPLY 
+		WHERE 
+			MemberSeq = #{userSeq}
+			AND regdate >= convert(datetime, #{regDate}, 21) 
+			AND FlagUse = 'Y'
+	</select>
+	
+	<!-- 동일 내용의 댓글 유무 -->
+	<select id="getUserReplyCnt2" resultType="int">
+		SELECT 
+			COUNT(Seq) As ReplyCnt2 
+		FROM 
+			V2_ALL_REPLY 
+		WHERE 
+			MemberSeq = #{userSeq} 
+			AND regdate >= convert(datetime, #{regDate}, 21) 
+			AND Reply = #{contents} 
+			AND FlagUse='Y'
+	</select>
+	
+	<select id="getDateDiffSecondForReply" resultType="int">
+		
+	IF Exists(
+		SELECT 
+		TOP 1 DateDiff(s, regdate, getdate()) as DateDiffSecond
+		FROM 
+			V2_ALL_REPLY 
+		WHERE 
+			MemberSeq = #{userSeq}  
+		ORDER BY regdate DESC
+				)
+	BEGIN
+		SELECT 
+		TOP 1 DateDiff(s, regdate, getdate()) as DateDiffSecond
+		FROM 
+			V2_ALL_REPLY 
+		WHERE 
+			MemberSeq = #{userSeq} 
+		ORDER BY regdate DESC
+	END
+	ELSE
+	BEGIN
+		(
+		select 9999999 cnt
+		)
+	END
+
+	</select>
+	
+	<select id="getSirenReporter" resultType="String">
+		select 
+			Type 
+		from 
+			T_SIREN_REPORTER 
+		where 
+			Type = #{hType} 
+			and ContentsSeq = #{hSeq} 
+			and MemberSeq = #{userSeq}
+	</select>
+	
+	<!-- 내가 한 신고 건수 -->
+	<select id="getMyReqSirenCount" resultType="hashMap">
+		select
+		  count(case when Result != 0 then 1 end) as MyComplN
+		, count(case when Result = 0 then 1 end) as MyIngN
+		, count(case when Result = 3 then 1 end) as MyRejectN
+		from T_SIREN_REPORTER as SR
+			inner join T_SIREN as S on SR.Type = S.Type and SR.ContentsSeq = S.ContentsSeq
+		where SR.MemberSeq = #{userSeq}
+		  and S.comdate <![CDATA[>]]> dateadd(d, -60, getdate())
+	</select>
+	
+	<!--내가 당한 신고 건수 -->
+	<select id="getMyResSirenCount" resultType="hashMap">
+		select
+			  count(case when Result != 0 then 1 end) as MeComplN
+			, count(case when Result = 0 then 1 end) as MeIngN
+			, count(case when Result = 3 then 1 end) as MeRejectN
+		from T_SIREN
+		where MemberSeq = #{userSeq}
+		  and comdate <![CDATA[>]]> dateadd(d, -60, getdate())
+	</select>
+	
+	<!-- 내가 받은 벌점 -->
+	<select id="getMyResSirenPoint" resultType="hashMap">
+		select
+			  sum(MPoint) as MPoint
+	
+			, ISNULL(sum(case when Type = 'Q' then MPoint end), 0) as QusMPoint
+			, count(case when Type = 'Q' and Result = 1 then 1 end) as QusCntDanger
+			, count(case when Type = 'Q' and Result = 2 then 1 end) as QusCntWarning
+	
+			, ISNULL(sum(case when Type = 'A' then MPoint end), 0) as AnsMPoint
+			, count(case when Type = 'A' and Result = 1 then 1 end) as AnsCntDanger
+			, count(case when Type = 'A' and Result = 2 then 1 end) as AnsCntWarning
+	
+			, ISNULL(sum(case when Type in ('QR', 'AR') then MPoint end), 0) as ReplMPoint
+			, count(case when Type in ('QR', 'AR') and Result = 1 then 1 end) as ReplCntDanger
+			, count(case when Type in ('QR', 'AR') and Result = 2 then 1 end) as ReplCntWarning
+		from T_SIREN
+		where MemberSeq = #{userSeq}
+		  and comdate <![CDATA[>]]> dateadd(d, -60, getdate())
+	</select>
+	
+	<select id="setRegSiren" resultType="hashMap">
+		SET ANSI_NULLS ON
+
+		declare @ReturnCode int = 1
+		declare @ErrText varchar(max)
+		declare @MemberSeq int
+
+		begin try
+			begin tran
+
+			if exists (select Type from T_SIREN_REPORTER where Type = #{hType} and ContentsSeq = #{hSeq} and MemberSeq = #{userSeq})
+				set @ReturnCode = 51
+			else
+			begin
+				<if test='hType != "T"'>
+				select @MemberSeq = MemberSeq from ${table} where Seq = #{hSeq} and FlagUse = 'Y'
+				</if>
+				<if test='hType == "T"'>
+				select @MemberSeq = userSeq from ${table} where Seq = #{hSeq}
+				</if>
+				if @MemberSeq is null
+					set @ReturnCode = 52
+				else if @MemberSeq = #{userSeq} 
+					set @ReturnCode = 53
+				else
+				begin
+					if not exists (select Type from T_SIREN where Type = #{hType} and ContentsSeq = #{hSeq})
+						insert into T_SIREN(Type, ContentsSeq, MemberSeq) values(#{hType}, #{hSeq}, @MemberSeq)
+					insert into T_SIREN_REPORTER(Type, ContentsSeq, MemberSeq, Reason, Reason_txt) values(#{hType}, #{hSeq}, #{userSeq}, #{hReason}, #{hReasonTxt})
+				end
+			end
+
+
+			if @ReturnCode = 1
+			begin
+				commit tran
+			end
+			else
+				rollback tran
+		end try
+		begin catch
+			rollback tran
+			set @ReturnCode = 0
+			set @ErrText = Error_Message()
+		end catch
+
+		select @ReturnCode as ReturnCode, @ErrText as ErrText
+	</select>
+	
+	<select id="setAlarmLog" statementType="CALLABLE" parameterType="hashMap" resultType="int">
+	{ call SP2_MEMBER_ALARM_LOG_INSERT(
+		#{mem_seq, mode=IN},
+		#{alarm, mode=IN},
+		#{dateReg, mode=IN}
+	  )
+	}
+	</select>
+	
+	<select id="getMyFavoriteCategory" statementType="CALLABLE" parameterType="int" resultType="hashMap">
+	{ call SP2_MYFAVORITE_CATEGORY_GET(#{mem_seq, mode=IN}) }	
+	</select>
+	
+	<select id="setChangeAlmoneySP" statementType="CALLABLE" parameterType="hashMap" resultType="hashMap">
+	{ call SP_CHANGE_ALMONEY(
+		#{typeCode, mode=IN},
+		#{userSeq, mode=IN},
+		#{almoney, mode=IN},
+		#{contentsSeq, mode=IN}
+	  )
+	}
+	</select>
+	
+	<select id="getChangeQueAlmoneyCount" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM LOG_ALMONEY WHERE MemberSeq=#{userSeq} AND ContentsSeq=#{contentsSeq} AND TradeType='Question';	
+	</select>
+	
+	<select id="getMyInfoLvList" resultType="hashMap">
+		SET NOCOUNT ON;
+		declare @MIN_DATE date;
+
+		select top 1 @MIN_DATE = regdate
+		from T2_MEMBERS_LV_LOG
+		where MemberSeq = #{userSeq}
+		and NewLv = (select top 1 Lv from T_MEMBERS where Seq = #{userSeq})
+		order by regdate desc;
+
+		if @MIN_DATE is null or dateadd(wk, datediff(d, 0, @MIN_DATE) / 7, 0) <![CDATA[<=]]> #{date_week}
+		begin
+			if exists (select MemberSeq from T_COUNT_BY_WEEK where MemberSeq = #{userSeq} and regdate = #{date_week})
+				select *
+					, convert(varchar(10), #{date_week}, 20) as StartDate
+					, convert(varchar(10), dateadd(d,6,#{date_week}), 20) as EndDate
+				from T_COUNT_BY_WEEK where MemberSeq = #{userSeq} and regdate = #{date_week};
+			else
+				select
+					  convert(varchar(10), #{date_week}, 20) as StartDate
+					, convert(varchar(10), dateadd(d,6,#{date_week}), 20) as EndDate;
+		end;
+	</select>
+	
+	<resultMap id="myInfoExchView1" type="hashMap">
+		<id property="Lv" column="Lv" />
+		<id property="LvUpPhoto" column="LvUpPhoto" />
+		<id property="LvUpBaseAlmoney" column="LvUpBaseAlmoney" />
+		<id property="LvUpStampCnt" column="LvUpStampCnt" />
+		<id property="LvUpQusRegCnt" column="LvUpQusRegCnt" />
+		<id property="LvUpQusChoiceRate" column="LvUpQusChoiceRate" />
+		<id property="LvUpAnsRegCnt" column="LvUpAnsRegCnt" />
+		<id property="LvUpAnsChoicedCnt" column="LvUpAnsChoicedCnt" />
+		<id property="LvUpAnsEstiCnt" column="LvUpAnsEstiCnt" />
+		<id property="LvUpReplyCnt" column="LvUpReplyCnt" />
+		<id property="LvUpRecmdLv_1" column="LvUpRecmdLv_1" />
+		<id property="LvUpRecmdCnt_1" column="LvUpRecmdCnt_1" />
+		<id property="LvUpEducationCnt" column="LvUpEducationCnt" />
+		<id property="ExchBaseAlmoney" column="ExchBaseAlmoney" />
+		<id property="ExchLimitAlmoney" column="ExchLimitAlmoney" />
+		<id property="ExchAlmoneyTexRate" column="ExchAlmoneyTexRate" />
+		<id property="ExchStampCnt" column="ExchStampCnt" />
+		<id property="ExchQusRegCnt" column="ExchQusRegCnt" />
+		<id property="ExchQusChoiceRate" column="ExchQusChoiceRate" />
+		<id property="ExchAnsRegCnt" column="ExchAnsRegCnt" />
+		<id property="ExchAnsChoicedCnt" column="ExchAnsChoicedCnt" />
+		<id property="ExchAnsEstiCnt" column="ExchAnsEstiCnt" />
+	</resultMap>
+	<resultMap id="myInfoExchView2" type="hashMap">
+		<id property="weekStartDate" column="weekStartDate" />
+		<id property="weekEndDate" column="weekEndDate" />
+		<id property="QusRegCnt" column="QusRegCnt" />
+		<id property="AnsRegCnt" column="AnsRegCnt" />
+		<id property="AnsEstiCnt" column="AnsEstiCnt" />
+		<id property="AnsChoicedCnt" column="AnsChoicedCnt" />
+		<id property="StartDate" column="StartDate" />
+		<id property="EndDate" column="EndDate" />
+	</resultMap>
+	<select id="getMyInfoExchList" resultMap="myInfoExchView1,myInfoExchView2">
+		SET NOCOUNT ON;
+		declare @MIN_DATE date;
+
+		select top 1 @MIN_DATE = regdate
+		from T2_ALMONEY_EXCHANGE
+		where MemberSeq = #{userSeq}
+		and ExchagneStatus in ('10', '20', '40')
+		order by regdate desc;
+
+		if @MIN_DATE is null or dateadd(wk, datediff(d, 0, @MIN_DATE) / 7, 0) <![CDATA[<=]]> #{date_week}
+		begin
+			select * from T_CONFIG_LV
+			where Lv = (select Lv from T_COUNT_BY_WEEK where MemberSeq = #{userSeq} and regdate = #{date_week});
+			
+			if exists (select MemberSeq from T_COUNT_BY_WEEK where MemberSeq = #{userSeq} and regdate = #{date_week})
+				select *
+					, convert(varchar(10), #{date_week}, 20) as StartDate
+					, convert(varchar(10), dateadd(d,6,#{date_week}), 20) as EndDate
+				from T_COUNT_BY_WEEK where MemberSeq = #{userSeq} and regdate = #{date_week};
+			else
+				select
+					  convert(varchar(10), #{date_week}, 20) as StartDate
+					, convert(varchar(10), dateadd(d,6,#{date_week}), 20) as EndDate;
+		end;
+	</select>
+	
+	<resultMap id="memoSpView1" type="hashMap">
+		<id property="LvUpPhoto" column="LvUpPhoto" />
+		<id property="LvUpBaseAlmoney" column="LvUpBaseAlmoney" />
+		<id property="LvUpStampCnt" column="LvUpStampCnt" />
+		<id property="LvUpQusRegCnt" column="LvUpQusRegCnt" />
+		<id property="LvUpAnsRegCnt" column="LvUpAnsRegCnt" />
+		<id property="LvUpAnsChoicedCnt" column="LvUpAnsChoicedCnt" />
+		<id property="LvUpAnsEstiCnt" column="LvUpAnsEstiCnt" />
+		<id property="LvUpReplyCnt" column="LvUpReplyCnt" />
+		<id property="LvUpEducationCnt" column="LvUpEducationCnt" />
+		<id property="LvUpRecmdLv_1" column="LvUpRecmdLv_1" />
+		<id property="LvUpRecmdCnt_1" column="LvUpRecmdCnt_1" />
+	</resultMap>
+	<resultMap id="memoSpView2" type="hashMap">
+		<id property="isUpOK" column="isUpOK" />
+		<id property="Photo" column="Photo" />
+		<id property="Almoney" column="Almoney" />
+		<id property="RecmdCnt" column="RecmdCnt" />
+		<id property="EducationCnt" column="EducationCnt" />
+		<id property="STAMP" column="STAMP" />
+		<id property="QusRegCnt" column="QusRegCnt" />
+		<id property="AnsRegCnt" column="AnsRegCnt" />
+		<id property="AnsChoicedCnt" column="AnsChoicedCnt" />
+		<id property="AnsEstiCnt" column="AnsEstiCnt" />
+		<id property="ReplyCnt" column="ReplyCnt" />
+		<id property="StartDate" column="StartDate" />
+		<id property="EndDate" column="EndDate" />
+	</resultMap>
+	
+	<select id="getMemoLvUpReadySetSP" statementType="CALLABLE" parameterType="hashMap" resultMap="memoSpView1,memoSpView2">
+	{ call SP2_MEMO_LV_UP_READY_SET(
+		#{param_lv, mode=IN},
+		#{userSeq, mode=IN},
+		#{isreturnCFG, mode=IN}
+	  )
+	}
+	</select>
+	
+	
+	<resultMap id="memoExchView1" type="hashMap">
+		<id property="ExchBaseAlmoney" column="ExchBaseAlmoney" />
+		<id property="ExchLimitAlmoney" column="ExchLimitAlmoney" />
+		<id property="ExchAlmoneyTexRate" column="ExchAlmoneyTexRate" />
+		<id property="ExchStampCnt" column="ExchStampCnt" />
+		<id property="ExchQusRegCnt" column="ExchQusRegCnt" />
+		<id property="ExchAnsRegCnt" column="ExchAnsRegCnt" />
+		<id property="ExchAnsChoicedCnt" column="ExchAnsChoicedCnt" />
+		<id property="ExchAnsEstiCnt" column="ExchAnsEstiCnt" />
+	</resultMap>
+	<resultMap id="memoExchView2" type="hashMap">
+		<id property="isExchOK" column="isExchOK" />
+		<id property="Almoney" column="Almoney" />
+		<id property="STAMP" column="STAMP" />
+		<id property="QusRegCnt" column="QusRegCnt" />
+		<id property="AnsRegCnt" column="AnsRegCnt" />
+		<id property="AnsChoicedCnt" column="AnsChoicedCnt" />
+		<id property="AnsEstiCnt" column="AnsEstiCnt" />
+		<id property="StartDate" column="StartDate" />
+		<id property="EndDate" column="EndDate" />
+	</resultMap>
+	
+	<select id="getMemoExchReadySetCommSP" statementType="CALLABLE" parameterType="hashMap" resultMap="memoExchView1,memoExchView2">
+	{ call SP2_MEMO_EXCH_READY_SET(
+		#{param_lv, mode=IN},
+		#{userSeq, mode=IN},
+		#{isreturnCFG, mode=IN}
+	  )
+	}
+	</select>
+	
+	
+	<resultMap id="myPartnerView1" type="hashMap">
+		<id property="cnt" column="cnt" />
+	</resultMap>
+	<resultMap id="myPartnerView2" type="hashMap">
+		<id property="FlagPartner" column="FlagPartner" />
+		<id property="MemberSeq" column="MemberSeq" />
+		<id property="NickName" column="NickName" />
+		<id property="Photo" column="Photo" />
+		<id property="SumQ" column="SumQ" />
+		<id property="SumA" column="SumA" />
+		<id property="CountC" column="CountC" />
+		<id property="CountQ" column="CountQ" />
+		<id property="conDate" column="conDate" />
+	</resultMap>
+	<!-- LIST_FRIEND count -->
+	<select id="getMyPartnerCount" resultType="int">
+		select count(*) as cnt 
+		from T_MYPARTNER as P with(nolock) 
+		inner join T_MEMBERS as M with(nolock) on P.PartnerSeq = M.seq and M.FlagDel = 'N' 
+		where P.MemberSeq = #{userSeq} and P.FlagPartner = 'F' 
+	</select>
+	
+	<!-- LIST_FRIEND list -->
+	<select id="getMyPartnerList" resultMap="myPartnerView1,myPartnerView2">
+		select count(*) as cnt 
+		from T_MYPARTNER as P with(nolock) 
+		inner join T_MEMBERS as M with(nolock) on P.PartnerSeq = M.seq and M.FlagDel = 'N' 
+		where P.MemberSeq = #{userSeq} and P.FlagPartner = 'F';
+		
+		select P.FlagPartner, M.Seq as MemberSeq, M.Lv, M.NickName, M.Photo, M.SumQ, M.SumA, M.CountC, M.CountQ, P.DateReg as conDate 
+		from T_MYPARTNER as P with(nolock) 
+		inner join V_MEMBERS as M with(nolock) on P.PartnerSeq = M.seq 
+		where P.MemberSeq = #{userSeq} and P.FlagPartner = 'F' 
+		order by P.Seq desc 
+		OFFSET ((${pg} - 1) * ${maxRow}) ROWS 
+		FETCH NEXT ${maxRow} ROWS ONLY 
+	</select>
+	
+	<resultMap id="myBlockPartnerView1" type="hashMap">
+		<id property="cnt" column="cnt" />
+	</resultMap>
+	<resultMap id="myBlockPartnerView2" type="hashMap">
+		<id property="MemberSeq" column="MemberSeq" />
+		<id property="NickName" column="NickName" />
+		<id property="Photo" column="Photo" />
+		<id property="SumQ" column="SumQ" />
+		<id property="SumA" column="SumA" />
+		<id property="CountC" column="CountC" />
+		<id property="CountQ" column="CountQ" />
+		<id property="conDate" column="conDate" />
+	</resultMap>
+	<!-- LIST_BLOCK count -->
+	<select id="getBlockParterCount" resultType="int">
+		select count(*) as cnt 
+		from T_BLOCK_FRIENDS as B with(nolock) 
+		inner join T_MEMBERS as M with(nolock) on B.BlockMemberSeq = M.seq and M.FlagDel = 'N' 
+		where B.MemberSeq = #{userSeq} 
+	</select>
+	
+	<!-- LIST_BLOCK list -->
+	<select id="getBlockPartnerList" resultMap="myBlockPartnerView1, myBlockPartnerView2">
+		select count(*) as cnt 
+		from T_BLOCK_FRIENDS as B with(nolock) 
+		inner join T_MEMBERS as M with(nolock) on B.BlockMemberSeq = M.seq and M.FlagDel = 'N' 
+		where B.MemberSeq = #{userSeq};  
+		
+		select M.Seq as MemberSeq, M.NickName, M.Photo, M.SumQ, M.Lv, M.SumA, M.CountC, M.CountQ, convert(varchar(16),B.regdate,20) as conDate 
+		from T_BLOCK_FRIENDS as B with(nolock) 
+		inner join V_MEMBERS as M with(nolock) on B.BlockMemberSeq = M.seq 
+		where B.MemberSeq = #{userSeq} 
+		order by B.regdate desc 
+		OFFSET ((${pg} - 1) * ${maxRow}) ROWS 
+		FETCH NEXT ${maxRow} ROWS ONLY 
+	</select>
+	
+	<!-- SET_BLOCK -->
+	<insert id="setMyBlockPartner">
+		begin try 
+			insert into T_BLOCK_FRIENDS(MemberSeq, BlockMemberSeq) values(#{userSeq}, #{targetMemSeq});
+		end try 
+		begin catch 
+		end catch 
+	</insert>
+	
+	<delete id="deleteMyBlockPartner">
+		delete from T_BLOCK_FRIENDS where MemberSeq = #{userSeq} and BlockMemberSeq = #{targetMemSeq}
+	</delete>
+	
+	<select id="getMyBlockPartnerCount" resultType="int">
+		select count(*) as cnt 
+		from T_BLOCK_FRIENDS as B with(nolock) 
+		inner join T_MEMBERS as M with(nolock) on B.BlockMemberSeq = M.seq and M.FlagDel = 'N' 
+		where B.MemberSeq = #{userSeq}  
+	</select>
+	
+	<delete id="deleteMyPartner">
+		DELETE FROM T_MYPARTNER WHERE MemberSeq = #{userSeq} AND PartnerSeq = #{friendSeq} AND FlagPartner = #{flagPartner}
+	</delete>
+	
+	<select id="getMyMentorCount" resultType="int">
+		SELECT COUNT(P.Seq) 
+		FROM T_MYPARTNER AS P  with(nolock) 
+		LEFT OUTER JOIN V_MEMBERS AS M  with(nolock) ON P.PartnerSeq = M.seq 
+		WHERE P.MemberSeq = #{userSeq} AND P.FlagPartner = #{flagPartner} 
+	</select>
+	<select id="getMyMentorList" resultType="partner">
+		SELECT TOP ${p_Option} P.FlagPartner, M.Seq AS MemberSeq, M.NickName, M.Photo, M.SumQ, M.SumA, M.CountC, M.CountQ, P.DateReg, M.Lv AS lv 
+		FROM T_MYPARTNER AS P  with(nolock) 
+		LEFT OUTER JOIN V_MEMBERS AS M  with(nolock) ON P.PartnerSeq = M.seq 
+		WHERE P.MemberSeq = #{userSeq} AND P.FlagPartner = #{flagPartner} 
+		ORDER BY P.Seq DESC 
+	</select>
+	
+	<select id="getMyFollowerCount" resultType="int">
+		SELECT COUNT(P.Seq) 
+		FROM T_MYPARTNER AS P  with(nolock) 
+		LEFT OUTER JOIN V_MEMBERS AS M  with(nolock) ON P.MemberSeq = M.seq 
+		WHERE P.PartnerSeq = #{userSeq} AND P.FlagPartner = #{flagPartner} 
+	</select>
+	
+	<select id="getMyFollowerList" resultType="partner">
+		SELECT TOP ${p_Option} P.FlagPartner, M.Seq AS MemberSeq, M.NickName, M.Photo, M.SumQ, M.SumA, M.CountC, M.CountQ, P.DateReg, M.Lv AS lv
+		FROM T_MYPARTNER AS P  with(nolock) 
+		LEFT OUTER JOIN V_MEMBERS AS M  with(nolock) ON P.MemberSeq = M.seq 
+		WHERE P.PartnerSeq = #{userSeq} AND P.FlagPartner = #{flagPartner} 
+		ORDER BY P.Seq DESC
+	</select>
+	
+	<select id="getAnswererCnt" resultType="int">
+		SELECT IsNull(dbo.FN2_GET_RECOMMEND_CHILD_COUNT(#{userSeq}), 0) AS ChildCnt
+	</select>
+	
+	<select id="getAnswererInfo" resultType="member">
+		SELECT phone, sName, B.NickName, IsNull(dbo.FN2_GET_RECOMMEND_CHILD_COUNT(MemberSeq), 0) AS ChildCnt 
+		FROM TEST_RECOMMEND AS A 
+		LEFT OUTER JOIN T_MEMBERS AS B ON A.MemberSeq = B.Seq 
+		WHERE ParentSeq = #{userSeq}
+	</select>
+	
+	<select id="getInterestList" resultType="hashMap">
+		SELECT * 
+			, CONCAT ( 
+				CASE WHEN Section1 IS NOT NULL THEN ( 
+								SELECT CodeName 
+								FROM T_SECTION_T 
+								WHERE Code = Section1 
+								) END 
+				, CASE WHEN Section2 IS NOT NULL THEN ( 
+								SELECT CONCAT ( 
+										' > ' 
+										, CodeName 
+										) 
+								FROM T_SECTION2 
+								WHERE Code = Section2 
+								) END 
+				, CASE WHEN Section3 IS NOT NULL THEN ( 
+								SELECT CONCAT ( 
+										' > ' 
+										, CodeName 
+										) 
+								FROM T_SECTION3_1 
+								WHERE Code = Section3 
+								) END 
+				, CASE WHEN Section4 IS NOT NULL THEN ( 
+								SELECT CONCAT ( 
+										' > ' 
+										, CodeName 
+										) 
+								FROM T_SECTION4 
+								WHERE Code = Section4 
+								) END 
+				, CASE WHEN Section5 IS NOT NULL THEN ( 
+								SELECT CONCAT ( 
+										' > ' 
+										, CodeName 
+										) 
+								FROM T_SECTION5$ 
+								WHERE Code = Section5 
+								) END 
+				, '' 
+				) AS CodeName 
+		FROM T_MYFAVORITE 
+		WHERE MemberSeq = #{userSeq}
+	</select>
+	
+	<select id="getMyFavorite" resultType="hashMap">
+		SELECT * FROM T_MYFAVORITE  with(nolock)  WHERE MemberSeq = #{userSeq}
+	</select>
+	
+	<!-- fn_SQL_MyInterest_Add -->
+	<insert id="setMyInterest">
+		INSERT INTO T_MYFAVORITE 
+		VALUES (
+			#{seq}
+			, #{section1}
+			, #{section2}
+			, #{section3}
+			, #{section4}
+			, #{section5}
+		)
+	</insert>
+	
+	<delete id="delMyInterest">
+		DELETE T_MYFAVORITE 
+		WHERE SEQNO = #{seq}
+	</delete>
+	
+	<resultMap id="myTempView1" type="hashMap">
+		<id property="COUNT" column="COUNT" />
+	</resultMap>
+	<resultMap id="myTempView2" type="hashMap">
+		<id property="Seq" column="Seq" />
+		<id property="Title" column="Title" />
+		<id property="Almoney" column="Almoney" />
+		<id property="ReadCount" column="ReadCount" />
+		<id property="DateReg" column="DateReg" />
+		<id property="AnswerCount" column="AnswerCount" />
+		<id property="Flag" column="Flag" />
+	</resultMap>
+	<select id="getMyTempList" statementType="CALLABLE" parameterType="hashMap" resultMap="myTempView1,myTempView2">
+	{ call SP2_MY_TEMP_QA_GET(
+		#{flag, mode=IN},
+		#{page_num, mode=IN},
+		#{page_size, mode=IN},
+		#{userSeq, mode=IN}
+	  )
+	}
+	</select>
+	
+	
+	<resultMap id="myMyBankView1" type="hashMap">
+		<id property="Count" column="Count" />
+	</resultMap>
+	<resultMap id="myMyBankView2" type="hashMap">
+		<id property="ContentsSeq" column="ContentsSeq" />
+		<id property="TradeType" column="TradeType" />
+		<id property="Almoney" column="Almoney" />
+		<id property="Balance" column="Balance" />
+		<id property="conRegdate" column="conRegdate" />
+	</resultMap>
+	<select id="getMyBankDataSP" statementType="CALLABLE" parameterType="hashMap" resultMap="myMyBankView1,myMyBankView2">
+	{ call SP2_MYBANK_DATA_GET2(
+		#{userSeq, mode=IN},
+		#{st_date, mode=IN},
+		#{end_date, mode=IN},
+		#{page_size, mode=IN},
+		#{page_num, mode=IN}
+	  )
+	}
+	</select>
+	
+	
+	<resultMap id="myExchAskView1" type="hashMap">
+		<id property="Lv" column="Lv" />
+		<id property="CntExchange" column="CntExchange" />
+		<id property="Almoney" column="Almoney" />
+		<id property="AlpayKR" column="AlpayKR" />
+		<id property="FlagRealName" column="FlagRealName" />
+		<id property="ExchRate" column="ExchRate" />
+	</resultMap>
+	<resultMap id="myExchAskView2" type="hashMap">
+		<id property="ExchBaseAlmoney" column="ExchBaseAlmoney" />
+		<id property="ExchLimitAlmoney" column="ExchLimitAlmoney" />
+		<id property="ExchAlmoneyTexRate" column="ExchAlmoneyTexRate" />
+		<id property="ExchStampCnt" column="ExchStampCnt" />
+		<id property="ExchQusRegCnt" column="ExchQusRegCnt" />
+		<id property="ExchAnsRegCnt" column="ExchAnsRegCnt" />
+		<id property="ExchAnsChoicedCnt" column="ExchAnsChoicedCnt" />
+		<id property="ExchAnsEstiCnt" column="ExchAnsEstiCnt" />
+	</resultMap>
+	<resultMap id="myExchAskView3" type="hashMap">
+		<id property="isExchOK" column="isExchOK" />
+		<id property="Almoney" column="Almoney" />
+		<id property="STAMP" column="STAMP" />
+		<id property="QusRegCnt" column="QusRegCnt" />
+		<id property="AnsRegCnt" column="AnsRegCnt" />
+		<id property="AnsChoicedCnt" column="AnsChoicedCnt" />
+		<id property="AnsEstiCnt" column="AnsEstiCnt" />
+		<id property="StartDate" column="StartDate" />
+		<id property="EndDate" column="EndDate" />
+	</resultMap>
+	<select id="getExchangeAsk" resultMap="myExchAskView1,myExchAskView2,myExchAskView3">
+		declare
+		  @Lv int
+		, @Almoney money
+		, @AlpayKR money
+		, @FlagRealName char(1)
+        , @ExchRate float
+        , @CntExchange int;
+
+	    select @Lv=Lv, @Almoney=Almoney, @AlpayKR=AlpayKR from T_MEMBERS where Seq = #{userSeq};      
+		if @@rowcount > 0
+	    begin
+	        select @CntExchange = count(*) from T2_ALMONEY_EXCHANGE with(nolock) where MemberSeq = #{userSeq}; 
+			select @FlagRealName = case when exists (select MemberSeq from T_MEMBERS_CERT where MemberSeq = #{userSeq} and CertStatus = 2) then 'Y' else 'N' end;
+			select @ExchRate = ExchAlmoneyTexRate from T_CONFIG_LV where Lv = @Lv;
+	    end;
+	    
+	    if @Lv = 99
+		begin
+			select @FlagRealName = 'Y';
+		end;
+	    
+		select @Lv as Lv, @CntExchange as CntExchange ,@Almoney as Almoney, @AlpayKR as AlpayKR, @FlagRealName as FlagRealName, ISNULL(@ExchRate, 1) as ExchRate;
+	
+		if @Lv > 1
+			exec SP2_MEMO_EXCH_READY_SET 0, #{userSeq}, 1;
+	</select>
+	<!--  and @Lv <![CDATA[<]]> 90 and @FlagRealName = 'Y' -->
+	
+	<insert id="setMembersCert">
+		declare @MEM_SEQ  int          = #{mem_seq}
+            , @sName      varchar(20)  = #{sName}
+            , @sDI        varchar(200) = #{sDI}
+            , @sBirthDate date         = #{sBirthDate}
+            , @sGender    tinyint      = #{sGender};
+
+        update T_MEMBERS_CERT
+        set 
+            sName = @sName, 
+            sDI = @sDI, 
+            sBirthDate = @sBirthDate, 
+            sGender = @sGender
+        where MemberSeq = @MEM_SEQ;
+
+        if @@ROWCOUNT = 0
+            insert into T_MEMBERS_CERT
+            (MemberSeq
+            , sName
+            , sDI
+            , sBirthDate
+            , sGender
+            )
+            values(@MEM_SEQ, @sName, @sDI, @sBirthDate, @sGender);
+            
+            update T_MEMBERS_CERT
+            set 
+                regdate = getdate(), 
+                CertStatus = case
+                                when sDI != ''
+                                        and id_card != ''
+                                        and Job != '' then 1
+                                else 0
+                            end
+            where MemberSeq = @MEM_SEQ;
+	</insert>
+	
+	<select id="getAlmoneyExchangeInfo" resultType="hashMap">
+		SELECT TOP 1 BankName, BankAccountNo, BankMemNm 
+		FROM T2_ALMONEY_EXCHANGE 
+		WHERE MemberSeq = #{userSeq}
+		ORDER BY ExchangeSeq DESC
+	</select>
+	
+	<select id="getCertStatus" resultType="string">
+		select CertStatus
+        from T_MEMBERS_CERT
+        where MemberSeq = #{userSeq}
+	</select>
+	
+	<select id="getNoticeAdmCount" resultType="int">
+		SELECT Count(Seq) AS NoticeCount FROM T_NOTICE WITH(NOLOCK) 
+	</select>
+	<select id="getNoticeAdmList" resultType="notice">
+		DECLARE @PAZING_SIZE INT = 30;
+		DECLARE @PAGE INT = ${page};
+		SELECT Seq, TOP_CH, Title, Contents, CONVERT(CHAR(23), [DateReg], 21) AS DateReg, CONVERT(CHAR(23), [EditTimeReg], 21) AS EditTimeReg, ViewCount, lang   
+		FROM (SELECT ROW_NUMBER() OVER (ORDER BY Seq DESC) AS ROW_NUMBER, * FROM [T_NOTICE] WITH(NOLOCK)) A WHERE ROW_NUMBER BETWEEN ((@PAGE - 1) * @PAZING_SIZE + 1) AND ((@PAGE) * @PAZING_SIZE) 
+	</select>
+	
+	<select id="getNoticeCount" resultType="int">
+		SELECT Count(Seq) AS NoticeCount FROM T_NOTICE WITH(NOLOCK) WHERE lang = #{lang}
+	</select>
+	<select id="getNoticeList" resultType="notice">
+		DECLARE @PAZING_SIZE INT = 30;
+		DECLARE @PAGE INT = ${page};
+		SELECT Seq, TOP_CH, Title, Contents, CONVERT(CHAR(23), [DateReg], 21) AS DateReg, CONVERT(CHAR(23), [EditTimeReg], 21) AS EditTimeReg, ViewCount, lang  
+		FROM (SELECT ROW_NUMBER() OVER (ORDER BY Seq DESC) AS ROW_NUMBER, * FROM [T_NOTICE] WITH(NOLOCK)) A WHERE lang = #{lang} AND ROW_NUMBER BETWEEN ((@PAGE - 1) * @PAZING_SIZE + 1) AND ((@PAGE) * @PAZING_SIZE) 
+	</select>
+	
+	<select id="getNoticeListBySeq" resultType="notice">
+		SELECT * FROM T_NOTICE WITH(NOLOCK) WHERE Seq = #{seq}
+	</select>
+	
+	<update id="setNoticeCountBySeq">
+		UPDATE T_NOTICE SET ViewCount = ViewCount + 1 WHERE Seq = #{seq}
+	</update>
+	
+	<update id="updateNoticeBySeq">
+		UPDATE T_NOTICE SET 
+			Title = #{title},
+			Contents = #{contents},
+			lang = #{lang} 
+		WHERE Seq = #{seq}
+	</update>
+	
+	<insert id="setNotice">
+		INSERT INTO T_NOTICE(TOP_CH, Title, Contents, lang) 
+		VALUES(1, #{title}, #{contents}, #{lang}); 
+	</insert>
+	
+	<delete id="deleteNoticeBySeq">
+		DELETE FROM T_NOTICE WHERE Seq = #{seq}
+	</delete>
+	
+	<select id="getStatData" statementType="CALLABLE" resultType="statistics">
+	{ call SP2_ALMONEY_STATISTICS_VIEW() }
+	</select>
+	
+	<select id="getStatSearchData" statementType="CALLABLE" parameterType="hashMap" resultType="statisticsSrch">
+	{ call SP_ALMONEY_STATISTICS_VIEW(
+		#{ser_year, mode=IN},
+		#{ser_month, mode=IN}
+	) }
+	</select>
+	
+	<select id="getExchWeekData" resultType="hashMap">
+		select 
+			MemberSeq, Lv, CONVERT(VARCHAR, regdate, 21) as regdate, LvUpStamp, ExchStamp, QusRegCnt, QusChoiceCnt, AnsRegCnt, AnsChoicedCnt, AnsEstiCnt, ReplyCnt, EducationCnt,   
+			case when regdate = dateadd(wk, datediff(d, 0, regdate) / 7, 0) then 'N' else 'Y' end as isExtra 
+		from 
+			T_COUNT_BY_WEEK 
+		where 
+			MemberSeq = #{seq} 
+			and regdate >= dateadd(wk, datediff(d, 0, #{dateReg}) / 7, 0)
+	</select>
+	
+	<select id="getExchIncreassStamp" resultType="hashMap">
+		SET NOCOUNT ON;
+
+		declare @extraDate date = dateadd(d, 1, dateadd(wk, datediff(d, 0, #{dateReg}) / 7, 0));
+
+		if @extraDate = dateadd(d, 1, dateadd(wk, datediff(d, 0, getdate()) / 7, 0))
+		begin
+			select 9 as ResultCode;
+			return;
+		end;
+
+		update T_COUNT_BY_WEEK set ExchStamp = case when ExchStamp + ${hIncrease} <![CDATA[<]]> 0 then 0 else case when ExchStamp + ${hIncrease} > 250 then 250 else ExchStamp + ${hIncrease} end end
+			where MemberSeq = #{seq} and regdate = @extraDate;
+		if @@rowcount = 0 and 1 = ${hIncrease}
+			insert into T_COUNT_BY_WEEK(MemberSeq, ExchStamp, regdate) values(#{seq}, 1, @extraDate);
+
+		exec SP2_MEMO_EXCH_READY_SET 0, #{seq};
+		select * from T2_MEMO_EXCH_READY where MemberSeq = #{seq};
+	</select>
+	
+	<select id="setEventMake" statementType="CALLABLE" parameterType="hashMap" resultType="int">
+	{ call SP_EVENT_MAKE(
+		#{q_seq, mode=IN},
+		#{st_date, mode=IN},
+		#{end_date, mode=IN},
+		#{banner_img, mode=IN}
+	) }
+	</select>
+	
+	<select id="getMemoLvReadySetSP" statementType="CALLABLE" parameterType="int">
+	{ call SP2_MEMO_LV_UP_READY_SET(
+		#{lv, mode=IN}
+	) }
+	</select>
+	
+	<select id="getMemoLvReadyCntBySeq" resultType="int">
+		select count(*) from T2_MEMO_LV_UP_READY where MemberSeq = #{seq}
+	</select>
+	<select id="getMemoLvReadyAllBySeq" resultType="hashMap">
+		select 
+			MemberSeq, Lv, Nickname, Name, Photo, Almoney, RecmdLv_1, RecmdCnt_1, EducationCnt, StampCnt, QusRegCnt, 
+			QusChoiceCnt, AnsRegCnt, AnsChoicedCnt, AnsEstiCnt, ReplyCnt, CONVERT(VARCHAR, LvDate, 21) as LvDate, isUpOK 
+		from T2_MEMO_LV_UP_READY where MemberSeq = #{seq} order by MemberSeq
+				OFFSET ${offset} ROWS
+				FETCH NEXT ${maxRow} ROWS ONLY
+	</select>
+	<select id="getMemoLvReadyCntByLv" resultType="int">
+		select count(*) from T2_MEMO_LV_UP_READY where Lv = #{lv}
+	</select>
+	<select id="getMemoLvReadyAllByLv" resultType="hashMap">
+		select 
+			MemberSeq, Lv, Nickname, Name, Photo, Almoney, RecmdLv_1, RecmdCnt_1, EducationCnt, StampCnt, QusRegCnt, 
+			QusChoiceCnt, AnsRegCnt, AnsChoicedCnt, AnsEstiCnt, ReplyCnt, CONVERT(VARCHAR, LvDate, 21) as LvDate, isUpOK  
+		from T2_MEMO_LV_UP_READY where Lv = #{lv} order by Lv desc, isUpOK desc, StampCnt desc, MemberSeq desc
+				OFFSET ${offset} ROWS
+				FETCH NEXT ${maxRow} ROWS ONLY
+	</select>
+	<select id="getLvWeekData" resultType="hashMap">
+		select 
+			MemberSeq, Lv,  CONVERT(VARCHAR, regdate, 21) as regdate, LvUpStamp, ExchStamp, QusRegCnt, QusChoiceCnt, AnsRegCnt, AnsChoicedCnt, AnsEstiCnt, ReplyCnt, EducationCnt
+			, case when regdate = dateadd(wk, datediff(d, 0, regdate) / 7, 0) then 'N' else 'Y' end as isExtra 
+		from 
+			T_COUNT_BY_WEEK 
+		where 
+			MemberSeq = #{seq} 
+			and regdate >= dateadd(wk, datediff(d, 0, #{dateReg}) / 7, 0)
+	</select>
+	
+	
+	<resultMap id="setEducationView1" type="hashMap">
+		<id property="MemberSeq" column="MemberSeq" />
+		<id property="Lv" column="Lv" />
+		<id property="regdate" column="regdate" />
+		<id property="LvUpStamp" column="LvUpStamp" />
+		<id property="ExchStamp" column="ExchStamp" />
+		<id property="QusRegCnt" column="QusRegCnt" />
+		<id property="QusChoiceCnt" column="QusChoiceCnt" />
+		<id property="AnsRegCnt" column="AnsRegCnt" />
+		<id property="AnsChoicedCnt" column="AnsChoicedCnt" />
+		<id property="AnsEstiCnt" column="AnsEstiCnt" />
+		<id property="ReplyCnt" column="ReplyCnt" />
+		<id property="EducationCnt" column="EducationCnt" />
+	</resultMap>
+	<resultMap id="setEducationView2" type="hashMap">
+		<id property="MemberSeq" column="MemberSeq" />
+		<id property="Lv" column="Lv" />
+		<id property="Nickname" column="Nickname" />
+		<id property="Name" column="Name" />
+		<id property="Photo" column="Photo" />
+		<id property="Almoney" column="Almoney" />
+		<id property="RecmdLv_1" column="RecmdLv_1" />
+		<id property="RecmdCnt_1" column="RecmdCnt_1" />
+		<id property="EducationCnt" column="EducationCnt" />
+		<id property="StampCnt" column="StampCnt" />
+		<id property="QusRegCnt" column="QusRegCnt" />
+		<id property="QusChoiceCnt" column="QusChoiceCnt" />
+		<id property="AnsRegCnt" column="AnsRegCnt" />
+		<id property="AnsChoicedCnt" column="AnsChoicedCnt" />
+		<id property="AnsEstiCnt" column="AnsEstiCnt" />
+		<id property="ReplyCnt" column="ReplyCnt" />
+		<id property="LvDate" column="LvDate" />
+		<id property="isUpOK" column="isUpOK" />
+	</resultMap>
+	<select id="setEducation" resultMap="setEducationView1,setEducationView2">
+		SET NOCOUNT ON;
+
+		update T_COUNT_BY_WEEK set EducationCnt = case when EducationCnt = 0 then 1 else 0 end where MemberSeq = #{seq} and regdate = #{dateReg};
+		if @@rowcount = 0 return;
+
+		exec SP2_MEMO_LV_UP_READY_SET 0, #{seq};
+		select MemberSeq, Lv, CONVERT(VARCHAR, regdate, 21) as regdate, LvUpStamp, ExchStamp, QusRegCnt, QusChoiceCnt, 
+			AnsRegCnt, AnsChoicedCnt, AnsEstiCnt, ReplyCnt, EducationCnt 
+		from T_COUNT_BY_WEEK where MemberSeq = #{seq} and regdate = #{dateReg};
+		
+		select MemberSeq,Lv,Nickname,Name,Photo,Almoney,RecmdLv_1,RecmdCnt_1,EducationCnt,
+			StampCnt,QusRegCnt,QusChoiceCnt,AnsRegCnt,AnsChoicedCnt,AnsEstiCnt,ReplyCnt, CONVERT(VARCHAR, LvDate, 21) as LvDate ,isUpOK 
+		from T2_MEMO_LV_UP_READY where MemberSeq = #{seq};
+	</select>
+	
+	<select id="getLvIncreassStamp" resultType="hashMap">
+		SET NOCOUNT ON;
+		
+		declare @extraDate date = dateadd(d, 1, dateadd(wk, datediff(d, 0, #{dateReg}) / 7, 0));
+
+		update T_COUNT_BY_WEEK set LvUpStamp = case when LvUpStamp + ${hIncrease} <![CDATA[<]]> 0 then 0 else case when LvUpStamp + ${hIncrease} > 250 then 250 else LvUpStamp + ${hIncrease} end end
+			where MemberSeq = #{seq} and regdate = @extraDate;
+		if @@rowcount = 0 and 1 = ${hIncrease}
+			insert into T_COUNT_BY_WEEK(MemberSeq, LvUpStamp, regdate) values(#{seq}, 1, @extraDate);
+
+		exec SP2_MEMO_LV_UP_READY_SET 0, #{seq};
+		select * from T2_MEMO_LV_UP_READY where MemberSeq = #{seq};
+	</select>
+	
+	
+	<resultMap id="setSirenLogView1" type="hashMap">
+		<id property="Type" column="Type" />
+		<id property="ContentsSeq" column="ContentsSeq" />
+		<id property="MemberSeq" column="MemberSeq" />
+		<id property="NickName" column="NickName" />
+		<id property="MPoint" column="MPoint" />
+		<id property="Result" column="Result" />
+		<id property="conDate" column="conDate" />
+	</resultMap>
+	<resultMap id="setSirenLogView2" type="hashMap">
+		<id property="ReturnCode" column="ReturnCode" />
+		<id property="ErrText" column="ErrText" />
+	</resultMap>
+	<select id="setSirenLog" resultMap="setSirenLogView1,setSirenLogView2">
+		SET ANSI_NULLS ON
+
+		begin try
+			begin tran
+
+			update T_SIREN set Result = #{res}, MPoint = #{mPoint}, comdate = #{dd} where Type = #{hType} and ContentsSeq = #{hContentsSeq}
+			if @@ROWCOUNT != 1
+				rollback tran
+			else
+			begin
+				update ${tbl} set FlagUse = #{flagUse} where Seq = #{hContentsSeq} 
+
+				select Type, ContentsSeq, MemberSeq
+					, (select top 1 NickName from T_MEMBERS where Seq = S.MemberSeq) as NickName
+					, (select sum(MPoint) from T_SIREN where MemberSeq = S.MemberSeq and comdate <![CDATA[<=]]> S.comdate) as MPoint
+					, Result, convert(char(19), comdate, 20) as conDate
+				from T_SIREN as S
+				where Type = #{hType} and ContentsSeq = #{hContentsSeq}
+
+				commit tran
+			end
+		end try
+		begin catch
+			rollback tran
+			select 1 AS ReturnCode, Error_Message() as ErrText
+		end catch
+	</select>
+	
+	
+	<select id="setSirenDelete" resultType="hashMap">
+		SET ANSI_NULLS ON
+
+		begin try
+			begin tran
+			update ${tbl} set FlagUse = 'Y' where Seq = #{hContentsSeq}  and FlagUse = 'S';
+			delete T_SIREN where Type = #{hType} and ContentsSeq = #{hContentsSeq};
+			delete T_SIREN_REPORTER where Type = #{hType} and ContentsSeq = #{hContentsSeq} ;
+			commit tran
+		end try
+		begin catch
+			rollback tran
+			select 1 AS ReturnCode, Error_Message() as ErrText;
+		end catch
+	</select>
+	
+	<select id="getBlackList_Reporter" resultType="hashMap">
+		select MemberSeq
+			, (select top 1 NickName from T_MEMBERS where Seq = RR.MemberSeq) as NickName
+			, count(*) as MySirenContsN
+			, (select count(*) from T_SIREN_REPORTER as SR left outer join T_SIREN as S on SR.Type=S.Type and SR.ContentsSeq=S.ContentsSeq where SR.MemberSeq=RR.MemberSeq and S.Result=1) as MyDangerN
+			, (select count(*) from T_SIREN_REPORTER as SR left outer join T_SIREN as S on SR.Type=S.Type and SR.ContentsSeq=S.ContentsSeq where SR.MemberSeq=RR.MemberSeq and S.Result=2) as MyWarningN
+			, (select count(*) from T_SIREN_REPORTER as SR left outer join T_SIREN as S on SR.Type=S.Type and SR.ContentsSeq=S.ContentsSeq where SR.MemberSeq=RR.MemberSeq and S.Result=3) as MyRejectN
+			, (select count(*) from T_SIREN where MemberSeq = RR.MemberSeq) as MeSirenContsN
+			, (select count(*) from T_SIREN as S left outer join T_SIREN_REPORTER as SR on S.Type=SR.Type and S.ContentsSeq=SR.ContentsSeq where S.MemberSeq = RR.MemberSeq) as MeSirenN
+			, ISNULL((select sum(MPoint) from T_SIREN where MemberSeq = RR.MemberSeq), 0) as MeMPoint
+			, ISNULL((select sum(MPoint) from T_SIREN where MemberSeq = RR.MemberSeq and comdate <![CDATA[<]]> dateadd(d, -60, getdate())), 0) as MeMPointDel
+		from T_SIREN_REPORTER as RR
+		group by MemberSeq
+		order by MySirenContsN desc, MyDangerN desc, MyWarningN desc, MyRejectN asc
+	</select>
+	
+	<select id="getBlackList_Siren" resultType="hashMap">
+		select MemberSeq
+			, (select top 1 NickName from T_MEMBERS where Seq = SS.MemberSeq) as NickName
+			, count(*) as SirenN
+			, count(case when Result = 1 then 1 end) as DangerN
+			, count(case when Result = 2 then 1 end) as WarningN
+			, count(case when Result = 3 then 1 end) as RejectN
+			, (select count(*) from T_SIREN S left outer join T_SIREN_REPORTER as SR on S.Type=SR.Type and S.ContentsSeq=SR.ContentsSeq where S.MemberSeq = SS.MemberSeq) as ReportN
+			, (select count(distinct(SR.MemberSeq)) from T_SIREN S left outer join T_SIREN_REPORTER as SR on S.Type=SR.Type and S.ContentsSeq=SR.ContentsSeq where S.MemberSeq = SS.MemberSeq) as ReporterN
+			, sum(MPoint) as MPoint
+			, ISNULL((select sum(MPoint) from T_SIREN where MemberSeq = SS.MemberSeq and comdate <![CDATA[<]]> dateadd(d, -60, getdate())), 0) as MPointDel
+		from T_SIREN as SS
+		group by MemberSeq
+		order by MemberSeq
+	</select>
+	
+	<select id="getReportListAdm" resultType="hashMap">
+		select S.Type, S.MemberSeq, S.ContentsSeq
+			, (select top 1 NickName from T_MEMBERS where Seq = S.MemberSeq) as NickName
+			, ISNULL((select sum(MPoint) from T_SIREN where MemberSeq = S.MemberSeq and comdate <![CDATA[<=]]> S.comdate), 0) as MPoint
+			, ISNULL((select sum(MPoint) from T_SIREN where MemberSeq = S.MemberSeq and comdate <![CDATA[<]]> dateadd(d, -60, getdate()) and comdate <![CDATA[<=]]> S.comdate), 0) as MPointDel
+			, Result
+			, CASE WHEN comdate <![CDATA[<]]> '3000-01-01' THEN convert(char(19), comdate, 20) ELSE '' END as conDate
+			, CASE
+				WHEN S.Type = 'AR' THEN (select AR.AnswerSeq from T_REPLY_ANSWER as AR where AR.Seq = S.ContentsSeq)
+			  END as ASeq
+			, CASE
+				WHEN S.Type = 'A' THEN (select A.QuestionSeq from T_ANSWER as A where A.Seq = S.ContentsSeq)
+				WHEN S.Type = 'AR' THEN (select A.QuestionSeq from T_ANSWER as A where A.Seq = (select AR.AnswerSeq from T_REPLY_ANSWER as AR where AR.Seq = S.ContentsSeq))
+				WHEN S.Type = 'QR' THEN (select QR.QuestionSeq from T_REPLY_QUESTION as QR where QR.Seq = S.ContentsSeq)
+			  END as QSeq
+			, CASE
+				WHEN S.Type = 'A' THEN (select A.Answer from T_ANSWER as A where A.Seq = S.ContentsSeq)
+				WHEN S.Type = 'Q' THEN (select Q.Contents from T_QUESTION as Q where Q.Seq = S.ContentsSeq)
+				WHEN S.Type = 'AR' THEN (select AR.Reply from T_REPLY_ANSWER as AR where AR.Seq = S.ContentsSeq)
+				WHEN S.Type = 'QR' THEN (select QR.Reply from T_REPLY_QUESTION as QR where QR.Seq = S.ContentsSeq)
+			  END as Contents
+		from T_SIREN as S
+		order by comdate desc
+	</select>
+	
+	<select id="getReportListPgAdm" resultType="hashMap">
+		select * 
+		from (
+			select
+				TOP ${p_Option} ROW_NUMBER() OVER(ORDER BY comdate desc) AS rownum 
+				, S.Type, S.MemberSeq, S.ContentsSeq
+				, (select top 1 NickName from T_MEMBERS where Seq = S.MemberSeq) as NickName
+				, ISNULL((select sum(MPoint) from T_SIREN where MemberSeq = S.MemberSeq and comdate <![CDATA[<=]]> S.comdate), 0) as MPoint
+				, ISNULL((select sum(MPoint) from T_SIREN where MemberSeq = S.MemberSeq and comdate <![CDATA[<]]> dateadd(d, -60, getdate()) and comdate <![CDATA[<=]]> S.comdate), 0) as MPointDel
+				, Result
+				, CASE WHEN comdate <![CDATA[<]]> '3000-01-01' THEN convert(char(19), comdate, 20) ELSE '' END as conDate
+				, CASE
+					WHEN S.Type = 'AR' THEN (select AR.AnswerSeq from T_REPLY_ANSWER as AR where AR.Seq = S.ContentsSeq)
+				  END as ASeq
+				, CASE
+					WHEN S.Type = 'A' THEN (select A.QuestionSeq from T_ANSWER as A where A.Seq = S.ContentsSeq)
+					WHEN S.Type = 'AR' THEN (select A.QuestionSeq from T_ANSWER as A where A.Seq = (select AR.AnswerSeq from T_REPLY_ANSWER as AR where AR.Seq = S.ContentsSeq))
+					WHEN S.Type = 'QR' THEN (select QR.QuestionSeq from T_REPLY_QUESTION as QR where QR.Seq = S.ContentsSeq)
+				  END as QSeq
+				, CASE
+					WHEN S.Type = 'A' THEN (select A.Answer from T_ANSWER as A where A.Seq = S.ContentsSeq)
+					WHEN S.Type = 'Q' THEN (select Q.Contents from T_QUESTION as Q where Q.Seq = S.ContentsSeq)
+					WHEN S.Type = 'AR' THEN (select AR.Reply from T_REPLY_ANSWER as AR where AR.Seq = S.ContentsSeq)
+					WHEN S.Type = 'QR' THEN (select QR.Reply from T_REPLY_QUESTION as QR where QR.Seq = S.ContentsSeq)
+				  END as Contents
+			from T_SIREN as S
+			order by comdate desc 
+		) T  
+		where rownum BETWEEN #{st_num} AND #{en_num}
+	</select>
+	
+	<select id="getReportListPgCntAdm" resultType="int">
+		select
+			count(ContentsSeq)
+		from T_SIREN  
+	</select>
+	
+	<select id="getReporter" resultType="hashMap">
+		select M.NickName, SR.MemberSeq, SR.Reason, SR.Reason_txt, convert(char(19), SR.regdate, 20) as conDate
+			from T_SIREN_REPORTER as SR left outer join T_MEMBERS as M on SR.MemberSeq = M.Seq
+			where SR.Type = #{hType} and SR.ContentsSeq = #{hContentsSeq} 
+			order by SR.regdate
+	</select>
+	
+	
+	<resultMap id="getReportListAjaxView1" type="hashMap">
+		<id property="totalPage" column="totalPage" />
+		<id property="totalCount" column="totalCount" />
+	</resultMap>
+	<resultMap id="getReportListAjaxView2" type="hashMap">
+		<id property="Idx" column="Idx" />
+		<id property="Seq" column="Seq" />
+		<id property="ContentsSeq" column="ContentsSeq" />
+		<id property="ContentsType" column="ContentsType" />
+		<id property="ReportMemberSeq" column="ReportMemberSeq" />
+		<id property="NickName" column="NickName" />
+		<id property="ReportedMember" column="ReportedMember" />
+		<id property="ReportedContents" column="ReportedContents" />
+		<id property="ContentsParent" column="ContentsParent" />
+		<id property="ReportReason" column="ReportReason" />
+		<id property="ReportEtc" column="ReportEtc" />
+		<id property="ReportUrl" column="ReportUrl" />
+		<id property="DateReg" column="DateReg" />
+		<id property="AdminStatus" column="AdminStatus" />
+		<id property="ResultMemberNickName" column="ResultMemberNickName" />
+		<id property="AdminEtc" column="AdminEtc" />
+		<id property="DateResult" column="DateResult" />
+	</resultMap>
+	<select id="getReportListAjax" resultMap="getReportListAjaxView1,getReportListAjaxView2">
+		DECLARE @contentsType VARCHAR(20) = #{contentsType}; 
+		DECLARE @reportReason VARCHAR(20) = #{reportReason}; 
+		DECLARE @startDate VARCHAR(20) = #{startDate}; 
+		DECLARE @endDate VARCHAR(20) = #{endDate}; 
+		DECLARE @adminStatus VARCHAR(20) = #{adminStatus}; 
+		DECLARE @pageSize INT = ${pageSize}; 
+		DECLARE @pageCursor INT = ${pageCursor}; 
+		
+		DECLARE @startIdx INT = (@pageCursor - 1) * @pageSize + 1; 
+		DECLARE @endIdx INT = (@pageCursor) * @pageSize;
+		
+		SELECT (CASE WHEN COUNT(R.Seq) % @pageSize = 0 THEN COUNT(R.Seq) / @pageSize ELSE COUNT(R.Seq) / @pageSize + 1 END) AS totalPage 
+			,COUNT(R.Seq) AS totalCount 
+		FROM T2_REPORT AS R 
+		LEFT OUTER JOIN T_MEMBERS AS M ON R.ReportMemberSeq = M.Seq 
+		WHERE ContentsType = CASE WHEN @contentsType != '' THEN @contentsType ELSE ContentsType END 
+			AND ReportReason = CASE WHEN @reportReason != '' THEN @reportReason ELSE ReportReason END 
+			AND AdminStatus = CASE WHEN @adminStatus != '' THEN @adminStatus ELSE AdminStatus END 
+			AND Left(R.DateReg, 10) BETWEEN CASE WHEN @startDate != '' THEN @startDate ELSE Left(R.DateReg, 10) END AND CASE WHEN @endDate != '' THEN @endDate ELSE Left(R.DateReg, 10) END
+		
+		SELECT * 
+		FROM ( 
+			SELECT ROW_NUMBER() OVER ( 
+					ORDER BY R.Seq DESC 
+					) AS Idx 
+				,R.Seq 
+				,ContentsSeq 
+				,ContentsType 
+				,ReportMemberSeq 
+				,M.NickName 
+				,( 
+					SELECT NickName 
+					FROM T_MEMBERS 
+					WHERE Seq = CASE WHEN ContentsType = 'Question' THEN ( 
+										SELECT MemberSeq 
+										FROM T_QUESTION 
+										WHERE Seq = ContentsSeq 
+										) WHEN ContentsType = 'QuestionReply' THEN ( 
+										SELECT MemberSeq 
+										FROM T_REPLY_QUESTION 
+										WHERE Seq = ContentsSeq 
+										) WHEN ContentsType = 'Answer' THEN ( 
+										SELECT MemberSeq 
+										FROM T_ANSWER 
+										WHERE Seq = ContentsSeq 
+										) WHEN ContentsType = 'AnswerReply' THEN ( 
+										SELECT MemberSeq 
+										FROM T_REPLY_ANSWER 
+										WHERE Seq = ContentsSeq 
+										) END 
+					) AS ReportedMember 
+				,CASE WHEN ContentsType = 'Question' THEN ( 
+								SELECT CONCAT ( 
+										Left(Title, 35) 
+										,'...' 
+										) 
+								FROM T_QUESTION 
+								WHERE Seq = ContentsSeq 
+								) WHEN ContentsType = 'QuestionReply' THEN ( 
+								SELECT Reply 
+								FROM T_REPLY_QUESTION 
+								WHERE Seq = ContentsSeq 
+								) WHEN ContentsType = 'Answer' THEN ( 
+								SELECT CONCAT ( 
+										Left(Answer, 35) 
+										,'...' 
+										) 
+								FROM T_ANSWER 
+								WHERE Seq = ContentsSeq 
+								) WHEN ContentsType = 'AnswerReply' THEN ( 
+									SELECT Reply 
+									FROM T_REPLY_ANSWER 
+									WHERE Seq = ContentsSeq 
+								) ELSE '0' END AS ReportedContents 
+								,CASE WHEN ContentsType = 'Question' THEN CONCAT ( 
+								ContentsSeq 
+								,'' 
+								) WHEN ContentsType = 'QuestionReply' THEN CONCAT ( 
+								( 
+									SELECT QuestionSeq 
+									FROM T_REPLY_QUESTION 
+									WHERE Seq = ContentsSeq 
+									) 
+								,';' 
+								,ContentsSeq 
+								) WHEN ContentsType = 'Answer' THEN CONCAT ( 
+								( 
+									SELECT QuestionSeq 
+									FROM T_ANSWER 
+									WHERE Seq = ContentsSeq 
+									) 
+								,';' 
+								,ContentsSeq 
+								) WHEN ContentsType = 'AnswerReply' THEN CONCAT ( 
+								( 
+									SELECT QuestionSeq 
+									FROM T_ANSWER 
+									WHERE Seq = ( 
+											SELECT AnswerSeq 
+											FROM T_REPLY_ANSWER 
+											WHERE Seq = ContentsSeq 
+											) 
+									) 
+								,';' 
+								,( 
+									SELECT AnswerSeq 
+									FROM T_REPLY_ANSWER 
+									WHERE Seq = ContentsSeq 
+									) 
+								,';' 
+								,ContentsSeq 
+								) END AS ContentsParent 
+				,ReportReason 
+				,ReportEtc 
+				,ReportUrl 
+				,R.DateReg 
+				,R.AdminStatus 
+				,( 
+					SELECT NickName 
+					FROM T_MEMBERS 
+					WHERE Seq = R.ResultMemberSeq 
+					) AS ResultMemberNickName 
+				,R.AdminEtc 
+				,R.DateResult 
+			FROM T2_REPORT AS R 
+			LEFT OUTER JOIN T_MEMBERS AS M ON R.ReportMemberSeq = M.Seq 
+			WHERE ContentsType = CASE WHEN @contentsType != '' THEN @contentsType ELSE ContentsType END 
+				AND ReportReason = CASE WHEN @reportReason != '' THEN @reportReason ELSE ReportReason END 
+				AND AdminStatus = CASE WHEN @adminStatus != '' THEN @adminStatus ELSE AdminStatus END 
+				AND Left(R.DateReg, 10) BETWEEN CASE WHEN @startDate != '' THEN @startDate ELSE Left(R.DateReg, 10) END AND CASE WHEN @endDate != '' THEN @endDate ELSE Left(R.DateReg, 10) END 
+			) Query1 
+		WHERE Idx BETWEEN @startIdx AND @endIdx
+	</select>
+	
+	<select id="getReportDetailAdm" resultType="hashMap">
+		SELECT R.Seq AS seq 
+			,R.ContentsSeq AS contentSeq 
+			,R.ContentsType AS contentType 
+			,M.NickName AS reporter 
+			,R.ReportMemberSeq AS reporterSeq 
+			,R.ReportReason AS reason 
+			,R.ReportEtc AS comment 
+			,R.ReportUrl AS [url] 
+			,R.DateReg AS [date] 
+			,R.AdminStatus AS adminStatus 
+			,R.AdminEtc AS adminComment 
+			,R.ResultMemberSeq AS charge 
+			,R.DateResult AS resultDate 
+		FROM T2_REPORT AS R 
+		LEFT OUTER JOIN T_MEMBERS AS M ON M.Seq = R.ReportMemberSeq 
+		WHERE R.Seq = #{reportSeq}
+	</select>
+	
+	<select id="getReportDetailQue" resultType="hashMap">
+		SELECT Title 
+			,Contents
+			,MemberSeq
+		FROM T_QUESTION 
+		WHERE Seq = #{contentSeq}
+	</select>
+	
+	<select id="getReportDetailQueRepl" resultType="hashMap">
+		SELECT QuestionSeq 
+			,( 
+				SELECT CONCAT ('질문(""', Title, '"")의 댓글') 
+				FROM T_QUESTION 
+				WHERE Seq = QuestionSeq 
+				) AS Title 
+			,Reply 
+			,MemberSeq 
+		FROM T_REPLY_QUESTION 
+		WHERE Seq = #{contentSeq}
+	</select>
+	
+	<select id="getReportDetailAns" resultType="hashMap">
+		SELECT QuestionSeq 
+			,Answer 
+			,( 
+				SELECT CONCAT('질문(""', Title, '"")의 답변') 
+				FROM T_QUESTION 
+				WHERE Seq = QuestionSeq 
+				) AS Title 
+		    ,MemberSeq 
+		FROM T_ANSWER 
+		WHERE Seq = #{contentSeq}
+	</select>
+	
+	<select id="getReportDetailAnsRepl" resultType="hashMap">
+		SELECT AnswerSeq 
+			,Reply 
+		    ,MemberSeq 
+		FROM T_REPLY_ANSWER 
+		WHERE Seq = #{contentSeq}
+	</select>
+	
+	<select id="getReportDetailAnsSeq" resultType="int">
+		SELECT QuestionSeq 
+		FROM T_ANSWER 
+		WHERE Seq = #{contentSeq}
+	</select>
+	
+	<update id="setReportAdm">
+		UPDATE T2_REPORT 
+		SET AdminEtc = #{adminComment} 
+			, ResultMemberSeq = #{userSeq}
+			, DateResult = dbo.FN2_CONVERT_DATE_REG(#{dateReg}) 
+		WHERE Seq = #{reportSeq}
+	</update>
+	
+	<update id="setReportChankAdm">
+		UPDATE T2_REPORT 
+		SET ResultMemberSeq = #{userSeq} 
+			,DateResult = dbo.FN2_CONVERT_DATE_REG(#{dateReg}) 
+			AdminStatus = #{chargeAction} 
+		WHERE Seq = #{reportSeq}
+	</update>
+	
+	<select id="deleteReportContentSP" statementType="CALLABLE" parameterType="hashMap" resultType="int">
+	{ call SP2_REPORT_CONTENT_DELETE(
+		#{reportSeq, mode=IN},
+		#{userSeq, mode=IN}
+	)}
+	</select>
+	
+	<select id="getChkUseAlmoney" resultType="BigDecimal">
+		<if test='act == "Q"'>
+			SELECT
+				ISNULL(SUM(Almoney), 0) 
+			FROM LOG_ALMONEY
+			WHERE MemberSeq = #{userSeq} AND convert(varchar(10), regdate, 120) = #{regDate} AND TradeType = 'Question'
+		</if>
+		<if test='act == "E"'>
+			SELECT 
+				ISNULL(SUM(Almoney), 0)
+			FROM LOG_ALMONEY
+			WHERE MemberSeq = #{userSeq} AND convert(varchar(10), regdate, 120) = #{regDate} AND TradeType IN('2','4')
+		</if>
+	</select>
+	
+	<select id="getQuestionVoteCount" resultType="int">
+		SELECT 
+			ISNULL(COUNT(*), 0) 
+		FROM 
+			T_QUESTION_VOTE
+		WHERE 
+			contentSeq = #{contentSeq}
+			AND userSeq = #{userSeq}
+			AND contentType = #{contentType}
+	</select>
+	
+	<select id="getQuestionVoteCountSum" resultType="int">
+		SELECT 
+			ISNULL(COUNT(*), 0) 
+		FROM 
+			T_QUESTION_VOTE
+		WHERE 
+			contentSeq = #{contentSeq}
+			AND contentType = #{contentType}
+	</select>
+	
+	<select id="getQuestionVote" resultType="hashMap">
+		SELECT 
+			ISNULL(SUM(good), 0) AS good, 
+			ISNULL(SUM(bad), 0) AS bad
+		FROM 
+			T_QUESTION_VOTE
+		WHERE 
+			contentSeq = #{contentSeq}
+			AND userSeq = #{userSeq}
+			AND contentType = #{contentType}
+	</select>
+	
+	<select id="getQuestionVoteSum" resultType="hashMap">
+		SELECT 
+			ISNULL(SUM(good), 0) AS good, 
+			ISNULL(SUM(bad), 0) AS bad
+		FROM 
+			T_QUESTION_VOTE
+		WHERE 
+			contentSeq = #{contentSeq}
+			AND contentType = #{contentType}
+	</select>
+	
+	<insert id="addQuestionVote">
+		INSERT INTO T_QUESTION_VOTE (contentSeq, userSeq, good, bad, contentType, createDt)
+		VALUES(#{contentSeq}, #{userSeq}, #{good}, #{bad}, #{contentType}, getdate())
+	</insert>
+	
+	<update id="setQuestionVote">
+		UPDATE T_QUESTION_VOTE SET
+			good = #{good}, 
+			bad = #{bad} 
+		WHERE
+			contentSeq = #{contentSeq} 
+			AND userSeq = #{userSeq}
+			AND contentType = #{contentType}
+	</update>
+	
+	
+	<select id="getContentsDateBySeq" resultType="string">
+		<if test='flag == "Q"'>
+			SELECT regdate 
+			FROM T_QUESTION 
+			WHERE Seq = #{targetSeq}
+		</if>
+		<if test='flag != "Q"'>
+			SELECT regdate 
+			FROM T_ANSWER 
+			WHERE Seq = #{targetSeq}
+		</if>
+	</select>
+	
+	
+	<select id="getTrnslateCntBySeq" resultType="int">
+		SELECT
+			ISNULL(COUNT(*), 0) 
+		FROM T_TRANSLATE 
+		WHERE
+			trnType = #{trnType} 
+			AND replyType = #{replyType} 
+			AND orgSeq = #{orgSeq}
+			AND lang = #{lang}
+	</select>
+	
+	<select id="getTrnslateTotalCntBySeq" resultType="int">
+		SELECT
+			ISNULL(COUNT(*), 0) 
+		FROM T_TRANSLATE 
+		WHERE
+			replyType = #{replyType} 
+			AND orgSeq = #{orgSeq}
+			AND lang = #{lang}
+	</select>
+	
+	<select id="getTrnslateBySeq" resultType="translate">
+		SELECT
+			TOP 1 *, convert(varchar, createDt, 20) as regdate
+		FROM T_TRANSLATE 
+		WHERE
+			trnType = #{trnType} 
+			AND replyType = #{replyType} 
+			AND orgSeq = #{orgSeq}
+			AND lang = #{lang}
+		ORDER BY createDt desc
+	</select>
+	
+	<select id="getTrnslateViewBySeq" resultType="translate">
+		SELECT
+			TOP 1 *, convert(varchar, createDt, 20) as regdate
+		FROM T_TRANSLATE 
+		WHERE
+			Seq = #{seq}
+		ORDER BY createDt desc
+	</select>
+	
+	<insert id="addTranslate">
+		INSERT INTO T_TRANSLATE (trnType, replyType, orgSeq, userSeq, FlagNickName, langOrg, lang, title, comment, createDt)
+		VALUES(#{trnType}, #{replyType}, #{orgSeq}, #{userSeq}, #{flagNickName}, #{langOrg}, #{lang}, #{title}, #{comment}, #{createDt})
+	</insert>
+	
+	<update id="setTranslate">
+		UPDATE 
+			T_TRANSLATE SET comment = #{comment}
+			, createDt = getDate() 
+		WHERE 
+			trnType = #{trnType} 
+			AND replyType = #{replyType} 
+			AND orgSeq = #{orgSeq}
+			AND lang = #{lang}
+	</update>
+	
+	<select id="getUserSeqForTrnslateByNick" resultType="int">
+		SELECT Seq 
+		FROM T_MEMBERS 
+		WHERE NickName = #{nickName}
+	</select>
+	
+	<select id="getUserInfoBySeq" resultType="v2Rank">
+		SELECT 
+			M.nation
+			, M.NickName
+			, M.Photo
+			, M.Lv
+			, M.A_ChoicedCount
+			, M.A_Count
+			, M.Intro
+			, L.EarnQueView as Q_Almoney
+			, L.EarnAnsChoice + L.EarnAnsView as A_Almoney
+			, L.EarnAnsChoice + L.EarnAnsExt + L.EarnAnsView + L.EarnAnswerer + L.EarnChildAns + L.EarnChildQue + L.EarnEsti + L.EarnEvent + L.EarnJoin + L.EarnQueExt + L.EarnQueView + L.EarnRefund as EarnTotal
+			, isnull(
+			(
+				select sum(Almoney)
+				from T_EXTRA_ALMONEY
+				where Type = 'T'
+					and ContentsSeq = #{contentsSeq}
+			), 0) as ExtraAlmoney
+			,(
+				select count(*)
+				from T_SIREN as S
+					left outer join T_SIREN_REPORTER as SR on S.Type = SR.Type
+															and S.ContentsSeq = SR.ContentsSeq
+				where S.Type = 'T'
+					and S.ContentsSeq = #{contentsSeq}
+					and S.Result = 0
+			) as SirenN
+			, isnull(E.PointCountNo, 0) as PointCountNo
+			, isnull(E.PointCount6_Yn, 'N') as PointCount6_Yn
+			, (select count(*) from T_REPLY_ANSWER TRA with(nolock) where TRA.AnswerSeq = #{answerSeq} AND FlagUse = 'Y' ) AS CNTSUMReplayanswer
+		FROM T_MEMBERS  as M with(nolock) 
+			left outer join V_LOG_ALMONEY_COMBINED as L on L.MemberSeq = M.Seq
+			left outer join LOG_ESTIMATE as E with(nolock) on E.MemberSeq = M.Seq
+		WHERE M.Seq = #{userSeq}
+	</select>
+	
+	<select id="getQtUserInfoBySeq" resultType="v2Rank">
+		SELECT 
+			M.nation
+			, M.NickName
+			, M.Photo
+			, M.Lv
+			, M.A_ChoicedCount
+			, M.A_Count
+			, M.Intro
+			, L.EarnQueView as Q_Almoney
+			, L.EarnAnsChoice + L.EarnAnsView as A_Almoney
+			, L.EarnAnsChoice + L.EarnAnsExt + L.EarnAnsView + L.EarnAnswerer + L.EarnChildAns + L.EarnChildQue + L.EarnEsti + L.EarnEvent + L.EarnJoin + L.EarnQueExt + L.EarnQueView + L.EarnRefund as EarnTotal
+			, isnull(
+			(
+				select sum(Almoney)
+				from T_EXTRA_ALMONEY
+				where Type = #{contentsType} 
+					and ContentsSeq = #{contentsSeq}
+			), 0) as ExtraAlmoney
+			,(
+				select count(*)
+				from T_SIREN as S
+					left outer join T_SIREN_REPORTER as SR on S.Type = SR.Type
+															and S.ContentsSeq = SR.ContentsSeq
+				where S.Type = #{contentsType} 
+					and S.ContentsSeq = #{contentsSeq}
+					and S.Result = 0
+			) as SirenN
+		FROM T_MEMBERS  as M with(nolock) 
+			left outer join V_LOG_ALMONEY_COMBINED as L on L.MemberSeq = M.Seq
+			left outer join LOG_ESTIMATE as E with(nolock) on E.MemberSeq = M.Seq
+		WHERE M.Seq = #{userSeq}
+	</select>
+	
+	<update id="setTranslateCount">
+		UPDATE 
+			T_TRANSLATE SET ReadCount = ReadCount + 1 
+		WHERE 
+			seq = #{seq}
+	</update>
+	
+	<select id="getMachineTrnsCount" resultType="int">
+		SELECT 
+			ISNULL(COUNT(Seq), 0) AS Cnt 
+		FROM 
+			T_TRANSLATE WITH(NOLOCK) 
+		WHERE 
+			trnType = #{trnType} 
+			AND replyType = #{replyType} 
+			AND orgSeq = #{orgSeq}
+			AND lang = #{lang}
+	</select>
+	
+	<select id="getSingleConents" resultType="string">
+		<if test='contentType == "Q"'>
+			SELECT Contents FROM T_QUESTION WHERE Seq = #{contentSeq}
+		</if>
+		<if test='contentType == "A"'>
+			SELECT Answer FROM T_ANSWER WHERE Seq = #{contentSeq}
+		</if>
+		<if test='contentType == "RQ"'>
+			SELECT Reply FROM T_REPLY_QUESTION WHERE Seq = #{contentSeq}
+		</if>
+		<if test='contentType == "RA"'>
+			SELECT Reply FROM T_REPLY_ANSWER WHERE Seq = #{contentSeq}
+		</if>
+	</select>
+	
+	<select id="getSingleTitle" resultType="string">
+		SELECT Title FROM T_QUESTION WHERE Seq = #{contentSeq}
+	</select>
+	
+</mapper>

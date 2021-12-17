@@ -1,0 +1,216 @@
+@charset "utf-8";
+.container-fluid {
+  padding-top: 60px;
+}
+.container-fluid .center {
+  padding: 0 10px;
+}
+.container-fluid h1 {
+  font-size: 24px;
+  padding: 15px 0;
+  text-align: center;
+}
+.container-fluid .panel-heading .panel-title {
+  font-size: 15px;
+  color: #666;
+  padding-left: 10px;
+}
+.container-fluid .panel {
+  border-top: 1px solid #c4c4c4;
+  padding-top: 20px;
+}
+.container-fluid .col-sm-12 .panel:first-child {
+  border: 0;
+}
+.container-fluid .panel-body {
+  padding: 0 20px;
+  margin: 10px 0 20px;
+}
+.container-fluid .panel-body p {
+  font-size: 13px;
+  color: #888;
+}
+.container-fluid .panel-body #nice-cert-wrapper {
+  text-align: center;
+  padding: 20px 0;
+}
+.container-fluid .panel-body #nice-cert-wrapper button {
+  border: 1px solid #c4c4c4;
+  border-radius: 20px;
+  background: #fff;
+  padding: 5px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+  cursor: pointer;
+}
+.container-fluid .panel-body > div {
+  text-align: center;
+  padding: 20px 0;
+}
+.container-fluid .panel-body > div button {
+  border: 1px solid #c4c4c4;
+  border-radius: 20px;
+  background: #fff;
+  padding: 5px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+  cursor: pointer;
+}
+#required-info-form {
+  width: 85%;
+  margin: 0 auto;
+}
+#required-info-form .form-group {
+  height: 35px;
+  margin: 15px 0;
+  clear: both;
+}
+#required-info-form .form-group label {
+  width: 20%;
+  float: left;
+  font-size: 14px;
+  font-weight: bold;
+  color: #777;
+  line-height: 35px;
+}
+#required-info-form .form-group > span {
+  display: block;
+  float: left;
+  width: 80%;
+  line-height: 35px;
+  font-size: 13px;
+  color: #999;
+}
+#required-info-form .form-group .col-md-10 {
+  width: 80%;
+  float: left;
+}
+#required-info-form .form-group.like-field-wrapper {
+  height: auto;
+}
+#required-info-form .form-group .col-md-10 select {
+  width: 100%;
+  height: 35px;
+  border: 0;
+  border-bottom: 1px solid #c4c4c4;
+  color: #999;
+  font-weight: 500;
+}
+#required-info-form .form-group .col-md-10 input[type="email"] {
+  width: 100%;
+  height: 35px;
+  border: 0;
+  border-bottom: 1px solid #c4c4c4;
+}
+/*#required-info-form .form-group .col-md-10 input[type="radio"] {
+  display: none;
+}*/
+#required-info-form .form-group .col-md-10 input[type="radio"] + label {
+  font-weight: 500;
+  font-size: 13px;
+  position: relative;
+  padding: 0 0 0 30px;
+  margin-left: 10px;
+  line-height: 35px;
+}
+#required-info-form .form-group .col-md-10 input[type="radio"] + label::before {
+  content: "";
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: transparent;
+  position: absolute;
+  top: 50%;
+  left: 4px;
+  transform: translateY(-50%);
+  transition: all 0.3s;
+}
+#required-info-form .form-group .col-md-10 input[type="radio"] + label::after {
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  border: 1px solid #666;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+#required-info-form
+  .form-group
+  .col-md-10
+  input[type="radio"]:checked
+  + label::before {
+  background: #fd0031;
+}
+.like-field-table {
+  clear: both;
+  overflow: hidden;
+}
+.like-field-table > div {
+  width: 20%;
+  float: left;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #777;
+  margin: 10px 0;
+  position: relative;
+  padding: 5px 0;
+}
+.like-field-table > div.add {
+  color: #fd0031;
+}
+.like-field-table > div::after {
+  content: "";
+  display: block;
+  width: 90%;
+  height: 100%;
+  border: 1px solid #c4c4c4;
+  border-radius: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.like-field-table > .selected::after {
+  border: 1px solid #fd0031;
+}
+#ad-info-save-btn {
+  width: 100%;
+  border: 1px solid #c4c4c4;
+  background: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  color: #666;
+  padding: 4px 0;
+  border-radius: 20px;
+  margin: 40px 0;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+#ad-info-save-btn:hover {
+  background: #999;
+  color: #fff;
+}
+input[type="file"] {
+  display: none;
+}
+input[type="submit"] {
+  display: none;
+}
+#health-detail {
+  margin-bottom: 10px;
+  display: none;
+}
+
+/*  */
+#required-info-form .form-group .col-md-10 > span {
+  font-size: 14px;
+  color: #666;
+  margin-left: 5px;
+}

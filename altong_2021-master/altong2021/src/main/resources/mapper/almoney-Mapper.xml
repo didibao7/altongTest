@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.almoney">
+	
+	<!-- fn_SQL_Section_List -->
+	<select id="getAlmoneyListCount" resultType="int">
+		SELECT 
+			count(Seq)
+		FROM LOG_ALMONEY with(nolock) 
+		ORDER BY #{psrc_Cond} DESC
+	</select>
+	
+	<!-- fn_SQL_Section_List -->
+	<select id="getAlmoneyListLimit" resultType="logAlmoney">
+		SELECT 
+			TOP #{p_Option}	*
+		FROM LOG_ALMONEY with(nolock) 
+		ORDER BY #{psrc_Cond} DESC
+	</select>
+	
+	<!-- fn_SQL_Section_List -->
+	<select id="getAlmoneyList" resultType="logAlmoney">
+		SELECT 
+			*
+		FROM LOG_ALMONEY with(nolock) 
+		ORDER BY #{psrc_Cond} DESC
+	</select>
+	
+	<!-- fn_SQL_Get_Company_Money(Common.vbs) -->
+	<select id="getCompanyMoney" resultType="double">
+		SELECT 
+			SUM(CASE WHEN MemberSeq = 10000000 THEN Almoney END) COMPANY_MONEY
+		FROM [LOG_ALMONEY]  with(nolock) 
+	</select>
+	
+	<!-- fn_SQL_Get_Donation_Money(Common.vbs) -->
+	<select id="getDonationMoney" resultType="double">
+		SELECT 
+			SUM(CASE WHEN MemberSeq = 10000001 THEN Almoney END) DONATION_SUM
+		FROM [LOG_ALMONEY]  with(nolock) 
+	</select>
+	
+	<!-- fn_SQL_Get_NoOwner_Money -->
+	<select id="getNoOwnerMoney" resultType="double">
+		SELECT 
+			SUM(CASE WHEN MemberSeq = 10000002 THEN Almoney END) NoOwner_SUM
+		FROM [LOG_ALMONEY]  with(nolock) 
+	</select>
+	
+	<!-- fn_SQL_Almoney_Read -->
+	<update id="setAlmoneyRead">
+		UPDATE #{strData2} SET ReadAlmoney = ReadAlmoney + #{strData3}
+		WHERE Seq = #{strData1}
+	</update>
+	
+	<select id="getMemberLogAlmoneyTotal" resultType="almoney">
+		declare @MEM int = #{userSeq};
+		declare @EarnQue money = 0;
+		declare @EarnAns money = 0;
+		
+		select @EarnQue = EarnQueView
+			, @EarnAns = EarnAnsChoice + EarnAnsView
+		from V_LOG_ALMONEY_COMBINED
+		where MemberSeq = @MEM;
+		
+		select sum(case
+				when EarnQueView > @EarnQue then 1
+				else 0
+			end) + 1 as RankQ
+			, sum(case
+					when EarnAnsChoice + EarnAnsView > @EarnAns then 1
+					else 0
+				end) + 1 as RankA
+		from T_COMBINED_LOG_ALMONEY_TOTAL as L
+		where FlagUse = 'Y';
+	</select>
+	
+	<select id="getMemberLogAlmoney" resultType="almoney">
+		declare @MEM int = #{userSeq};
+		declare @EarnQue money = 0;
+		declare @EarnAns money = 0;
+		
+		select @EarnQue = EarnQueView
+			, @EarnAns = EarnAnsChoice + EarnAnsView
+		from V_LOG_ALMONEY_COMBINED
+		where MemberSeq = @MEM;
+		
+		select abs(ConAnsView + ConQueWrite) as Expense
+			, EarnQueView + EarnAnsView + EarnAnsChoice + EarnEsti + EarnChildAns + EarnChildQue as Imports
+		from V_LOG_ALMONEY_COMBINED
+		where MemberSeq = @MEM
+	</select>
+	
+	<select id="getEarnAnswerer" resultType="bigdecimal">
+		select sum(EarnAnswerer) as Money 
+		from V_LOG_ALMONEY_COMBINED 
+		where MemberSeq = #{userSeq}
+	</select>
+	
+	<select id="setExchange" resultType="hashMap">
+		SET NOCOUNT ON;
+
+		declare @ReturnCode int = 1;
+		declare @ErrText varchar(max) = '';
+		declare @tmpTable table(ReturnCode int, ErrText varchar(max));
+
+		declare @nowSeq bigint
+		declare @newSeq bigint = ${newSeq}
+
+		begin try
+			begin tran
+
+			select @nowSeq=big_seq from T_SEQ
+			if @nowSeq is not null and @nowSeq>=@newSeq set @newSeq=@nowSeq+1
+			update T_SEQ set big_seq=@newSeq
+			if @@rowcount=0 insert into T_SEQ(big_seq) values(@newSeq)
+
+			if @ReturnCode = 1
+			begin
+				INSERT INTO T2_ALMONEY_EXCHANGE
+					(MemberSeq, ExchangeAlmoney, RealMoney, DateExchange, ExchagneStatus, isRemovedAlmoney)
+				VALUES
+					(#{userSeq}, #{exchangeAlmoney}, #{realMoney}, dbo.FN2_CONVERT_DATE_REG(convert(varchar, getdate(), 20)), 20, 1);
+				update T_MEMBERS set AlpayKR=#{alpay_balance} where Seq=#{userSeq};
+				insert into T_STORE_PAY_LOG(pay_seq, user_seq, store_code, alpay_text, alpay_amount, alpay_balance, regdate)
+					values(@newSeq, #{userSeq}, #{store_code}, '알페이 충전', #{realMoney}, #{alpay_balance}, getdate());
+			end;
+
+			if @ReturnCode = 1
+			begin
+				declare @seq int = (SELECT IDENT_CURRENT('T2_ALMONEY_EXCHANGE'));
+				delete @tmpTable;
+				insert @tmpTable exec SP_CHANGE_ALMONEY 42, #{userSeq}, #{minusAlmoney}, @seq;
+				select @ReturnCode = ReturnCode, @ErrText = ErrText from @tmpTable;
+			end;
+
+			if @ReturnCode = 1
+				commit tran;
+			else
+				rollback tran;
+		end try
+		begin catch
+			rollback tran;
+			set @ReturnCode = 0;
+			set @ErrText = @ErrText + Error_Message();
+		end catch;
+
+		select @ReturnCode as ReturnCode, @ErrText as ErrText;
+	</select>
+	
+	<select id="setUpdateAlmoney" resultType="int">
+		declare @MEM_SEQ      int     = #{mem_seq}
+			, @MEM_ALMONEY  money   = #{mem_almoney}
+			, @ALMONEY_FLAG tinyint = #{almoney_flag}
+			, @ReturnCode   int     = 1;
+		declare @tmpTable table
+		(
+								ReturnCode int
+							, ErrText    varchar(max)
+		);
+		begin tran;
+		begin try
+			if @MEM_ALMONEY != ''
+				begin
+					declare @USER_ALMONEY money;
+					select @USER_ALMONEY = A.Almoney
+					from
+					(
+						select Almoney
+						from T_MEMBERS
+						where Seq = @MEM_SEQ
+					) A;
+					if @MEM_ALMONEY != 0
+						begin
+							insert into @tmpTable
+							exec SP_CHANGE_ALMONEY 
+								@ALMONEY_FLAG, 
+								@MEM_SEQ, 
+								@MEM_ALMONEY, 
+								0;
+							select @ReturnCode = ReturnCode
+							from @tmpTable;
+
+							if @ReturnCode != 1
+								raiserror('', 16, 1);
+					end;
+			end;
+				else
+				set @ReturnCode = 2;
+
+			if @ReturnCode = 1
+				commit tran;
+				else
+				begin
+					rollback tran;
+			end;
+		end try
+		begin catch
+			rollback tran;
+			set @ReturnCode = 0;
+		end catch;
+
+		select @ReturnCode as result;
+	</select>
+	
+</mapper>

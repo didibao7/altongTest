@@ -1,0 +1,15 @@
+<div id="AddCouponModal" class="modal">
+	<div class="modal-content">
+		<form name="frm">
+		<div>알맹이 : #Almeng#</div>
+		<div>혜택 : #Service#</div>
+		<div>기한 : #date#</div>
+		<div>※ 중복 사용은 불가합니다.</div>
+		<div>#지도#</div>
+		<div>주소 : #Address#</div>
+		<div>전화 : #Tel#</div>
+		<div>이 알맹이의 다른 쿠폰 보기 >></div>
+		<div><input type="button" value="쿠폰 담기"><input type="button" value="취소" onClick="AddCouponModalClose()"></div>
+		</form>
+	</div>
+</div>

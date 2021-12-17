@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- mariaDB와 연결을 담당하는 dataSource 
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="org.mariadb.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mariadb://127.0.0.1:3306/almoney02_a2017"></property> 
+		<property name="username" value="dev_member03"></property> 
+		<property name="password" value="6zw8cYZfZTgmBYre"></property> 
+	</bean>
+	-->
+	<!-- 
+	service info : 
+	url : jdbc:sqlserver://203.245.8.43:31433;databaseName=almoney02_a2017
+	username : almoney02_a2017
+	password : 6zw8cYZfZTgmBYre
+	
+	
+	test info :
+	url : jdbc:sqlserver://125.7.228.198:31433;databaseName=almoney02_a2017
+	username : dev_member03
+	password : 6zw8cYZfZTgmBYre
+	 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"></property>
+		<property name="url" value="jdbc:sqlserver://125.7.228.198:31433;databaseName=almoney02_a2017"></property> 
+		<property name="username" value="dev_member03"></property> 
+		<property name="password" value="6zw8cYZfZTgmBYre"></property> 
+	</bean>
+	 
+	 <!-- SqlSessionFactory --> 
+	 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
+		 <property name="dataSource" ref="dataSource"></property> 
+		 <property name="configLocation" value="/WEB-INF/spring/mybatis/mybatis-config.xml"></property>
+	 </bean> 
+	 
+	 <!-- SqlSessionTemplate --> 
+	 <bean id="sqlSessoinTemplate" class="org.mybatis.spring.SqlSessionTemplate"> 
+	 	<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg> 
+	 </bean>
+	 
+	 <!-- MultipartResolver -->
+	 <!-- maxUploadSize : 한 번에 최대 올릴 수 있는 파일 사이즈 -->
+	 <!-- maxInMemorySize : 해당 경로에 최대로 저장할 수 있는 파일 사이즈 -->
+	 <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="100000000"/>
+        <property name="maxInMemorySize" value="100000000"/>
+    </bean>
+</beans>

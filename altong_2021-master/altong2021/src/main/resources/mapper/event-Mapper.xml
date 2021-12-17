@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.event">
+	<!-- fn_SQL_Event_List -->
+	<select id="getEventCount" resultType="int">
+		SELECT 
+			count(Seq) 
+		FROM T_EVENT with(nolock) 
+		WHERE 
+			FlagDel = 'N' 
+		ORDER BY #{psrc_Cond} DESC
+	</select>
+	
+	<!-- fn_SQL_Event_List -->
+	<select id="getEventLimitList" resultType="event">
+		SELECT 
+			TOP #{p_Option} *
+		FROM T_EVENT with(nolock) 
+	</select>
+	
+	<!-- fn_SQL_Event_List -->
+	<select id="getEventList" resultType="event">
+		SELECT 
+			* 
+		FROM T_EVENT with(nolock) 
+	</select>
+	
+	<!-- fn_SQL_Question_Event(Question.vbs) -->
+	<!-- startDt, endDt 는 ASP 의 Date() -->
+	<select id="getEvent" resultType="event">
+		SELECT 
+			Banner, LinkURL 
+		FROM T_EVENT with(nolock) 
+		WHERE FlagUse = 'Y' AND PeriodStart <![CDATA[<=]]> #{startDt} AND PeriodEnd <![CDATA[>=]]> #{endDt}
+		ORDER BY EventNumber ASC
+	</select>
+	
+	<select id="getEventForHeader" resultType="event">
+		SELECT * FROM V_EVENT WHERE [Status] = 1
+	</select>
+		
+	<!-- fn_SQL_Add_Event_Log -->
+	<insert id="setEventLog">
+		INSERT INTO [altong1004].[LOG_EVENT] ([MemberSeq] ,[NickName] ,[DateReg] ,[ActionType] ,[Etc])
+		VALUES ( 
+			#{memberSeq},
+			#{nickName},
+			#{dateReg},
+			#{actionType},
+			#{etc}
+		)
+	</insert>
+	
+	<select id="getTicketConfig" resultType="hashMap">
+		SELECT 
+			queCount
+			, ansCount
+			, replCount
+			, hunCount
+			, estiCount
+		FROM 
+			T_ROULETTE_CONFIG
+		WHERE
+			Seq = 1
+	</select>
+	
+	<select id="getTicket" resultType="int">
+		SELECT TOP 1 Seq 
+		FROM T_ROULETTE_GAME with(nolock)
+		WHERE
+			userSeq = #{userSeq}
+			AND endDt = #{endDt}
+			AND correct = 0
+		ORDER BY Seq ASC
+	</select>
+	
+	<select id="getTicketCount" resultType="int">
+		SELECT ISNULL(COUNT(*), 0) 
+		FROM T_ROULETTE_GAME with(nolock)
+		WHERE
+			userSeq = #{userSeq}
+			AND endDt = #{endDt}
+			AND correct = 0
+	</select>
+	
+	<select id="getTicketStackCnt" resultType="int">
+		SELECT 
+			ISNULL(COUNT(*), 0) 
+		FROM 
+			T_ROULETTE_STACK
+		WHERE
+			userSeq = #{userSeq}
+	</select>
+	
+	<select id="getTicketStack" resultType="hashMap">
+		SELECT 
+			ISNULL(queCount, 0) AS queCount
+			, ISNULL(ansCount, 0) AS ansCount
+			, ISNULL(replCount, 0) AS replCount
+			, ISNULL(hunCount, 0) AS hunCount
+			, ISNULL(estiCount, 0) AS estiCount
+		FROM 
+			T_ROULETTE_STACK
+		WHERE
+			userSeq = #{userSeq}
+	</select>
+	
+	
+	<update id="setTickUse">
+		UPDATE T_ROULETTE_GAME SET correct = 1 WHERE seq = #{seq} AND userSeq = #{userSeq};
+	</update>
+	
+	<insert id="addTicket">
+		INSERT INTO T_ROULETTE_GAME (userSeq, startDt, endDt, almoney, gType, correct, createDt, rType)
+		VALUES(#{userSeq}, #{startDt}, #{endDt}, 0, #{gType}, 0, getDate(), #{rType});
+	</insert>
+		
+	<insert id="addTicketStack">
+		INSERT INTO T_ROULETTE_STACK (userSeq, queCount, ansCount, replCount, hunCount, estiCount, createDt)
+		VALUES(#{userSeq}, #{queCount}, #{ansCount}, #{replCount}, #{hunCount}, #{estiCount}, getDate());
+	</insert>
+	
+	<update id="setAddTickStackUse">
+		UPDATE T_ROULETTE_STACK SET 
+		createDt = getDate() 
+		<if test='mode == "que"'>
+		, queCount = queCount + 1
+		</if>
+		<if test='mode == "ans"'>
+		, ansCount = ansCount + 1
+		</if>
+		<if test='mode == "repl"'>
+		, replCount = replCount + 1
+		</if>
+		<if test='mode == "hun"'>
+		, hunCount = hunCount + 1
+		</if>
+		<if test='mode == "esti"'>
+		, estiCount = estiCount + 1
+		</if>
+		WHERE userSeq = #{userSeq};
+	</update>
+	
+	<update id="setSubTickStackUse">
+		UPDATE T_ROULETTE_STACK SET 
+		createDt = getDate() 
+		<if test='mode == "que_ans"'>
+		, queCount = queCount - ${queCount}
+		, ansCount = ansCount - ${ansCount}
+		</if>
+		<if test='mode == "repl_esti"'>
+		, replCount = replCount - ${replCount}
+		, estiCount = estiCount - ${estiCount}
+		</if>
+		<if test='mode == "hun"'>
+		, hunCount = hunCount - ${hunCount}
+		</if>
+		WHERE userSeq = #{userSeq};
+	</update>
+	<!-- 룰렛 이벤트 통계 -->
+	
+		<!-- 총 발행 이용권 -->
+	<select id="getRulTicketTotalCount" resultType="int">
+		SELECT 
+			count(Seq)
+		FROM T_ROULETTE_GAME with(nolock)
+	</select>
+
+		<!-- 총 지급 당첨 알 -->
+	<select id="getRulAlmoneyTotalSum" resultType="int">
+		SELECT 
+			sum(Almoney)
+		FROM LOG_ALMONEY with(nolock)
+		where TradeType='Roulette'
+	</select>
+	
+		<!-- 총 이용권 획득 회원 -->
+	<select id="getRulUserTotalCount" resultType="int">
+		SELECT 
+			count(DISTINCT userSeq)
+			FROM T_ROULETTE_GAME with(nolock)
+	</select>
+
+		<!-- 소멸 이용권 -->
+	<select id="getRulDisUseTotalCount" resultType="int">
+		SELECT 
+			count(Seq)
+		FROM T_ROULETTE_GAME with(nolock)
+		where correct=0
+	</select>
+	
+		<!-- 총 지급 발급권 사용 수 -->
+	<select id="getRulTicketUseTotalCount" resultType="int">
+		SELECT 
+			count(Seq)
+		FROM LOG_ALMONEY with(nolock)
+		where TradeType='Roulette'
+	</select>
+	
+		<!-- 각 등급별 이용권 수 -->
+	<select id="getRulTicketLVCountS" resultType="hashMap">
+		select count(CASE when T.LV=1 THEN 1 END) as Lv1,
+			count(CASE when T.LV=2 THEN 1 END) as Lv2,
+			count(CASE when T.LV=3 THEN 1 END) as Lv3,
+			count(CASE when T.LV=4 THEN 1 END) as Lv4,
+			count(CASE when T.LV=5 THEN 1 END) as Lv5,
+			count(CASE when T.LV=6 THEN 1 END) as Lv6,
+			count(CASE when T.LV=7 THEN 1 END) as Lv7,
+			count(CASE when T.LV=8 THEN 1 END) as Lv8,
+			count(CASE when T.LV=9 THEN 1 END) as Lv9,
+			count(CASE when T.LV=10 THEN 1 END) as Lv10,
+			count(CASE when T.LV=11 THEN 1 END) as Lv11,
+			count(CASE when T.LV=99 THEN 1 END) as Lv99
+		from (
+		SELECT 
+			(select LV FROM T_MEMBERS where Seq = userSeq ) as LV
+		FROM T_ROULETTE_GAME ) T
+	</select>
+	
+		<!-- 각 등급별 당첨알 수 -->
+	<select id="getRulTicketALCountS" resultType="hashMap">
+		select ISNULL( sum(CASE when T.LV=1 THEN T.al END) ,0) as Lv1,
+			ISNULL( sum(CASE when T.LV=2 THEN T.al END) ,0) as Lv2,
+			ISNULL( sum(CASE when T.LV=3 THEN T.al END) ,0) as Lv3,
+			ISNULL( sum(CASE when T.LV=4 THEN T.al END) ,0) as Lv4,
+			ISNULL( sum(CASE when T.LV=5 THEN T.al END) ,0) as Lv5,
+			ISNULL( sum(CASE when T.LV=6 THEN T.al END) ,0) as Lv6,
+			ISNULL( sum(CASE when T.LV=7 THEN T.al END) ,0) as Lv7,
+			ISNULL( sum(CASE when T.LV=8 THEN T.al END) ,0) as Lv8,
+			ISNULL( sum(CASE when T.LV=9 THEN T.al END) ,0) as Lv9,
+			ISNULL( sum(CASE when T.LV=10 THEN T.al END) ,0) as Lv10,
+			ISNULL( sum(CASE when T.LV=11 THEN T.al END) ,0) as Lv11,
+			ISNULL( sum(CASE when T.LV=99 THEN T.al END) ,0) as Lv99
+		from (
+		SELECT 
+			(select LV FROM T_MEMBERS where Seq = TK.userSeq ) as LV,
+			ISNULL( ( SELECT sum(Almoney) FROM LOG_ALMONEY with(nolock)
+			where TradeType = 'Roulette' and MemberSeq = TK.userSeq
+			) ,0) as al
+		FROM (
+			SELECT DISTINCT userSeq 
+			FROM T_ROULETTE_GAME
+		) TK ) T
+	</select>
+	
+		<!-- 각 등급별 인원 수 -->
+	<select id="getRulUseUserCountS" resultType="hashMap">
+		select count(CASE when T.LV=1 THEN 1 END) as Lv1,
+			count(CASE when T.LV=2 THEN 1 END) as Lv2,
+			count(CASE when T.LV=3 THEN 1 END) as Lv3,
+			count(CASE when T.LV=4 THEN 1 END) as Lv4,
+			count(CASE when T.LV=5 THEN 1 END) as Lv5,
+			count(CASE when T.LV=6 THEN 1 END) as Lv6,
+			count(CASE when T.LV=7 THEN 1 END) as Lv7,
+			count(CASE when T.LV=8 THEN 1 END) as Lv8,
+			count(CASE when T.LV=9 THEN 1 END) as Lv9,
+			count(CASE when T.LV=10 THEN 1 END) as Lv10,
+			count(CASE when T.LV=11 THEN 1 END) as Lv11,
+			count(CASE when T.LV=99 THEN 1 END) as Lv99
+		from (
+		SELECT 
+			(select LV FROM T_MEMBERS where Seq = TK.userSeq ) as LV
+		FROM (SELECT 
+			DISTINCT userSeq 
+		FROM T_ROULETTE_GAME) TK ) T
+	</select>
+	
+		<!-- 요건 별 발행 이용권 (누계) -->
+	<select id="getRulPartCountS" resultType="hashMap">
+		SELECT 
+			count(case when rType='que' then 1 end) as que
+			, count(case when rType='esti' then 1 end) as esti
+			, count(case when rType='repl' then 1 end) as repl
+			, count(case when rType='ans' then 1 end) as ans
+			, count(case when rType='hun' then 1 end) as hun
+		FROM T_ROULETTE_GAME
+	</select>
+	
+		<!-- 상금 별 발행 이용권 (누계) -->
+	<select id="getRulPartMoneyCountS" resultType="hashMap">
+		SELECT 
+			count(case when Almoney=1000 then 1 end) as m1000
+			, count(case when Almoney=2000 then 1 end) as m2000
+			, count(case when Almoney=3000 then 1 end) as m3000
+			, count(case when Almoney=5000 then 1 end) as m5000
+			, count(case when Almoney=10000 then 1 end) as m10000
+			, count(case when Almoney=30000 then 1 end) as m30000
+		FROM LOG_ALMONEY where TradeType='Roulette'
+	</select>
+	
+		<!-- 총 당첨알 상위 -->
+	<select id="getTopStatistics" resultType="hashMap">
+		SELECT TOP ${numTOP}
+			(select NickName from T_MEMBERS where Seq = TK.userSeq ) as NickName,
+			(select Lv from T_MEMBERS where Seq = TK.userSeq ) as Lv,
+			(SELECT 
+				count(Seq)
+			FROM T_ROULETTE_GAME where userSeq = TK.userSeq ) as Ticket,
+			ISNULL( ( SELECT sum(Almoney) FROM LOG_ALMONEY with(nolock)
+			where TradeType = 'Roulette' and MemberSeq = TK.userSeq
+			) ,0) as al,
+			
+			(SELECT count(case when rType='que' then 1 end) as que
+			FROM T_ROULETTE_GAME where userSeq = TK.userSeq ) as que,
+			(SELECT count(case when rType='ans' then 1 end) as ans
+			FROM T_ROULETTE_GAME where userSeq = TK.userSeq ) as ans,
+			(SELECT count(case when rType='repl' then 1 end) as repl
+			FROM T_ROULETTE_GAME where userSeq = TK.userSeq ) as repl,
+			(SELECT count(case when rType='hun' then 1 end) as hun
+			FROM T_ROULETTE_GAME where userSeq = TK.userSeq ) as hun,
+			(SELECT count(case when rType='esti' then 1 end) as esti
+			FROM T_ROULETTE_GAME where userSeq = TK.userSeq ) as esti,
+			(select Almoney from T_MEMBERS where Seq = TK.userSeq ) as Almoney
+		FROM (
+			SELECT DISTINCT userSeq 
+			FROM T_ROULETTE_GAME
+		) TK ORDER BY al DESC
+	</select>
+	
+	<!-- 룰렛 특정기 -->
+	<select id="getDateStatistics" resultType="hashMap">
+		select count(CASE when T.LV=1 THEN 1 END) as Lv1,
+			count(CASE when T.LV=2 THEN 1 END) as Lv2,
+			count(CASE when T.LV=3 THEN 1 END) as Lv3,
+			count(CASE when T.LV=4 THEN 1 END) as Lv4,
+			count(CASE when T.LV=5 THEN 1 END) as Lv5,
+			count(CASE when T.LV=6 THEN 1 END) as Lv6,
+			count(CASE when T.LV=7 THEN 1 END) as Lv7,
+			count(CASE when T.LV=8 THEN 1 END) as Lv8,
+			count(CASE when T.LV=9 THEN 1 END) as Lv9,
+			count(CASE when T.LV=10 THEN 1 END) as Lv10,
+			count(CASE when T.LV=11 THEN 1 END) as Lv11,
+			count(CASE when T.LV=99 THEN 1 END) as Lv99
+		from (
+		SELECT 
+			(select LV FROM T_MEMBERS where Seq = TK.userSeq ) as LV
+		FROM ( SELECT *
+		FROM T_ROULETTE_GAME where CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[>=]]> CONVERT(int,REPLACE('${datePre}','-','')) 
+		AND CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[<=]]> CONVERT(int,REPLACE('${datePOST}','-','')) ) TK  ) T
+		
+		UNION ALL
+		
+		select ISNULL( sum(CASE when T.LV=1 THEN T.al END) ,0) as Lv1,
+			ISNULL( sum(CASE when T.LV=2 THEN T.al END) ,0) as Lv2,
+			ISNULL( sum(CASE when T.LV=3 THEN T.al END) ,0) as Lv3,
+			ISNULL( sum(CASE when T.LV=4 THEN T.al END) ,0) as Lv4,
+			ISNULL( sum(CASE when T.LV=5 THEN T.al END) ,0) as Lv5,
+			ISNULL( sum(CASE when T.LV=6 THEN T.al END) ,0) as Lv6,
+			ISNULL( sum(CASE when T.LV=7 THEN T.al END) ,0) as Lv7,
+			ISNULL( sum(CASE when T.LV=8 THEN T.al END) ,0) as Lv8,
+			ISNULL( sum(CASE when T.LV=9 THEN T.al END) ,0) as Lv9,
+			ISNULL( sum(CASE when T.LV=10 THEN T.al END) ,0) as Lv10,
+			ISNULL( sum(CASE when T.LV=11 THEN T.al END) ,0) as Lv11,
+			ISNULL( sum(CASE when T.LV=99 THEN T.al END) ,0) as Lv99
+		from (
+		SELECT 
+			(select LV FROM T_MEMBERS where Seq = TK.userSeq ) as LV,
+			ISNULL( ( SELECT sum(Almoney) FROM (
+			SELECT *
+			FROM LOG_ALMONEY where CONVERT(int,REPLACE(convert(varchar(10), regdate, 120) ,'-','')) <![CDATA[>=]]> CONVERT(int,REPLACE('${datePre}','-','')) 
+			AND CONVERT(int,REPLACE(convert(varchar(10), regdate, 120) ,'-','')) <![CDATA[<=]]> CONVERT(int,REPLACE('${datePOST}','-',''))
+			) TKT  where TradeType = 'Roulette' and MemberSeq = TK.userSeq
+			) ,0) as al
+		FROM (
+			SELECT DISTINCT userSeq 
+			FROM T_ROULETTE_GAME
+		) TK ) T
+				
+		UNION ALL
+		
+		select count(CASE when T.LV=1 THEN 1 END) as Lv1,
+			count(CASE when T.LV=2 THEN 1 END) as Lv2,
+			count(CASE when T.LV=3 THEN 1 END) as Lv3,
+			count(CASE when T.LV=4 THEN 1 END) as Lv4,
+			count(CASE when T.LV=5 THEN 1 END) as Lv5,
+			count(CASE when T.LV=6 THEN 1 END) as Lv6,
+			count(CASE when T.LV=7 THEN 1 END) as Lv7,
+			count(CASE when T.LV=8 THEN 1 END) as Lv8,
+			count(CASE when T.LV=9 THEN 1 END) as Lv9,
+			count(CASE when T.LV=10 THEN 1 END) as Lv10,
+			count(CASE when T.LV=11 THEN 1 END) as Lv11,
+			count(CASE when T.LV=99 THEN 1 END) as Lv99
+		from (
+		SELECT 
+			(select LV FROM T_MEMBERS where Seq = TK.userSeq ) as LV
+		FROM (SELECT 
+			DISTINCT userSeq 
+		FROM  ( SELECT *
+		FROM T_ROULETTE_GAME where CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[>=]]> CONVERT(int,REPLACE('${datePre}','-','')) 
+		AND CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[<=]]> CONVERT(int,REPLACE('${datePOST}','-','')) ) TKT) TK ) T
+	</select>
+	
+		<!-- **요건 별 발행 이용권 (특정기간) -->
+	<select id="getRulDatePartCountS" resultType="hashMap">
+		SELECT 
+			count(case when rType='que' then 1 end) as que
+			, count(case when rType='esti' then 1 end) as esti
+			, count(case when rType='repl' then 1 end) as repl
+			, count(case when rType='ans' then 1 end) as ans
+			, count(case when rType='hun' then 1 end) as hun
+		FROM (SELECT *
+		FROM T_ROULETTE_GAME where CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[>=]]> CONVERT(int,REPLACE('${datePre}','-','')) 
+		AND CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[<=]]> CONVERT(int,REPLACE('${datePOST}','-',''))  ) T
+	</select>
+	
+		<!-- **상금 별 발행 이용권 (특정기간) -->
+	<select id="getRulPartDateMoneyCountS" resultType="hashMap">
+		SELECT 
+			count(case when Almoney=1000 then 1 end) as m1000
+			, count(case when Almoney=2000 then 1 end) as m2000
+			, count(case when Almoney=3000 then 1 end) as m3000
+			, count(case when Almoney=5000 then 1 end) as m5000
+			, count(case when Almoney=10000 then 1 end) as m10000
+			, count(case when Almoney=30000 then 1 end) as m30000
+		FROM (
+			SELECT *
+			FROM LOG_ALMONEY where CONVERT(int,REPLACE(convert(varchar(10), regdate, 120) ,'-','')) <![CDATA[>=]]> CONVERT(int,REPLACE('${datePre}','-','')) 
+			AND CONVERT(int,REPLACE(convert(varchar(10), regdate, 120) ,'-','')) <![CDATA[<=]]> CONVERT(int,REPLACE('${datePOST}','-',''))
+			) TKT where TradeType='Roulette'
+	</select>
+	
+		<!-- 기간별 발행 이용권 -->
+	<select id="getRulDateTicketTotalCount" resultType="int">
+		SELECT 
+			ISNULL(count(Seq),0)
+		FROM (SELECT *
+			FROM T_ROULETTE_GAME where CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[>=]]> CONVERT(int,REPLACE('${datePre}','-','')) 
+			AND CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[<=]]> CONVERT(int,REPLACE('${datePOST}','-',''))  ) T
+	</select>
+
+		<!-- 기간별 지급 당첨 알 -->
+	<select id="getRulDateAlmoneyTotalSum" resultType="int">
+		SELECT 
+			ISNULL(sum(Almoney),0)
+		FROM (
+			SELECT *
+			FROM LOG_ALMONEY where CONVERT(int,REPLACE(convert(varchar(10), regdate, 120) ,'-','')) <![CDATA[>=]]> CONVERT(int,REPLACE('${datePre}','-','')) 
+			AND CONVERT(int,REPLACE(convert(varchar(10), regdate, 120) ,'-','')) <![CDATA[<=]]> CONVERT(int,REPLACE('${datePOST}','-',''))
+			) TKT
+		where TradeType='Roulette'
+	</select>
+	
+		<!-- 기간별 이용권 획득 회원 -->
+	<select id="getRulDateUserTotalCount" resultType="int">
+		SELECT 
+			ISNULL(count(DISTINCT userSeq),0)
+			FROM (SELECT *
+			FROM T_ROULETTE_GAME where CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[>=]]> CONVERT(int,REPLACE('${datePre}','-','')) 
+			AND CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[<=]]> CONVERT(int,REPLACE('${datePOST}','-',''))  ) T
+	</select>
+
+		<!-- 기간별 소멸 이용권 -->
+	<select id="getRulDateDisUseTotalCount" resultType="int">
+		SELECT 
+			ISNULL(count(Seq),0)
+		FROM (SELECT *
+			FROM T_ROULETTE_GAME where CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[>=]]> CONVERT(int,REPLACE('${datePre}','-','')) 
+			AND CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[<=]]> CONVERT(int,REPLACE('${datePOST}','-',''))  ) T
+		where correct=0
+	</select>
+	
+		<!-- 기간별 총 당첨알 상위 -->
+	<select id="getDateTopStatistics" resultType="hashMap">
+		SELECT TOP ${DateTop}
+			(select NickName from T_MEMBERS where Seq = TK.userSeq ) as NickName,
+			(select Lv from T_MEMBERS where Seq = TK.userSeq ) as Lv,
+			(SELECT 
+				count(Seq)
+			FROM (SELECT *
+				FROM T_ROULETTE_GAME where CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[>=]]> CONVERT(int,REPLACE('${datePre}','-','')) 
+				AND CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[<=]]> CONVERT(int,REPLACE('${datePOST}','-',''))  ) TKA where TKA.userSeq = TK.userSeq ) as Ticket,
+			ISNULL( ( SELECT sum(Almoney) FROM 
+			(
+					SELECT *
+					FROM LOG_ALMONEY where CONVERT(int,REPLACE(convert(varchar(10), regdate, 120) ,'-','')) <![CDATA[>=]]> CONVERT(int,REPLACE('${datePre}','-','')) 
+					AND CONVERT(int,REPLACE(convert(varchar(10), regdate, 120) ,'-','')) <![CDATA[<=]]> CONVERT(int,REPLACE('${datePOST}','-',''))
+					) TKT
+			where TradeType = 'Roulette' and TKT.MemberSeq = TK.userSeq
+			) ,0) as al,
+			(SELECT count(case when rType='que' then 1 end) as que
+			FROM (SELECT *
+				FROM T_ROULETTE_GAME where CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[>=]]> CONVERT(int,REPLACE('${datePre}','-','')) 
+				AND CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[<=]]> CONVERT(int,REPLACE('${datePOST}','-',''))  ) TKB where TKB.userSeq = TK.userSeq ) as que,
+			(SELECT count(case when rType='ans' then 1 end) as ans
+			FROM (SELECT *
+				FROM T_ROULETTE_GAME where CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[>=]]> CONVERT(int,REPLACE('${datePre}','-','')) 
+				AND CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[<=]]> CONVERT(int,REPLACE('${datePOST}','-',''))  ) TKC where TKC.userSeq = TK.userSeq ) as ans,
+			(SELECT count(case when rType='repl' then 1 end) as repl
+			FROM (SELECT *
+				FROM T_ROULETTE_GAME where CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[>=]]> CONVERT(int,REPLACE('${datePre}','-','')) 
+				AND CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[<=]]> CONVERT(int,REPLACE('${datePOST}','-',''))  ) TKD where TKD.userSeq = TK.userSeq ) as repl,
+			(SELECT count(case when rType='hun' then 1 end) as hun
+			FROM (SELECT *
+				FROM T_ROULETTE_GAME where CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[>=]]> CONVERT(int,REPLACE('${datePre}','-','')) 
+				AND CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[<=]]> CONVERT(int,REPLACE('${datePOST}','-',''))  ) TKE where TKE.userSeq = TK.userSeq ) as hun,
+			(SELECT count(case when rType='esti' then 1 end) as esti
+			FROM (SELECT *
+				FROM T_ROULETTE_GAME where CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[>=]]> CONVERT(int,REPLACE('${datePre}','-','')) 
+				AND CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[<=]]> CONVERT(int,REPLACE('${datePOST}','-',''))  ) TKF where TKF.userSeq = TK.userSeq ) as esti,
+			(select Almoney from T_MEMBERS where Seq = TK.userSeq ) as Almoney
+		FROM (
+			SELECT DISTINCT userSeq 
+			FROM (SELECT *
+				FROM T_ROULETTE_GAME where CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[>=]]> CONVERT(int,REPLACE('${datePre}','-','')) 
+				AND CONVERT(int,REPLACE(endDt,'-','')) <![CDATA[<=]]> CONVERT(int,REPLACE('${datePOST}','-',''))  ) TKG
+		) TK ORDER BY al DESC
+	</select>
+	
+	
+	<select id="getChartStatistics" resultType="hashMap">
+		
+	</select>
+	
+	<!-- 룰렛 이벤트 통계 end -->
+	<select id="getSaveEventSubCount" resultType="int">
+		SELECT 
+			ISNULL(COUNT(EV_Seq), 0) 
+		FROM 
+			T_EVENT_SUB 
+		WHERE 
+			Q_Seq = #{seq}
+	</select> 
+</mapper>

@@ -1,0 +1,25 @@
+@font-face {
+  font-family: 'AltongIcon';
+  src:  url('/Common/CSS/altong-svg-icon.eot');
+  src:  url('/Common/CSS/altong-svg-icon.eot') format('embedded-opentype'),
+    url('/Common/CSS/altong-svg-icon.ttf') format('truetype'),
+    url('/Common/CSS/altong-svg-icon.woff') format('woff'),
+    url('/Common/CSS/altong-svg-icon.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.alt-icon {
+  font-family: 'AltongIcon' !important;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+}
+
+.alt-siren:before {
+  content: "\e900";
+}

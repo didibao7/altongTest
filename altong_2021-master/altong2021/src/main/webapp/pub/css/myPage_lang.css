@@ -1,0 +1,70 @@
+@charset "utf-8";
+
+/* 나의 페이지 번역버튼 추가 스타일 */
+.atm_myjjim_el {
+  padding-right: 33px;
+  position: relative;
+}
+.atm_myJJim_c33 {
+  display: block;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  transform: translateY(-50%);
+}
+.atm_myJJim_c33 img {
+  display: inline-block;
+  width: 23px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 작성댓글 페이지 폰트스타일 수정 */
+.atm_myjjim_el .beefup_head.italic {
+  font-style: italic;
+  color: #555;
+}
+
+/* 찜한 질문 페이지 수정 */
+.atm_myjjim_el .atm_myjjim_c5.atm_myjjim_pro div a {
+  color: #888;
+}
+.atm_myjjim_el .atm_myjjim_c5.atm_myjjim_pro div a b {
+  margin-left: 0;
+  margin-right: 2px;
+  border: 1px solid #f76707;
+  color: #f76707;
+  display: inline-block;
+  vertical-align: middle;
+}
+.atm_myjjim_el .atm_myjjim_c5.atm_myjjim_pro div a img {
+  display: inline-block;
+  width: 23px;
+  margin-right: 2px;
+  vertical-align: middle;
+  margin-top: -1px;
+}
+.atm_myjjim_el.atm_myjjim_delete .atm_myjjim_c5 figure {
+  overflow: visible;
+  border-radius: 0;
+  top: 40%;
+}
+.atm_myjjim_c5 figure img {
+  height: 100%;
+  border-radius: 50%;
+}
+.atm_myjjim_el.atm_myjjim_delete .atm_myjjim_c5 figure figcaption {
+  position: absolute;
+  top: 43px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  letter-spacing: -0.5px;
+}

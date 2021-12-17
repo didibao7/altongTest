@@ -1,0 +1,237 @@
+@charset "utf-8";
+
+#atm_exAxk_wrapper {
+  padding-top: 60px;
+}
+#atm_exAxk_wrapper .center {
+  padding: 0 10px;
+}
+.atm_edittop_ttbar {
+  font-size: 24px;
+  text-align: center;
+  padding: 15px 0;
+}
+.contents-wrapper {
+  text-align: center;
+  background: #f7f7f7;
+  padding: 10px;
+  border-radius: 30px;
+  margin-bottom: 40px;
+}
+
+/* 잔고 */
+.account-top-wrapper {
+  width:90%;
+  max-width: 380px;
+  height: 75px;
+  border-radius: 40px;
+  margin: 0 auto 20px;
+  background: #f7f7f7;
+  position: relative;
+  font-size: 20px;
+  font-weight: bold;
+  position: relative;
+}
+.account-top-wrapper .my_wallet {
+  display: inline-block;
+  padding-left: 35px;
+  position: absolute;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.account-top-wrapper p img {
+  display: block;
+  width: 30px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+.account-top-wrapper .current-almoney {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  right: 30px;
+  transform: translateY(-50%);
+}
+.text_red {
+  color: #fd0031 !important;
+}
+
+/* 환전 가능 알 수 */
+.exchange-status-section .panel-default {
+  padding-bottom: 50px;
+  /*border-bottom: 1px solid #c4c4c4;*/
+}
+.exchange-status-section .panel-heading {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.exchange-status-section .panel-heading h3 {
+  display: inline-block;
+  position: relative;
+  padding-left: 32px;
+  font-size: 18px;
+}
+.exchange-status-section .panel-heading img {
+  width: 25px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.exchange-status-section .panel-body {
+  width:80%;
+  max-width: 340px;
+  margin: 0 auto;
+  text-align: center;
+}
+.almoney-value-wrapper {
+  width: 100%;
+  padding: 10px 0;
+  background: #f7f7f7;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.exchange-status-section .panel-body p {
+  font-size: 12px;
+  color: #999;
+}
+
+/* 환전신청 */
+.panel-default h4 {
+  font-size: 20px;
+  padding: 25px 0;
+  text-align:center;
+}
+.account-form-section .panel-body {
+  width:100%;
+}
+.exchange-almoney-field {
+  background: #f7f7f7;
+  border-radius: 30px;
+  width: 100%;
+  padding:25px 0;
+  font-size:15px;
+  font-weight:bold;
+  color:#666;
+}
+.exchange-almoney-field > div {
+  display:block;
+  padding:7px;
+}
+.exchange-almoney-field > div > div {
+  display:block;
+  width:50%;
+  margin:0 auto;
+}
+.exchange-almoney-field .col-sm-offset-1 {
+  position:relative;
+}
+.exchange-almoney-field .col-xs-4 {
+  width:75px;
+  text-align:right;
+  position:absolute;
+  top:50%;
+  right:105%;
+  transform:translateY(-50%);
+}
+.exchange-almoney-field .col-sm-offset-1 span {
+  position:absolute;
+  top:48%;
+  left:102%;;
+  transform:translateY(-50%);
+  white-space:nowrap;
+}
+.exchange-almoney-field input {
+  width:100%;
+  height:35px;
+  outline:none;
+  border:0;
+}
+.exchange-almoney-field .btn-info {
+  position:absolute;
+  top:50%;
+  left:119%;
+  transform:translateY(-50%);
+}
+.exchange-almoney-field button {
+  padding:0 6px;
+  border:0;
+  border-radius:15px;
+  font-size:14px;
+  background:#fd0031;
+  color:#fff;
+  cursor:pointer;
+  display:flex;
+}
+.exchange-almoney-field button span {
+  display:none;
+}
+
+.exchange-charge-section {
+  margin-top:10px;
+  border:1px solid #bbb;
+  border-radius:30px;
+  padding:15px;
+}
+.exchange-charge-section .panel-heading {
+  text-align:justify;
+  padding-left:35px;
+  position:relative;
+  color:#777;
+  font-size:14px;
+  margin-bottom:5px;
+}
+.exchange-charge-section .panel-heading .material-icons {
+  font-size:30px !important;
+  color:#fd0031;
+  position:absolute;
+  top:50%;
+  left:0;
+  transform:translateY(-50%);
+}
+.exchange-charge-section .panel-body {
+  width:100%;
+  text-align:justify;
+  color:#a6a6a6;
+  font-size:12px;
+  padding:0 5px;
+  margin-bottom:10px;
+}
+.exchange-charge-section .panel-body-row {
+  margin-bottom:0;
+}
+
+.btn-success {
+  width:100%;
+  margin-top:30px;
+  margin-bottom:40px;
+  border:1px solid #c4c4c4;
+  background:#fff;
+  padding:10px 0;
+  border-radius:30px;
+  color:#666;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:all 0.3s;
+}
+.btn-success:hover {
+  background:#c4c4c4;
+  color:#fff;
+}
+
+@media screen and (max-width: 480px) {
+   .exchange-almoney-field > div > div {
+      width:40%;
+      left:-20px;
+   }
+   .exchange-almoney-field .btn-info {
+      left:125%;
+   }
+}

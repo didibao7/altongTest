@@ -1,0 +1,1649 @@
+@media screen and (max-width: 768px) {
+  html,
+  body {
+    font-size: 0.9em;
+  }
+  .center {
+    width: 100%;
+  }
+  footer {
+    width: 100%;
+    font-size: 0.8em;
+  }
+
+  /* main search */
+  form .mainsearch_btnwrapper ul li {
+    margin-top: 10px;
+  }
+  form .mainsearch_btnwrapper ul li span:first-child {
+    width: 40px;
+    height: 40px;
+  }
+  form .mainsearch_btnwrapper ul li span img {
+    width: 60%;
+  }
+  /* slidebar */
+  #gnb_wrapper {
+    width: 320px;
+  }
+  .gnb_info .gnb_info_name h2 {
+    font-size: 16px;
+  }
+  .gnb_info figure .info_pic {
+    width: 50px;
+    height: 50px;
+    top: 15px;
+  }
+  .gnb_info figure figcaption {
+    bottom: 12px;
+  }
+
+  /* swiper */
+  #swiper_container ul li a img {
+    width: 35px;
+    height: 35px;
+  }
+  #swiper_container ul li a span {
+    margin-top: 5px;
+  }
+  #section_list .section_list_el > ul > li:first-child {
+    font-size: 16px;
+  }
+}
+@media screen and (max-height: 480px) {
+  #main_wrapper .center.upDown {
+    top: 0;
+    transform: translate(-50%, 0);
+  }
+  header.upDown {
+    top: -60px;
+  }
+  footer.upDown {
+    margin: 70px auto 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  header {
+    height: 45px;
+  }
+  .header_logo {
+    height: 37px;
+    top: 50%;
+  }
+  .header_logo a img {
+    height: 37px;
+  }
+  #wrapper {
+    padding-top: 45px;
+  }
+
+  .main_logo figcaption {
+    font-size: 11px;
+  }
+
+  #gnb_wrapper {
+    width: 270px;
+  }
+
+  /* hamburger */
+  #menu_icon {
+    width: 45px;
+    height: 45px;
+  }
+  .icon_hamburger {
+    width: 25px;
+    height: 20px;
+  }
+  .icon_hamburger i {
+    height: 1px;
+    margin-top: 8px;
+  }
+  .icon_hamburger span {
+    width: 4px;
+    height: 4px;
+    top: 7px;
+  }
+
+  /* main search */
+  .main_header > div {
+    margin-left: 5px;
+    height: 45px;
+    padding-top: 14px;
+    transition: all 0.3s;
+    letter-spacing: -0.5px;
+  }
+  .main_header > div h4 {
+    font-size: 11px;
+    height: 16px;
+    padding: 1px 5px;
+    line-height: 11px;
+  }
+  .main_header > div p {
+    font-size: 12px;
+    height: 13px;
+    line-height: 13px;
+    margin-left: 5px;
+    margin-top: 0;
+  }
+  .main_header > div.header_almoney_my {
+    margin-left: 10px;
+  }
+  span.header_almoney_el3 {
+    margin-left: -2px;
+  }
+  .header_join {
+    padding-top: 11px;
+    padding-right: 15px;
+    font-size: 11px;
+  }
+  .header_join ul {
+    height: 20px;
+  }
+  .header_join ul li a {
+    padding: 1px 4px;
+    line-height: 15px;
+  }
+
+  form .mainsearch_inputwrapper {
+    width: 70%;
+  }
+  form input {
+    font-size: 14px;
+    letter-spacing: -0.5px;
+  }
+  form .mainsearch_btnwrapper {
+    width: 30%;
+  }
+  form .mainsearch_btnwrapper ul li {
+    margin-top: 18px;
+  }
+  form .mainsearch_btnwrapper ul li:first-child::after {
+    height: 35px;
+  }
+  form .mainsearch_btnwrapper ul li span {
+    font-size: 11px;
+    letter-spacing: -1px;
+  }
+  form .mainsearch_btnwrapper ul li span:first-child {
+    width: 35px;
+    height: 35px;
+  }
+
+  #section_list .section_list_el > ul > li:first-child {
+    font-size: 15px;
+    /*height: 42px;*/
+    display: -webkit-box;
+    word-wrap: break-word;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  #section_list .section_list_el .list_profile {
+    width: 50px;
+    left: 5px;
+  }
+  /* 베너 */
+  #bannerBtn {
+    width: 110px;
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+  #bannerBtn input {
+    width: 12px;
+    height: 12px;
+    line-height: 11px;
+    right: 3px;
+  }
+  #atm_ranka {
+    height: 40px;
+    margin-top: -10px;
+  }
+
+  /* swiper */
+  #swiper_container ul li {
+    width: 8%;
+  }
+  #swiper_container ul li a img {
+    width: 25px;
+  }
+  #swiper_container ul li a span {
+    margin-top: 0;
+    font-size: 11px;
+  }
+
+  /* section list */
+  #section_list .section_list_el {
+    padding: 5px 10px 5px 60px;
+  }
+  #section_question .sq_tit ul li a {
+    font-size: 12px;
+    padding: 1px 5px;
+    margin-left: 3px;
+  }
+  #section_list ul > li > ul > li {
+    display: inline-block;
+    font-size: 11px;
+    margin-right: 15px;
+    line-height: 13px;
+  }
+  #section_list ul ul ul li {
+    margin-right: 5px;
+  }
+  #section_list ul ul ul li img {
+    width: 9px;
+  }
+  #section_list ul ul ul li span {
+    width: 10px;
+    height: 10px;
+  }
+  #section_list ul ul ul li span::before {
+    font-size: 7px;
+  }
+
+  /* answerList */
+
+  .main_answer {
+    padding: 15px 10px;
+  }
+  .atm_top_wrap {
+    margin-top: 0;
+    padding-left: 90px;
+  }
+  .atm_top_wrap figure {
+    width: 40px;
+    height: 40px;
+    left: 0;
+  }
+  .atm_top_wrap h2 {
+    font-size: 30px;
+    left: 48px;
+  }
+  .atm_top_wrap h2 span {
+    font-size: 10px;
+    padding: 0 2px;
+  }
+  .atm_top_wrap ul {
+    width: 90%;
+    font-size: 0.8em;
+    letter-spacing: -1px;
+  }
+  .atm_top_wrap ul li:last-child img {
+    width: 10px;
+    margin-bottom: -1px;
+  }
+  .atm_top_wrap ul li:first-child {
+    font-size: 12px;
+  }
+  .atm_top_wrap ul li span {
+    padding: 0 3px;
+    top: 0;
+  }
+  .atm_top_wrap ul li:nth-child(2) {
+    font-size: 17px;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+  }
+
+  .answer_reply_btn li:nth-child(2) span {
+    font-size: 11px;
+    padding: 1px 3px;
+    margin-right: 3px;
+  }
+  .answer_reply_btn li:nth-child(3) {
+    width: 40%;
+  }
+  .answer_reply_btn li:nth-child(3) a {
+    font-size: 13px;
+    width: 100%;
+    padding: 2px 10px;
+    margin-bottom: -5px;
+    text-align: center;
+  }
+  .answer_reply_btn li:first-child a {
+    padding: 3px 8px;
+    font-size: 11px;
+  }
+  .answer_reply_btn li:first-child a span {
+    top: -7px;
+    right: -4px;
+  }
+  .answer_reply_btn li.choose {
+    font-size: 11px;
+    padding: 5px 30px;
+    margin-left: 10px;
+  }
+  .replydiv .replydiv_el textarea {
+    height: 30px;
+    font-size: 12px;
+    padding: 9px 10px;
+  }
+  .replydiv .replydiv_el .reply_renew p {
+    font-size: 11px;
+    padding: 1px 5px;
+  }
+  .replydiv .replydiv_el .reply_submit p {
+    font-size: 11px;
+  }
+
+  .replydiv_user_list table tr th:first-child {
+    width: 40px;
+    padding-left: 0;
+  }
+  .replydiv_user_list table tr th:last-child {
+    font-size: 12px;
+  }
+  .replydiv_user_list table tr td {
+    font-size: 11px;
+  }
+
+  .sub_answer {
+    padding: 5px 10px;
+  }
+  .sub_answer .sub_answer_top .answer_choice {
+    margin-left: -1px;
+  }
+  .sub_answer .sub_answer_top .answer_choice p {
+    font-size: 14px;
+    letter-spacing: -1px;
+  }
+  .sub_answer .sub_answer_top .answer_choice p img {
+    width: 20px;
+    margin-bottom: -5px;
+    margin-right: -2px;
+  }
+  .sub_answer .sub_answer_user tr th:first-child {
+    width: 40px;
+  }
+  .sub_answer .sub_answer_user figure {
+    width: 40px;
+    height: 40px;
+  }
+  .sub_answer .sub_answer_user tr th:nth-child(2) {
+    font-size: 17px;
+    letter-spacing: -1px;
+  }
+  .sub_answer .sub_answer_user tr th:nth-child(2) span {
+    padding: 0px 3px;
+    margin-right: 3px;
+  }
+  .sub_answer .sub_answer_user tr td {
+    letter-spacing: -1px;
+    font-size: 11px;
+  }
+  .atm_top_wrap ul li:last-child {
+    font-size: 11px;
+  }
+  .atm_more_btn_box .more_btn_menu li:last-child {
+    font-size: 14px;
+  }
+  .sub_answer .sub_answer_user tr td img {
+    width: 10px;
+    margin-bottom: -1px;
+  }
+  .sub_answer .sub_answer_user tr td img:last-child {
+    margin-bottom: -3px;
+  }
+  .sub_answer .answer_slide ul.altong_icon li {
+    width: 35px;
+    margin: 0 1%;
+  }
+  .sub_answer .answer_slide ul.altong_icon li a span {
+    display: block;
+    width: 100%;
+    font-size: 11px;
+    color: #9d9d9d;
+    letter-spacing: -1px;
+  }
+  .sub_answer .answer_tab ol li .alscore img {
+    width: 30px;
+  }
+  .sub_answer .answer_tab ol li .alscore span {
+    font-size: 12px;
+  }
+  .sub_answer .answer_tab ol li:last-child {
+    font-size: 12px;
+  }
+  .sub_answer .answer_tab ol li:last-child strong {
+    margin: 0 3px;
+    font-size: 13px;
+    color: #fd0031;
+  }
+  .answer_list_next ul li {
+    width: 30px;
+    height: 30px;
+  }
+  .answer_list_next ul li:nth-child(2) a {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* 삭제 수정 버튼 */
+  .atm_question_more p {
+    padding: 0 5px;
+    font-size: 11px;
+    margin-right: 3px;
+  }
+
+  /* 상세페이지 프로필 */
+  .profile_mini {
+    width: 300px;
+    left: -5px;
+    padding: 10px;
+  }
+  .profile_mini p {
+    font-size: 12px;
+  }
+  .profile_mini a {
+    font-size: 12px;
+  }
+  .profile_mini .profile_mini_almoney {
+    font-size: 11px;
+  }
+  .profile_mini .profile_mini_almoney th {
+    font-size: 12px;
+  }
+
+  /* 카테고리디테일 리스트 */
+  .favorite_list li {
+    font-size: 12px;
+    width: 33.3333%;
+  }
+  #selectFinish {
+    font-size: 12px;
+    /* width: 150px; */
+    /* padding: 5px 0; */
+  }
+
+  /* 답변작성페이지 */
+  #atm_wa_wrapper h1 {
+    font-size: 18px;
+    padding: 0 0 15px;
+  }
+  .atm_wa_con .atm_faq_tt {
+    padding-left: 20px;
+  }
+  .atm_wa_con .atm_faq_tt p {
+    font-size: 13px;
+  }
+  .atm_wa_con .atm_faq_tt img {
+    width: 19px;
+    top: 3px;
+  }
+  .atm_faq_slidG h3 span {
+    font-size: 20px;
+    margin-right: 5px;
+  }
+  .atm_faq_slidG h3 {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+  .atm_faq_slidG p {
+    font-size: 13px;
+  }
+  .atm_wq_G1 .atm_wq_bet p {
+    font-size: 13px;
+  }
+  .atm_wq_G1 .atm_wq_bet .thank_almoney select {
+    width: 180px;
+    font-size: 12px;
+  }
+  .nick_open p {
+    font-size: 14px;
+  }
+  .nick_open ul li {
+    font-size: 13px;
+    margin-left: 0;
+  }
+
+  /* 다른사람 프로필 */
+  .other_infomain figure {
+    width: 45px;
+    height: 45px;
+    left: 5px;
+  }
+  .other_infomain ul li span {
+    padding: 0 3px;
+  }
+  .other_infomain ul li:nth-child(2) {
+    font-size: 16px;
+    letter-spacing: -0.5px;
+  }
+  .other_infomain .other_info_edit {
+    right: 5px;
+  }
+  .other_infomain .other_info_edit img {
+    width: 25px;
+    margin-right: 5px;
+  }
+  .other_infomain .other_info_edit img:last-child {
+    width: 20px;
+  }
+  .other_infomain {
+    padding-left: 50px;
+    padding-right: 100px;
+  }
+  .other_infomain ul li p {
+    font-size: 11px;
+    letter-spacing: -1px;
+  }
+  .other_nick {
+    font-size: 16px;
+  }
+  .other_active ol li {
+    font-size: 12px;
+    letter-spacing: -0.5px;
+  }
+  .other_active ol li p {
+    padding-left: 10px;
+  }
+
+  .user_message h5 {
+    font-size: 12px;
+  }
+
+  /* 알뱅크 */
+  #atm_bank_wrapper0 {
+    padding-top: 45px;
+  }
+  .atm_bank_tit {
+    font-size: 18px;
+  }
+  .atm_bank_myaccount {
+    padding: 15px 50px 15px 15px;
+  }
+  .atm_bank_sp1 {
+    font-size: 14px;
+  }
+  .atm_bank_c1 {
+    padding-left: 16px;
+    font-size: 16px;
+  }
+  .atm_bank_c1 img {
+    width: 16px;
+  }
+  .atm_bank_sp2 {
+    font-size: 10px;
+  }
+  .atm_bank_exchange {
+    width: 45px;
+    right: 6px;
+  }
+  .atm_bank_exchange img {
+    width: 40px;
+  }
+  .atm_bank_exchange span {
+    font-size: 11px;
+  }
+  .atm_bank_tbl {
+    padding-top: 10px;
+  }
+  .atm_bank_intit {
+    font-size: 12px;
+    letter-spacing: -0.3px;
+  }
+  .atm_bank_intit + div {
+    font-size: 11px;
+  }
+  .atm_bank_tbl tr td:nth-child(3) {
+    font-size: 16px;
+  }
+  .atm_bank_intit {
+    left: 10px;
+  }
+  .atm_bank_detTbl tr td {
+    padding: 0 10px;
+  }
+  .atm_bank_detTbl tr td:first-child {
+    font-size: 12px;
+    width: 75px;
+  }
+
+  /* 환전하기 */
+  #atm_exAxk_wrapper {
+    padding-top: 45px;
+  }
+  .atm_edittop_ttbar {
+    font-size: 18px;
+  }
+  .account-top-wrapper {
+    font-size: 17px;
+    height: 60px;
+  }
+  .account-top-wrapper .my_wallet {
+    left: 20px;
+  }
+  .account-top-wrapper .current-almoney {
+    right: 20px;
+  }
+  .exchange-status-section .panel-heading h3 {
+    font-size: 16px;
+    padding-left: 27px;
+  }
+  .exchange-status-section .panel-heading img {
+    width: 20px;
+  }
+  .almoney-value-wrapper {
+    font-size: 16px;
+    padding: 5px 0;
+  }
+  .panel-default h4 {
+    font-size: 18px;
+    padding: 15px 0;
+  }
+  .exchange-almoney-field {
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    padding: 15px 0;
+  }
+  .exchange-almoney-field button {
+    padding: 2px 10px;
+    font-size: 12px;
+  }
+  .exchange-almoney-field .btn-info {
+    right: -70px;
+  }
+  .exchange-charge-section .panel-heading {
+    font-size: 13px;
+  }
+  /* 출금신청 */
+  #exchange_wrap {
+    padding-top: 45px;
+  }
+  #exchange_wrap h1 {
+    font-size: 18px;
+  }
+  .alpay-status-section .alpay-status {
+    font-size: 17px;
+    height: 60px;
+  }
+  .alpay-status .my_wallet {
+    left: 20px;
+  }
+  .alpay-status .current-almoney {
+    right: 20px;
+  }
+  .pay_Exch .account-form-section .panel-heading h3 {
+    font-size: 16px;
+  }
+  .pay_Exch .account-form-section .panel-heading h3 button {
+    font-size: 11px;
+    width: 100px;
+    letter-spacing: -1px;
+    right: -110px;
+    padding: 3px;
+  }
+  .pay_Exch .account-form-section .panel-body {
+    font-size: 13px;
+    letter-spacing: -0.5px;
+  }
+  .exchange-alpay-field button {
+    padding: 2px 10px;
+    font-size: 12px;
+  }
+  .exchange-alpay-field .btn-info {
+    right: -70px;
+  }
+  .account-form-item-con {
+    width: 80%;
+  }
+  .account-form-item-con .col-xs-4 {
+    width: 45px;
+    right: 110%;
+  }
+  .account-form .account-form-item:nth-child(2) .col-xs-4 {
+    right: 95%;
+  }
+  .account-form .account-form-item:nth-child(2) .account-form-item-con {
+    margin-left: 20px;
+  }
+
+  /* 알림 */
+  #alarm_wrapper {
+    padding-top: 45px;
+  }
+  #alarm_wrapper h1 {
+    font-size: 18px;
+  }
+  #alarm_wrapper h1 a {
+    width: 30px;
+    right: 15px;
+  }
+  .alarm-section .alarm-content {
+    padding: 10px 10px 10px 43px;
+  }
+  .alarm-section .alarm-content img {
+    width: 25px;
+    left: 10px;
+  }
+  .alarm-section .alarm-content .alarm-text {
+    font-size: 14px;
+    letter-spacing: -0.3px;
+  }
+  /* 알림설정 */
+  #alarmConFig_wrapper {
+    padding-top: 45px;
+  }
+  #alarmConFig_wrapper h1 {
+    font-size: 18px;
+  }
+  .settingItem {
+    padding: 10px 10px 10px 43px;
+  }
+  .settingItem_all {
+    padding: 10px 30px 10px 10px;
+  }
+  .settingItem img {
+    width: 20px;
+    left: 10px;
+  }
+  .settingItem > input + label {
+    right: 15px;
+    width: 18px;
+    height: 18px;
+  }
+  .btn-primary {
+    padding: 5px 25px;
+    font-size: 13px;
+  }
+
+  /* 나의정보 */
+  #myinfo_wrapper {
+    padding-top: 45px;
+  }
+  #myinfo_wrapper .profile {
+    padding-left: 76px;
+    letter-spacing: -0.5px;
+  }
+  #myinfo_wrapper .profile .photo {
+    width: 60px;
+    height: 60px;
+    left: 6px;
+  }
+  #myinfo_wrapper .profile .info .info_name {
+    font-size: 17px;
+    margin-bottom: 6px;
+  }
+  #myinfo_wrapper .profile .info .info_default p:last-child {
+    margin-bottom: 6px;
+  }
+  #myinfo_wrapper .profile .info .info_name span {
+    padding: 1px 3px;
+    position: relative;
+    top: -1px;
+  }
+  #myinfo_wrapper .profile .info .info_money .sum_money {
+    font-size: 17px;
+  }
+  #myinfo_wrapper .profile .info .info_money .sum_money span {
+    font-size: 20px;
+  }
+  #myinfo_wrapper .profile .info .info_edit {
+    font-size: 12px;
+    width: 85px;
+  }
+  #myinfo_wrapper .profile .info img {
+    width: 10px;
+    left: 5px;
+  }
+  #menuContentWrap .week_mission .cell .box .detail_content p {
+    font-size: 12px;
+  }
+  #menuContentWrap
+    .week_mission
+    .cell
+    .box
+    .detail_content
+    p.count
+    .prgDetailCnt {
+    font-size: 15px;
+  }
+  .my_stamp .content_box .title {
+    font-size: 14px;
+  }
+  .my_stamp .content_box .title strong {
+    padding: 0 10px;
+  }
+  #lvupStampWrap .clone_el .stamp_road {
+    width: 30%;
+    left: 85.5%;
+    height: 8px;
+  }
+  .finish .finish_lv span {
+    font-size: 18px;
+    padding: 2px 15px;
+  }
+  /* 로그인페이지 */
+  .atm_loginmain {
+    padding: 40px 0;
+  }
+  /* 환전결과 */
+  #ex_result_wrapper {
+    padding-top: 45px;
+  }
+  #ex_result_wrapper h1 {
+    font-size: 18px;
+  }
+  /* myQuestion */
+  #atm_myjjim_wrapper0 {
+    padding-top: 45px;
+  }
+  #atm_myjjim_wrapper0 .atm_mycatebar1 .atm_mycatebar_c1 {
+    font-size: 13px;
+    letter-spacing: -1px;
+  }
+  #atm_myjjim_wrapper0 .atm_mycatebar1 .atm_mycatebar_c1 span {
+    font-size: 15px;
+  }
+  .atm_mycatebar_box span {
+    font-size: 12px;
+    letter-spacing: -1px;
+  }
+  .atm_mycatebar_box select {
+    height: 23px;
+    width: 60px;
+    padding-left: 3px;
+    font-size: 12px;
+  }
+  .atm_myjjim_el .atm_myjjim_c7 li span {
+    width: 10px;
+    height: 10px;
+    font-size: 8px;
+    line-height: 8px;
+  }
+  .atm_myjjim_el .atm_myjjim_c5 p {
+    font-size: 14px;
+  }
+  .atm_myjjim_el .beefup_head {
+    font-size: 12px;
+  }
+  .atm_myjjim_el .atm_myjjim_c7 {
+    font-size: 11px;
+    padding: 0;
+  }
+  .atm_myjjim_el .atm_myjjim_c7 li img {
+    width: 9px;
+    margin-right: 2px;
+  }
+  /* 나의 답변 */
+  .atm_mycatebar_box select.atm_mycatebar_answer {
+    width: 120px;
+  }
+  /* 나의 찜 */
+  .atm_myjjim_el .atm_myjjim_c5.atm_myjjim_pro div a {
+    font-size: 12px;
+  }
+  /* answerView */
+  .atm_av_c9 .atm_icon_score1 {
+    font-size: 14px;
+  }
+  .atm_av_c9 .atm_av_c10 {
+    font-size: 11px;
+  }
+  .atm_av_c9 .atm_av_c10 span img {
+    width: 9px;
+  }
+  .atm_profile_el_c2 {
+    font-size: 12px;
+  }
+  .atm_profile_el figure {
+    width: 45px;
+    height: 45px;
+    left: 5px;
+  }
+  .atm_profile_el {
+    padding: 8px 8px 8px 60px;
+  }
+  .atm_reply_eltexts a {
+    font-size: 13px;
+  }
+  .atm_reply_con .atm_reply_c4 {
+    font-size: 12px;
+  }
+  .atm_estimation .atm_esti_el {
+    width: 35px;
+    margin: 0 1%;
+  }
+  .atm_reply_c7 {
+    width: 60px;
+    height: 30px;
+    line-height: 30px;
+  }
+  .atm_profile_eltexts {
+    font-size: 11px;
+    letter-spacing: -0.5px;
+  }
+  /* 나의 댓글 */
+  .atm_myjjim_c5 .atm_myjjim_answer_q {
+    font-size: 11px;
+  }
+  .beefup__head {
+    font-size: 12px;
+  }
+  /* 나의 신고내역 */
+  #atm_mySiren_wrapper {
+    padding-top: 45px;
+  }
+  .mobile_br {
+    display: block;
+  }
+  #atm_mySiren_wrapper .content_wrap table th,
+  #atm_mySiren_wrapper .content_wrap table td {
+    font-size: 13px;
+  }
+  #atm_mySiren_wrapper .content_wrap .guide {
+    font-size: 12px;
+  }
+
+  /* 친구/쪽지차단 */
+  .myPartner_wrapper .atm_profile_el figure {
+    width: 45px;
+    height: 45px;
+  }
+  .myPartner_wrapper .atm_profile_el {
+    padding: 10px 10px 10px 60px;
+  }
+  .atm_profile_el_center {
+    width: 100%;
+    position: relative;
+    top: 0;
+    left: -6px;
+    transform: translateY(0);
+    font-size: 12px;
+    letter-spacing: -1.5px;
+  }
+  .myPartner_wrapper #select_view01 .atm_profile_eltexts > p > span {
+    display: inline-block;
+    margin-right: 3px;
+  }
+  .myPartner_wrapper #select_view01 .atm_profile_eltexts > em::after {
+    width: 4px;
+    height: 4px;
+  }
+  .myPartner_wrapper #select_view01 .atm_profile_eltexts > p {
+    padding-right: 10px;
+  }
+  #select_view02 .atm_profile_eltexts p {
+    width: 50%;
+  }
+  /* 나의정보 수정 */
+  #atm_menjoin_wrapper h1 {
+    font-size: 18px;
+  }
+  #atm_menjoin_wrapper .center {
+    padding: 0 10px;
+  }
+  .atm_memjoin_con .atm_memjoin_con_el input {
+    letter-spacing: -0.5px;
+  }
+  /* 관심분야 설정 */
+  #atm_cateedit_wrapper h1 {
+    font-size: 18px;
+  }
+  /* 추천인 */
+  .atm_base_wrapper1 {
+    padding-top: 45px;
+  }
+  .atm_base_wrapper1 h1 {
+    font-size: 18px;
+  }
+  .contentsWrapper .description-recommend {
+    font-size: 12px;
+    margin-top: 30px;
+  }
+  .contentsWrapper .description-recommend > div p span {
+    font-size: 20px;
+  }
+  .description-images-wrapper {
+    height: 300px;
+  }
+  .description-images-wrapper li.recommend_arrow > div b {
+    width: 15px;
+    height: 15px;
+    left: 18px;
+  }
+  .description-images-wrapper li.recommend_arrow > div i {
+    width: 9px;
+    height: 9px;
+    margin: 0 5%;
+  }
+  .description-images-wrapper li {
+    width: 120px;
+    height: 120px;
+  }
+  .description-images-wrapper li img {
+    width: 45px;
+  }
+  .description-images-wrapper li strong {
+    font-size: 12px;
+  }
+  .description-images-wrapper li span {
+    font-size: 11px;
+  }
+  .description-images-wrapper li:nth-child(3) img {
+    width: 60px;
+  }
+  .description-images-wrapper li.recommend_arrow {
+    width: 100px;
+  }
+  .description-images-wrapper li.recommend_arrow.right {
+    top: 49%;
+    right: 60px;
+  }
+  .description-images-wrapper li.recommend_arrow.left {
+    top: 50%;
+    left: 60px;
+  }
+  .atm_reco_wrapper_el01 .atm_reco_div {
+    width: 100%;
+    border-right: 0;
+    border-bottom: 2px solid #eeeded;
+  }
+  .atm_reco_wrapper_el01 .atm_reco_con p {
+    font-size: 30px;
+  }
+  .atm_reco_wrapper_el01 .atm_reco_tt p {
+    font-size: 12px;
+  }
+  .atm_reco_wrapper_el01 .atm_reco_tt p span {
+    font-size: 14px;
+  }
+  .atm_reco_wrapper_el01 .atm_reco_con button {
+    font-size: 11px;
+  }
+  .atm_reco_wrapper_el01 .atm_reco_con button img {
+    width: 15px;
+  }
+  .atm_reco_wrapper_el02 .atm_reco_tt {
+    font-size: 12px;
+  }
+  .atm_reco_wrapper_el02 .atm_reco_tt span {
+    font-size: 14px;
+  }
+  .atm_reco_wrapper_el02 .atm_reco_con p {
+    font-size: 12px;
+  }
+  .atm_reco_wrapper_el03 .atm_reco_tt {
+    font-size: 12px;
+  }
+  .atm_reco_wrapper_el03 .atm_reco_tt span {
+    font-size: 14px;
+  }
+  .atm_recotable0 {
+    font-size: 11px;
+    letter-spacing: -1px;
+    padding: 5px;
+  }
+  .contentsWrapper02 .mainContents > p.description {
+    font-size: 13px;
+    letter-spacing: -0.5px;
+  }
+  .contentsWrapper02 .mainContents > p {
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    margin-bottom: 30px;
+  }
+  .tree-diagram-top > p span.earning-badge {
+    font-size: 16px;
+    padding: 2px 10px;
+  }
+  .tree-diagram-top > p span:last-child {
+    font-size: 15px;
+  }
+  .tree-diagram-top > div {
+    width: 100px;
+    height: 100px;
+  }
+  .tree-diagram-top > div > div {
+    top: 18px;
+  }
+  .tree-diagram .icon-member {
+    width: 40px;
+    height: 40px;
+  }
+  .tree-diagram .icon-member i {
+    width: 20px;
+    height: 20px;
+  }
+  .tree-diagram .icon-member span {
+    width: 45px;
+    height: 45px;
+    bottom: -30px;
+  }
+  .tree-diagram-top > div p {
+    top: 38px;
+    width: 250%;
+  }
+  .tree-diagram-top > div p span {
+    font-size: 14px;
+    padding: 1px 7px;
+  }
+  .tree-diagram-bottom {
+    width: 100%;
+  }
+  .tree-diagram-bottom > div > div {
+    width: 80px;
+    height: 80px;
+    padding-top: 15px;
+  }
+  .tree-diagram-bottom > div > div p {
+    top: 55px;
+  }
+  .tree-diagram-bottom > div > div p span {
+    font-size: 11px;
+    padding: 1px 8px;
+  }
+  .table-diagram .title {
+    font-size: 16px;
+  }
+
+  /* 쪽지 */
+  #message_wrapper {
+    padding-top: 45px;
+  }
+  #message_wrapper h1 {
+    font-size: 18px;
+  }
+  .msg_el_tit {
+    font-size: 14px;
+  }
+  .msg_el_con {
+    padding: 10px;
+  }
+  .msg_el_con span {
+    font-size: 12px;
+  }
+  .msg_el_tit .msg_tit01 {
+    width: 40%;
+  }
+  .msg_el_con .msg_user_profile {
+    padding-left: 28px;
+  }
+  .msg_el_tit .msg_tit02 {
+    width: 30%;
+  }
+  .msg_el_tit .msg_tit03 {
+    padding-left: 8px;
+  }
+  .msg_el_con figure {
+    width: 25px;
+    height: 25px;
+  }
+  .msg_el_con .msg_img {
+    right: 5px;
+  }
+  .msg_el_con .msg_user_read {
+    padding-left: 5px;
+  }
+  /* 쪽지보내기 */
+  .receive_popup .user_message_top .user_message_top_text .user_message_top_p {
+    font-size: 14px;
+    letter-spacing: -1px;
+  }
+  .receive_popup .user_message_top .user_message_top_text .user_name {
+    font-size: 16px;
+  }
+  .receive_popup .user_message_top figure {
+    width: 40px;
+    height: 40px;
+  }
+  .receive_popup .user_message_top {
+    padding: 10px 25px 15px 55px;
+  }
+  .send_popup .user_message_top .user_message_top_text .user_message_top_p {
+    font-size: 14px;
+    letter-spacing: -1px;
+  }
+  .send_popup .user_message_top .user_message_top_text .user_name {
+    font-size: 16px;
+  }
+  .send_popup .user_message_top figure {
+    width: 40px;
+    height: 40px;
+  }
+  .send_popup .user_message_top {
+    padding: 10px 25px 15px 55px;
+  }
+
+  /* 이용안내 */
+  #select_innerwrapper {
+    padding-top: 45px;
+  }
+  #select_innerwrapper h1 {
+    font-size: 18px;
+  }
+  #select_innerwrapper .atm_base_wrapper1 {
+    letter-spacing: -0.7px;
+  }
+  #select_innerwrapper .atm_base_wrapper1 .atm_faq_c1b b {
+    font-size: 14px;
+  }
+  #select_innerwrapper .atm_base_wrapper1 .atm_faq_c1b {
+    font-size: 12px;
+  }
+  #select_innerwrapper .atm_faq_wrapper2 .atm_faq_div .atm_faq_c2 {
+    font-size: 14px;
+    letter-spacing: -0.5px;
+  }
+  #select_innerwrapper .atm_faq_wrapper2 .atm_faq_div .atm_faq_c4 {
+    font-size: 13px;
+    letter-spacing: -0.5px;
+    line-height: 1.5em;
+  }
+  /* rankMenber */
+  .atm_ranka_tab2_pc p {
+    font-size: 12px;
+    padding: 1px 5px;
+    margin-left: 3px;
+  }
+  .atm_rank_el_container .atm_rank_el figure {
+    width: 40px;
+    height: 40px;
+    margin: 0 2px;
+  }
+  .atm_rank_el_container .atm_rank_el {
+    padding: 5px;
+  }
+  .atm_rank_el_container .atm_rank_el h4 {
+    margin: 0 2px;
+    font-size: 35px;
+    letter-spacing: -1.5px;
+  }
+  .atm_rank_el_container .atm_rank_el .atm_ranka32_eltexts {
+    font-size: 11px;
+    letter-spacing: -0.5px;
+    margin: 0 2px;
+    width: 45%;
+  }
+  .atm_rank_el_container .atm_rank_el .atm_ranka32_eltexts .atm_ranka32_el_c2 {
+    font-size: 14px;
+  }
+  .atm_rank_el_container .atm_rank_el .atm_ranka_el_c1 {
+    right: 5px;
+    font-size: 14px;
+    letter-spacing: -1px;
+  }
+  /* rankAnswer */
+  .atm_ranka31_eltexts {
+    letter-spacing: -0.5px;
+    width: 60%;
+  }
+  .atm_rank_el_container .atm_rank_el .atm_ranka31_eltexts .atm_ranka31_el_c2 {
+    font-size: 14px;
+  }
+  .atm_rank_el_container
+    .atm_rank_el
+    .atm_ranka31_eltexts
+    .atm_ranka31_el_c3
+    span {
+    font-size: 12px;
+  }
+  .atm_rank_el_container
+    .atm_rank_el
+    .atm_ranka31_eltexts
+    .atm_ranka31_el_c3
+    img {
+    width: 9px;
+  }
+  .atm_rank_el_container
+    .atm_rank_el
+    .atm_ranka31_eltexts
+    .atm_ranka31_el_c3
+    i {
+    width: 10px;
+    height: 10px;
+  }
+  .atm_rank_el_container
+    .atm_rank_el
+    .atm_ranka31_eltexts
+    .atm_ranka31_el_c3
+    i::before {
+    font-size: 8px;
+    line-height: 10px;
+  }
+  /* 질문검색 */
+  .atm_ranka11_el .atm_ranka11_c5 {
+    font-size: 14px;
+    letter-spacing: -0.5px;
+    padding-left: 45px;
+  }
+  .atm_ranka11_el .atm_ranka11_c5 figure {
+    width: 38px;
+    height: 38px;
+  }
+  .atm_ranka11_el .atm_ranka11_c5 p {
+    font-size: 12px;
+    margin-top: 0;
+  }
+  .atm_ranka11_el .atm_ranka11_c7 {
+    font-size: 11px;
+  }
+  .atm_ranka11_el .beefup__head {
+    font-size: 12px;
+    margin: 10px;
+  }
+  /* 이벤트 진행중 */
+  .atm_rankq2_con .atm_ranka12_el .atm_ranka12_c5 {
+    font-size: 14px;
+    letter-spacing: -0.5px;
+  }
+  .atm_rankq2_con .atm_ranka12_el .atm_ranka12_c7 {
+    letter-spacing: -0.5px;
+  }
+  /* 고객센터 */
+  .csWrapper {
+    padding-top: 45px;
+  }
+  .csWrapper h1 {
+    font-size: 18px;
+  }
+  .csWrapper .atm_cs_btn {
+    padding: 10px 80px 10px 55px;
+  }
+  .csWrapper .atm_cs_btn img {
+    width: 35px;
+    left: 10px;
+  }
+  .csWrapper .atm_cs_btn img.cs_btn_img02 {
+    width: 30px;
+    left: 13px;
+  }
+  .csWrapper .atm_cs_btn img.cs_btn_img03 {
+    width: 32px;
+    left: 10px;
+  }
+  .csWrapper .atm_cs_btn p {
+    font-size: 15px;
+  }
+  .csWrapper .atm_cs_btn h3 {
+    font-size: 17px;
+  }
+  .csWrapper .atm_cs_btn span {
+    font-size: 12px;
+    letter-spacing: -0.5px;
+  }
+  .csWrapper .atm_cs_btn a {
+    font-size: 12px;
+    padding: 2px 20px 2px 10px;
+    line-height: 20px;
+  }
+  .csWrapper .atm_cs_btn a i {
+    width: 5px;
+    height: 5px;
+  }
+  /* 공지사항 */
+  .atm_ranka12 {
+    padding-top: 45px;
+  }
+  .atm_ranka12 h1 {
+    font-size: 18px;
+  }
+  .atm_ranka12 .atm_ranka12_el .atm_ranka12_c5 {
+    font-size: 14px;
+    letter-spacing: -0.5px;
+  }
+  .atm_ranka12 .atm_ranka12_el .atm_ranka12_c7 {
+    font-size: 11px;
+    letter-spacing: -0.5px;
+  }
+  /* 공지사항 상세 */
+  .atm_av_el .atm_av_c9 {
+    font-size: 14px;
+    letter-spacing: -0.5px;
+  }
+  .atm_av_el .atm_av_c10 {
+    font-size: 11px;
+    letter-spacing: -0.5px;
+  }
+  .atm_av_el .atm_av_c6 {
+    font-size: 15px;
+  }
+  /* 약관동의 */
+  #atm_memagree_wrapper0 {
+    padding-top: 45px;
+  }
+  #atm_memagree_wrapper0 .atm_graytop_c1 {
+    font-size: 18px;
+  }
+  /* 회원가입 */
+  #atm_memjoin_wrapper0 {
+    padding-top: 45px;
+    letter-spacing: -0.5px;
+  }
+  #atm_memjoin_wrapper0 .atm_edittop_c1 {
+    font-size: 18px;
+  }
+  .atm_memjoin_con_el .col-xs-12 > div button {
+    width: 80px;
+  }
+  .atm_memjoin_opt input#NickName + span {
+    width: 80px;
+  }
+  .atm_memjoin_opt input#NickName {
+    width: 70%;
+  }
+  .atm_memjoin_opt select[name="Phone0"] {
+    letter-spacing: -1px;
+  }
+  /* 회원가입 완료 */
+  #joinOk_wrap {
+    padding-top: 45px;
+  }
+  #joinOk_wrap h1 {
+    font-size: 18px;
+  }
+  .atm_wrapper2_button > div img {
+    width: 25px;
+    margin-right: 5px;
+  }
+  .atm_wrapper2_button > div dl dt {
+    font-size: 14px;
+  }
+  .atm_wrapper2_button > div dl dd {
+    font-size: 12px;
+  }
+  .atm_wrapper2_button > div {
+    width: 45%;
+    margin: 0 5px;
+  }
+  /* 비밀번호 재발급 */
+  #passwordReset_wrapper {
+    padding-top: 45px;
+  }
+  #passwordReset_wrapper h1 {
+    font-size: 18px;
+  }
+  #passwordReset_wrapper .contentsWrapper select {
+    padding: 5px 0;
+  }
+  /* 알라뷰 */
+  .alaview {
+    width: 50%;
+  }
+  .viewer {
+    height: 300px;
+  }
+  /* 광고모음 */
+  .csCenterWrapper {
+    padding-top: 45px;
+  }
+  .csCenterWrapper h1 {
+    font-size: 18px;
+  }
+  .csCenterWrapper p {
+    font-size: 16px;
+  }
+  .csCenterWrapper p.bottom {
+    font-size: 12px;
+    padding: 0 10px;
+  }
+  .csCenterWrapper table {
+    padding: 5px;
+    letter-spacing: -0.5px;
+    line-height: 1.1em;
+  }
+  .csCenterWrapper table tr th {
+    font-size: 14px;
+  }
+  .csCenterWrapper table tr td {
+    padding: 5px;
+    height: 100px;
+  }
+  .csCenterWrapper table tr td b {
+    font-size: 12px;
+  }
+  .csCenterWrapper table tr td a {
+    font-size: 11px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  .csCenterWrapper table tr td:nth-child(3) {
+    font-size: 12px;
+  }
+  /* 관심분야 */
+  .atm_ranka12_con .atm_ranka12_el .atm_ranka12_c5 {
+    font-size: 14px;
+    letter-spacing: -0.5px;
+  }
+  .atm_ranka12_con .atm_ranka12_el .atm_ranka12_c7 {
+    letter-spacing: -0.5px;
+  }
+  /* 인터뷰 상세 */
+  #atm_av_wrapper0 {
+    padding-top: 45px;
+  }
+  .atm_av_c10 img {
+    width: 8px;
+    margin-right: 1px;
+  }
+  #atm_av_wrapper0 .atm_av_con {
+    padding: 10px 15px;
+  }
+  /* 메뉴 질문, 답변순위 위치 수정 */
+  .gnb_info .gnb_info_name p span {
+    display: block;
+  }
+  /* 본인인증 */
+  .container-fluid {
+    padding-top: 45px;
+    letter-spacing: -0.5px;
+  }
+  .container-fluid h1 {
+    font-size: 18px;
+  }
+  #required-info-form .form-group label {
+    font-size: 12px;
+  }
+  #required-info-form .form-group .col-md-10 select {
+    font-size: 12px;
+  }
+  #required-info-form {
+    width: 90%;
+  }
+  #required-info-form .form-group .col-md-10 input[type="radio"] + label {
+    padding: 0 0 0 17px;
+    margin-left: 5px;
+    width: 70px;
+  }
+  #required-info-form
+    .form-group
+    .col-md-10
+    input[type="radio"]
+    + label::before {
+    width: 7px;
+    height: 7px;
+    left: 3px;
+  }
+  #required-info-form
+    .form-group
+    .col-md-10
+    input[type="radio"]
+    + label::after {
+    width: 11px;
+    height: 11px;
+  }
+  .like-field-table > div {
+    font-size: 12px;
+    width: 33.3333%;
+    margin: 5px 0;
+  }
+  /* 카테고리 */
+  .favorite_list {
+    letter-spacing: -0.5px;
+  }
+  .favorite_list li {
+    width: 50%;
+    font-size: 12px;
+  }
+  /*Answerer추가수정*/
+  .table-diagram > div > p {
+    text-align: center;
+  }
+  .table-diagram > div > p strong {
+    display: block;
+  }
+  .table-diagram > div > p span {
+    display: block;
+    margin-top: 5px;
+    float: none;
+  }
+  /* 각 페이지 이름의 폰트 사이즈, 위치 수정 */
+  #atm_cateedit_wrapper {
+    padding-top: 45px;
+  }
+  .atm_edittop_ttbar_pc p {
+    font-size: 18px;
+  }
+  #atm_mymentor_wrapper0 {
+    padding-top: 45px;
+  }
+  /* 신고하기 */
+  .submit_report h4 {
+    line-height: 30px;
+    font-size: 15px;
+  }
+  .report_wrap {
+    padding: 10px;
+  }
+  .report_wrap .report_target tr th {
+    font-size: 12px;
+  }
+  .report_wrap .report_target tr td {
+    line-height: 20px;
+    font-size: 13px;
+  }
+  .report_reason table tr td {
+    font-size: 13px;
+  }
+  .report_bottom p {
+    font-size: 12px;
+  }
+  /* 리스트 페이징 수정 */
+  .list_pasing .center {
+    grid-template-columns: 1fr 3fr 1fr;
+  }
+  .atm_boardnavi_arrow {
+    grid-template-columns: 1fr 3fr 1fr;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  #atm_menjoin_wrapper {
+    padding-top: 45px;
+  }
+  .sub_answer .answer_slide ul.altong_icon li {
+    margin: 0;
+  }
+  .atm_estimation .atm_esti_el {
+    margin: 0;
+  }
+  #myinfo_wrapper .profile .info .info_edit {
+    top: 0;
+    right: 0;
+    transform: translate(0, -100%);
+  }
+}

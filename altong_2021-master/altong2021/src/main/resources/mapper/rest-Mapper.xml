@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.rest">
+
+<!-- 중복  -->
+
+<!-- 답변 평가 -->
+<select id="getRestAnswerEstimate" resultType="HashMap">
+	select PointCount1 as v1, PointCount2 as v2, PointCount3 as v3,
+		PointCount4 as v4 , PointCount5 as v5 , PointCount6 as v6
+	FROM T_ANSWER where Seq = #{AnswerSeq}
+</select>
+
+<!-- 질문 작성자  -->
+<select id="getRestQuestionUserSeq" resultType="int">
+	SELECT MemberSeq FROM T_ANSWER WHERE QuestionSeq = #{QuestionSeq}
+</select>
+<!-- 답변 작성자  -->
+<select id="getRestAnswerUserSeq" resultType="int">
+	SELECT MemberSeq FROM T_ANSWER WHERE AnswerSeq = #{AnswerSeq}
+</select>
+<!-- user lang -->
+<select id="getRestUserLang" resultType="int">
+	SELECT lang FROM T_MEMBERS with(nolock) 
+		WHERE Seq = #{userSeq}
+</select>
+
+<select id="getRestAnswerList" resultType="HashMap">
+	SELECT ROW_NUMBER() OVER( ORDER by regdate ASC ) as id, * FROM T_ANSWER WHERE QuestionSeq = #{QuestionSeq}
+</select>
+
+<select id="getOneRestQuestion" resultType="HashMap">
+	SELECT Top 1 * FROM T_QUESTION WHERE seq = #{QuestionSeq} 
+</select>
+
+
+<select id="getRestUserHead" resultType="HashMap">
+	SELECT Top 1 Photo as profile, nation as locale, Q_ChoiceCount as QChoice,
+		Q_Count as QCount, A_ChoicedCount as AChoiced, A_Count as ACount, Intro,
+		Lv as uLv, NickName as nick
+	FROM T_MEMBERS WHERE Seq = #{Seq} 
+</select>
+
+<select id="getRestQeustionReplys" resultType="HashMap">
+	SELECT ROW_NUMBER() OVER( ORDER by DateReg ASC ) as id, * FROM T_REPLY_QUESTION WHERE QuestionSeq = #{QuestionSeq} AND FlagUse = 'Y'
+</select>
+
+<select id="getRestAnswerReplys" resultType="HashMap">
+	SELECT ROW_NUMBER() OVER( ORDER by DateReg ASC ) as id, * FROM T_REPLY_ANSWER WHERE AnswerSeq = #{AnswerSeq} AND FlagUse = 'Y'
+</select>
+
+<select id="getRestVoteSum" resultType="HashMap">
+	SELECT 
+		ISNULL(SUM(good), 0) AS good, 
+		ISNULL(SUM(bad), 0) AS bad
+	FROM 
+		T_QUESTION_VOTE
+	WHERE 
+		contentSeq = #{contentSeq}
+		AND contentType = #{contentType}
+</select>
+
+<select id="getRestAnswerExtraAlmoney" resultType="HashMap">
+	SELECT ISNULL(sum(Almoney),0) as ExtraAlmoney
+	FROM T_EXTRA_ALMONEY
+	WHERE Type = 'A'
+		and ContentsSeq = #{AnswerSeq}
+</select>
+<select id="getRestQuestionExtraAlmoney" resultType="HashMap">
+	SELECT ISNULL(sum(Almoney),0) as ExtraAlmoney
+	FROM T_EXTRA_ALMONEY
+	WHERE Type = 'Q'
+		and ContentsSeq = #{QuestionSeq}
+</select>
+
+<!-- @ 사용자에 대한 정보를 가져옴 (get) 보안 필요 없는것들 (질문/답변수익, 답변 채택수, 답변 채택률) -->
+<!-- 질문 수익 -->
+<select id="getRestTotalQuestionBenefit" resultType="int">
+	SELECT EarnQueView as QAlmoney FROM V_LOG_ALMONEY_COMBINED WHERE MemberSeq = ${MemberSeq}
+</select>
+<!-- 답변 수익 -->
+<select id="getRestTotalAnswerBenefit" resultType="int">
+	SELECT EarnAnsChoice + EarnAnsView as AAlmoney FROM V_LOG_ALMONEY_COMBINED WHERE MemberSeq = ${MemberSeq}
+</select>
+<!-- 누적 수익 -->
+<select id="getRestTotalBenefit" resultType="int">
+	SELECT EarnAnsChoice + EarnAnsExt + EarnAnsView + EarnAnswerer + EarnChildAns + 
+	EarnChildQue + EarnEsti + EarnEvent + EarnJoin + EarnQueExt +
+	EarnQueView + EarnRefund as TotalAlmoney FROM V_LOG_ALMONEY_COMBINED WHERE MemberSeq = ${MemberSeq}
+</select>
+
+
+<!-- 감사알 지급률 == 감사알 지급 건수 / 질문 작성 수  -->
+
+<!-- 감사알 지급 건수 -->
+<select id="getRestTotalTkank" resultType="int">
+	
+</select>
+<!-- 질문 작성 수(감사알 지급 기회 총 수) -->
+<select id="getRestTotalGiveCount" resultType="int">
+	
+</select>
+
+<!-- 답변 채택률 == 답변 채택수 / 답변 작성 수 -->
+<!-- 답변 채택수 -->
+<select id="getRestTotalSelectedCount" resultType="int">
+	
+</select>
+
+<!-- 답변 작성 수(답변 작성 총 수) -->
+<select id="getRestTotalCount" resultType="int">
+	
+</select>
+
+<!-- 그대로 가져와서 재작성한 서비스 -->
+
+<select id="getRestBoardConfig" resultType="HashMap">
+	SELECT * FROM T_CONFIG with(nolock)
+</select>
+
+<!-- CommonService - getSumExtraAlmoneyInfo -->
+<select id="getRestConvertSumExtraAlmoneyInfo" resultType="HashMap">
+	SET ANSI_NULLS ON
+
+	declare @ReturnCode int = 1
+	declare @ErrText varchar(max) = ''
+	declare @tmpTable table(ReturnCode int, ErrText varchar(max))
+	declare @TargetUserSeq int
+	declare @sumExtraAlmoney money = 0
+	declare @nick1 nvarchar(200) = ''
+	declare @nick2 nvarchar(200) = ''
+
+	begin try
+		begin TRAN
+		if @ReturnCode = 1
+		begin
+			select @TargetUserSeq = MemberSeq  from ${qusAnsTbl} where seq = #{contentsSeq} and FlagUse = 'Y'
+			if @TargetUserSeq is null
+				set @ReturnCode = 51
+			else if @TargetUserSeq = #{userSeq}
+				set @ReturnCode = 52
+		end
+		if @ReturnCode = 1
+		begin
+			delete @tmpTable
+			insert @tmpTable exec SP_CHANGE_ALMONEY ${typeMe}, #{userSeq}, ${minusExtraAlmoney}, #{contentsSeq}
+			select @ReturnCode = ReturnCode, @ErrText = ErrText from @tmpTable
+		end
+		if @ReturnCode = 1
+		begin
+			delete @tmpTable
+			insert @tmpTable exec SP_CHANGE_ALMONEY ${typeYou}, @TargetUserSeq, ${extraAlmoney}, #{contentsSeq}
+			select @ReturnCode = ReturnCode, @ErrText = ErrText from @tmpTable
+		end
+		if @ReturnCode = 1
+		begin
+			select @nick1 = NickName from T_MEMBERS where Seq = #{userSeq};
+			select @nick2 = NickName from T_MEMBERS where Seq = @TargetUserSeq;
+			insert into ${tbl} (${qusAnsCol}, MemberSeq, Reply, nick1, nick2, almoney)	values(#{contentsSeq}, 10003513, (select NickName from T_MEMBERS where Seq = #{userSeq}) + '님이 감사의 마음으로 ' + #{extraAlmoneyFmt} + '알을 증정하셨어요.', @nick1, @nick2, ${extraAlmoney})
+			insert into T_EXTRA_ALMONEY(Type, ContentsSeq,  MemberSeq, TargetMemberSeq, Almoney)
+				values(#{cType}, #{contentsSeq}, #{userSeq}, @TargetUserSeq, ${extraAlmoney})
+			if (select sum(Almoney) from T_EXTRA_ALMONEY where Type = #{cType} and ContentsSeq = #{contentsSeq} and MemberSeq = #{userSeq}) > ${maxExtraAlmoney} 
+				set @ReturnCode = 53
+				--set @ReturnCode = 1
+			else
+				select @sumExtraAlmoney = sum(Almoney) from T_EXTRA_ALMONEY where Type = #{cType} and ContentsSeq = #{contentsSeq}
+		end
+		if @ReturnCode = 1
+			COMMIT TRAN
+		else
+			ROLLBACK TRAN
+	end try
+	begin catch
+		ROLLBACK TRAN
+		set @ReturnCode = 0
+		set @ErrText = @ErrText + Error_Message()
+	end catch
+
+	select @ReturnCode as ReturnCode, @ErrText as ErrText, @sumExtraAlmoney as sumExtraAlmoney
+	
+</select>
+
+<select id="getRestUserExtimate" resultType="int">
+	 select 
+	 	ISNULL(PointCountNo, 0) AS PointCountNo
+     from 
+     	LOG_ESTIMATE
+     where 
+     	MemberSeq = #{userSeq}
+     	and Seq = #{contentSeq}
+     	and Gubun = #{gubun}
+</select>
+
+<select id="getAnswerLogViewInfo" resultType="int">
+	select count(*)
+	from LOG_VIEW
+	where MemberSeq = #{userSeq}
+		and ContentSeq = #{answerSeq}
+		and [Type] = 1
+</select>
+
+<select id="getRestQuestionMemberSeq" resultType="int">
+	select MemberSeq 
+	from t_question
+	where Seq = #{questionSeq}
+</select>
+<select id="getRestAnswerMemberInfo" resultType="answer">
+	select MemberSeq, QuestionSeq, FlagChoice 
+	from t_answer 
+	where Seq = #{answerSeq}
+</select>
+
+
+<select id="getRestAnswerAd" resultType="ad">
+	SELECT Top 1 Seq, ADFile, ADFileExt, url, FlagAd 
+	FROM T_AD with(nolock)  
+	WHERE FlagUse = 'Y' AND PeriodStart <![CDATA[<=]]> #{startDt} AND PeriodEnd <![CDATA[>=]]> #{endDt}
+	<if test="userSeq == ''">
+		AND FlagAd = 0
+	</if>
+	<if test='section1 != "0" and section1 != "" '>
+		AND (Section1 = #{Section1} Or Section1 = 0)
+	</if>
+	ORDER BY NEWID()
+</select>
+
+<select id="getRestAnsweredCheck" resultType="int">
+	SELECT count(*) 
+	FROM T_ANSWER 
+	WHERE 
+		QuestionSeq = #{seq} 
+		AND MemberSeq = #{userSeq}
+</select>
+	
+</mapper>

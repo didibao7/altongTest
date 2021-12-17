@@ -1,0 +1,70 @@
+@charset "utf-8";
+
+.atm_memjoin_opt select[name="Phone0"] {
+  padding-right: 14px;
+}
+.atm_memjoin_opt select[name="nation"] {
+  display: block;
+  width: 100%;
+  height: 31px;
+  border: 0;
+  border-bottom: 1px solid #c4c4c4;
+  font-family: "Noto Sans KR", sans-serif;
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  background: url("images/select_down.svg") no-repeat;
+  background-size: 15px;
+  background-position: right center;
+  font-size: 15px;
+  font-weight: 500;
+  padding-left: 4px;
+}
+.atm_memjoin_opt select[name="nation"] + span {
+  display: block;
+  font-size: 14px;
+  color: #bbb;
+  padding: 0 5px;
+  letter-spacing: -1px;
+  margin-top: 5px;
+}
+.atm_memjoin_opt select[name="lang"] {
+  display: block;
+  width: 100%;
+  height: 31px;
+  border: 0;
+  border-bottom: 1px solid #c4c4c4;
+  font-family: "Noto Sans KR", sans-serif;
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  background: url("images/select_down.svg") no-repeat;
+  background-size: 15px;
+  background-position: right center;
+  font-size: 14px;
+  padding-left: 4px;
+}
+.atm_memjoin_opt select[name="lang"] + span {
+  display: block;
+  font-size: 14px;
+  color: #bbb;
+  padding: 0 5px;
+  letter-spacing: -1px;
+  margin-top: 5px;
+}
+#atm_memjoin_wrapper0 input[name="Phone1"] {
+  width: 49%;
+  margin-left: 1%;
+}
+#atm_memjoin_wrapper0 input[name="Phone1"] + p {
+  color: #999;
+  margin-bottom: 5px;
+  font-size: 14px;
+  padding: 0 5px;
+  letter-spacing: -1px;
+  margin-top: 1px;
+}

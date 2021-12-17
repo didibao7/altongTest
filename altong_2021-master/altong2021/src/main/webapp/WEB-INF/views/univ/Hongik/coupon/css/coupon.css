@@ -1,0 +1,285 @@
+/* 쿠폰메인페이지 */
+.coupon_wrapper {
+  width: 100%;
+  display: inline-block;
+}
+.coupon_wrapper .coupon_main_div01 {
+  padding: 0 8px 10px 8px;
+}
+
+.coupon_wrapper .coupon_main_div01 .coupon_main_innerdiv {
+  margin-top: 10px;
+  display: table;
+  width: 100%;
+  text-align: center;
+  padding: 15px 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+.coupon_wrapper .coupon_main_div01 .coupon_main_innerdiv > * {
+  color: #535353;
+  letter-spacing: -0.3px;
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 0.9em;
+}
+.coupon_wrapper .coupon_main_div01 .coupon_main_innerdiv_img img {
+  width: 2.5em;
+}
+.coupon_wrapper .coupon_main_div01 .coupon_main_innerdiv_img {
+  text-align: center;
+}
+.coupon_wrapper .coupon_main_div01 .coupon_main_arrow,
+.coupon_wrapper .coupon_main_div01 .coupon_main_close {
+  color: #535353;
+  font-size: 1.1em !important;
+}
+.coupon_wrapper .coupon_main_div01 .coupon_main_close {
+  cursor: pointer;
+  text-align: right;
+}
+.coupon_wrapper .coupon_num {
+  color: #ee3c3c;
+  padding: 0 3px;
+  font-weight: bold;
+}
+.coupon_wrapper .coupon_main_div01 .coupon_main_innerdiv_page {
+  font-weight: bold;
+  color: #ee3c3c;
+  cursor: pointer;
+}
+
+.coupon_wrapper .coupon_main_div02 {
+  padding: 10px;
+  border-bottom: 1px solid #aaa;
+}
+
+.coupon_wrapper
+  .coupon_main_div02
+  .coupon_main_div02_bottom
+  .coupon_main_gauge {
+  background: url("/Univ/img/bg_coupon_gauge.png") no-repeat center;
+  background-size: contain;
+  display: inline-block;
+  padding: 15%;
+  font-size: 1.7em;
+  font-weight: bold;
+}
+.coupon_wrapper
+  .coupon_main_div02
+  .coupon_main_div02_bottom
+  .coupon_main_gauge_number {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.coupon_wrapper .coupon_main_div02 .coupon_main_div02_topA {
+  display: inline-block;
+  width: 58%;
+  color: #333;
+  text-align: left;
+  font-size: 1.15em;
+  font-weight: bold;
+  letter-spacing: -0.7px;
+}
+.coupon_wrapper .coupon_main_div02 .coupon_main_div02_topB {
+  display: inline-block;
+  width: 40%;
+  font-size: 0.85em;
+  font-weight: bold;
+  text-align: right;
+  color: #535353;
+}
+.coupon_wrapper .coupon_main_div02 .coupon_main_point_number {
+  font-size: 1.25em;
+  color: #ee3c3c;
+  padding: 0 2px;
+}
+.coupon_wrapper .coupon_main_div02 .coupon_main_gauge_number > p {
+  font-weight: bold;
+  letter-spacing: -0.5px;
+  padding-left: 5px;
+  color: #666;
+}
+.coupon_wrapper .coupon_main_div02 .coupon_main_gauge_number > p > span {
+  padding: 0 5px 0 3px;
+}
+
+.coupon_main_div03 {
+  background-color: #f2f2f2;
+  padding: 10px 10px 15px 10px;
+  display: inline-block;
+  width: 100%;
+  border-bottom: 1px solid #aaa;
+}
+.coupon_main_intit {
+  font-weight: bold;
+  font-size: 1.05em;
+  text-align: left;
+  letter-spacing: -0.5px;
+  padding-bottom: 3px;
+  color: #555;
+}
+.coupon_main_intit i {
+  vertical-align: bottom;
+  padding-right: 3px;
+  padding-left: 7px;
+  color: #fe4e88;
+  font-size: 1.5em;
+}
+.coupon_mycoupon_div {
+  display: inline-block;
+  width: 100%;
+}
+.coupon_main_div04 {
+  display: inline-block;
+  width: 100%;
+  padding: 10px 10px 15px 10px;
+  border-bottom: 1px solid #aaa;
+}
+
+.coupon_category {
+  text-align: left;
+  padding-bottom: 15px;
+}
+.coupon_category .coupon_category_btn {
+  width: 32%;
+  text-align: center;
+  display: inline-block;
+  padding: 10px;
+}
+.coupon_category .coupon_category_btn img {
+  cursor: pointer;
+  width: 80px;
+  padding-bottom: 8px;
+}
+
+.coupon_category .coupon_category_btn p {
+  cursor: pointer;
+  text-align: center;
+  font-size: 0.85em;
+  font-weight: bold;
+  letter-spacing: -1px;
+}
+.coupon_mission_clear {
+  font-size: 1em;
+  color: #aaa;
+}
+.coupon_mission_clear > span {
+  font-size: 1.1em !important;
+  color: #aaa !important;
+}
+
+/* 쿠폰담기 */
+.coupon_add_wrapper {
+  display: inline-block;
+  background-color: #f2f2f2;
+  padding: 20px 10px;
+}
+.coupon_add_wrapper > table {
+  width: 100%;
+}
+.coupon_add_wrapper .univ_main_tit {
+  padding-bottom: 7px;
+}
+.coupon_list_sort {
+  padding-top: 5px;
+  padding-bottom: 15px;
+  padding-right: 10px;
+  text-align: right;
+  font-size: 0.85em;
+  font-weight: bold;
+  letter-spacing: -0.5px;
+}
+.coupon_sort {
+  padding: 0 5px;
+}
+.coupon_sort_on {
+  color: #ee3c3c;
+}
+
+/* media */
+@media screen and (min-width: 320px) {
+}
+@media screen and (min-width: 375px) {
+  .coupon_wrapper .coupon_main_div02 .coupon_main_gauge_number > p {
+    font-size: 1.15em;
+  }
+  .coupon_wrapper .coupon_main_div01 .coupon_main_innerdiv > * {
+    font-size: 1.1em;
+  }
+}
+@media screen and (min-width: 414px) {
+  .coupon_category .coupon_category_btn img {
+    width: 100px;
+  }
+  .coupon_category .coupon_category_btn p {
+    font-size: 1em;
+  }
+  .univ_right_tit {
+    font-size: 0.85em;
+  }
+  .coupon_list_sort {
+    font-size: 1em;
+  }
+  .coupon_wrapper .coupon_main_div02 .coupon_main_gauge_number > p {
+    font-size: 1.25em;
+  }
+  .coupon_wrapper .coupon_main_div01 .coupon_main_innerdiv > * {
+    font-size: 1.15em;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .coupon_wrapper {
+    width: 800px;
+    display: inline-block;
+  }
+  .coupon_category .coupon_category_btn img {
+    width: 110px;
+    padding-bottom: 8px;
+  }
+  .coupon_category .coupon_category_btn p {
+    text-align: center;
+    font-size: 1.15em;
+    font-weight: bold;
+    letter-spacing: -1px;
+  }
+  .coupon_wrapper .coupon_main_div01 .coupon_main_innerdiv_img img {
+    width: 5em;
+  }
+  .coupon_wrapper .coupon_main_div01 .coupon_main_innerdiv > * {
+    font-size: 1.3em;
+  }
+  .coupon_wrapper .coupon_main_div01 .coupon_main_arrow,
+  .coupon_wrapper .coupon_main_div01 .coupon_main_close {
+    font-size: 1.5em !important;
+  }
+  .coupon_wrapper .coupon_main_div02 .coupon_main_div02_topA,
+  .coupon_tit {
+    font-size: 1.25em;
+  }
+  .coupon_wrapper
+    .coupon_main_div02
+    .coupon_main_div02_bottom
+    .coupon_main_gauge {
+    font-size: 2.2em;
+    padding: 10%;
+  }
+  .coupon_wrapper .coupon_main_div02 .coupon_main_gauge_number > p {
+    font-size: 1.5em;
+    padding-left: 20px;
+  }
+  .coupon_intit {
+    font-size: 1.2em;
+  }
+  .coupon_category .coupon_category_btn {
+    width: 19%;
+  }
+  .coupon_wrapper .coupon_main_div02 .coupon_main_div02_topB {
+    font-size: 1em;
+  }
+  .coupon_main_div02 {
+    padding-top: 15px !important;
+  }
+}

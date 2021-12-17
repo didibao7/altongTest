@@ -1,0 +1,173 @@
+@charset "utf-8";
+
+#atm_wa_wrapper {
+  padding-top: 60px;
+}
+#atm_wa_wrapper h1 {
+  text-align: center;
+  font-size: 24px;
+  padding: 15px 0;
+}
+#atm_wa_wrapper .center {
+  padding: 0 10px;
+}
+
+/* 질문보기 */
+.atm_wa_con {
+  border: 1px solid #666;
+  padding: 10px 20px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.atm_wa_con .atm_faq_tt {
+  padding-left: 25px;
+  position: relative;
+}
+.atm_wa_con .atm_faq_tt img {
+  display: inline-block;
+  width: 20px;
+  position: absolute;
+  top: 5px;
+  left: 0;
+}
+.atm_wa_con .atm_faq_tt p {
+  font-size: 14px;
+  display: inline-block;
+  color: #888;
+  font-weight: 500;
+}
+.atm_wa_con .atm_faq_tt i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-left: 1px solid #333;
+  border-top: 1px solid #333;
+  transform: translateY(-50%) rotate(-135deg);
+  transform-origin: center;
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  transition: all 0.3s;
+}
+.atm_wa_con .atm_faq_tt i.icon_ani {
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.atm_faq_con {
+  margin-top: 15px;
+  display: none;
+}
+.atm_faq_line {
+  width: 100%;
+  height: 2px;
+  background: #eee;
+}
+.atm_faq_slidG {
+  height: 95px;
+  overflow-y: scroll;
+}
+.atm_faq_slidG h3 {
+  font-size: 16px;
+  padding-top: 10px;
+  margin-bottom: 12px;
+}
+.atm_faq_slidG h3 span {
+  font-size: 22px;
+  color: #fd0031;
+  margin-right: 8px;
+}
+.atm_faq_slidG p {
+  font-size: 14px;
+}
+#standalone-container {
+  margin: 35px auto 20px;
+  max-width: 720px;
+}
+#editor-container {
+  height: 550px;
+}
+
+.atm_wq_G1 .atm_wq_bet {
+  text-align: center;
+}
+.atm_wq_G1 .atm_wq_bet p {
+  display: inline-block;
+  font-size: 14px;
+  color: #888;
+  font-weight: 500;
+  margin-right: 20px;
+}
+.atm_wq_G1 .atm_wq_bet .thank_almoney {
+  display: inline-block;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+.atm_wq_G1 .atm_wq_bet .thank_almoney select {
+  border: 0;
+  width: 240px;
+  display: block;
+  text-align: center;
+  outline: none;
+  font-size: 13px;
+  color: #888;
+  font-weight: bold;
+}
+.atm_wq_G1 .atm_wq_bet .thank_almoney select option {
+  padding-left: 0;
+}
+
+.nick_open {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto 20px;
+  overflow: hidden;
+}
+.nick_open p {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 500;
+  color: #888;
+}
+.nick_open ul {
+  display: inline-block;
+  float: right;
+}
+.nick_open ul li {
+  display: inline-block;
+  padding: 1px 15px;
+  border-radius: 20px;
+  border: 1px solid #aaa;
+  font-size: 14px;
+  font-weight: 500;
+  color: #aaa;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.nick_open ul li.open_agree {
+  color: #fd0031;
+  border: 1px solid #fd0031;
+}
+
+.register {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  border: 1px solid #999;
+  height: 35px;
+  background: #fff;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #666;
+  outline: none;
+  cursor: pointer;
+  margin-bottom: 30px;
+  transition: all 0.3s;
+}
+.register:hover {
+  background: #666;
+  color: #fff;
+}

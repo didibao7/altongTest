@@ -1,0 +1,106 @@
+@charset "utf-8";
+
+.atm_ranka11_con {
+  padding-top: 60px;
+}
+.atm_ranka11_con .center {
+  padding: 0 10px;
+  margin-top: 10px;
+}
+.atm_ranka11_con .atm_ranka11_el {
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  padding: 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+.atm_ranka11_con img {
+  max-width:100%;
+}
+
+.atm_ranka11_el .atm_ranka11_c5 {
+  padding-left: 50px;
+  position: relative;
+  vertical-align: middle;
+  font-weight: 500;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+.atm_ranka11_el .atm_ranka11_c5 figure {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+.atm_ranka11_el .atm_ranka11_c5 figure img {
+  width: 100%;
+}
+.atm_ranka11_el .atm_ranka11_c5 .atm_icon_score1 {
+  display: inline-block;
+}
+.atm_ranka11_el .atm_ranka11_c5 .atm_icon_score1 .atm_icon_score2 {
+  background: #ffee75;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: bold;
+}
+.atm_ranka11_el .atm_ranka11_c5 .atm_icon_score1 .atm_icon_score2_red {
+  background: #fd0031;
+  color :#fff;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: bold;
+}
+.atm_ranka11_el .atm_ranka11_c5 p {
+  font-weight: normal;
+  font-size: 14px;
+  margin-top: 3px;
+}
+.atm_ranka11_el .atm_ranka11_c5 p span {
+  font-size: 10px;
+  border: 1px solid #fd0031;
+  color: #fd0031;
+  padding: 0 5px;
+  border-radius: 10px;
+}
+.atm_ranka11_el .beefup__head {
+  margin: 15px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  font-size: 16px;
+}
+.atm_ranka11_el .atm_ranka11_c7 {
+  font-size: 12px;
+  color: #888;
+  padding-left: 10px;
+  vertical-align: middle;
+}
+.atm_ranka11_el .atm_ranka11_c7 span:first-child {
+  margin-left: 5px;
+}
+.atm_ranka11_el .atm_ranka11_c7 img {
+  width: 10px;
+  vertical-align: middle;
+  margin-right: 2px;
+}
+/* 검색결과 없음 */
+.atm_ranka11_con .noResult {
+  display: none;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  font-style: italic;
+  margin: 20px 0;
+}
+.atm_ranka11_con {
+  min-height: calc(100vh - 70px);
+}

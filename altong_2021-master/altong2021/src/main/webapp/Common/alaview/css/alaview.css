@@ -1,0 +1,135 @@
+.alaview_topwrapper {
+  width: 100%;
+  background-color: #429aef;
+  display: inline-block;
+}
+.alaview_topBtns {
+  width: 100%;
+}
+.alaview_topBtn {
+  width: 9%;
+  text-align: center;
+  padding: 5px 0 3px 0;
+  font-size: 0.75em;
+  font-weight: bold;
+  letter-spacing: -0.5px;
+  cursor: pointer;
+  color: white;
+  float: left;
+}
+
+.alaview_topBtn > img {
+  width: 32px;
+}
+
+.alaview {
+  cursor: pointer;
+  position: relative;
+  margin: 5px 0 5px 0;
+  width: 50%;
+  float: left;
+  border: 2px solid #fff;
+  background-color: #000;
+  display: inline-block;
+}
+.alaview_height {
+  position: relative;
+}
+.alaview_memo {
+  bottom: 0;
+  width: 100%;
+  padding: 3px;
+  font-size: 13px;
+  text-align: left;
+  line-height: 15px;
+  overflow: hidden;
+  position: relative;
+  background-color: #fff;
+  white-space: nowrap;
+}
+
+.alaview_usr {
+  margin-top: -3px;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.gra_right {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 19px;
+  width: 15px;
+}
+
+/* popup */
+.alaview_mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #000;
+  opacity: 0.9;
+  z-index: 100;
+  text-align: center;
+  display: none;
+}
+
+.alaview_popup {
+  position: absolute;
+  width: 100%;
+  z-index: 101;
+  position: fixed;
+  top: 25%;
+  padding: 3px 0;
+  display: none;
+}
+
+.popup_div {
+  width: 100%;
+  background-color: black;
+  position: relative;
+}
+
+.popup_close {
+  position: absolute;
+  color: white;
+  font-size: 2em !important;
+  top: -30px;
+  right: 2px;
+  cursor: pointer;
+}
+.viewer {
+  height: 300px;
+  text-align: center;
+  background-color: black;
+}
+.viewer > iframe {
+  width: 90%;
+  height: 100%;
+}
+
+@media screen and (min-width: 800px) {
+  .viewer {
+    width: 100%;
+    height: 500px;
+  }
+  .alaview_topBtns {
+    width: 800px;
+    display: inline-block;
+  }
+  .alaview_popup {
+    width: 780px;
+  }
+  .alaview_topBtn > img {
+    width: 50px;
+  }
+
+  .alaview_topBtn {
+    font-size: 0.9em;
+  }
+  .alaview {
+    width: 20%;
+  }
+}

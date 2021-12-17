@@ -1,0 +1,88 @@
+<div class="univ_wrap">
+  <%//@ include file="/Common/include/MenuSub.jsp" %>
+  <div class="univ_wrapper">
+    <div class="univ_top">
+      <table class="univ_top_table">
+        <tr>
+          <td id="univ_top_menu_logo">
+            <i
+              id="sidebar-main-trigger"
+              class="material-icons left_menuIcon"
+              >menu</i
+            >
+          </td>
+          <td class="hongik_univ univ_top_logo">
+            <img
+              src="<?=$libIMG_URL?>/Univ/img/logo_hongik_univ.png"
+              id="hongikLogo"
+              alt="hongik_univ_logo"
+              onclick="location.href='/answer/QuestionList_SP'"
+            />
+          </td>
+          <td class="hongik_univ univ_top_mainhome">
+            <i
+              class="material-icons right_menuIcon"
+              onclick="location.href='/default/main';"
+              >home</i
+            >
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <p class="univ_line"></p>
+  <div class="univ_top">
+    <p class="univ_top_secLine">
+      <!-- top의 버튼들입니다. 클릭 시 .univ_top_on 이 추가되도록 합니다. -->
+      <span
+        class="hongik_univ <?if(basename($_SERVER['PHP_SELF']) == 'questionList_SP' || isset($SP)){?>univ_top_on<?}?>"
+        onclick="location.href='/answer/questionList_SP'"
+        >홍대생 Q&A</span
+      >
+      <span
+        class="hongik_univ<?=($_GET['C2']==1 ? ' univ_top_on' : '')?>"
+        onclick="location.href='/bbs/BBSList?C1=1&C2=1';"
+      >
+        자유게시판
+      </span>
+      <span
+        class="hongik_univ<?=($_GET['C2']==2 ? ' univ_top_on' : '')?>"
+        onclick="location.href='/bbs/BBSList?C1=1&C2=2';"
+      >
+        정보게시판
+      </span>
+	  <?/*
+      <span class="hongik_univ <?if(basename($_SERVER['PHP_SELF']) == 'couponMain.alt'){?>univ_top_on<?}?>" onclick="location.href='/Univ/Hongik/coupon/couponMain.alt'">쿠폰</span>
+      <span>이벤트</span>
+	  */?>
+      <span
+        class="hongik_univ <?if(basename($_SERVER['PHP_SELF']) == 'FoodList.alt'){?>univ_top_on<?}?>"
+        onclick="location.href='/Univ/Hongik/iframe/FoodList.alt'"
+        >학교식당</span
+      >
+      <!-- <span>시간표</span> -->
+      <span
+        class="hongik_univ <?if(basename($_SERVER['PHP_SELF']) == 'ReadingRoom.alt'){?>univ_top_on<?}?>"
+        onclick="location.href='/Univ/Hongik/iframe/ReadingRoom.alt'"
+        >열람실</span
+      >
+      <span
+        class="hongik_univ <?if(basename($_SERVER['PHP_SELF']) == 'Library.alt'){?>univ_top_on<?}?>"
+        onclick="location.href='/Univ/Hongik/iframe/Library.alt'"
+        >도서관</span
+      >
+      <span
+        class="hongik_univ <?if(basename($_SERVER['PHP_SELF']) == 'StudentNotice.alt'){?>univ_top_on<?}?>"
+        onclick="location.href='/Univ/Hongik/iframe/StudentNotice.alt'"
+        >학사공지</span
+      >
+      <span
+        class="hongik_univ <?if(basename($_SERVER['PHP_SELF']) == 'HongikNews.alt'){?>univ_top_on<?}?>"
+        onclick="location.href='/Univ/Hongik/iframe/HongikNews.alt'"
+        >홍익뉴스</span
+      >
+      <!-- <span>공채달력</span> -->
+    </p>
+  </div>
+  <p class="univ_line"></p>
+</div>

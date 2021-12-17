@@ -1,0 +1,52 @@
+@charset "utf-8";
+
+.atm_memjoin_con .atm_memjoin_con_el #my_lang {
+  display: block;
+  width: 95%;
+  border: 0;
+  height: 30px;
+  margin: 0 auto;
+  border-bottom: 1px solid #c4c4c4;
+  padding: 5px 10px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #555;
+  outline: none;
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  background: url("/pub/default/joinInput_n2/images/select_down.svg") no-repeat;
+  background-size: 15px;
+  background-position: right center;
+}
+.atm_memjoin_con .atm_memjoin_con_el .atm_memjoin_opt_mail select {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  background: url("/pub/default/joinInput_n2/images/select_down.svg") no-repeat;
+  background-size: 15px;
+  background-position: right center;
+}
+.atm_memjoin_con .atm_memjoin_top p.atm_memjoin_c1 {
+  font-style: italic;
+  color: #888;
+}
+input#NickName {
+  font-size: 14px;
+  color: #888;
+  font-style: italic;
+}
+input#my_nation {
+  font-size: 14px;
+  color: #888;
+  font-style: italic;
+}
+@media screen and (max-width: 480px) {
+  .atm_memjoin_opt input#NickName {
+    width: 95%;
+  }
+}

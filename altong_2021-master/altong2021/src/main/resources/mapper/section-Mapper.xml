@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.section">
+
+	<!-- fn_SQL_Section_MaxSeq -->
+	<select id="getSectionLMaxCode" resultType="int">
+		SELECT 
+			MAX(Code) AS Code
+		FROM T_SECTION1 with(nolock) 
+	</select>
+	
+	<!-- fn_SQL_Section_List -->
+	<select id="getSectionListCount" resultType="int">
+		SELECT 
+			count(Code)
+		FROM T_SECTION1 with(nolock) 
+		ORDER BY #{psrc_Cond} DESC
+	</select>
+	
+	<!-- fn_SQL_Section_List -->
+	<select id="getSectionListLimit" resultType="section">
+		SELECT 
+			TOP #{p_Option}	*
+		FROM T_SECTION1 with(nolock) 
+	</select>
+	
+	<!-- fn_SQL_Section_List -->
+	<select id="getSectionList" resultType="section">
+		SELECT 
+			*
+		FROM T_SECTION1 with(nolock) 
+	</select>
+	
+	<!-- fn_SQL_Answer_Section1T -->
+	<select id="getAnswerSection1TList" resultType="section">
+		SELECT 
+			*
+		FROM T_SECTION1 with(nolock) 
+		WHERE FlagUse = 'Y' 
+		ORDER BY SortNumber ASC
+	</select>
+	
+	<!-- fn_SQL_Answer_Section1 -->
+	<select id="getAnswerSection1List" resultType="section">
+		SELECT 
+			 Code AS SectionCode1, CodeName AS SectionName1
+		FROM T_SECTION_T 
+		WHERE FlagUse = 'Y' 
+	</select>
+	
+	<!-- fn_SQL_Answer_Section2 -->
+	<select id="getAnswerSection2List" resultType="section">
+		SELECT 
+			*
+		FROM T_SECTION1 with(nolock) 
+		WHERE Section1Code = #{section1Code} 
+		ORDER BY SortNumber ASC
+	</select>
+	
+	<!-- fn_SQL_Section1_Select -->
+	<select id="getSectionCode" resultType="section">
+		SELECT 
+			Code, CodeName
+		FROM T_SECTION1 with(nolock) 
+		WHERE FlagUse = 'Y'
+		ORDER BY SortNumber ASC
+	</select>
+	
+	<!-- fn_SQL_Answer_Favorite -->
+	<!-- UserSeq 은 session 정보이다. -->
+	<select id="getAnswerFavorite" resultType="section">
+		SELECT 
+			*
+		FROM T_SECTION_T with(nolock) 
+		WHERE FlagUse = 'Y'
+			AND Code IN (SELECT Section1 FROM T_MYFAVORITE WHERE MemberSeq = #{userSeq} ) 
+		ORDER BY SortNumber ASC
+	</select>
+	
+	<!-- fn_SQL_Get_Category_Name -->
+	<!-- 배열 변수 code 에서 code[2], code[3], code[4], code[5], code[1] 을 차례대로 받아 온다. -->
+	<select id="getCategoryName" resultType="section">
+		SELECT 
+			IsNull(A.CodeName, '') AS CodeName1,
+			IsNull(B.CodeName, '') AS CodeName2, 
+			IsNull(C.CodeName, '') AS CodeName3, 
+			IsNull(D.CodeName, '') AS CodeName4, 
+			IsNull(E.CodeName, '') AS CodeNmae5 
+		FROM 
+			T_SECTION_T AS A 
+			LEFT OUTER JOIN T_SECTION2 AS B ON (B.Code = #{code2}) 
+			LEFT OUTER JOIN T_SECTION3_1 AS C ON (C.Code = #{code3}) 
+			LEFT OUTER JOIN T_SECTION4 AS D ON (D.Code = #{code4}) 
+			LEFT OUTER JOIN T_SECTION5$ AS E ON (E.Code = #{code5}) 
+		WHERE 
+			A.Code = #{code1}
+	</select>
+	
+	<!-- fn_SQL_Answer_Section1T -->
+	<select id="getAnswerSection1T" resultType="section">
+		SELECT 
+			* 
+		FROM T_SECTION_T with(nolock) 
+		WHERE FlagUse = 'Y' 
+		ORDER BY SortNumber ASC
+	</select>
+	
+	<!-- fn_SQL_Answer_Section1 -->
+	<select id="getAnswerSection1" resultType="section">
+		SELECT 
+			Code AS SectionCode1, CodeName AS SectionName1 
+		FROM T_SECTION_T 
+		WHERE FlagUse = 'Y' 
+	</select>
+	
+	<!-- fn_SQL_Answer_Section2 -->
+	<select id="getAnswerSection2" resultType="section">
+		SELECT 
+			* 
+		FROM T_SECTION_T 
+		WHERE Section1Code = #{section1Code}  
+		ORDER BY SortNumber ASC
+	</select>
+	
+	<!-- fn_SQL_Answer_Favorite -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getAnswerFavoriteAll" resultType="int">
+		SELECT * 
+		FROM T_SECTION_T  with(nolock) 
+		WHERE FlagUse = 'Y' 
+		AND Code IN (SELECT Section1 FROM T_MYFAVORITE WHERE MemberSeq = #{userSeq} 
+		ORDER BY SortNumber ASC
+	</select>
+	
+	<!-- fn_SQL_Board_Section1(Common.vbs) -->
+	<select id="getBoardSection1" resultType="section">
+		SELECT 
+			Code, CodeName, SectionImgOn, SectionImgOff
+		FROM T_SECTION_T  with(nolock) 
+		WHERE FlagUse = 'Y' 
+		ORDER BY SortNumber ASC
+	</select>
+	
+	<!-- fn_SQL_Board_Section2(Common.vbs) -->
+	<select id="getBoardSection2" resultType="section">
+		SELECT 
+			Code, Section1Code, CodeName, SectionImgOn, SectionImgOff
+		FROM T_SECTION2  with(nolock) 
+		WHERE FlagUse = 'Y' 
+		ORDER BY SortNumber ASC
+	</select>
+	
+	<!-- fn_SQL_Board_Section3(Common.vbs) -->
+	<select id="getBoardSection3" resultType="section">
+		SELECT 
+			Code, Section1Code, Section2Code, CodeName, SectionImgOn, SectionImgOff
+		FROM T_SECTION3  with(nolock) 
+		WHERE FlagUse = 'Y' 
+		ORDER BY SortNumber ASC
+	</select>
+	
+	<!-- fn_SQL_MyInterest_Section1 -->
+	<select id="getMyInterestSection1" resultType="section">
+		SELECT Code, CodeName 
+		FROM T_SECTION_T  with(nolock) 
+	</select>
+	
+	<!-- fn_SQL_MyInterest_Section2 -->
+	<select id="getMyInterestSection2" resultType="section">
+		SELECT Code, CodeName, Section1Code 
+		FROM T_SECTION2  with(nolock) 
+		WHERE  Section1Code = #{code}
+	</select>
+	
+	<!-- fn_SQL_MyInterest_Section3 -->
+	<select id="getMyInterestSection3" resultType="section">
+		SELECT Code, CodeName, Section1Code, Section2Code 
+		FROM T_SECTION3_1  with(nolock) 
+		WHERE  Section1Code = #{code1} AND Section2Code = #{code2}
+	</select>
+	
+	<!-- fn_SQL_MyInterest_Section4 -->
+	<select id="getMyInterestSection4" resultType="section">
+		SELECT Code, CodeName, Section1Code, Section2Code, Section3Code 
+		FROM [dbo].[T_SECTION4]  with(nolock) 
+		WHERE  Section1Code = #{code1} AND Section2Code = #{code2} AND Section3Code = #{code3}
+	</select>
+	
+	<!-- fn_SQL_MyInterest_Section5 -->
+	<select id="getMyInterestSection5" resultType="section">
+		SELECT Code, CodeName, Section1Code, Section2Code, Section3Code, Section4Code  
+		FROM [dbo].[T_SECTION5$]  with(nolock) 
+		WHERE  Section1Code = #{code1} AND Section2Code = #{code2} AND Section3Code = #{code3} AND Section4Code = #{code4}
+	</select>
+	
+	<!-- fn_SQL_MyInterest_Get1 -->
+	<select id="getMyInterestGet1" resultType="section">
+		SELECT CodeName 
+		FROM [dbo].[T_SECTION_T]  with(nolock) 
+		WHERE Code = #{code1}
+	</select>
+	
+	<!-- fn_SQL_MyInterest_Get2 -->
+	<select id="getMyInterestGet2" resultType="section">
+		SELECT CodeName 
+		FROM [dbo].[T_SECTION2]  with(nolock) 
+		WHERE Section1Code = #{code1} AND Code = #{code2}
+	</select>
+	
+	<!-- fn_SQL_MyInterest_Get3 -->
+	<select id="getMyInterestGet3" resultType="section">
+		SELECT CodeName 
+		FROM [dbo].[T_SECTION3_1]  with(nolock) 
+		WHERE Section1Code = #{code1} AND Section2Code = #{code2} AND Code = #{code3}
+	</select>
+	
+	<!-- fn_SQL_MyInterest_Get4 -->
+	<select id="getMyInterestGet4" resultType="section">
+		SELECT CodeName 
+		FROM [dbo].[T_SECTION4]  with(nolock) 
+		WHERE Section1Code = #{code1} AND Section2Code = #{code2}  AND Section3Code = #{code3}  AND Code = #{code4}
+	</select>
+	
+	<!-- fn_SQL_MyInterest_Get5 -->
+	<select id="getMyInterestGet5" resultType="section">
+		SELECT CodeName 
+		FROM [dbo].[T_SECTION5$]  with(nolock) 
+		WHERE Section1Code = #{code1} AND Section2Code = #{code2}  AND Section3Code = #{code3} AND Section4Code = #{code4} AND Code = #{code5}
+	</select>
+	
+	
+	<!-- fn_SQL_Section_Insert -->
+	<insert id="setSection">
+		insert into T_SECTION1 (Code, CodeName, SortNumber, SectionImgOn, SectionImgOff, FlagUse) 
+		values(#{code},#{codeName},#{sortNumber},#{sectionImgOn},#{sectionImgOff},#{flagUse})
+	</insert>
+	
+	<!-- member/interest/getInterest (else) -->
+	<select id="getMyInterestExtGet" resultType="section">
+		SELECT Code, CodeName FROM T_SECTION_T WITH(NOLOCK) WHERE FlagUse = 'Y' ORDER BY SortNumber
+	</select>
+	<!-- member/interest/getInterest (section1) -->
+	<select id="getMyInterestSection1Get" resultType="section">
+		SELECT Code, Section1Code, CodeName FROM T_SECTION2 WITH(NOLOCK) WHERE FlagUse = 'Y' AND Section1Code = #{section} ORDER BY SortNumber
+	</select>
+	<!-- member/interest/getInterest (section2) -->
+	<select id="getMyInterestSection2Get" resultType="section">
+		SELECT Code, Section1Code, Section2Code, CodeName FROM T_SECTION3_1 WITH(NOLOCK) WHERE FlagUse = 'Y' AND Section2Code = #{section} ORDER BY SortNumber
+	</select>
+	<!-- member/interest/getInterest (section3) -->
+	<select id="getMyInterestSection3Get" resultType="section">
+		SELECT Code, Section1Code, Section2Code, Section3Code, CodeName FROM T_SECTION4 WITH(NOLOCK) WHERE FlagUse = 'Y' AND Section3Code = #{section} ORDER BY SortNumber
+	</select>
+	<!-- member/interest/getInterest (section4) -->
+	<select id="getMyInterestSection4Get" resultType="section">
+		SELECT Code, Section1Code, Section2Code, Section3Code, Section4Code, CodeName FROM T_SECTION5$ WITH(NOLOCK) WHERE FlagUse = 'Y' AND Section4Code = #{section} ORDER BY SortNumber
+	</select>
+	
+	<!-- en/zh/... codeName update -->
+	<update id="setConvCodeName">
+		UPDATE ${tbl} SET ${col} = #{codeName} WHERE Code = #{code}
+	</update>
+	
+</mapper>

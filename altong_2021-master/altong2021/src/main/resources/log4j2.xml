@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration strict="true">
+
+	<Properties>
+		<Property name="consolePattern" value="%-5p: %c - %m%n"/>
+		<Property name="basedir" value="${sys:catalina.home}/logs"/>
+		
+		<Property name="logFileName" value="altong-${date:yyyy-MM-dd}"/>
+		<Property name="logFileNameForAdvice" value="altong-${date:yyyy-MM-dd}-advice"/>
+		
+		<Property name="RollingNamePattern" value="altong-%d{yyyy-MM-dd}-%i"/>
+		<Property name="RollingNamePatternForAdvice" value="altong-%d{yyyy-MM-dd}-advice-%i"/>
+		
+		<Property name="RollingLogPattern" value="[%5p] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%C] %m%n"/>
+		<Property name="RollingLogPatternForAdvice" value="[%5p] [%d{yyyy-MM-dd HH:mm:ss.SSS}] %m%n"/>
+	</Properties>
+
+	<!-- Appenders -->
+	<Appenders>
+		<Console name="CONSOLE" target="SYSTEM_OUT">
+	            <PatternLayout pattern="${consolePattern}"/>
+	    </Console>
+	    
+	    <RollingFile name="FILE" fileName="${basedir}/${logFileName}.log" filePattern="${basedir}/%d{yyyy-mm-dd}/${RollingNamePattern}.log" append="true">
+	    	<PatternLayout pattern="${RollingLogPattern}"/>
+	    	<Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="100" fileIndex="min"/>
+	    </RollingFile>
+	    
+	    <RollingFile name="ADVICEFILE" fileName="${basedir}/${logFileNameForAdvice}.log" filePattern="${basedir}/%d{yyyy-mm-dd}-advice/${RollingNamePatternForAdvice}.log" append="true">
+	    	<PatternLayout pattern="${RollingLogPatternForAdvice}"/>
+	    	<Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="100" fileIndex="min"/>
+	    </RollingFile>
+    </Appenders>
+    
+	<Loggers>
+		<!-- Root Loggers -->
+		<AsyncRoot level="WARN" additivity="false" includeLocation="true">
+			 <AppenderRef ref="CONSOLE"/>
+		</AsyncRoot>
+		
+		<!-- Application Loggers -->
+		<AsyncLogger name="com.altong.web" level="INFO" additivity="false" includeLocation="true">
+			<AppenderRef ref="FILE"/>
+		</AsyncLogger>
+		
+		<!-- Advice Loggers -->
+		<AsyncLogger name="com.altong.web.aop" level="TRACE" additivity="false">
+			<AppenderRef ref="ADVICEFILE"/>
+		</AsyncLogger>
+				
+		<!-- 3rdparty Loggers -->
+		<AsyncLogger name="org.springframework.core" level="INFO" additivity="false" includeLocation="true"/>
+		<AsyncLogger name="org.springframework.beans" level="INFO" additivity="false" includeLocation="true"/>
+		<AsyncLogger name="org.springframework.context" level="INFO" additivity="false" includeLocation="true"/>
+		<AsyncLogger name="org.springframework.web" level="INFO" additivity="false" includeLocation="true"/>
+	</Loggers>
+</Configuration>

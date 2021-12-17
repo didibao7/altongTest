@@ -1,0 +1,398 @@
+@charset "utf-8";
+.atm_ranka32_con .center {
+  padding: 0 10px;
+}
+.atm_ranka_tab2_pc {
+  text-align: right;
+  margin-top: 30px;
+  position: relative;
+}
+.atm_ranka_tab2_pc h3 {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  font-size: 21px;
+}
+.atm_ranka_tab2_pc p {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  color: #aaa;
+  border: 1px solid #aaa;
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.atm_ranka_tab2_pc p.atm_ranka_tabc6_on {
+  border: 1px solid #fd0031;
+  color: #fd0031;
+  background: #fff;
+}
+.atm_ranka_tab2_pc p.atm_ranka_tabc7_on {
+  border: 1px solid #fd0031;
+  color: #fd0031;
+  background: #fff;
+}
+.atm_ranka_tab2_pc p.atm_ranka_tabc8_on {
+  border: 1px solid #fd0031;
+  color: #fd0031;
+  background: #fff;
+}
+.atm_ranka_tab2_pc p.atm_ranka_tabc9_on {
+  border: 1px solid #fd0031;
+  color: #fd0031;
+  background: #fff;
+}
+.atm_rank_el_container {
+  padding: 10px 0;
+}
+.atm_rank_el_container .atm_rank_el {
+  border: 1px solid #e3e3e3;
+  border-radius: 20px;
+  padding: 10px;
+  vertical-align: middle;
+  position: relative;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+.atm_rank_el_container .atm_rank_el figure {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  vertical-align: middle;
+  margin: 0 5px;
+}
+.atm_rank_el_container .atm_rank_el figure img {
+  width: 100%;
+  height: 100%;
+}
+.atm_rank_el_container .atm_rank_el .atm_ranka32_eltexts {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 12px;
+  color: #666;
+  margin: 0 5px;
+}
+.atm_rank_el_container .atm_rank_el .atm_ranka32_eltexts .atm_ranka32_el_c2 {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+.atm_rank_el_container .atm_rank_el .atm_ranka_el_c1 {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: -0.5px;
+}
+.atm_rank_el_container .atm_rank_el .atm_ranka_el_c1 .atm_ranka32_c6 {
+  color: #fd0031;
+}
+/* 2021-01-27 김주윤 수정 */
+.atm_rank_el_container .first {
+  color: #fd0031 !important;
+  position: relative;
+}
+.atm_rank_el_container .first::after {
+  content: "";
+  display: block;
+  width: 17px;
+  height: 17px;
+  background: url("/pub/answer/rankAnswer/crown.png");
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%) rotate(27deg);
+}
+.atm_rank_el_container .other {
+  color: #fd0031 !important;
+}
+
+/* rankAnswer */
+.atm_ranka31_con .center {
+  padding: 0 10px;
+}
+.atm_ranka31_eltexts {
+  display: inline-block;
+  vertical-align: middle;
+  width: 70%;
+  margin: 0 5px;
+}
+.atm_rank_el_container .atm_rank_el .atm_ranka31_eltexts .atm_ranka31_el_c2 {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.atm_rank_el_container
+  .atm_rank_el
+  .atm_ranka31_eltexts
+  .atm_ranka31_el_c3
+  img {
+  width: 11px;
+}
+.atm_rank_el_container
+  .atm_rank_el
+  .atm_ranka31_eltexts
+  .atm_ranka31_el_c3
+  span {
+  font-size: 14px;
+  color: #666;
+  margin-right: 3px;
+}
+.atm_rank_el_container .atm_rank_el .atm_ranka31_eltexts .atm_ranka31_el_c3 i {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 1px solid #666;
+  border-radius: 50%;
+  position: relative;
+}
+.atm_rank_el_container
+  .atm_rank_el
+  .atm_ranka31_eltexts
+  .atm_ranka31_el_c3
+  i::before {
+  content: "A";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 9px;
+  font-style: normal;
+  line-height: 12px;
+}
+.atm_rank_el_container .atm_rank_el .atm_ranka_el_c1 .atm_ranka31_c6 {
+  color: #fd0031;
+}
+
+/* 이벤트 진행중 */
+.atm_rankq2_con .center {
+  padding: 0 10px;
+}
+.atm_rankq2_con .atm_ranka12_el {
+  border: 1px solid #e3e3e3;
+  border-radius: 20px;
+  padding: 15px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+.atm_rankq2_con .atm_ranka12_el .atm_ranka12_c5 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.atm_rankq2_con .atm_ranka12_el .atm_icon_score1 {
+  display: inline-block;
+}
+.atm_rankq2_con .atm_ranka12_el .atm_icon_score1 .atm_icon_score2 {
+  background: #fd0031;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 11px;
+  color: #fff;
+  font-weight: bold;
+  margin-right: 3px;
+}
+.atm_rankq2_con .atm_ranka12_el .atm_ranka12_c7 {
+  font-size: 11px;
+  color: #666;
+}
+.atm_rankq2_con .atm_ranka12_el .atm_ranka12_c7 strong {
+  color: #fd0031;
+  border: 1px solid #fd0031;
+  padding: 0 5px;
+  margin-right: 2px;
+}
+.atm_rankq2_con .atm_ranka12_el .atm_ranka12_c7 span {
+  margin: 0 3px;
+}
+.atm_rankq2_con .atm_ranka12_el .atm_ranka12_c7 img {
+  width: 10px;
+  vertical-align: middle;
+  margin-top: -2px;
+}
+/* 지난 이벤트 */
+.atm_rankq2_con .atm_ranka12_el .atm_icon_score1 .atm_icon_score2.past {
+  background: #999;
+}
+.atm_rankq2_con .atm_ranka12_el .atm_ranka12_c7 strong.past {
+  color: #999;
+  border: 1px solid #999;
+}
+
+/* 질문 랭킹 */
+.atm_rankq31_con .center {
+  padding: 0 10px;
+}
+.atm_rankq32_con .center {
+  padding: 0 10px;
+}
+/* 랭킹 버튼 */
+#rank_gnb_btn {
+  text-align: center;
+}
+#rank_gnb_btn ul {
+  overflow: hidden;
+  border-bottom: 1px solid #f1f1f1;
+  padding: 5px 0;
+}
+#rank_gnb_btn ul li {
+  display: inline-block;
+  width: 50%;
+  float: left;
+  text-align: center;
+}
+#rank_gnb_btn ul li a {
+  display: inline-block;
+  color: #666;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+#rank_gnb_btn ul li a:hover {
+  color: #fd0031;
+}
+#rank_gnb_btn ul li.on a {
+  color: #fd0031;
+}
+
+/* 관심분야 */
+.atm_ranka12_con .center {
+  padding: 0 10px;
+}
+.atm_ranka12_con .atm_ranka12_el {
+  border: 1px solid #e3e3e3;
+  border-radius: 20px;
+  padding: 15px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+.atm_ranka12_con .atm_ranka12_el .atm_icon_score1 {
+  display: inline-block;
+}
+.atm_ranka12_con .atm_ranka12_el .atm_ranka12_c5 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.atm_ranka12_con .atm_ranka12_el .atm_ranka12_c7 {
+  font-size: 11px;
+  color: #666;
+}
+.atm_ranka12_con .atm_ranka12_el .atm_ranka12_c7 span {
+  margin: 0 3px;
+}
+.atm_ranka12_con .atm_ranka12_el .atm_ranka12_c7 img {
+  width: 10px;
+  vertical-align: middle;
+  margin-top: -2px;
+}
+.atm_ranka12_con .atm_ranka12_el .atm_icon_score1 .atm_icon_score2 {
+  background: #fd0031;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 11px;
+  color: #fff;
+  font-weight: bold;
+  margin-right: 3px;
+}
+.atm_ranka12_con .atm_ranka12_c7 i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 1px solid #666;
+  border-radius: 50%;
+  position: relative;
+  bottom: -1px;
+  margin-right: 2px;
+}
+.atm_ranka12_con .atm_ranka12_c7 i::before {
+  content: "A";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 8px;
+  font-style: normal;
+  line-height: 12px;
+}
+
+.atm_ranka12_con .atm_ranka12_c7 i.N::after {
+  content: "";
+  display: block;
+  width: 12px;
+  height: 12px;
+  background: url(/Common/images/check.svg) center no-repeat;
+  background-size: contain;
+  position: absolute;
+  top: -7px;
+  left: 0;
+}
+
+/* 인터뷰 상세 */
+#atm_av_wrapper0 {
+  padding-top: 60px;
+  margin-bottom: 50px;
+}
+#atm_av_wrapper0 .center {
+  padding: 0 10px;
+}
+#atm_av_wrapper0 .atm_av_con {
+  border: 1px solid #e3e3e3;
+  border-radius: 20px;
+  padding: 15px 20px;
+  margin-top: 10px;
+}
+#atm_av_wrapper0 .atm_av_el > div {
+  position: relative;
+  padding-left: 50px;
+  margin-bottom: 10px;
+}
+#atm_av_wrapper0 .atm_av_el > div img.atm_icon_qmark_big {
+  display: block;
+  width: 45px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+.atm_av_c9 {
+  font-size: 16px;
+  font-weight: bold;
+}
+.atm_av_c10 {
+  font-size: 11px;
+  color: #999;
+}
+.atm_av_c10 img {
+  width: 9px;
+  margin-right: 2px;
+}
+.atm_av_con img.interview-img {
+  width: 100%;
+}
+.atm_rank_el_container .atm_rank_el h4 {
+  display: inline-block;
+  font-size: 40px;
+  vertical-align: middle;
+  margin: 0 5px;
+  color: #666;
+}
+.roulette_banner {
+  width: 100%;
+  max-width: 800px;
+  border-radius: 10px;
+}

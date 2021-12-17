@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.files">
+	<!-- fn_SQL_File_Select -->
+	<select id="getFile" resultType="files">
+		SELECT  * 
+		FROM T_FILES  with(nolock) 
+		WHERE ParentSeq = #{strData1} and ParentName = #{strData2} and FlagUse = 'Y'
+	</select>
+	
+	<!-- fn_SQL_Board_MaxFileSeq(Common.vbs) -->
+	<select id="getBoardMaxFileSeq" resultType="int">
+		SELECT MAX(Seq) AS Seq 
+		FROM T_FILES 
+	</select>
+	
+	<!-- fn_SQL_Board_File(Common.vbs) -->
+	<select id="getBoardFile" resultType="files">
+		SELECT Seq, FileName, FileSize
+		FROM T_FILES with(nolock) 
+		WHERE 
+			ParentName = #{strData} AND ParentSeq = #{seq} AND FlagUse = 'Y' 
+		ORDER BY Seq ASC
+	</select>
+	
+	<select id="getFileNameBySeq" resultType="String">
+		select top 1 FileName 
+		from T_FILES with(nolock) 
+		where ParentSeq = #{seq} 
+			and ParentName = 'Question' 
+			and FlagUse = 'Y'
+	</select>
+	
+	<select id="getAnswerFilecount" resultType="int">
+		select 
+			count(Seq) as count
+		from T_FILES with(nolock)
+		where ParentSeq = #{seq}
+			and ParentName = 'Answer'
+			and FlagUse = 'Y'
+	</select>
+	
+	<select id="getQuestionFile" resultType="files">
+		select 
+			Seq 
+			, FileName 
+		from 
+			T_FILES 
+		where 
+			ParentName = 'Question' 
+			and ParentSeq = #{questionSeq} 
+			and FlagUse = 'Y' order by Seq
+	</select>
+	
+	<select id="getOldFiles" resultType="files">
+		select FileName
+        from T_FILES
+        where ParentName = 'Exchange'
+            and MemberSeq = #{seq}
+	</select>
+	
+	<!-- fn_SQL_Board_FileInsert -->
+	<!-- userSeq 는 Session 정보임 -->
+	<insert id="setBoardFile">
+		INSERT INTO T_FILES (MemberSeq, ParentName, ParentSeq, FileName, FileSize, FlagUse) 
+		VALUES (
+			#{userSeq}, 
+			#{defaultFolder}, 
+			#{maxSeq}, 
+			#{fileSaveName}, 
+			#{fileSize}, 
+			'Y'
+		)
+	</insert>
+	
+	<!-- fn_SQL_Board_FileDelete(Common.vbs) -->
+	<!-- userSeq 는 Session 정보임 -->
+	<update id="setBoardFileDelete">
+		UPDATE T_FILES 
+		SET 
+			FlagUse = 'N' 
+		WHERE Seq = #{fileSeq} AND MemberSeq = #{userSeq}
+	</update>
+	
+</mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias alias="choice" type="com.altong.web.logic.ChoiceVO"/>
+		<typeAlias alias="logAlmoney" type="com.altong.web.logic.LogAlmoneyVO"/>
+		<typeAlias alias="logEstimate" type="com.altong.web.logic.LogEstimateVO"/>
+		<typeAlias alias="logEvent" type="com.altong.web.logic.LogEventVO"/>
+		<typeAlias alias="logView" type="com.altong.web.logic.LogViewVO"/>
+		<typeAlias alias="member" type="com.altong.web.logic.member.MemberVO"/>
+		<typeAlias alias="memberCert" type="com.altong.web.logic.member.MemberCertVO"/>
+		<typeAlias alias="memberAdmin" type="com.altong.web.logic.member.MemberAdminVO"/>
+		<typeAlias alias="partner" type="com.altong.web.logic.member.PartnerVO"/>
+		<typeAlias alias="myZzim" type="com.altong.web.logic.member.MyZzimVO"/>
+		<typeAlias alias="favorite" type="com.altong.web.logic.member.FavoriteVO"/>
+		<typeAlias alias="ad" type="com.altong.web.logic.ad.AdVO"/>
+		<typeAlias alias="event" type="com.altong.web.logic.event.EventVO"/>
+		<typeAlias alias="common" type="com.altong.web.logic.common.CommonVO"/>
+		<typeAlias alias="CommonLogQA" type="com.altong.web.logic.common.CommonLogQAVO"/>
+		<typeAlias alias="section" type="com.altong.web.logic.section.SectionVO"/>
+		<typeAlias alias="almoney" type="com.altong.web.logic.almoney.AlmoneyVO"/>
+		<typeAlias alias="config" type="com.altong.web.logic.config.ConfigVO"/>
+		<typeAlias alias="answer" type="com.altong.web.logic.answer.AnswerVO"/>
+		<typeAlias alias="question" type="com.altong.web.logic.question.QuestionVO"/>
+		<typeAlias alias="reply" type="com.altong.web.logic.reply.ReplyVO"/>
+		<typeAlias alias="files" type="com.altong.web.logic.files.FileVO"/>
+		<typeAlias alias="report" type="com.altong.web.logic.report.ReportVO"/>
+		<typeAlias alias="v2Rank" type="com.altong.web.logic.V2RankVO"/>
+		<typeAlias alias="message" type="com.altong.web.logic.MessageVO"/>
+		<typeAlias alias="notice" type="com.altong.web.logic.NoticeVO"/>
+		<typeAlias alias="statistics" type="com.altong.web.logic.StatisticsVO"/>
+		<typeAlias alias="statisticsSrch" type="com.altong.web.logic.StatisticsSrchVO"/>
+		
+		<typeAlias alias="quizQue" type="com.altong.web.logic.quiz.QuizQueVO"/>
+		<typeAlias alias="quizAns" type="com.altong.web.logic.quiz.QuizAnsVO"/>
+		<typeAlias alias="quizLog" type="com.altong.web.logic.quiz.QuizLogVO"/>
+		<typeAlias alias="quizGame" type="com.altong.web.logic.quiz.QuizGameVO"/>
+		<typeAlias alias="quizGameQue" type="com.altong.web.logic.quiz.QuizGameQueVO"/>
+		
+		<typeAlias alias="translate" type="com.altong.web.logic.common.TranslateVO"/>
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="mapper/choice-Mapper.xml"/>
+		<mapper resource="mapper/logAlmoney-Mapper.xml"/>
+		<mapper resource="mapper/logEstimate-Mapper.xml"/>
+		<mapper resource="mapper/member-Mapper.xml"/>
+		<mapper resource="mapper/partner-Mapper.xml"/>
+		<mapper resource="mapper/myZzim-Mapper.xml"/>
+		<mapper resource="mapper/favorite-Mapper.xml"/>
+		<mapper resource="mapper/ad-Mapper.xml"/>
+		<mapper resource="mapper/event-Mapper.xml"/>
+		<mapper resource="mapper/common-Mapper.xml"/>
+		<mapper resource="mapper/section-Mapper.xml"/>
+		<mapper resource="mapper/almoney-Mapper.xml"/>
+		<mapper resource="mapper/config-Mapper.xml"/>
+		<mapper resource="mapper/answer-Mapper.xml"/>
+		<mapper resource="mapper/question-Mapper.xml"/>
+		<mapper resource="mapper/reply-Mapper.xml"/>
+		<mapper resource="mapper/files-Mapper.xml"/>
+		<mapper resource="mapper/v2rank-Mapper.xml"/>
+		<mapper resource="mapper/alpay-Mapper.xml"/>
+		<mapper resource="mapper/report-Mapper.xml"/>
+		<mapper resource="mapper/message-Mapper.xml"/>
+		<mapper resource="mapper/quiz-Mapper.xml"/>
+		<mapper resource="mapper/rest-Mapper.xml"/>
+	</mappers>
+</configuration>

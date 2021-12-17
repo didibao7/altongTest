@@ -1,0 +1,668 @@
+@charset "utf-8";
+html,
+body {
+  overflow: overlay;
+}
+#myinfo_wrapper {
+  padding-top: 60px;
+  min-height: calc(100vh - 70px);
+}
+#myinfo_wrapper .center {
+  padding: 0 10px;
+}
+#myinfo_wrapper .profile {
+  position: relative;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 100px;
+  margin-bottom: 70px;
+}
+#myinfo_wrapper .profile .photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+}
+#myinfo_wrapper .profile .photo input,
+#myinfo_wrapper .profile .photo .aprogress {
+  display: none;
+}
+#myinfo_wrapper .profile .photo img {
+  width: 100%;
+  display: block;
+  margin: auto;
+}
+#myinfo_wrapper .profile .info {
+  position: relative;
+}
+#myinfo_wrapper .profile .info .info_edit {
+  display: none;
+  width: 115px;
+  height: 28px;
+  border: 1px solid #404040;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+#myinfo_wrapper .profile .info .info_edit span {
+  display: block;
+  line-height: 28px;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+#myinfo_wrapper .profile .info img {
+  display: block;
+  width: 15px;
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+}
+#myinfo_wrapper .profile .info .info_name {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+#myinfo_wrapper .profile .info .info_name span {
+  font-size: 11px;
+  color: #fd0031;
+  border: 1px solid #fd0031;
+  padding: 1px 5px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+#myinfo_wrapper .profile .info .info_default p:last-child {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 10px;
+}
+#myinfo_wrapper .profile .info .info_money {
+  position: relative;
+}
+#myinfo_wrapper .profile .info .info_money .sum_money {
+  font-size: 18px;
+}
+#myinfo_wrapper .profile .info .info_money .sum_money span {
+  color: #fd0031;
+  font-size: 22px;
+  margin: 0 3px;
+  cursor: pointer;
+}
+#myinfo_wrapper .profile .menu {
+  width: 100%;
+  height: 50px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  border-bottom: 1px solid #e3e3e3;
+}
+#myinfo_wrapper .profile .menu p {
+  display: inline-block;
+  width: 33.3333%;
+  margin-left: -3px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 50px;
+  position: relative;
+  cursor: pointer;
+}
+#myinfo_wrapper .profile .menu p.bottom_on::after {
+  content: "";
+  display: block;
+  width: 71%;
+  height: 2px;
+  background: #fd0031;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+/* 잔고 탭 */
+#infoMoneyMore {
+  background: #fff;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  padding: 10px 20px;
+  border-radius: 0 20px 20px 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  display: none;
+}
+#infoMoneyMore .sum_money {
+  line-height: 36px;
+  text-align: right;
+  font-size: 15px;
+  font-weight: normal;
+}
+#infoMoneyMore .sum_money span {
+  font-size: 20px;
+}
+#infoMoneyMore table {
+  width: 100%;
+}
+#infoMoneyMore table tr td:first-child {
+  text-align: left;
+  font-size: 15px;
+}
+#infoMoneyMore table tr td:last-child {
+  text-align: right;
+  font-size: 15px;
+}
+#infoMoneyMore table tr td.ic_blue {
+  color: #418fed;
+}
+#infoMoneyMore table tr td.ic_red {
+  color: #fd0031;
+}
+
+/* 승천정보 */
+#menuContentWrap .week_mission .section_top p {
+  display: inline-block;
+}
+#menuContentWrap .week_mission .section_top .title {
+  float: left;
+  font-size: 15px;
+  font-weight: bold;
+  height: 40px;
+  line-height: 40px;
+  margin-bottom: 10px;
+}
+#menuContentWrap .week_mission .section_top .sub_txt {
+  float: right;
+  font-size: 12px;
+  height: 40px;
+  line-height: 40px;
+}
+#menuContentWrap .week_mission .section_top .sub_txt strong {
+  font-size: 16px;
+  color: #fd0031;
+}
+#menuContentWrap .week_mission .section_top .date_box {
+  clear: both;
+  width: 100%;
+  height: 38px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 38px;
+  position: relative;
+  font-size: 13px;
+}
+#menuContentWrap .week_mission .section_top .date_box img {
+  display: block;
+  margin: auto;
+  width: 7px;
+}
+#menuContentWrap .week_mission .section_top .date_box .arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+#dateArrowL {
+  left: 10px;
+}
+#dateArrowR {
+  right: 10px;
+}
+#menuContentWrap .week_mission .sum .sub_txt {
+  font-size: 15px;
+  font-weight: bold;
+  margin: 20px 0 15px;
+}
+#menuContentWrap .week_mission .sum .sum_graph {
+  position: relative;
+  border-radius: 20px;
+  background: #fff;
+  height: 30px;
+  border: 1px solid #ddd;
+  text-align: center;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+#menuContentWrap .week_mission .sum .sum_graph .graph_bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(to right, #ea9516, #ff0101);
+  opacity: 0.2;
+  z-index: 9;
+}
+#menuContentWrap .week_mission .sum .graph {
+  width: 44%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(to right, #ea9516, #ff0101);
+  z-index: 0;
+}
+#menuContentWrap .week_mission .sum .sum_txt {
+  position: relative;
+  z-index: 1;
+  color: #fd0031;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 30px;
+}
+#menuContentWrap .week_mission .cell {
+  display: inline-block;
+  width: 50%;
+  margin-left: -3px;
+  padding: 8px;
+}
+#menuContentWrap .week_mission .cell .box {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px 7px;
+}
+#menuContentWrap .week_mission .cell .box .detail_graph {
+  position: relative;
+  height: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+#menuContentWrap .week_mission .cell .box .detail_graph p {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: linear-gradient(to right, #ea9516, #ff0101);
+}
+#menuContentWrap .week_mission .cell .box .detail_graph .graph_bg {
+  opacity: 0.2;
+}
+#menuContentWrap .week_mission .cell .box .detail_graph .graph {
+  width: 50%;
+}
+#menuContentWrap .week_mission .cell .box .detail_content p {
+  display: inline-block;
+  padding: 10px 0 0;
+  width: 50%;
+  margin-left: -2px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #666;
+}
+#menuContentWrap .week_mission .cell .box .detail_content p.count {
+  text-align: right;
+  color: #333;
+}
+#menuContentWrap
+  .week_mission
+  .cell
+  .box
+  .detail_content
+  p.count
+  .prgDetailCnt {
+  color: #fd0031;
+  font-size: 16px;
+}
+.section_bottom .detail {
+  padding-top: 12px;
+  border-top: 2px solid #f2f2f2;
+  position: relative;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 25px;
+}
+.section_bottom .detail::after {
+  content: "";
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid #f2f2f2;
+  border-left: 2px solid #f2f2f2;
+  background: #fff;
+  position: absolute;
+  top: -8.5px;
+  left: 49.7%;
+  transform: translateX(-50%) rotate(45deg);
+}
+/* 활동미션 */
+
+.my_stamp .section_top .title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.my_stamp .content_box {
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+}
+.my_stamp .content_box .title {
+  text-align: center;
+  font-size: 16px;
+  position: relative;
+}
+.my_stamp .content_box .title::after {
+  content: "";
+  display: block;
+  width: 95%;
+  height: 10px;
+  background: #f0f0f0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+.my_stamp .content_box .title strong {
+  padding: 0 20px;
+  background: #fff;
+}
+/* additional */
+.additional .more_icon {
+  text-align: center;
+  margin: 15px 0;
+}
+.additional .more_icon i {
+  display: inline-block;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 40px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  line-height: 37px;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(to right, #ea9516, #ff0101);
+}
+.additional .content_box .edu_stamp_wrap {
+  margin: 20px 0;
+  text-align: center;
+}
+.additional .content_box .edu_stamp_wrap .stamp_base {
+  display: inline-block;
+  width: 33.3333%;
+  margin-left: -3px;
+}
+.additional .content_box .edu_stamp_wrap .stamp_base img {
+  width: 50px;
+}
+.finish {
+  text-align: center;
+  margin: 20px 0;
+}
+.finish img {
+  width: 50px;
+  margin-bottom: 20px;
+}
+.finish .finish_lv span {
+  font-size: 22px;
+  font-weight: bold;
+  color: #666;
+  border: 1px solid #666;
+  padding: 3px 20px;
+  border-radius: 20px;
+}
+.finish_txt {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 25px;
+}
+.finish_txt strong {
+  font-size: 14px;
+}
+
+/* 활동미션 도장 */
+#lvupStampWrap {
+  margin: 10px 0;
+}
+#lvupStampWrap .clone_el {
+  width: 25%;
+  height: 70px;
+  display: inline-block;
+  position: relative;
+  margin-left: -3px;
+  text-align: center;
+}
+#lvupStampWrap .clone_el .stamp_base {
+  width: 57%;
+  max-width: 50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#lvupStampWrap .clone_el .stamp {
+  width: 68px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+#lvupStampWrap .clone_el .stamp_arrow {
+  width: 20px;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  display: none;
+}
+#lvupStampWrap .clone_el .stamp_road {
+  width: 55%;
+  height: 10px;
+  background: #d3d3d3;
+  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  left: 73%;
+  transform: translateY(-50%);
+}
+#lvupStampWrap .clone_el .stamp_road.stamp_road_right {
+  display: none;
+}
+#lvupStampWrap .clone_el p img {
+  width: 100%;
+}
+
+.my_stamp .content_box .sub_txt {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  font-weight: bold;
+}
+.my_stamp .content_box .sub_txt strong {
+  font-size: 14px;
+  color: #fd0031;
+}
+/* 이미지편집 모달 */
+#modal1 {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  display: none;
+}
+.modal-content {
+  width: 90%;
+  max-width: 600px;
+  height: 445px;
+  background: #fff;
+  margin: 50px auto;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  position: relative;
+}
+.modal-header {
+  position: relative;
+}
+.modal-header .modal-title {
+  padding: 20px;
+  font-size: 18px;
+}
+.modal-header button {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  border: 0;
+  background: #fff;
+  font-size: 30px;
+  color: #ccc;
+  outline: none;
+  cursor: pointer;
+}
+.modal-body {
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  text-align: center;
+}
+.modal-body .img-container {
+  width: 90%;
+  height: 250px;
+  border: 1px solid #e5e5e5;
+  margin: 10px auto;
+}
+.modal-body .btn-group .btn-primary {
+  background: #337ab7;
+  border: 1px solid #2e6da4;
+  padding: 3px 10px;
+  color: #fff;
+  border-radius: 3px;
+  margin: 5px 0;
+  outline: none;
+  cursor: pointer;
+}
+.modal-body .btn-group .btn-primary .material-icons {
+  font-size: 13px;
+}
+.modal-footer {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+.modal-footer button {
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  background: #337ab7;
+  border: 1px solid #2e6da4;
+  border-radius: 4px;
+  color: #fff;
+  outline: none;
+  cursor: pointer;
+}
+.modal-footer button.btn-default {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  color: #666;
+}
+
+/* 기본정보 */
+#menuContentWrap {
+  text-align: center;
+  padding: 0 5px;
+  margin-bottom: 20px;
+}
+#menuContentWrap .atm_mf_con_tt0 {
+  position: relative;
+}
+#menuContentWrap .atm_mf_con_tt0 .atm_mf_c0 {
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: -0.5px;
+  padding: 11px 17px;
+  border-bottom: 1px solid #ddd;
+}
+#menuContentWrap .atm_mf_color_gre {
+  color: #f76707;
+  cursor: pointer;
+}
+#menuContentWrap .atm_mf_c1 {
+  font-size: 12px;
+  font-weight: bold;
+  padding: 12px 17px;
+  border-bottom: 1px solid #ddd;
+  background: #f2f2f2;
+}
+#menuContentWrap .atm_mf_con_tt0 strong {
+  display: block;
+  width: 13px;
+  height: 13px;
+  position: absolute;
+  top: 50%;
+  right: 11px;
+  transform: translateY(-50%);
+}
+#menuContentWrap .atm_mf_con_tt0 strong i {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: #999;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s;
+}
+#menuContentWrap .atm_mf_con_tt0 strong i.change_plus {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+#menuContentWrap .atm_mf_con_slide {
+  display: block;
+}
+
+/* 환전정보 */
+.my_exchange .section_top {
+  height: 40px;
+  margin-bottom: 10px;
+}
+.my_exchange .section_top p {
+  display: inline-block;
+  letter-spacing: -1px;
+}
+.my_exchange .section_top .title {
+  font-size: 15px;
+  font-weight: bold;
+  height: 40px;
+  line-height: 40px;
+  float: left;
+}
+.my_exchange .section_top .sub_txt {
+  float: right;
+  font-size: 12px;
+  height: 40px;
+  line-height: 40px;
+}
+.my_exchange .section_top .sub_txt strong {
+  font-size: 16px;
+  color: #fd0031;
+}
+.my_exchange .exchange_sum {
+  width: 100%;
+  height: 27px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+.my_exchange .exchange_sum .graph {
+  width: 25%;
+  height: 100%;
+  background: #fff;
+  display: inline-block;
+  float: left;
+}

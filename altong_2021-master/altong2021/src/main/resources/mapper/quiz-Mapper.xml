@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.quiz">
+	<!-- QuizList start -->
+	<select id="getQuizQueCount" resultType="int">
+		SELECT COUNT(uid) 
+		FROM QUIZ_QUE
+	</select>
+	<select id="getQuizQueList" resultType="quizQue">
+		SELECT * 
+		FROM 
+			(
+				SELECT 
+					TOP ${p_Option} ROW_NUMBER() OVER(ORDER BY Q.uid desc) AS rownum, 
+					Q.uid, Q.quest, Q.rtime1, Q.rtime2, Q.stime1, Q.stime2, Q.useChk, Q.correct, Q.hint, Q.createDt, Q.updateDt,
+					(SELECT COUNT(uid) AS acount FROM QUIZ_ANS WHERE quid = Q.uid) AS acount,
+					(SELECT COUNT(uid) AS reqTotal FROM QUIZ_REQ WHERE queid = Q.uid) AS reqTotal,
+					(SELECT COUNT(uid) AS correctCnt FROM QUIZ_REQ WHERE queid = Q.uid AND success='Y') AS correctCnt,
+					(SELECT COUNT(uid) AS pubCnt FROM QUIZ_GAME_QUE WHERE queid = Q.uid) AS pubCnt 
+				FROM QUIZ_QUE Q
+			) T
+		WHERE
+			rownum BETWEEN #{st_num} AND #{en_num}
+	</select>
+	<select id="getQuizQue" resultType="quizQue">
+		SELECT 
+			Q.uid, Q.quest, Q.rtime1, Q.rtime2, Q.stime1, Q.stime2, Q.useChk, Q.correct, Q.hint, Q.comment, Q.createDt, Q.updateDt, 
+			(SELECT COUNT(uid) AS reqTotal FROM QUIZ_REQ WHERE queid = Q.uid) AS reqTotal,
+			(SELECT COUNT(uid) AS pubCnt FROM QUIZ_GAME_QUE WHERE queid = Q.uid) AS pubCnt 
+		FROM QUIZ_QUE Q
+		WHERE uid = #{uid} 
+	</select>
+	
+	<insert id="addQuizQue" parameterType="map">
+		INSERT INTO QUIZ_QUE (quest, rtime1, rtime2, stime1, stime2, useChk, correct, hint, comment, createDt) 
+		VALUES(#{quest}, #{rtime1}, #{rtime2}, #{stime1}, #{stime2}, #{useChk}, #{correct}, #{hint}, #{comment}, #{createDt});
+		
+		<selectKey keyProperty="uid" resultType="Integer" order="AFTER">
+	        SELECT IDENT_CURRENT('QUIZ_QUE')
+	    </selectKey>
+	</insert>
+	
+	<update id="updateQuizQue">
+		UPDATE QUIZ_QUE SET 
+			quest = #{quest}
+			, rtime1 = #{rtime1}
+			, rtime2 = #{rtime2}
+			, stime1 = #{stime1}
+			, stime2 = #{stime2}
+			, useChk = #{useChk}
+			, correct = #{correct}
+			, hint = #{hint}
+			, comment = #{comment}
+			, updateDt = #{updateDt}
+		WHERE uid = #{uid} 
+	</update>
+	
+	<delete id="deleteOneQuizQue">
+		DELETE 
+		FROM QUIZ_QUE 
+		WHERE uid = #{uid}
+	</delete>
+		
+	<select id="getQuizAnsList" resultType="quizAns">
+		SELECT
+			*
+		FROM QUIZ_ANS 
+		WHERE quid = #{quid}
+		ORDER BY ano ASC
+	</select>
+	
+	<select id="getQuizAns" resultType="quizAns">
+		SELECT
+			*
+		FROM QUIZ_ANS 
+		WHERE uid = #{uid}
+	</select>
+	
+	<insert id="addQuizAns">
+		INSERT into QUIZ_ANS (ano, quid, answer, createDt)
+		VALUES(#{ano}, #{quid}, #{answer}, #{createDt})
+	</insert>
+	
+	<delete id="deleteAllQuizAns">
+		DELETE 
+		FROM QUIZ_ANS 
+		WHERE quid = #{quid}
+	</delete>
+	<delete id="deleteOneQuizAns">
+		DELETE 
+		FROM QUIZ_ANS
+		WHERE uid = #{uid}
+	</delete>
+	
+	<select id="getQuizQueQuest" resultType="string">
+		SELECT
+			quest
+		FROM QUIZ_QUE 
+		WHERE uid = #{uid}
+	</select>
+	<!-- QuizList end -->
+	
+	<!-- QuizGame start -->
+	<select id="getQuizGameCount" resultType="int">
+		SELECT COUNT(uid) 
+		FROM QUIZ_GAME
+	</select>
+	<select id="getQuizGameList" resultType="quizGame">
+		SELECT * 
+		FROM 
+			(
+				SELECT 
+					TOP ${p_Option} ROW_NUMBER() OVER(ORDER BY Q.uid desc) AS rownum, 
+					Q.uid, Q.step, Q.subject, Q.admAlmoney, Q.attendAlmoney, Q.carryoverMoney, Q.startYmd, Q.startDtType, Q.startDtH, Q.startDtM, Q.useChk, Q.createDt, Q.updateDt,
+					(SELECT COUNT(uid) AS reqTotal FROM QUIZ_REQ WHERE gqid = Q.uid) AS reqTotal, Q.complete 
+				FROM QUIZ_GAME Q 
+			) T
+		WHERE
+			rownum BETWEEN #{st_num} AND #{en_num}
+	</select>
+	<select id="getQuizGame" resultType="quizGame">
+		SELECT 
+			Q.uid, Q.step, Q.subject, Q.admAlmoney, Q.attendAlmoney, Q.carryoverMoney, Q.startYmd, Q.startDtType, Q.startDtH, Q.startDtM, Q.useChk, Q.createDt, Q.updateDt,
+			(SELECT COUNT(uid) AS reqTotal FROM QUIZ_REQ WHERE gqid = Q.uid) AS reqTotal, Q.complete 
+		FROM QUIZ_GAME Q
+		WHERE uid = #{uid}
+	</select>
+	<insert id="addQuizGame" parameterType="map">
+		INSERT INTO QUIZ_GAME (step, subject, admAlmoney, attendAlmoney, carryoverMoney, startYmd, startDtType, startDtH, startDtM, useChk, createDt) 
+		VALUES(#{step}, #{subject}, #{admAlmoney}, #{attendAlmoney}, #{carryoverMoney}, #{startYmd}, #{startDtType}, #{startDtH}, #{startDtM}, #{useChk}, #{createDt});
+		
+		<selectKey keyProperty="uid" resultType="Integer" order="AFTER">
+	        SELECT IDENT_CURRENT('QUIZ_GAME')
+	    </selectKey>
+	</insert>
+	<update id="updateQuizGame">
+		UPDATE QUIZ_GAME SET
+			subject = #{subject} 
+			, admAlmoney = #{admAlmoney}
+			, attendAlmoney = #{attendAlmoney}
+			, carryoverMoney = #{carryoverMoney}
+			, startYmd = #{startYmd}
+			, startDtType = #{startDtType}
+			, startDtH = #{startDtH}
+			, startDtM = #{startDtM}
+			, useChk = #{useChk}
+			, updateDt = #{updateDt}
+		WHERE uid = #{uid} 
+	</update>
+	<delete id="deleteOneQuizGame">
+		DELETE 
+		FROM QUIZ_GAME 
+		WHERE uid = #{uid}
+	</delete>
+	
+	<select id="getQuizGameQueCount" resultType="int">
+		SELECT
+			COUNT(Q.uid) 
+		FROM QUIZ_GAME_QUE Q 
+		WHERE quid = #{uid}
+	</select>
+	<select id="getQuizGameQueList" resultType="quizGameQue">
+		SELECT
+			Q.uid, Q.quid, Q.ord, Q.queid, Q.createDt,
+			(SELECT quest FROM QUIZ_QUE WHERE uid = Q.queid) AS quest 
+		FROM QUIZ_GAME_QUE Q 
+		WHERE quid = #{quid}
+		ORDER BY Q.ord ASC
+	</select>
+	<select id="getQuizGameQue" resultType="quizGameQue">
+		SELECT
+			Q.uid, Q.quid, Q.ord, Q.queid, Q.createDt,
+			(SELECT quest FROM QUIZ_QUE WHERE uid = Q.queid) AS quest 
+		FROM QUIZ_GAME_QUE Q 
+		WHERE quid = #{quid} AND ord = #{ord}
+	</select>
+	
+	<insert id="addQuizGameQue">
+		INSERT into QUIZ_GAME_QUE (ord, quid, queid, createDt)
+		VALUES(#{ord}, #{quid}, #{queid}, #{createDt})
+	</insert>
+	
+	<delete id="deleteAllQuizGameQue">
+		DELETE 
+		FROM QUIZ_GAME_QUE 
+		WHERE quid = #{quid}
+	</delete>
+	<delete id="deleteOneQuizGameQue">
+		DELETE 
+		FROM QUIZ_GAME_QUE
+		WHERE uid = #{uid}
+	</delete>
+	
+	<select id="getCarryoverMoneyCnt" resultType="int">
+		SELECT COUNT(uid) 
+		FROM QUIZ_GAME 
+		WHERE complete = 'C' 
+	</select>
+	
+	<select id="getQuizGameOnCountByUid" resultType="int">
+		SELECT COUNT(uid) 
+		FROM QUIZ_GAME 
+		WHERE useChk = 'Y' AND uid != #{uid}
+	</select>
+	<select id="getQuizGameOnCountByNonUid" resultType="int">
+		SELECT COUNT(uid) 
+		FROM QUIZ_GAME 
+		WHERE useChk = 'Y'
+	</select>
+		
+	<select id="getQuizGameLimit" resultType="quizGame">
+		SELECT
+			TOP 1 *
+		FROM QUIZ_GAME 
+		WHERE useChk = 'Y' AND complete = 'N' 
+		ORDER BY createDt desc
+	</select>
+	
+	<select id="getCarryoverMoney" resultType="int">
+		SELECT 
+			ISNULL( ((SELECT SUM(attendAlmoney) FROM QUIZ_LOG WHERE gqid = A.uid) + SUM(A.admAlmoney) + SUM(A.carryoverMoney)), 0) AS carryoverMoney 
+		FROM QUIZ_GAME A 
+		WHERE complete = 'C' 
+		GROUP BY uid
+	</select>
+	
+	<update id="setQuizGameComplete">
+		UPDATE 
+			QUIZ_GAME
+		SET
+			complete = 'Y'
+		WHERE 
+			complete = 'C' AND uid <![CDATA[<]]> ${uid}
+	</update>
+	
+	<update id="setQuizGameEnd">
+		UPDATE 
+			QUIZ_GAME
+		SET
+			useChk = 'N'
+		WHERE 
+			uid = ${uid} AND useChk != 'N'
+	</update>
+	<!-- QuizGame end -->
+	
+	<!-- QuizLog start -->
+	<select id="getQuizLog" resultType="quizLog">
+		SELECT 
+			*
+		FROM QUIZ_LOG
+		WHERE userSeq = #{userSeq} AND gqid = #{gqid} 
+	</select>
+	
+	<update id="setQuizLog">
+		UPDATE QUIZ_LOG SET
+			success = #{success}
+			, updateDt = #{updateDt}
+		WHERE
+			gqid = #{gqid} AND userSeq = #{userSeq}
+	</update>
+	
+	<insert id="addQuizLog">
+		INSERT INTO QUIZ_LOG(gqid, userSeq, success, attendAlmoney, createDt, updateDt)
+		VALUES(#{gqid}, #{userSeq}, #{success}, #{attendAlmoney}, #{createDt}, #{updateDt})
+	</insert>
+	
+	<insert id="addQuizReq">
+		INSERT INTO QUIZ_REQ(gqid, userSeq, queid, success, createDt)
+		VALUES(#{gqid}, #{userSeq}, #{queid}, #{success}, #{createDt})
+	</insert>
+	
+	<select id="getQuizReqOne" resultType="int">
+		SELECT
+			COUNT(uid)
+		FROM 
+			QUIZ_REQ
+		WHERE
+			userSeq = #{userSeq} AND gqid = #{gqid} AND queid = #{queid}
+	</select>
+	
+	<select id="getQuizLogAll" resultType="quizLog">
+		SELECT 
+			*
+		FROM QUIZ_LOG
+		WHERE gqid = #{gqid} AND success = 'Y'
+	</select>
+	
+	<delete id="deleteQuizLog">
+		DELETE 
+		FROM 
+			QUIZ_LOG
+		WHERE 
+			userSeq = #{userSeq} AND gqid = #{gqid}
+	</delete>
+	
+	<delete id="deleteQuizReq">
+		DELETE 
+		FROM 
+			QUIZ_REQ
+		WHERE 
+			userSeq = #{userSeq} AND gqid = #{gqid}
+	</delete>
+	
+	<select id="getQuizReqCnt" resultType="int">
+		SELECT
+			COUNT(uid) 
+		FROM 
+			QUIZ_REQ
+		WHERE 
+			userSeq = #{userSeq} AND gqid = #{gqid}
+	</select>
+	
+	<select id="getQuizLogCnt" resultType="int">
+		SELECT 
+			COUNT(uid)
+		FROM QUIZ_LOG
+		WHERE userSeq = #{userSeq} AND gqid = #{gqid} 
+	</select>
+	
+	<select id="getQuizSuccessLogCount" resultType="int">
+		SELECT 
+			COUNT(uid)
+		FROM QUIZ_LOG
+		WHERE gqid = #{gqid} AND success = #{success}  
+	</select>
+	
+	<select id="getQuizSuccessLogList" resultType="quizLog">
+		SELECT * 
+		FROM 
+			(
+				SELECT 
+					TOP ${p_Option} ROW_NUMBER() OVER(ORDER BY Q.uid desc) AS rownum, 
+					Q.userSeq, M.Name, M.NickName, M.MemberType, M.Lv, M.Phone
+				FROM QUIZ_LOG Q
+				LEFT JOIN T_MEMBERS M 
+					ON Q.userSeq = M.Seq
+				WHERE gqid = #{gqid} AND success = #{success} 
+			) T
+		WHERE
+			rownum BETWEEN #{st_num} AND #{en_num}
+	</select>
+	
+	<select id="getQuizSuccessLogListAll" resultType="quizLog">
+		SELECT 
+			Q.userSeq, M.Name, M.NickName
+		FROM QUIZ_LOG Q
+		LEFT JOIN T_MEMBERS M 
+			ON Q.userSeq = M.Seq
+		WHERE gqid = #{gqid} AND success = #{success} 
+	</select>
+	
+	<select id="getQuizReqLogCount" resultType="int">
+		SELECT 
+			COUNT(uid)
+		FROM QUIZ_LOG
+		WHERE gqid = #{gqid}
+	</select>
+	
+	<select id="getQuizReqLogList" resultType="quizLog">
+		SELECT * 
+		FROM 
+			(
+				SELECT 
+					TOP ${p_Option} ROW_NUMBER() OVER(ORDER BY Q.uid desc) AS rownum, 
+					Q.userSeq, M.Name, M.NickName, M.MemberType, M.Lv, M.Phone
+				FROM QUIZ_LOG Q
+				LEFT JOIN T_MEMBERS M 
+					ON Q.userSeq = M.Seq
+				WHERE gqid = #{gqid} 
+			) T
+		WHERE
+			rownum BETWEEN #{st_num} AND #{en_num}
+	</select>
+	
+	<update id="updateQuizGameComplete">
+		UPDATE QUIZ_GAME SET
+			complete = #{complete} 
+			, updateDt = #{updateDt}
+		WHERE uid = #{uid} 
+	</update>
+	<!-- QuizLog end -->
+</mapper>

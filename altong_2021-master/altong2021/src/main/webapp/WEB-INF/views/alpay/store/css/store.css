@@ -1,0 +1,66 @@
+nav.left .scroll_wrap {padding-top:285px;}
+nav .top .profile_code {color:#655442; margin-bottom:10px;}
+
+/* main */
+.main .sub_box { padding:8px 20px; }
+.main .money_info .usable_money > a {padding-top:10px; padding-bottom:13px;}
+.main .money_info .usable_money p {line-height: 44px;}
+
+.main .new_message {margin-top:18px; text-align: center;}
+.main .new_message a {color:#fff; padding:15px 0; background:linear-gradient(to left, #c4a179 0%, #f1d6a8 100%);border-radius:30px; box-shadow: 0px 2px 6px #b5b5b5;}
+.main .new_message i {margin-top:-5px; margin-right:4px;}
+.main .new_message span {font-weight: bold;}
+
+
+/* order_list */
+.order_list {text-align: center;}
+.order_list .tabs {margin-top:20px;}
+.order_list table tr td {border:none;}
+.order_list .scroll_wrap {padding-top:65px;box-sizing: border-box;}
+
+.order_list .order_nothing {margin-top:25px;font-size:18px;display: none;}
+.order_list .order_nothing .order_refresh {display:inline-block;border-radius:100%; background:#c4a179; color:#fff; width:50px; height:50px; cursor: pointer; padding-top:9px; box-sizing: border-box; margin-bottom:15px;}
+
+.tab_content li tbody > tr:first-child > td:first-child {text-align: left;}
+.tab_content li tbody > tr:first-child > td:nth-child(2) {text-align: right;}
+.tab_content .orderR_content {font-size:22px;height:90px;font-weight:600;}
+#tab_orderRequest li.accept {color:#bfbfbf;transition: all 0.2s;}
+#tab_orderRequest li.accept .orderR_content {font-size:19px;}
+#tab_orderRequest li.accept .orderR_content > td {color:#2dc54f;padding-top:3px;transition:all 0.3s;}
+#tab_orderRequest li .orderR_content .accept_box {opacity: 0;background:#2dc54f;color:#fff;height:0;}
+#tab_orderRequest li.accept .orderR_content .accept_box { opacity:1; transition:opacity 0.6s;height:auto;margin-top:17px;padding:9px 0;font-size:22px;padding-top:7px; }
+#tab_orderRequest li.accept .orderR_btn {display:none;}
+
+#tab_orderRequest .orderR_btn button {width:50px;height:50px; background:#34c554; color:#fff; border-radius: 46px; padding:7px 0;}
+#tab_orderRequest .orderR_btn button i {font-size:34px; line-height: 29px;}
+#tab_orderRequest .orderR_btn td:first-child {text-align: left;}
+#tab_orderRequest .orderR_btn td:last-child {text-align: right;}
+#tab_orderRequest .orderR_btn td:last-child button {background:#dc2a2a;}
+#tab_orderRequest .orderR_btn td:last-child button i {font-size:32px;}
+
+#tab_orderList {display:none;}
+.tab_dateSearch {max-width:960px;right:0;margin:auto;margin-top:5px; padding:15px 0px 15px 0px; text-align: center; box-sizing: border-box; position: absolute; z-index:10; background: #fff; left:0; width:100%; box-shadow: 0px 2px 14px white;}
+.tab_dateSearch button {position:relative;border-bottom:2px solid #c4a179; color:#7a5c3a; padding:3px 5px; margin:0 3px;width:15%;}
+.tab_dateSearch button:last-child {width:20%;}
+.tab_dateSearch button.active {color:#fff; background:#c4a179;border:1px solid #c4a179;}
+#tab_orderList .tab_dateSearch button.active:after {position:absolute; bottom:-7px; left:0; right:0; margin: auto; width:0; height:0; content:""; border-left:5px solid transparent; border-right:5px solid transparent; border-top:6px solid #c4a179;}
+.dateSearch_input {position: relative; top:50px; margin-top:20px;display: none;}
+.dateSearch_input p {display: inline-block; width:38%; height:26px; border:1px solid #000;}
+.dateSearch_input input {display: block; width:100%;height:26px; text-align: center}
+.dateSearch_input p + span {margin:0 5px;}
+.dateSearch_input button i {line-height: 0; margin-top:-2px; margin-left:5px; font-size:27px;}
+#tab_orderList ul {margin-top:75px;}
+
+.sale_graph .tab_dateSearch button {width:22%;}
+.sale_graph .dateSearch_input {display: block; padding:0 9px; position: relative;}
+.sale_graph .dateSearch_input p {width:41%; border:1px solid #c4a179;}
+.sale_graph .dateSearch_input button {position: absolute; right:0; top:2px;}
+.sale_graph .dateSearch_input button i {color: #c4a179}
+
+/* .member_set tbody tr td:last-child {padding:0;} */
+.member_set tbody tr button {background:#424242; width:80%; height:34px; border-radius: 3px; color:#fff;}
+.member_set tbody tr.add_member td {border:none;}
+.member_set tbody tr.add_member button {background:#af8e68}
+.member_set tbody tr input[type="text"] {text-align:center;border:1px solid #b9b9b9; width:100%; padding:5px 8px; box-sizing: border-box;}
+
+.sale_graph .graph_wrap {position: relative; margin:70px 6px 0 4px;}

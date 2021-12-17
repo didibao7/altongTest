@@ -1,0 +1,2361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.member">
+	
+	<!-- fn_SQL_Member_List -->
+	<!-- psrc_Kind = "Phone" 인 경우 psrc_Text 변수는 요청시 AlmoneyEncrypt 함수를 이용하열 암호화 된 값을 넘겨 받는다 -->
+	<select id="getMemberListCount" resultType="int">
+		SELECT 
+			count(Seq)
+		FROM T_MEMBERS with(nolock) 
+		WHERE 
+			FlagDel = 'N'
+		<if test="psrc_Text != ''">
+			<if test="psrc_Kind == 'MemberType'">
+				AND MemberType = cast(#{psrc_Text} as int)
+			</if>
+			<if test="psrc_Kind == 'Phone'">
+				AND Phone = #{psrc_Text}
+			</if>
+			<if test="psrc_Kind == 'Phone'">
+				AND ${psrc_Kind} like '%' + #{psrc_Text} + '%'
+			</if>
+		 </if>
+	</select>
+	
+	<select id="getTotalMember" resultType="int">
+		SELECT COUNT(Seq) AS Size FROM V_MEMBERS WHERE Lv != 99
+	</select>
+	
+	<!-- fn_SQL_Member_List -->
+	<!-- psrc_Kind = "Phone" 인 경우 psrc_Text 변수는 요청시 AlmoneyEncrypt 함수를 이용하열 암호화 된 값을 넘겨 받는다 -->
+	<select id="getMemberListLimit" resultType="member">
+		SELECT 
+			TOP #{p_Option} *
+		FROM T_MEMBERS with(nolock) 
+		WHERE 
+			FlagDel = 'N' 
+		<if test="psrc_Text != ''">
+			<choose>
+				<when test="psrc_Kind == 'MemberType'">
+				AND MemberType = cast(#{psrc_Text} as int)
+				</when>
+				<when test="psrc_Kind == 'Phone'">
+				AND Phone = #{psrc_Text}
+				</when>
+				<otherwise>
+				AND ${psrc_Kind} like '%' + #{psrc_Text} + '%'
+				</otherwise>
+			</choose>
+		 </if>
+		ORDER BY #{psrc_Cond} DESC
+	</select>
+	
+	<select id="getMemberExcelListLimit" resultType="member">
+	SELECT * 
+	FROM 
+		(
+		SELECT 
+			TOP #{p_Option} ROW_NUMBER() OVER(ORDER BY #{psrc_Cond} desc) AS rownum, * 
+		FROM T_MEMBERS with(nolock) 
+		WHERE 
+			FlagDel = 'N' 
+		<if test="psrc_Text != ''">
+			<choose>
+				<when test="psrc_Kind == 'MemberType'">
+				AND MemberType = cast(#{psrc_Text} as int)
+				</when>
+				<when test="psrc_Kind == 'Phone'">
+				AND Phone = #{psrc_Text}
+				</when>
+				<otherwise>
+				AND #{psrc_Kind} like '%' + #{psrc_Text} + '%'
+				</otherwise>
+			</choose>
+		 </if>
+	) A
+	WHERE
+		rownum BETWEEN #{st_num} AND #{en_num}
+	</select>
+	
+	<!-- fn_SQL_Member_List -->
+	<!-- psrc_Kind = "Phone" 인 경우 psrc_Text 변수는 요청시 AlmoneyEncrypt 함수를 이용하열 암호화 된 값을 넘겨 받는다 -->
+	<select id="getMemberList" resultType="member">
+		SELECT 
+			*
+		FROM T_MEMBERS with(nolock) 
+		WHERE 
+			FlagDel = 'N'
+		<if test="psrc_Text != ''">
+			<choose>
+				<when test="psrc_Kind == 'MemberType'">
+				AND MemberType = cast(#{psrc_Text} as int)
+				</when>
+				<when test="psrc_Kind == 'Phone'">
+				AND Phone = #{psrc_Text}
+				</when>
+				<otherwise>
+				AND #{psrc_Kind} like '%' + #{psrc_Text} + '%'
+				</otherwise>
+			</choose>
+		 </if>
+		ORDER BY #{psrc_Cond} DESC
+	</select>
+	
+	<!-- fn_SQL_Member_List2 -->
+	<!-- psrc_Kind = "Phone" 인 경우 psrc_Text 변수는 요청시 AlmoneyEncrypt 함수를 이용하열 암호화 된 값을 넘겨 받는다 -->
+	<select id="getMemberList2Count" resultType="int">
+		SELECT 
+			count(A.Seq)
+		FROM T_MEMBERS AS A, V_MEMBERS AS B 
+		WHERE 
+			A.Seq = B.Seq AND A.FlagDel = 'N' AND A.MemberType != '51' 
+		<if test="psrc_Text != ''">
+			<choose>
+				<when test="psrc_Kind == 'MemberType'">
+				AND A.MemberType = cast(#{psrc_Text} as int)
+				</when>
+				<when test="psrc_Kind == 'Phone'">
+				AND A.Phone = #{psrc_Text}
+				</when>
+				<otherwise>
+				AND A.${psrc_Kind} like '%' + #{psrc_Text} + '%'
+				</otherwise>
+			</choose>
+		 </if>
+	</select>
+	
+	<!-- fn_SQL_Member_List2 -->
+	<!-- psrc_Kind = "Phone" 인 경우 psrc_Text 변수는 요청시 AlmoneyEncrypt 함수를 이용하열 암호화 된 값을 넘겨 받는다 -->
+	<select id="getMemberList2Limit" resultType="member">
+		SELECT * 
+		FROM 
+			(
+				SELECT 
+					TOP ${p_Option} ROW_NUMBER() OVER(ORDER BY A.${psrc_Cond} desc) AS rownum,
+					A.*, B.CountQ, B.CountA, B.SumQ, B.SumA 
+				FROM T_MEMBERS AS A, V_MEMBERS AS B 
+				WHERE 
+					A.Seq = B.Seq AND A.FlagDel = 'N' AND A.MemberType != '51'   
+				<if test="psrc_Text != ''">
+					<choose>
+						<when test="psrc_Kind == 'MemberType'">
+						AND A.MemberType = cast(#{psrc_Text} as int)
+						</when>
+						<when test="psrc_Kind == 'Phone'">
+						AND A.Phone = #{psrc_Text}
+						</when>
+						<otherwise>
+						AND A.${psrc_Kind} like '%' + #{psrc_Text} + '%'
+						</otherwise>
+					</choose>
+				 </if>
+			) A
+		WHERE
+			rownum BETWEEN ${st_num} AND ${en_num}
+	</select>
+	
+	<!-- fn_SQL_Member_List2 -->
+	<!-- psrc_Kind = "Phone" 인 경우 psrc_Text 변수는 요청시 AlmoneyEncrypt 함수를 이용하열 암호화 된 값을 넘겨 받는다 -->
+	<select id="getMemberList2" resultType="member">
+		SELECT 
+			A.*, B.CountQ, B.CountA, B.SumQ, B.SumA
+		FROM T_MEMBERS AS A, V_MEMBERS AS B 
+		WHERE 
+			A.Seq = B.Seq AND A.FlagDel = 'N' AND A.MemberType != '51' 
+		<if test="psrc_Text != ''">
+			<choose>
+				<when test="psrc_Kind == 'MemberType'">
+				AND MemberType = cast(#{psrc_Text} as int)
+				</when>
+				<when test="psrc_Kind == 'Phone'">
+				AND Phone = #{psrc_Text}
+				</when>
+				<otherwise>
+				AND ${psrc_Kind} like '%' + #{psrc_Text} + '%'
+				</otherwise>
+			</choose>
+		 </if>
+		ORDER BY A.#{psrc_Cond} DESC
+	</select>
+	
+	
+	<!-- fn_SQL_Member_view -->
+	<select id="getMemberList2forSeq" resultType="member">
+		SELECT * 
+		FROM T_MEMBERS  with(nolock) 
+		WHERE 
+			Seq = #{seq}
+	</select>
+	
+	<!-- fn_SQL_Answer_MemberInfo -->
+	<select id="getAnswerMemberInfo" resultType="member">
+		SELECT Lv, Photo, SumQ AS QuestionMoney, SumA AS AnswerMoney, host, nation, lang
+		FROM V2_MEMBERS  with(nolock) 
+		WHERE Seq = #{answerMemberSeq}
+	</select>
+	
+	<!-- fn_SQL_Member_Almoney -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getMemberAlmoney" resultType="int">
+		SELECT Almoney 
+		FROM T_MEMBERS  with(nolock) 
+		WHERE Seq = #{userSeq}
+	</select>
+	
+	<!-- fn_SQL_Answer_MemberAlmoney -->
+	<!-- fn_SQL_Member_Almoney 와 중복됨 -->
+	<select id="getAnswerMemberAlmoney" resultType="int">
+		SELECT Almoney 
+		FROM T_MEMBERS  with(nolock) 
+		WHERE Seq = #{strData}
+	</select>
+	
+	<!-- fn_SQL_Get_Recommender -->
+	<select id="getRecommender" resultType="string">
+		SELECT ChuCode FROM T_MEMBERS  with(nolock) 
+		WHERE Seq = #{memberSeq}
+	</select>
+	
+	<!-- fn_SQL_Get_Recommender_Money -->
+	<select id="getRecommenderMoney" resultType="int">
+		SELECT Almoney FROM T_MEMBERS  with(nolock) 
+		WHERE Seq = #{memberSeq}
+	</select>
+	
+	<!-- fn_SQL_Answer_SumView -->
+	<select id="getAnswerSumBiew" resultType="int">
+		SELECT SUM(AnswerMoney) AS SumViewA FROM T_MEMBERS  with(nolock) 
+		WHERE FlagDel = 'N'
+	</select>
+	
+	<!-- fn_SQL_Answer_RankU_T(Answer.waytosky.vbs) -->
+	<select id="getAnswerRankuT" resultType="member">
+		<if test="psrc_Cond == 'AnswerCount'">
+			SELECT TOP(50)*, 
+				(
+					SELECT COUNT(*) 
+					FROM T_ANSWER  with(nolock) 
+					WHERE T_ANSWER.MemberSeq = T_MEMBERS.Seq AND T_ANSWER.FlagUse = 'Y' AND T_MEMBERS.FlagDel = 'N'
+				) AS CountA 
+			FROM T_MEMBERS  with(nolock) ORDER BY CountA DESC
+		</if>
+		<if test="psrc_Cond != 'AnswerCount'">
+			SELECT TOP(50)*, 
+				(
+					SELECT COUNT(*) 
+					FROM T_ANSWER  with(nolock) 
+					WHERE T_ANSWER.MemberSeq = T_MEMBERS.Seq AND T_ANSWER.FlagUse = 'Y' AND T_MEMBERS.FlagDel = 'N'
+				) AS CountA 
+			FROM T_MEMBERS  with(nolock) ORDER BY AnswerMoney DESC
+		</if>
+	</select>
+	
+	<!-- fn_SQL_Main_AlmoneyAll(Common.vbs) -->
+	<select id="getMainAlmoneyAll" resultType="double">
+		SELECT 
+			SUM(Almoney) AS AlmoneyAll 
+		FROM T_MEMBERS with(nolock) 
+	</select>
+	
+	<!-- fn_SQL_Member_Profile(Common.vbs) -->
+	<select id="getMMemberProfile" resultType="member">
+		SELECT * 
+			(	SELECT 
+					RANK() OVER (ORDER BY QuestionMoney DESC) RankQ, RANK() OVER (ORDER BY AnswerMoney DESC) RankA,
+					Seq, NickName, Lv, Photo, FlagProfileOpen, DateLogin, DateReg, host, nation, lang  
+				FROM T_MEMBERS with(nolock) WHERE FlagDel = 'N'
+			) T
+			WHERE Seq = #{strData}
+	</select>
+	
+	<!-- fn_SQL_Question_SumView -->
+	<select id="getQuestionSumView" resultType="double">
+		SELECT 
+			SUM(QuestionMoney) AS SumViewQ 
+		FROM T_MEMBERS  with(nolock) 
+		WHERE FlagDel = 'N'
+	</select>
+	
+	<!-- fn_SQL_Question_RankU(Question.vbs) -->
+	<select id="getQuestionRankuCount" resultType="int">
+		SELECT 
+			COUNT(Seq)
+		FROM ( 
+			SELECT TOP (1000) Seq, NickName, Photo, FlagDel, QuestionCount, QuestionMoney   
+			FROM T_MEMBERS  with(nolock) 
+			WHERE FlagDel = 'N' 
+			ORDER BY #{psrc_Cond} DESC
+		) T
+	</select>
+	<!-- fn_SQL_Question_RankU(Question.vbs) -->
+	<select id="getQuestionRankuLimit" resultType="member">
+		SELECT 
+			TOP ${p_Option} Seq, NickName, Photo, QuestionCount, QuestionMoney, host, nation, lang  
+		FROM ( 
+			SELECT TOP (1000) Seq, NickName, Photo, FlagDel, QuestionCount, QuestionMoney, host, nation, lang  
+			FROM T_MEMBERS  with(nolock) 
+			WHERE FlagDel = 'N' 
+			ORDER BY #{psrc_Cond} DESC
+		) T
+	</select>
+	<!-- fn_SQL_Question_RankU(Question.vbs) -->
+	<select id="etQuestionRankuInfo" resultType="member">
+		SELECT 
+			Seq, NickName, Photo, QuestionCount, QuestionMoney, host, nation, lang 
+		FROM ( 
+			SELECT TOP (1000) Seq, NickName, Photo, FlagDel, QuestionCount, QuestionMoney, host, nation, lang  
+			FROM T_MEMBERS  with(nolock) 
+			WHERE FlagDel = 'N' 
+			ORDER BY #{psrc_Cond} DESC
+		) T
+	</select>
+	
+	<!-- fn_SQL_NickName_Select(Default.vbs) -->
+	<select id="getNickNameSelectCount" resultType="int">
+		SELECT COUNT(*) AS NickUse 
+		FROM T_MEMBERS 
+		WHERE FlagDel <![CDATA[<>]]> 'Y' AND NickName = #{nickName}
+	</select>
+	
+	<!-- fn_SQL_Phone_Check(Default.vbs) -->
+	<select id="getPhoneCheck" resultType="int">
+		SELECT 
+			COUNT(Phone) AS PhoneUse 
+		FROM T_MEMBERS 
+		WHERE Phone = #{sSPhone}
+	</select>
+	
+	<!-- fn_SQL_Phone_Check5 -->
+	<select id="getPhoneCheck5" resultType="int">
+		SELECT 
+			COUNT(Phone) AS qqq 
+		FROM T_MEMBERS 
+		WHERE Phone = #{userPhone}
+	</select>
+	
+	<!-- fn_SQL_chu_phone -->
+	<select id="getChuPhone" resultType="int">
+		SELECT 
+			Seq 
+		FROM T_MEMBERS 
+		WHERE Phone = #{chuphone1}
+	</select>
+	
+	<!-- fn_SQL_User_Login -->
+	<select id="getUserLogin" resultType="member">
+		SELECT * 
+		FROM (
+			SELECT 
+				RANK() OVER (ORDER BY QuestionMoney DESC) RankQ, RANK() OVER (ORDER BY AnswerMoney DESC) RankA,
+				Seq, Password, Phone, Photo, NickName, Email, Lv, Almoney, FlagSelfAnswer, DateLogin, DateReg, MemberType, host, nation, lang  
+			FROM T_MEMBERS WHERE FlagDel = 'N'
+		) T
+		WHERE Phone = #{userPhone} AND Password = #{userPassword}
+	</select>
+	
+	<!-- fn_SQL_User_pass -->
+	<select id="getUserPass" resultType="member">
+		SELECT 
+			Password 
+		FROM T_MEMBERS 
+		WHERE Phone = #{userPhone}
+	</select>
+	
+	<!-- fn_SQL_member_a_List -->
+	<select id="getMemberAlistCount" resultType="int">
+		SELECT 
+			COUNT(A.Seq) 
+		FROM T_ANSWER AS A  with(nolock) 
+		LEFT OUTER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq 
+		WHERE A.MemberSeq = #{strData3} AND A.FlagUse = #{strData4} 
+		<if test="flagChoice != ''">
+			AND A.FlagChoice = #{flagChoice}
+		</if>
+		ORDER BY A.QuestionSeq DESC
+	</select>
+	<!-- fn_SQL_member_a_List -->
+	<select id="getMemberAlistLimit" resultType="member">
+		SELECT 
+			TOP #{strData1} A.Seq AS AnswerSeq, A.QuestionSeq, A.FlagChoice, Q.Title, Q.Almoney, Q.ReadCount, Q.DateReg, 
+			(SELECT COUNT(*) AS AnswerCount FROM T_ANSWER  with(nolock) WHERE QuestionSeq = Q.Seq AND FlagUse = 'Y') AS AnswerCount 
+		FROM T_ANSWER AS A  with(nolock) 
+		LEFT OUTER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq 
+		WHERE A.MemberSeq = #{strData3} AND A.FlagUse = #{strData4} 
+		<if test="flagChoice != ''">
+			AND A.FlagChoice = #{flagChoice}
+		</if>
+		ORDER BY A.QuestionSeq DESC
+	</select>
+	<!-- fn_SQL_member_a_List -->
+	<select id="getMemberAlistAll" resultType="member">
+		SELECT 
+			A.Seq AS AnswerSeq, A.QuestionSeq, A.FlagChoice, Q.Title, Q.Almoney, Q.ReadCount, Q.DateReg, 
+			(SELECT COUNT(*) AS AnswerCount FROM T_ANSWER  with(nolock) WHERE QuestionSeq = Q.Seq AND FlagUse = 'Y') AS AnswerCount 
+		FROM T_ANSWER AS A  with(nolock) 
+		LEFT OUTER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq 
+		WHERE A.MemberSeq = #{strData3} AND A.FlagUse = #{strData4} 
+		<if test="flagChoice != ''">
+			AND A.FlagChoice = #{flagChoice}
+		</if>
+		ORDER BY A.QuestionSeq DESC
+	</select>
+	
+
+	
+	<!-- fn_SQL_MyRecommend_Select -->
+	<select id="getMyRecommendSelect" resultType="string">
+		SELECT NickName 
+		FROM T_MEMBERS  with(nolock) 
+		WHERE Seq IN (
+			SELECT REPLACE(ChuCode, '-', '') AS ChuCode FROM T_MEMBERS  with(nolock) WHERE Seq = #{memberSeq}
+		)
+	</select>
+	
+	<!-- fn_SQL_MyRecommend_List -->
+	<select id="getMyRecommendList" resultType="member">
+		select 
+			Seq, NickName, DateReg, sName, Country, Phone, Q_Count, A_Count, host, nation, lang, 
+			L.EarnQueView as Q_Almoney, L.EarnAnsChoice + L.EarnAnsView as A_Almoney
+		from T_MEMBERS as M 
+		left outer join T_COMBINED_LOG_ALMONEY_TOTAL as L on L.MemberSeq = M.Seq 
+		WHERE ChuCode = CONCAT(Left(#{memberSeq}, 4), '-', Right(#{memberSeq}, 4))
+			and flagdel = 'N' 
+		<if test="userLv != '99'">
+			AND MemberType != 99 
+		</if>
+		ORDER BY Seq DESC
+	</select>
+	
+	<!-- fn_SQL_Almoney_MyJoin -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getAlmoneyMyJoin" resultType="member">
+		SELECT 
+			Pw, NickName, Email, Country, Phone, Almoney, AlpayKR, Intro, FlagDel, host, nation, lang 
+		FROM T_MEMBERS  with(nolock) 
+		WHERE Seq = #{userSeq}
+	</select>
+	
+	<!-- fn_SQL_Almoney_memJoin -->
+	<select id="getAlmoneyMemJoin" resultType="member">
+		SELECT 
+			Pw, Name, NickName, Email, Phone, Almoney, host, nation, lang 
+		FROM T_MEMBERS  with(nolock) 
+		WHERE Seq = #{seq}
+	</select>
+	
+	<!-- fn_SQL_Nick_Check -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getNickCheck" resultType="int">
+		SELECT COUNT(NickName) AS CNT 
+		FROM T_MEMBERS  with(nolock) WHERE Seq <![CDATA[<>]]> #{userSeq} AND NickName = #{nickName}
+	</select>
+	
+	<select id="getLoginCheck" parameterType="hashMap" resultType="hashMap">
+	{
+		call SP_MEMBER_LOGIN_CH3(
+		 #{LOGIN_ID, mode=IN, jdbcType=String}, 
+		 #{LOGIN_PW, mode=IN, jdbcType=String,
+		 #{LOGIN_IP, mode=IN, jdbcType=String},
+		 #{LOGIN_DATE, mode=IN, jdbcType=String}
+		)
+	}
+	</select>
+	
+	<select id="getMemPhoneAndPwBySeq" parameterType="hashMap" resultType="hashMap">
+		select Top 1  Phone, Pw from T_MEMBERS where ( (Phone = #{UserPhone_secure} and Country = #{UserCountry}) or Seq = #{UserPhone} ) ORDER BY regdate desc
+	</select>
+	
+	<select id="getUserRanking" parameterType="hashMap" resultType="member">
+		SELECT 
+			* 
+		FROM 
+			(
+				SELECT 
+					ROW_NUMBER() OVER(ORDER BY CountQ DESC) AS Idx, *, 
+					RANK() OVER(ORDER BY CountQ DESC) AS rankA, 
+					RANK() OVER(ORDER BY CountQ DESC) AS rankQ
+				FROM V_MEMBERS 
+				WHERE Lv != 99 
+			) T 
+		WHERE 
+			T.Idx BETWEEN #{st_num} AND #{en_num}
+	</select>
+	<select id="getUserRankingSum" parameterType="hashMap" resultType="member">
+		SELECT 
+			* 
+		FROM 
+			(
+				SELECT 
+					ROW_NUMBER() OVER(ORDER BY SumQ DESC) AS Idx, *, 
+					RANK() OVER(ORDER BY SumQ DESC) AS rankA, 
+					RANK() OVER(ORDER BY CountQ DESC) AS rankQ
+				FROM V_MEMBERS 
+				WHERE Lv != 99 
+			) T 
+		WHERE 
+			T.Idx BETWEEN #{st_num} AND #{en_num}
+	</select>
+	
+	<select id="getAnswerChoiceSum" resultType="int">
+		SELECT 
+			ISNULL(SUM(Almoney), 0) as AnswerChoice1 
+		FROM LOG_ALMONEY WITH(NOLOCK) 
+		WHERE TradeType = 'Answer'
+	</select>
+	
+	<select id="getUserAlmoneyBySeq" resultType="int">
+		SELECT 
+			ISNULL(Almoney,0) AS Almoney 
+		FROM 
+			T_MEMBERS 
+		WHERE Seq = #{userSeq}
+	</select>
+	
+	<select id="getAnswerSumViewA" resultType="int">
+		SELECT 
+			ISNULL(SUM(Almoney), 0) as AnswerEarning1 
+		FROM LOG_ALMONEY WITH(NOLOCK) 
+		WHERE TradeType = 'ViewA'
+	</select>
+	
+	<select id="getEarnAnsChoiceSum" resultType="int">
+		select sum(EarnAnsChoice) 
+		from V_LOG_ALMONEY_COMBINED
+	</select>
+	
+	<select id="getAnswerEarningSum" resultType="int">
+		select sum(EarnAnsView) 
+		from V_LOG_ALMONEY_COMBINED
+	</select>
+	
+	<select id="getMemberLvOrFlagBySeq" resultType="hashMap">
+		SELECT 
+			Lv, FlagProfileOpen 
+		FROM 
+			T_MEMBERS with(nolock) 
+		WHERE Seq = #{userSeq}
+	</select>
+	
+	<select id="getMemberInfoViewBySeq" resultType="member">
+		declare @Q_Almoney money;
+		declare @A_Almoney money;
+		declare @EarnTotal money;
+		
+		select @Q_Almoney = EarnQueView
+		     , @A_Almoney = EarnAnsChoice + EarnAnsView
+		     , @EarnTotal = EarnAnsChoice + EarnAnsExt + EarnAnsView + EarnAnswerer + EarnChildAns + EarnChildQue + EarnEsti + EarnEvent + EarnJoin + EarnQueExt + EarnQueView + EarnRefund
+		from V_LOG_ALMONEY_COMBINED
+		where MemberSeq = #{userSeq};
+		
+		select M.*
+		     , R.*
+		     , @EarnTotal as EarnTotal
+		from V_MEMBERS as M
+		     left join
+		(
+		    select sum(case
+		                   when EarnQueView > @Q_Almoney then 1
+		                   else 0
+		               end) + 1 as RankQ
+		         , sum(case
+		                   when EarnAnsChoice + EarnAnsView > @A_Almoney then 1
+		                   else 0
+		               end) + 1 as RankA
+		    from T_COMBINED_LOG_ALMONEY_TOTAL as L
+		    where FlagUse = 'Y'
+		) as R on 1 = 1
+		where Seq = #{userSeq};
+	</select>
+	
+	<select id="getMemberLoginInfoSp" statementType="CALLABLE" resultType="hashMap">
+	{
+		call SP_MEMBER_LOGIN_INFO(
+		 #{userSeq, mode=IN}
+		)
+	}
+	</select>
+	
+	<resultMap id="myAlmoneyInfo1" type="hashMap">
+		<id property="Almoney" column="Almoney" />
+	</resultMap>
+	<resultMap id="myAlmoneyInfo2" type="hashMap">
+		<id property="EarnTotal" column="EarnTotal" />
+		<id property="ConTotal" column="ConTotal" />
+		<id property="EtcTotal" column="EtcTotal" />
+	</resultMap>
+	<resultMap id="myAlmoneyInfo3" type="hashMap">
+		<id property="EarnAnsChoice" column="EarnAnsChoice" />
+		<id property="EarnAnsExt" column="EarnAnsExt" />
+		<id property="EarnAnsView" column="EarnAnsView" />
+		<id property="EarnAnswerer" column="EarnAnswerer" />
+		<id property="EarnChildAns" column="EarnChildAns" />
+		<id property="EarnChildQue" column="EarnChildQue" />
+		<id property="EarnEsti" column="EarnEsti" />
+		<id property="EarnEvent" column="EarnEvent" />
+		<id property="EarnJoin" column="EarnJoin" />
+		<id property="EarnQueExt" column="EarnQueExt" />
+		<id property="EarnQueView" column="EarnQueView" />
+		<id property="EarnRefund" column="EarnRefund" />
+		<id property="Etc" column="Etc" />
+		<id property="EarnQuiz" column="EarnQuiz" />
+		<id property="QuizCancel" column="QuizCancel" />
+		<id property="EarnRoulette" column="EarnRoulette" />
+		<id property="EarnTranslate" column="EarnTranslate" />
+		<id property="EarnReply" column="EarnReply" />
+	</resultMap>
+	<resultMap id="myAlmoneyInfo4" type="hashMap">
+		<id property="ConAnsView" column="ConAnsView" />
+		<id property="ConQueWrite" column="ConQueWrite" />
+		<id property="ConQueExt" column="ConQueExt" />
+		<id property="ConAnsExt" column="ConAnsExt" />
+		<id property="ConQueMove" column="ConQueMove" />
+		<id property="ConQuiz" column="ConQuiz" />
+		<id property="ConTranslate" column="ConTranslate" />
+		<id property="ConExt" column="ConExt" />
+		<id property="ConReply	" column="ConReply	" />
+	</resultMap>
+	<resultMap id="myAlmoneyInfo5" type="hashMap">
+		<id property="EarnAnsChoice" column="EarnAnsChoice" />
+		<id property="EarnAnsExt" column="EarnAnsExt" />
+		<id property="EarnAnsView" column="EarnAnsView" />
+		<id property="EarnAnswerer" column="EarnAnswerer" />
+		<id property="EarnChildAns" column="EarnChildAns" />
+		<id property="EarnChildQue" column="EarnChildQue" />
+		<id property="EarnEsti" column="EarnEsti" />
+		<id property="EarnEvent" column="EarnEvent" />
+		<id property="EarnJoin" column="EarnJoin" />
+		<id property="EarnQueExt" column="EarnQueExt" />
+		<id property="EarnQueView" column="EarnQueView" />
+		<id property="EarnRefund" column="EarnRefund" />
+		<id property="Etc" column="Etc" />
+		<id property="EarnQuiz" column="EarnQuiz" />
+		<id property="QuizCancel" column="QuizCancel" />
+		<id property="EarnRoulette" column="EarnRoulette" />
+		<id property="EarnTranslate" column="EarnTranslate" />
+		<id property="EarnReply" column="EarnReply" />
+	</resultMap>
+	<resultMap id="myAlmoneyInfo6" type="hashMap">
+		<id property="ConAnsView" column="ConAnsView" />
+		<id property="ConQueWrite" column="ConQueWrite" />
+		<id property="ConQueExt" column="ConQueExt" />
+		<id property="ConAnsExt" column="ConAnsExt" />
+		<id property="ConQuiz" column="ConQuiz" />
+		<id property="ConTranslate" column="ConTranslate" />
+		<id property="ConExt" column="ConExt" />
+		<id property="ConReply	" column="ConReply	" />
+	</resultMap>
+
+	<select id="myAlmoneyInfoAll" parameterType="int" resultMap="myAlmoneyInfo1,myAlmoneyInfo2,myAlmoneyInfo3,myAlmoneyInfo4,myAlmoneyInfo5,myAlmoneyInfo6">
+			declare @MEM_SEQ int = #{userSeq};
+		
+		    declare @EarnTotal money = 0;
+		    declare @ConTotal  money = 0;
+		
+		    select Almoney 
+		    from T_MEMBERS 
+		    where Seq = @MEM_SEQ;
+		
+		    select sum(EarnAnsChoice + EarnAnsExt + EarnAnsView + EarnAnswerer + EarnChildAns + EarnChildQue + EarnEsti + EarnEvent + EarnJoin + EarnQueExt + EarnQueView + EarnRefund + Etc + EarnQuiz + QuizCancel + EarnRoulette + EarnTranslate + EarnReply) as EarnTotal
+		        , sum(ConAnsExt + ConAnsView + ConQueExt + ConQueMove + ConQueWrite + ConQuiz + ConTranslate + ConExt + ConReply) as ConTotal
+		        , sum(ConExchange) as EtcTotal
+		    from V_LOG_ALMONEY_COMBINED
+		    where MemberSeq = @MEM_SEQ;
+		
+		    select EarnAnsChoice as '감사알'
+		        , EarnAnsExt as '훈훈알(답변)'
+		        , EarnAnsView as '답변 열람'
+		        , EarnAnswerer as 'ANSWERer'
+		        , EarnChildAns as '추천인(답변)'
+		        , EarnChildQue as '추천인(질문)'
+		        , EarnEsti as '답변 평가'
+		        , EarnEvent as '이벤트(답변)'
+		        , EarnJoin as '활동 자금'
+		        , EarnQueExt as '훈훈알(질문)'
+		        , EarnQueView as '질문 열람'
+		        , EarnRefund as '환급'
+		        , Etc as '기타'
+		        , EarnQuiz as '퀴즈'
+		        , QuizCancel as '퀴즈신청취소환급'
+		        , EarnRoulette as '이벤트(룰렛)'
+		        , EarnTranslate as '번역' 
+		        , EarnReply as '훈훈알(댓글)' 
+		    from V_LOG_ALMONEY_COMBINED
+		    where MemberSeq = @MEM_SEQ;
+		
+		    select ConAnsView as '답변 열람'
+		        , ConQueWrite as '감사알'
+		        , ConQueExt as '훈훈알(질문)'
+		        , ConAnsExt as '훈훈알(답변)'
+		        , ConQueMove as '꼭대기'
+		        , ConQuiz as '퀴즈참가'
+		        , ConTranslate as '번역의뢰'
+		        , ConEtc as '알통환수'
+		        , ConExt as '기타' 
+		        , ConReply as '훈훈알(댓글)' 
+		    from V_LOG_ALMONEY_COMBINED
+		    where MemberSeq = @MEM_SEQ;
+		    
+		    select top 1 EarnAnsChoice as '감사알'
+		        , EarnAnsExt as '훈훈알(답변)'
+		        , EarnAnsView as '답변 열람'
+		        , EarnAnswerer as 'ANSWERer'
+		        , EarnChildAns as '추천인(답변)'
+		        , EarnChildQue as '추천인(질문)'
+		        , EarnEsti as '답변 평가'
+		        , EarnEvent  as '이벤트(답변)'
+		        , EarnJoin as '활동 자금'
+		        , EarnQueExt as '훈훈알(질문)'
+		        , EarnQueView as '질문 열람'
+		        , EarnRefund as '환급'
+		        , Etc  as '기타'
+		        , EarnQuiz as '퀴즈'
+		        , QuizCancel as '퀴즈신청취소환급'
+		        , EarnRoulette as '이벤트(룰렛)'
+		        , EarnTranslate as '번역' 
+		        , EarnReply as '훈훈알(댓글)' 
+		    from T_COMBINED_LOG_ALMONEY_WEEK
+		    where MemberSeq = @MEM_SEQ
+		    order by regdate desc;
+		
+		    select top 1 ConAnsView as '답변 열람'
+		        , ConQueWrite as '감사알'
+		        , ConQueExt as '훈훈알(질문)'
+		        , ConAnsExt as '훈훈알(답변)'
+		        , ConQueMove as '꼭대기'
+		        , ConQuiz as '퀴즈참가'
+		        , ConTranslate as '번역의뢰'
+		        , ConEtc as '알통환수'
+		        , ConExt as '기타'
+		        , ConReply as '훈훈알(댓글)' 
+		    from T_COMBINED_LOG_ALMONEY_WEEK
+		    where MemberSeq = @MEM_SEQ
+		    order by regdate desc;
+	</select>
+	
+	<resultMap id="getMyBankData" type="hashMap">
+		<id property="regdate" column="regdate" />
+		<id property="regdate2" column="regdate2" />
+		<id property="TradeType" column="TradeType" />
+		<id property="Almoney" column="Almoney" />
+		<id property="Balance" column="Balance" />
+		<id property="ContentsSeq" column="ContentsSeq" />
+	</resultMap>
+	<resultMap id="getMyBankCount" type="hashMap">
+		<id property="Total" column="Total" />
+	</resultMap>
+	<!-- 
+	테스트 완료후 리스트와 카운터 조건문에 날짜 추가
+	and regdate <![CDATA[>=]]> @DATE_START
+    and regdate <![CDATA[<]]> @DATE_END
+	 -->
+	<select id="getMyBankList" parameterType="hashmap" resultMap="getMyBankData,getMyBankCount">
+		declare @MEM_SEQ int = ${userSeq}
+              , @OFFSET  int = ${offset}
+              , @MAX_ROW int = ${maxRow}
+              , @DATE_START date = #{dateTarget};
+
+        declare @DATE_END date = dateadd(day, 1, @DATE_START);
+
+        select convert(varchar(10), regdate, 20) as regdate, TradeType, Almoney, Balance, ContentsSeq, regdate as regdate2
+        from LOG_ALMONEY
+        where MemberSeq = @MEM_SEQ 
+              and TradeType in(${tradeTypeList})
+              and not (TradeType = 'View' and Almoney = 0) 
+              and regdate >= @DATE_START  
+    		  and regdate <![CDATA[<]]> @DATE_END 
+        order by regdate2 ${sortType}  
+        offset @OFFSET rows fetch next @MAX_ROW rows only;
+        
+        select count(Seq) as Total
+        from LOG_ALMONEY
+        where MemberSeq = @MEM_SEQ 
+              and TradeType in(${tradeTypeList})
+              and regdate >= @DATE_START 
+    		  and regdate <![CDATA[<]]> @DATE_END 
+              and not (TradeType = 'View' and Almoney = 0)
+	</select>
+	
+	<select id="getMemerEtcData" resultType="hashMap">
+		select top 10 regdate, Almoney 
+        from LOG_ALMONEY 
+        where MemberSeq = #{userSeq} 
+              and TradeType in('Exchange', 'ExchangeAlpay') 
+        order by regdate desc
+	</select>
+	
+	<select id="getGraphData" parameterType="hashMap" resultType="hashMap">
+		select regdate,
+			sum(EarnAnsChoice + EarnAnsExt + EarnAnsView + EarnAnswerer + EarnChildAns + EarnChildQue + EarnEsti + EarnEvent + EarnJoin + EarnQueExt + EarnQueView + EarnRefund + Etc + EarnQuiz + EarnRoulette + EarnTranslate) as Earning,
+			sum(ConAnsExt + ConAnsView + ConExchange + ConQueExt + ConQueMove + ConQueWrite + ConQuiz + ConTranslate + ConEtc) as Consume 
+		from T_COMBINED_LOG_ALMONEY_WEEK 
+		where MemberSeq = #{userSeq} and regdate > CONVERT(DATE, #{dtString}) 
+		group by MemberSeq 
+		      , regdate 
+		order by regdate
+	</select>
+	
+	<select id="getUserAlarmConfig" resultType="hashMap">
+		SELECT 
+			* 
+		FROM [T2_MEMBERS_ALARM_CONFIG] 
+		WHERE MemberSeq = #{userSeq}
+	</select>
+	
+	<select id="getUserAlarmCount" statementType="CALLABLE" parameterType="int" resultType="hashMap">
+	
+BEGIN
+
+	SET NOCOUNT ON;
+
+	DECLARE @ANS_CHOICE_DATE_REG VARCHAR(50),
+			@ANS_REGIST_DATE_REG VARCHAR(50),
+			@FAVORITE_QUE_REGIST_DATE_REG VARCHAR(50),
+			@CMT_REGIST_DATE_REG VARCHAR(50),
+			@ANS_CHOICE_READY_DATE_REG VARCHAR(50),
+			@ALMONEY_INCOME_DATE_REG VARCHAR(50),
+			@ALMONEY_PAYING_DATE_REG VARCHAR(50),
+			@MEM_LEVEL_UP_ORG_DATE_REG VARCHAR(50),
+			@MEM_LEVEL_UP_CMP_DATE_REG VARCHAR(50),
+			@REPORT_DATE_REG VARCHAR(50),
+			@MENTEE_DATE_REG VARCHAR(50),
+			@MENTEE_UNSET_DATE_REG VARCHAR(50),
+			@RECOMM_MEM_JOIN_DATE_REG VARCHAR(50),
+			@NOTICE_DATE_REG VARCHAR(50),
+			@ALARM_DATE_REG VARCHAR(50)
+		
+	DECLARE @DEFAULT_DATE_REG VARCHAR(50) = '2017-01-01 00:00:00'
+
+	DECLARE @AlarmViewLogDateReg VARCHAR(50),
+			@AlarmCode VARCHAR(30)
+
+	DECLARE ALARM_VIEW_LOG_CURSOR 
+		CURSOR FOR 
+			   SELECT AlarmViewField_Cd, DateReg 
+				 FROM T2_MEMBERS_ALARM_VIEW_LOG 
+				WHERE MemberSeq = #{userSeq}
+
+	OPEN ALARM_VIEW_LOG_CURSOR
+
+	FETCH NEXT FROM ALARM_VIEW_LOG_CURSOR 
+		  INTO @AlarmCode, @AlarmViewLogDateReg
+
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+		If @AlarmCode = 'ANS_CHOICE'
+			SET @ANS_CHOICE_DATE_REG = @AlarmViewLogDateReg
+		Else If @AlarmCode = 'ANS_REGIST'
+			SET @ANS_REGIST_DATE_REG = @AlarmViewLogDateReg
+		Else If @AlarmCode = 'FAVORITE_QUE_REGIST'
+			SET @FAVORITE_QUE_REGIST_DATE_REG = @AlarmViewLogDateReg
+		Else If @AlarmCode = 'CMT_REGIST'
+			SET @CMT_REGIST_DATE_REG = @AlarmViewLogDateReg
+		Else If @AlarmCode = 'ANS_CHOICE_READY'
+			SET @ANS_CHOICE_READY_DATE_REG = @AlarmViewLogDateReg
+		Else If @AlarmCode = 'ALMONEY_INCOME'
+			SET @ALMONEY_INCOME_DATE_REG = @AlarmViewLogDateReg
+		Else If @AlarmCode = 'ALMONEY_PAYING'
+			SET @ALMONEY_PAYING_DATE_REG = @AlarmViewLogDateReg
+		Else If @AlarmCode = 'MEM_LEVEL_UP'
+			SET @MEM_LEVEL_UP_ORG_DATE_REG = @AlarmViewLogDateReg
+		Else If @AlarmCode = 'REPORT'
+			SET @REPORT_DATE_REG = @AlarmViewLogDateReg
+		Else If @AlarmCode = 'MENTEE'
+			SET @MENTEE_DATE_REG = @AlarmViewLogDateReg
+		Else If @AlarmCode = 'MENTEE_UNSET'
+			SET @MENTEE_UNSET_DATE_REG = @AlarmViewLogDateReg
+		Else If @AlarmCode = 'RECOMM_MEM_JOIN'
+			SET @RECOMM_MEM_JOIN_DATE_REG = @AlarmViewLogDateReg
+		Else If @AlarmCode = 'NOTICE'
+			SET @NOTICE_DATE_REG = @AlarmViewLogDateReg
+		Else If @AlarmCode = 'ALARM'
+			SET @ALARM_DATE_REG = @AlarmViewLogDateReg
+
+		FETCH NEXT FROM ALARM_VIEW_LOG_CURSOR INTO @AlarmCode, @AlarmViewLogDateReg
+	END
+
+	CLOSE ALARM_VIEW_LOG_CURSOR
+	DEALLOCATE ALARM_VIEW_LOG_CURSOR
+
+	SET @MEM_LEVEL_UP_CMP_DATE_REG = CONVERT(VARCHAR(50), DATEADD(MONTH, -1, CONVERT(datetime, @MEM_LEVEL_UP_ORG_DATE_REG)), 120)
+
+	SELECT
+
+		(SELECT COUNT(Seq)
+			FROM T_ANSWER
+			WHERE MemberSeq = #{userSeq}
+			AND FlagUse = 'Y'
+			AND FlagChoice = 'Y' 
+			AND regdate >= convert(smalldatetime, IsNUll(@ANS_CHOICE_DATE_REG, @DEFAULT_DATE_REG), 21)
+		) AS ANS_CHOICE,
+
+		(SELECT @ANS_CHOICE_DATE_REG) AS ANS_CHOICE_DATE_REG,
+
+		(SELECT COUNT(Seq)
+		   FROM T_ANSWER
+		  WHERE QuestionSeq IN (SELECT Seq FROM T_QUESTION WHERE MemberSeq = #{userSeq} AND FlagUse = 'Y') 
+		    AND FlagUse = 'Y' 
+			AND regdate >= convert(smalldatetime, ISNULL(@ANS_REGIST_DATE_REG, @DEFAULT_DATE_REG), 21)
+		) AS ANS_REGIST,
+
+		(SELECT @ANS_REGIST_DATE_REG) AS ANS_REGIST_DATE_REG,
+
+		(SELECT COUNT(Seq)
+		   FROM T_QUESTION
+		  WHERE FlagUse = 'Y'
+			AND regdate >= convert(smalldatetime, IsNUll(@FAVORITE_QUE_REGIST_DATE_REG, @DEFAULT_DATE_REG), 21)
+			AND CONVERT(VARCHAR(10), ISNULL(Section1, 0)) + '|' +
+				CONVERT(VARCHAR(10), ISNULL(Section2, 0)) + '|' +
+				CONVERT(VARCHAR(10), ISNULL(Section3, 0)) + '|' +
+				CONVERT(VARCHAR(10), ISNULL(Section4, 0)) + '|' +
+				CONVERT(VARCHAR(10), ISNULL(Section5, 0)) IN (SELECT CONVERT(VARCHAR(10), ISNULL(Section1, 0)) + '|' +
+					 	  											 CONVERT(VARCHAR(10), ISNULL(Section2, 0)) + '|' +
+																	 CONVERT(VARCHAR(10), ISNULL(Section3, 0)) + '|' +
+																	 CONVERT(VARCHAR(10), ISNULL(Section4, 0)) + '|' +
+																	 CONVERT(VARCHAR(10), ISNULL(Section5, 0))
+																FROM T_MYFAVORITE
+															   WHERE MemberSeq = #{userSeq})
+		) AS FAVORITE_QUE_REGIST,
+
+		(SELECT @FAVORITE_QUE_REGIST_DATE_REG) AS FAVORITE_QUE_REGIST_DATE_REG,
+		
+		(SELECT COUNT(Seq)
+		   FROM V2_ALL_RECIVED_REPLY
+		  WHERE MemberSeq = #{userSeq}
+			AND regdate >= convert(smalldatetime, ISNULL(@CMT_REGIST_DATE_REG, @DEFAULT_DATE_REG), 21)
+		) AS CMT_REGIST,
+
+		(SELECT @CMT_REGIST_DATE_REG) AS CMT_REGIST_DATE_REG,
+		
+		(SELECT COUNT(Seq)
+		   FROM V2_ALLQ
+		  WHERE MemberSeq =#{userSeq}
+		    AND FlagUse = 'Y'
+			AND FlagChoice = 'N'
+			AND AnswerCount > 0
+		) AS ANS_CHOICE_READY,
+
+		(SELECT @ANS_CHOICE_READY_DATE_REG) AS ANS_CHOICE_READY_DATE_REG,
+
+		(SELECT COUNT(Seq)
+		   FROM LOG_ALMONEY
+		  WHERE MemberSeq =#{userSeq}
+		    AND TradeType IN ('Join', 'Answer', 'ViewQ', 'ViewA', 'Esti', 'ViewRQ', 'ViewRA', 'Refund', 'Event')
+			AND Almoney > 0
+			AND regdate >= convert(smalldatetime, IsNull(@ALMONEY_INCOME_DATE_REG, @DEFAULT_DATE_REG), 21)
+		) AS ALMONEY_INCOME,
+
+		(SELECT @ALMONEY_INCOME_DATE_REG) AS ALMONEY_INCOME_DATE_REG,
+
+		(SELECT COUNT(Seq)
+		   FROM LOG_ALMONEY
+		  WHERE MemberSeq = #{userSeq}
+		    AND TradeType In ('Question', 'View', 'Withdraw')
+			AND regdate >= convert(smalldatetime, IsNull(@ALMONEY_PAYING_DATE_REG, @DEFAULT_DATE_REG), 21)
+			AND Almoney > 0
+		) AS ALMONEY_PAYING,
+
+		(SELECT @ALMONEY_PAYING_DATE_REG) AS ALMONEY_PAYING_DATE_REG,
+
+		(SELECT COUNT(MemberSeq)
+		   FROM T2_MEMBERS_LV_LOG
+		  WHERE MemberSeq = #{userSeq}
+		    AND DateReg >= ISNULL(@MEM_LEVEL_UP_CMP_DATE_REG, @DEFAULT_DATE_REG)
+		) AS MEM_LEVEL_UP,
+
+		(SELECT @MEM_LEVEL_UP_ORG_DATE_REG) AS MEM_LEVEL_UP_DATE_REG,
+
+		(SELECT 0) AS REPORT,
+
+		(SELECT @REPORT_DATE_REG) AS REPORT_DATE_REG,
+
+		(SELECT COUNT(Seq)
+		   FROM T_MYPARTNER
+		  WHERE PartnerSeq = #{userSeq}
+		    AND FlagPartner = 'M' 
+			AND FlagUse = 'Y'
+			AND dbo.FN2_CONVERT_DATE_REG(DateReg) >= ISNULL(@MENTEE_DATE_REG, @DEFAULT_DATE_REG)
+		) AS MENTEE,
+
+		(SELECT @MENTEE_DATE_REG) AS MENTEE_DATE_REG,
+
+		(SELECT COUNT(Seq)
+		   FROM T_MYPARTNER
+		  WHERE PartnerSeq = #{userSeq} 
+		    AND FlagPartner = 'M' 
+			AND FlagUse = 'N' 
+			AND dbo.FN2_CONVERT_DATE_REG(UnSetDateReg) >= IsNull(@MENTEE_UNSET_DATE_REG, @DEFAULT_DATE_REG)
+		) AS MENTEE_UNSET,
+
+		(SELECT @MENTEE_UNSET_DATE_REG) AS MENTEE_UNSET_DATE_REG,
+
+		(SELECT COUNT(Seq)
+  		   FROM T_MEMBERS
+		  WHERE ChuCode = CONVERT(VARCHAR(30), LEFT(#{userSeq}, 4) + '+' + RIGHT(#{userSeq}, 4))
+			AND dbo.FN2_CONVERT_DATE_REG(DateReg) >= IsNull(@RECOMM_MEM_JOIN_DATE_REG, @DEFAULT_DATE_REG)
+		) AS RECOMM_MEM_JOIN,
+
+		(SELECT @RECOMM_MEM_JOIN_DATE_REG) AS RECOMM_MEM_JOIN_DATE_REG,
+
+		(SELECT COUNT(Seq)
+	  	   FROM T_NOTICE
+		  WHERE DateReg >=IsNull(@NOTICE_DATE_REG, @DEFAULT_DATE_REG)
+		) AS NOTICE,
+
+		(SELECT @NOTICE_DATE_REG) AS NOTICE_DATE_REG,
+		
+		
+		(SELECT COUNT(Seq)
+	  	   FROM T_MESSAGE
+		  WHERE receiver = #{userSeq} AND is_read='N' AND regdate >=IsNull(@ALARM_DATE_REG, @DEFAULT_DATE_REG) AND FlagUse_receiver = 'Y'
+		) AS ALARM,
+
+		(SELECT @ALARM_DATE_REG) AS ALARM_DATE_REG
+		
+END
+
+	</select>
+	
+	<select id="getUserSname" resultType="string">
+		SELECT sName FROM T_MEMBERS WHERE Seq = #{userSeq}
+	</select>
+	
+	<!-- SP2_MEMBER_ALARM_COUNT_GET -->
+	<!-- 사용 안함 -->
+		
+	
+	<!-- fn_SQL_User_LastLogin -->
+	<!-- dateLogin 은 ASP 의 Now() 임 -->
+	<!-- userSeq 는 Session 정보임 -->
+	<update id="updateLastLogin">
+		UPDATE T_MEMBERS SET 
+			DateLogin = #{dateLogin}
+		WHERE Seq = '#{userSeq}
+	</update>
+	
+	<!-- fn_SQL_member_Update -->
+	<!-- password, email, phone 변수는 AlmoneyEncrypt 함수로 암호화 해서 받아야 함 -->
+	<!-- 업데이트할 변수가 하나라도 있을 경우 아래 구문 실행하도록 유효성 검사 강화 -->
+	<!-- 기본적으로 없데이트 해야할 사항 정의 -->
+	<update id="viewUpdate">
+		UPDATE T_MEMBERS SET 
+			<if test="name != ''">
+				sName = #{Name},
+			</if>
+			<if test="email != ''">
+				Email = #{email},
+			</if>
+			<if test="phone != ''">
+				Phone = #{phone},
+			</if>
+			<if test="memberType != ''">
+				MemberType = #{memberType},
+			</if>
+			<if test="chuCode != '-'">
+				ChuCode = #{chuCode},
+			</if>
+			NickName = #{nickName}
+		WHERE Seq = #{seq}
+	</update>
+		
+	<!-- fn_SQL_Question_MemberUpdate -->
+	<!-- userSeq 는 Session 정보 이 -->
+	<!-- almoney 를 가져올때 Cdbl=(java 의 double) 함수 이용 -->
+	<update id="questionMemberUpdate">
+		UPDATE T_MEMBERS SET Almoney = Almoney - #{almoney}
+		WHERE Seq = #{userSeq}
+	</update>
+	
+	<!-- fn_SQL_Answer_MemberUpdate -->
+	<!-- almoney 를 가져올때 Cdbl=(java 의 double) 함수 이용 -->
+	<update id="answerMemberUpdate">
+		UPDATE T_MEMBERS SET Almoney = Almoney + #{almoney}
+		WHERE Seq = #{answerMemberSeq}
+	</update>
+	
+	<!-- fn_SQL_Almoney_Update -->
+	<update id="memberAlmoneyUpdate">
+		UPDATE T_MEMBERS SET 
+		<if test="strData2 == ''">
+			Almoney = Almoney - #{strData3}
+		</if>
+		<if test="strData2 != ''">
+			Almoney = Almoney + #{strData3}, #{strData2} = #{strData2} + #{strData3}
+		</if>
+		WHERE Seq = #{strData1}
+		
+	</update>
+	
+	<!-- fn_SQL_Join_update -->
+	<!-- userSeq 는 Session 정보임 -->
+	<update id="updateJoin">
+		UPDATE T_MEMBERS SET 
+			UPDATE T_MEMBERS SET ChuCode = Left(#{userSeq}, 4) || '-' || Right(#{userSeq}, 4) '
+		WHERE Seq = #{userSeq} 
+	</update>
+	
+	<!-- fn_SQL_Join_Update(Member.vbs) -->
+	<!-- userSeq 는 Session 정보임 -->
+	<update id="updateJoin2">
+		UPDATE T_MEMBERS SET 
+			<if test="strData == 'E'">
+				Pw = #{userPW_md5}, 
+				Email = #{email},
+				Intro = #{intro}  
+			</if>
+			<if test="strData == 'D'">
+				FlagDel = 'Y' 
+			</if>
+			<if test="strData == 'P'">
+				Photo = '' 
+			</if>
+		WHERE Seq = #{userSeq}
+	</update>
+	
+	<update id="updateLeave">
+		UPDATE T_MEMBERS 
+		SET FlagDel = 'Y',
+			DateDel = #{dt} 
+		WHERE Seq = #{seq}
+	</update>
+	
+	<!-- fn_SQL_Profile_Update -->
+	<!-- userSeq 는 Session 정보임 -->
+	<update id="updateProfile">
+		UPDATE T_MEMBERS SET 
+			<if test="fileName != ''">
+				Photo = #{fileSaveName}, 
+			</if>
+			FlagProfileOpen = #flagProfileOpen}
+		 WHERE Seq = #{userSeq}
+	</update>
+	
+	
+	<update id="updatePwd">
+		UPDATE T_MEMBERS 
+		SET Pw = #{tempPassword} 
+		WHERE Phone = #{rcv_number} and Country = #{country_code}
+	</update>
+	
+	
+	<!-- fn_SQL_Join_Insert -->
+	<!-- dateReg 는 ASP 의 Now() 임 -->
+	<insert id="setJoin">
+		INSERT INTO T_MEMBERS (Password, Name, NickName, Email, Lv, Phone, Photo, Almoney, FlagCert, FlagAdult, FlagEmail, FlagSMS, FlagProfileOpen, FlagSelfAnswer, FlagDel, DateLogin, DateReg, ChuCode, QuestionCount, QuestionMoney, AnswerCount, AnswerMoney, AppID, sAuthType, sName, sBirthDate, sGender, sMobileCo, sCipherTime, sRequestNumber, sResponseNumber, sNationalInfo) 
+		VALUES (
+			#{userPassword},
+			'',
+			#{nickName},
+			#{email},
+			'1',
+			#{userPhone},
+			'',
+			#{almoneyJoin},
+			'',
+			'',
+			'',
+			'',
+			'Y',
+			'N',
+			'N',
+			'',
+			#{dateReg},
+			<if test="chuCode != ''">
+			#{chuCode},
+			</if>
+			<if test="chuCode == ''">
+			#{chuCode} || '-' || #{chuCode2},
+			</if>
+			0,
+			0,
+			0,
+			0,
+			#{sAuthType},
+			#{sName},
+			#{sBirthDate},
+			#{sGender},
+			#{sMobileCo},
+			#{sCipherTime},
+			#{sRequestNumber},
+			#{sResponseNumber},
+			#{sNationalInfo}
+		) 
+	</insert>
+	
+	<select id="setMemberAlarmLog" statementType="CALLABLE" resultType="int">
+	{ call SP2_MEMBER_ALARM_LOG_INSERT(
+		#{userSeq, mode=IN},
+		#{alamCode, mode=IN},
+		#{dateReg, mode=IN}
+	) }
+	</select>
+	
+	
+	<select id="getQuestionByQuestionSeq" statementType="CALLABLE" parameterType="biginteger" resultType="CommonLogQA">
+	{ call SP3_GET_QUESTION_2(#{seq, mode=IN}) }
+	</select>
+	
+	<!--  statementType="CALLABLE" -->
+	<select id="setPartnerSave" resultType="int">
+		DECLARE @MEM_SEQ INT = ${userSeq}
+		DECLARE @PartnerSeq INT = ${partnerSeq}
+		DECLARE @FlagPartner CHAR(1) = #{flagPartner}
+		DECLARE @DateReg VARCHAR(50) = #{dateReg}
+		
+		BEGIN
+		
+			SET NOCOUNT ON;
+		
+		
+			DECLARE @RETURN_CODE INT = 0
+		
+			BEGIN TRAN
+		
+			BEGIN TRY
+				DECLARE @CHECK INT
+		
+				SELECT @CHECK = COUNT(*)
+					FROM T_MYPARTNER
+				WHERE MemberSeq = @MEM_SEQ AND
+					  PartnerSeq = @PartnerSeq AND
+					  FlagPartner = @FlagPartner
+		
+				If @CHECK = 0
+					INSERT INTO T_MYPARTNER
+						(MemberSeq, PartnerSeq, FlagPartner, DateReg)
+					VALUES
+						(@MEM_SEQ, @PartnerSeq, @FlagPartner, @DateReg)
+				Else
+					BEGIN
+						DECLARE @CHECK_DUP INT
+		
+						SELECT @CHECK_DUP = COUNT(*)
+							FROM T_MYPARTNER
+						WHERE MemberSeq = @MEM_SEQ AND
+							  PartnerSeq = @PartnerSeq AND
+							  FlagPartner = @FlagPartner AND
+							  FlagUse = 'Y'
+		
+						If @CHECK_DUP = 0
+							UPDATE T_MYPARTNER SET
+								FlagUse = 'Y',
+								DateReg = @DateReg
+							WHERE MemberSeq = @MEM_SEQ AND
+								  PartnerSeq = @PartnerSeq AND
+								  FlagPartner = @FlagPartner
+						Else
+							SET @RETURN_CODE = 1
+					END
+		
+				COMMIT TRAN
+			END TRY
+		
+			BEGIN CATCH
+				SET @RETURN_CODE = 99 -- 처리 중 오류 발생
+				ROLLBACK TRAN
+			END CATCH
+		
+			SELECT @RETURN_CODE As ReturnCode
+		
+		END
+
+	</select>
+	
+	<select id="getMemberManagementInfo" statementType="CALLABLE" resultType="hashMap">
+	{ call SP2_MEMBER_MANAGEMENT_SELECT(#{userSeq, mode=IN}) }
+	</select>
+	
+	<!-- fn_SQL_MyQuestion_List2 -->
+	<select id="getMyQuestionCount" resultType="int">
+		SELECT COUNT(Seq) 
+		FROM V2_ALLQ AS Q  with(nolock) 
+		WHERE FlagUse = #{flagUse} AND MemberSeq = #{userSeq} 
+		
+		<if test='section1 != "0"'>
+			AND Section1 = #{section1} 
+		</if>
+		
+		<if test='viewFlag == "N"'>
+			AND FlagChoice = 'N' AND AnswerCount > 0 
+		</if>
+		<if test='viewFlag == "notAnswered"'>
+			AND AnswerCount = 0 
+		</if>
+		<if test='viewFlag == "answered"'>
+			AND AnswerCount > 0 
+		</if>
+		
+	</select>
+	<select id="getMyQuestionListFlagN" resultType="question">
+	SELECT * from 
+	( SELECT ROW_NUMBER() OVER (ORDER by T.Seq DESC) as idx, * from (
+	
+		SELECT Seq, Section1, Section2, Section3, Section4, Section5, Title, Contents, Almoney,
+		(SELECT  ISNULL(SUM(ReadCount), 0) AS Expr1
+		FROM     dbo.T_ANSWER
+		WHERE  (QuestionSeq = Q.Seq)) + ReadCount AS ReadCount,
+		 
+		FlagUse, FlagEvent, MemberSeq, FlagChoice, BestNumber, dbo.FN2_CONVERT_DATE_REG(DateReg) AS DateReg,
+	
+		(SELECT  COUNT(Seq) AS Expr1
+		FROM     dbo.T_ANSWER AS T_ANSWER_1 WITH (NOLOCK)
+		WHERE  (QuestionSeq = Q.Seq) AND (FlagUse = 'Y')) AS AnswerCount 
+		
+		FROM dbo.T_QUESTION AS Q WITH (NOLOCK)
+		WHERE  FlagUse = #{flagUse} AND MemberSeq = #{userSeq} AND FlagChoice = 'N' AND (SELECT  COUNT(Seq) AS Expr1
+		FROM    dbo.T_ANSWER AS T_ANSWER_1 WITH (NOLOCK)
+		WHERE  (QuestionSeq = Q.Seq) AND (FlagUse = 'Y')) > 0
+	) T ) TK WHERE TK.idx BETWEEN #{strData1} and #{strData2}
+	</select>
+	
+	<select id="getMyQuestionList2" resultType="question">
+		SELECT * from(
+			SELECT  ROW_NUMBER() OVER(ORDER BY regdate DESC) as idx, Seq, Section1, Section2, Section3, Section4, Section5, Title, Contents, Almoney,
+			(SELECT  ISNULL(SUM(ReadCount), 0) AS Expr1
+			FROM     dbo.T_ANSWER
+			WHERE  (QuestionSeq = Q.Seq)) + ReadCount AS ReadCount,
+			 
+			FlagUse, FlagEvent, MemberSeq, FlagChoice, BestNumber, dbo.FN2_CONVERT_DATE_REG(DateReg) AS DateReg,
+
+			(SELECT  COUNT(Seq) AS Expr1
+			FROM   dbo.T_ANSWER AS T_ANSWER_1 WITH (NOLOCK)
+			WHERE  (QuestionSeq = Q.Seq) AND (FlagUse = 'Y')) AS AnswerCount
+			
+			FROM dbo.T_QUESTION AS Q WITH (NOLOCK)
+			WHERE  FlagUse = #{flagUse} AND MemberSeq = #{userSeq}
+		) T
+		WHERE T.idx BETWEEN #{strData1} and #{strData2}
+		<if test='section1 != "0"'>
+			AND Section1 = #{section1} 
+		</if>
+		<if test='viewFlag == "N"'>
+			AND FlagChoice = 'N' AND AnswerCount > 0 
+		</if>
+		<if test='viewFlag == "notAnswered"'>
+			AND AnswerCount = 0 
+		</if>
+		<if test='viewFlag == "answered"'>
+			AND AnswerCount > 0 
+		</if>
+	</select>
+	
+	<!-- fn_SQL_MyAnswer_List -->
+	<select id="getMyAnswerCount" resultType="int">
+		SELECT COUNT(A.Seq)
+		FROM T_ANSWER AS A  with(nolock) 
+		INNER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq and Q.FlagUse = 'Y' 
+		WHERE A.FlagUse = #{flagUse} and A.MemberSeq = #{userSeq} 
+		<if test='flagChoice == "Y"'>
+			AND A.FlagChoice = #{flagChoice} 
+		</if>
+		<if test='flagChoice == "N"'>
+			AND A.FlagChoice = #{flagChoice} 
+		</if>
+	</select>
+	<select id="getMyAnswerList" resultType="answer">
+	SELECT *
+		from (
+		SELECT ROW_NUMBER() OVER(ORDER BY A.regdate DESC) as idx, Q.Seq, A.QuestionSeq, A.FlagChoice, A.FlagNickName, Q.Title, 
+				Q.Almoney, A.ReadCount, convert(char(19), A.regdate, 20) as dateReg, Q.AnswCount as answerCount, A.Answer 
+		FROM T_ANSWER AS A  with(nolock) 
+		INNER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq and Q.FlagUse = 'Y'
+		WHERE A.FlagUse = #{flagUse} and A.MemberSeq = #{userSeq} 
+			<if test='flagChoice == "Y"'>
+				AND A.FlagChoice = #{flagChoice} 
+			</if>
+			<if test='flagChoice == "N"'>
+				AND A.FlagChoice = #{flagChoice} 
+			</if>
+		) T 
+	WHERE T.idx BETWEEN #{strData1} and #{strData2}
+	</select>
+	
+	<select id="getMyZzimCount" resultType="int">
+		SELECT COUNT(Seq) 
+		FROM V_ZZIMQUESTION 
+		WHERE FlagUse = 'Y' AND MemberSeq = #{userSeq} 
+		
+		<if test='section1 != "0"'>
+			AND Section1 = #{section1} 
+		</if>
+	</select>
+	
+	<select id="getMyZzimList" resultType="myZzim">
+		SELECT TOP ${p_Option} Seq, MemberSeq, QuestionSeq, Section1, Title, Contents, Almoney, FlagUse, ReadCount, DateReg, AnswerCount, 
+			NickName, Lv, Photo ,( select FlagNickName FROM T_QUESTION where Seq = QuestionSeq) as FlagNickName, nation  
+		FROM V_ZZIMQUESTION
+		WHERE FlagUse = 'Y' AND MemberSeq = #{userSeq} 
+		
+		<if test='section1 != "0"'>
+			AND Section1 = #{section1} 
+		</if>
+		ORDER BY ${psrc_Cond} DESC 
+	</select>
+	
+	<select id="getMyViewCount" resultType="int">
+		SELECT COUNT(*) 
+		FROM LOG_VIEW AS L with(nolock) 
+		inner JOIN T_ANSWER AS A with(nolock) ON L.ContentSeq = A.Seq and A.FlagUse = 'Y' and A.MemberSeq != #{userSeq} 
+		inner JOIN T_QUESTION AS Q with(nolock) ON A.QuestionSeq = Q.Seq and Q.FlagUse = 'Y' 
+		WHERE L.MemberSeq = #{userSeq} and Type = 1 
+		<if test='section1 != "0"'>
+			AND Q.Section1 = #{section1} 
+		</if>
+	</select>
+	
+	<select id="getMyViewList" resultType="logView">
+		SELECT TOP ${p_Option} L.ContentSeq AS AnswerSeq, convert(char(19), L.DateReg) as conDate, A.Answer, Q.Seq AS QuestionSeq, Q.Section1  
+		FROM LOG_VIEW AS L with(nolock) 
+		inner JOIN T_ANSWER AS A with(nolock) ON L.ContentSeq = A.Seq and A.FlagUse = 'Y' and A.MemberSeq != #{userSeq} 
+		inner JOIN T_QUESTION AS Q with(nolock) ON A.QuestionSeq = Q.Seq and Q.FlagUse = 'Y' 
+		WHERE L.MemberSeq = #{userSeq} and Type = 1 
+		<if test='section1 != "0"'>
+			AND Q.Section1 = #{section1} 
+		</if>
+		ORDER BY L.DateReg DESC
+	</select>
+	
+	<select id="getMyReplyCount" resultType="int">
+		SELECT COUNT(Seq) 
+		FROM  (
+				SELECT 'Q' AS Flag, R.Seq, R.QuestionSeq AS ContentSeq, R.MemberSeq, R.Reply, r.regdate, r.FlagUse as FlagDel, Q.FlagUse , Q.Title, '' AS NickName,
+					Q.Seq AS QuestionSeq
+					FROM dbo.T_REPLY_QUESTION AS R LEFT OUTER JOIN dbo.T_QUESTION AS Q ON R.QuestionSeq = Q.Seq
+					UNION ALL
+					SELECT  'A' AS Flag, R.Seq, R.AnswerSeq AS ContentSeq, R.MemberSeq, R.Reply, r.regdate, r.FlagUse as FlagDel, A.FlagUse ,--dbo.FN2_CONVERT_DATE_REG(R.DateReg) AS DateReg,
+					(SELECT Title FROM T_QUESTION WHERE Seq = A.QuestionSeq) AS Title,
+					(SELECT NickName FROM T_MEMBERS WHERE Seq = A.MemberSeq) AS NickName, A.QuestionSeq AS QuestionSeq
+					FROM     dbo.T_REPLY_ANSWER AS R LEFT OUTER JOIN dbo.T_ANSWER AS A ON R.AnswerSeq = A.Seq
+				) as V2
+		WHERE MemberSeq = #{userSeq} AND FlagDel!='N'
+	</select>
+	
+	<select id="getMyReplyList" resultType="reply">
+		SELECT * FROM 
+		(
+			SELECT ROW_NUMBER() over (order by ${psrc_Cond} DESC) as rownum,  *
+				FROM (
+				
+				SELECT 'Q' AS Flag, R.Seq, R.QuestionSeq AS ContentSeq, R.MemberSeq, R.Reply, r.regdate, r.FlagUse as FlagDel, Q.FlagUse , 
+					Q.Title, 
+					'' AS Answer, 
+					(SELECT Contents FROM T_QUESTION WHERE Seq = R.QuestionSeq) AS Contents, 
+					'' AS NickName,
+					Q.Seq AS QuestionSeq
+					FROM dbo.T_REPLY_QUESTION AS R LEFT OUTER JOIN dbo.T_QUESTION AS Q ON R.QuestionSeq = Q.Seq
+					UNION ALL
+					SELECT  'A' AS Flag, R.Seq, R.AnswerSeq AS ContentSeq, R.MemberSeq, R.Reply, r.regdate, r.FlagUse as FlagDel, A.FlagUse ,--dbo.FN2_CONVERT_DATE_REG(R.DateReg) AS DateReg,
+					(SELECT Title FROM T_QUESTION WHERE Seq = A.QuestionSeq) AS Title,
+					(SELECT Answer FROM T_ANSWER WHERE Seq = R.AnswerSeq) AS Answer,
+					(SELECT Contents FROM T_QUESTION WHERE Seq = A.QuestionSeq) AS Contents,
+					(SELECT NickName FROM T_MEMBERS WHERE Seq = A.MemberSeq) AS NickName, A.QuestionSeq AS QuestionSeq
+					FROM     dbo.T_REPLY_ANSWER AS R LEFT OUTER JOIN dbo.T_ANSWER AS A ON R.AnswerSeq = A.Seq
+				) as V2
+				WHERE MemberSeq = #{userSeq} AND FlagDel!='N'
+		) T1
+		WHERE
+			T1.rownum > ${p_Option} AND ${n_pagesize} > T1.rownum;
+	</select>
+	
+	<select id="getMyRecivedReplyCount" resultType="int">
+		SELECT COUNT(Seq) 
+		FROM (
+				SELECT 'Q' AS Flag, R.Seq, R.QuestionSeq AS ContentSeq, Q.MemberSeq, R.Reply, r.regdate, Q.FlagUse, R.FlagUse as FlagDel , Q.Title,
+				(SELECT NickName FROM T_MEMBERS WHERE  Seq = R.MemberSeq) AS NickName,
+				Q.Seq AS QuestionSeq
+				FROM dbo.T_REPLY_QUESTION AS R LEFT OUTER JOIN dbo.T_QUESTION AS Q ON R.QuestionSeq = Q.Seq
+				WHERE R.MemberSeq <![CDATA[<>]]> Q.MemberSeq
+				UNION ALL
+				SELECT  'A' AS Flag, R.Seq, R.AnswerSeq AS ContentSeq, A.MemberSeq, R.Reply, r.regdate, A.FlagUse, R.FlagUse as FlagDel,
+				(SELECT Title FROM T_QUESTION WHERE Seq = A.QuestionSeq) AS Title,
+				(SELECT NickName FROM T_MEMBERS WHERE  Seq = R.MemberSeq) AS NickName
+				, A.QuestionSeq AS QuestionSeq
+				FROM dbo.T_REPLY_ANSWER AS R LEFT OUTER JOIN dbo.T_ANSWER AS A ON R.AnswerSeq = A.Seq
+				WHERE R.MemberSeq <![CDATA[<>]]> A.MemberSeq
+				) as V2
+		WHERE MemberSeq = #{userSeq} AND FlagDel!='N'
+	</select>
+	
+	<select id="getMyRecivedReplyList" resultType="reply">
+		SELECT * FROM 
+		(
+			SELECT ROW_NUMBER() over (order by ${psrc_Cond} DESC) as rownum,  *
+				FROM (
+				
+				SELECT 'Q' AS Flag, R.Seq, R.QuestionSeq AS ContentSeq, Q.MemberSeq, R.Reply, r.regdate, Q.FlagUse, R.FlagUse as FlagDel , Q.Title, '' AS Answer,
+				Q.Contents,
+				(SELECT NickName FROM T_MEMBERS WHERE  Seq = R.MemberSeq) AS NickName,
+				Q.Seq AS QuestionSeq
+				FROM dbo.T_REPLY_QUESTION AS R LEFT OUTER JOIN dbo.T_QUESTION AS Q ON R.QuestionSeq = Q.Seq
+				WHERE R.MemberSeq <![CDATA[<>]]> Q.MemberSeq
+				UNION ALL
+				SELECT  'A' AS Flag, R.Seq, R.AnswerSeq AS ContentSeq, A.MemberSeq, R.Reply, r.regdate, A.FlagUse, R.FlagUse as FlagDel,
+				(SELECT Title FROM T_QUESTION WHERE Seq = A.QuestionSeq) AS Title,
+				A.Answer,
+				(SELECT Contents FROM T_QUESTION WHERE Seq = A.QuestionSeq) AS Contents,
+				(SELECT NickName FROM T_MEMBERS WHERE  Seq = R.MemberSeq) AS NickName				
+				, A.QuestionSeq AS QuestionSeq
+				FROM dbo.T_REPLY_ANSWER AS R LEFT OUTER JOIN dbo.T_ANSWER AS A ON R.AnswerSeq = A.Seq
+				WHERE R.MemberSeq <![CDATA[<>]]> A.MemberSeq
+				) as V2
+				WHERE MemberSeq = #{userSeq} AND FlagDel!='N'
+		) T1
+		WHERE
+			T1.rownum > ${p_Option} AND ${n_pagesize} > T1.rownum;
+	</select>
+	
+	<select id="getNickName" resultType="string">
+		SELECT NickName FROM T_MEMBERS WHERE Seq = #{memberSeq}
+	</select>
+	
+	<select id="getNickFind" resultType="string">
+		select top 1 Seq from T_MEMBERS where Nickname = #{nick} and FlagDel='N'
+	</select>
+	
+	<select id="getMyAlmoneyLogTotal" resultType="hashMap">
+		select abs(ConAnsView + ConQueWrite) as Expense 
+			, EarnQueView + EarnAnsView + EarnAnsChoice + EarnEsti + EarnChildQue + EarnChildAns as Import 
+		from V_LOG_ALMONEY_COMBINED 
+		where MemberSeq = #{userSeq}
+	</select>
+	
+	
+	<resultMap id="myMeberLvView1" type="hashMap">
+		<id property="StampCnt" column="StampCnt" />
+		<id property="StampLimit" column="StampLimit" />
+		<id property="Persentage" column="Persentage" />
+		<id property="currentLevel" column="currentLevel" />
+		<id property="levelUpDateReg" column="levelUpDateReg" />
+	</resultMap>
+	<resultMap id="myMeberLvView2" type="hashMap">
+		<id property="질문" column="질문" />
+		<id property="답변" column="답변" />
+		<id property="답변 평가" column="답변 평가" />
+		<id property="댓글" column="댓글" />
+		<id property="누적 추천인" column="누적 추천인" />
+		<id property="남은 날짜" column="남은 날짜" />
+	</resultMap>
+	<resultMap id="myMeberLvView3" type="hashMap">
+		<id property="질문" column="질문" />
+		<id property="답변" column="답변" />
+		<id property="답변 평가" column="답변 평가" />
+		<id property="채택된 답변" column="채택된 답변" />
+		<id property="댓글" column="댓글" />
+		<id property="누적 추천인" column="누적 추천인" />
+		<id property="승천 후" column="승천 후" />
+	</resultMap>
+	<select id="getMeberLvDataSP" statementType="CALLABLE" parameterType="hashMap" resultMap="myMeberLvView1,myMeberLvView2,myMeberLvView3">
+	{ call SP2_MEMBER_LV_DATA_GET_4(
+		#{userSeq, mode=IN},
+		#{dateReg, mode=IN}
+	  )
+	}
+	</select>
+	
+	<select id="getMemberJoinFlag" statementType="CALLABLE" parameterType="hashMap" resultType="int">
+	{ call SP_MEMBER_JOIN_CH(
+		#{mem_name, mode=IN},
+		#{mem_phone, mode=IN},
+		#{mem_birth, mode=IN},
+		#{mem_gender, mode=IN},
+		#{dup_info, mode=IN}
+	  )
+	}
+	</select>
+	
+	<select id="getMemCertListBySeq" resultType="memberCert">
+		SELECT 	C.*, M.NickName, M.Name
+		FROM 	T_MEMBERS_CERT C LEFT OUTER JOIN T_MEMBERS M
+		ON 		C.MemberSeq = M.Seq
+		WHERE 	C.MemberSeq = #{seq} and C.CertStatus != 0
+		ORDER BY C.regdate DESC
+		OFFSET ${offset} ROWS
+		FETCH NEXT ${maxRow} ROWS ONLY
+	</select>
+	
+	<select id="getMemCertListAll" resultType="memberCert">
+		SELECT 	C.*, M.NickName, M.Name
+		FROM 	T_MEMBERS_CERT C LEFT OUTER JOIN T_MEMBERS M
+		ON 		C.MemberSeq = M.Seq
+		WHERE 	C.id_card != '' 
+		ORDER BY C.regdate DESC
+		OFFSET ${offset} ROWS
+		FETCH NEXT ${maxRow} ROWS ONLY
+	</select>
+	
+	<select id="getAdmListAll" resultType="memberAdmin">
+		SELECT 	A.MemberSeq, M.NickName, M.Name, A.Authority
+		FROM 	T_MEMBERS_ADMIN A LEFT OUTER JOIN T_MEMBERS M
+		ON 		A.MemberSeq = M.Seq
+		ORDER BY A.MemberSeq ASC
+		OFFSET ${offset} ROWS
+		FETCH NEXT ${maxRow} ROWS ONLY
+	</select>
+	
+	<select id="getRecommendTotal" resultType="int">
+		SELECT COUNT(MemberSeq) AS Cnt FROM TEST_RECOMMEND
+	</select>
+	
+	<select id="addAdmin" parameterType="int" resultType="int">
+		declare @seq int = #{seq};
+		declare @ReturnCode int = 1;
+
+		begin try
+			begin tran
+				if @ReturnCode = 1
+				begin
+					SELECT		NickName
+					FROM		T_MEMBERS
+					WHERE		Seq = @seq;
+					if @@rowcount != 1 set @ReturnCode = 2;
+				end;
+
+				if @ReturnCode = 1
+				begin
+					SELECT		MemberSeq
+					FROM		T_MEMBERS_ADMIN
+					WHERE		MemberSeq = @seq;
+					if @@rowcount != 0 set @ReturnCode = 3;
+				end;
+
+				if @ReturnCode = 1
+				begin
+					INSERT INTO	T_MEMBERS_ADMIN
+					VALUES		(@seq, 0);
+					if @@rowcount != 1 set @ReturnCode = 4;
+				end;
+
+				if @ReturnCode = 1
+					commit tran;
+				else
+				begin
+					rollback tran;
+				end;
+		end try
+		begin catch
+			rollback tran;
+			set @ReturnCode = 0;
+		end catch;
+
+		select @ReturnCode as result;
+	</select>
+	
+	<select id="getAuthorityBySeq" resultType="string">
+		SELECT 	Authority
+		FROM 	T_MEMBERS_ADMIN
+		WHERE	MemberSeq = #{seq}
+	</select>
+	
+	<select id="setAuthority" resultType="int">
+		UPDATE	T_MEMBERS_ADMIN
+		SET		Authority = #{authority}
+		WHERE	MemberSeq = #{seq};
+
+		select @@rowcount as result;
+	</select>
+	
+	<select id="deleteAuthority" resultType="int">
+		DELETE
+		FROM	T_MEMBERS_ADMIN
+		WHERE	MemberSeq = #{seq};
+
+		select @@rowcount as result;
+	</select>
+	
+	<select id="setMemCertConfirmBySeq" resultType="hashMap">
+		UPDATE 	T_MEMBERS_CERT
+		SET 	CertStatus = 2, actdate = getdate()
+		WHERE 	MemberSeq = #{seq};
+
+		select 	@@rowcount as result, CONVERT(VARCHAR, getdate(), 21) as actdate;
+	</select>
+	
+	<select id="setMemCertRejectBySeq" resultType="hashMap">
+		declare @MemberSeq int = #{seq} 
+		UPDATE 	T_MEMBERS_CERT
+		SET 	CertStatus = 3, actdate = getdate(), actMessage = #{message} ${sql_check}
+		WHERE 	MemberSeq = @MemberSeq;
+
+		select @@rowcount as result, CONVERT(VARCHAR, getdate(), 21) as actdate, @MemberSeq as MemberSeq;
+	</select>
+	
+	<select id="getMemCertAddInfo" resultType="memberCert">
+		SELECT 	C.*, M.NickName
+		FROM 	T_MEMBERS_CERT C LEFT OUTER JOIN T_MEMBERS M
+		ON 		C.MemberSeq = M.Seq
+		WHERE	C.MemberSeq = #{seq}
+	</select>
+	
+	<select id="getMemCertCancelMsgInfo" resultType="string">
+		SELECT	NickName
+		FROM	T_MEMBERS
+		WHERE	Seq = #{seq}
+	</select>
+	
+	<select id="getMemCertCancelMsg" resultType="string">
+		SELECT	actMessage
+		FROM	T_MEMBERS_CERT
+		WHERE	MemberSeq = #{seq}
+	</select>
+	
+	<select id="getMemCertIdCard" resultType="string">
+		select id_card
+	    from T_MEMBERS_CERT
+	    where MemberSeq = #{seq}
+	</select>
+	
+	<select id="getMemSmsCntInfo" resultType="hashMap">
+		SELECT 
+			secCode
+			, DATEDIFF(s, TryDate, getdate()) as el_timef
+			, secCodeCnt 
+		FROM 
+			T2_MEMBERS_SMS_CNT 
+		WHERE 
+			Phone = #{userPhone} 
+			and Country = #{country}
+	</select>
+	
+	<select id="getMemberCertFlag" resultType="hashMap">
+		select case
+           when sDI != '' then 'true'
+           else 'false'
+	       end as flagNice
+	     , case
+	           when id_card != '' then 'true'
+	           else 'false'
+	       end as flagIdCard
+	     , case
+	           when Job != '' then 'true'
+	           else 'false'
+	       end as flagAdInfo
+	     , CertStatus
+	     , actMessage
+		from T_MEMBERS_CERT
+		where MemberSeq = #{userSeq}
+	</select>
+	
+	<select id="getMemberCertInfo" resultType="member">
+		SELECT NickName AS Name, Phone, Country 
+		FROM T_MEMBERS 
+		WHERE Seq = #{userSeq}
+	</select>
+	
+	<select id="getMemSeqAndName" resultType="member">
+		SELECT	Seq, Name, Lv
+		FROM	T_MEMBERS
+		WHERE	Seq = #{userSeq}
+	</select>
+	
+	<select id="setMemUpdateLv" resultType="int">
+		declare
+			@MEM_SEQ int = #{mem_seq}
+			, @MEM_LV varchar(2) = #{mem_lv}
+			, @MEM_LV_FLAG char(1) = #{mem_lv_flag}
+			, @REG_ADMIN_SEQ INT = #{userSeq}
+			, @REG_DATE datetime2(2) = getdate()
+			, @ReturnCode int = 1;
+			
+		BEGIN TRAN
+		BEGIN TRY
+			IF @MEM_LV != ''
+				BEGIN
+					If @MEM_LV_FLAG != ''
+						EXEC SP2_MEMBER_LV_UPDATE @MEM_SEQ, @REG_DATE, @MEM_LV_FLAG, @MEM_LV, @REG_ADMIN_SEQ;
+					ELSE
+						set @ReturnCode = 2;
+				END
+			ELSE
+				set @ReturnCode = 3;
+
+			IF @ReturnCode = 1
+				COMMIT TRAN;
+			ELSE
+				BEGIN
+					ROLLBACK TRAN;
+				END
+		END TRY
+		BEGIN CATCH
+			ROLLBACK TRAN;
+			set @ReturnCode = 0;
+		END CATCH;
+
+		select 	@ReturnCode as result;
+	</select>
+				
+	<update id="setUserProfileImg">
+		UPDATE T_MEMBERS 
+		SET Photo = #{thumbFileSaveName} 
+		WHERE Seq = #{userseq}
+	</update>
+	
+	<!-- fn_SQL_Question_CountUpdate(Question.vbs) -->
+	<!-- userSeq 는 Session 정보임 -->
+	<update id="updateQuestionCount">
+		UPDATE T_MEMBERS SET 
+			Q_Count = Q_Count + 1 
+		WHERE Seq = #{userSeq} 
+	</update>
+	
+	<update id="updateMyJoinInfo">
+		UPDATE T_MEMBERS SET
+		<choose>
+			<when test='strData == "E"'>
+				Pw = #{userPW_md5},
+				Email = #{email},
+				Intro = #{intro},
+				lang = #{lang}
+			</when>
+			<when test='strData == "D"'>
+				FlagDel = 'Y'
+			</when>
+			<when test='strData == "P"'>
+				Photo = ''
+			</when>
+		</choose>
+		WHERE Seq = #{userSeq}
+	</update>
+	
+	<update id="setMemSmsCnt">
+		update 
+			T2_MEMBERS_SMS_CNT 
+		set 
+			secCodeCnt = secCodeCnt + 1 WHERE 
+		Phone = #{userPhone} and Country = #{country}
+	</update>
+	
+	<select id="setMemberJoinSp" statementType="CALLABLE" parameterType="hashMap" resultType="int">
+	{ call SP_MEMBER_DATA_INPUT(
+		#{mem_phone, mode=IN},
+		#{mem_password, mode=IN},
+		#{mem_email, mode=IN},
+		#{mem_name, mode=IN},
+		#{mem_birth, mode=IN},
+		#{mem_gender, mode=IN},
+		#{mem_nickname, mode=IN},
+		#{now_date, mode=IN},
+		#{mem_chucode, mode=IN},
+		#{mobile_co, mode=IN},
+		#{cipher_time, mode=IN},
+		#{request_number, mode=IN},
+		#{response_number, mode=IN},
+		#{national_info, mode=IN},
+		#{mem_type, mode=IN},
+		#{chu_phone, mode=IN},
+		#{mem_dupinfo, mode=IN}
+	  )
+	}
+	</select>
+	
+	<select id="getRecommendChildView" statementType="CALLABLE" parameterType="hashMap" resultType="hashMap">
+	{ call TEST_RECOMMEND_CHILD_VIEW(
+		#{root_node, mode=IN}
+	  )
+	}
+	</select>
+	
+	<select id="setRecommendModeSwitch" statementType="CALLABLE" parameterType="hashMap" resultType="hashMap">
+	{ call TEST_RECOMMEND_NODE_SWITCH(
+		#{node_1, mode=IN},
+		#{node_2, mode=IN},
+		#{child_flag, mode=IN}
+	  )
+	}
+	</select>
+	
+	<select id="setRecommendModeChange" statementType="CALLABLE" parameterType="hashMap" resultType="hashMap">
+	{ call TEST_RECOMMEND_NODE_CHANGE(
+		#{node_1, mode=IN},
+		#{node_2, mode=IN}
+	  )
+	}
+	</select>
+	
+	<select id="setRecommendModeAppend" statementType="CALLABLE" parameterType="hashMap" resultType="hashMap">
+	{ call TEST_RECOMMEND_NODE_APPEND(
+		#{node_1, mode=IN},
+		#{node_2, mode=IN},
+		#{date_reg, mode=IN}
+	  )
+	}
+	</select>
+	
+	<select id="setRecommendBackup" statementType="CALLABLE" parameterType="hashMap" resultType="string">
+	{ call TEST_SP_RECOMMEND_BACKUP(#{memo, mode=IN}) }
+	</select>
+	
+	<select id="getRecommendSeq" resultType="string">
+		SELECT Seq FROM T_MEMBERS WHERE ${searchType} = #{searchTarget}
+	</select>
+	
+	<select id="getRecommendParent" resultType="string">
+		SELECT ParentSeq FROM TEST_RECOMMEND WHERE MemberSeq = #{memberSeq}
+	</select>
+	
+	<insert id="setRecommendTreeReset" statementType="CALLABLE">
+	{ call TEST_RESET_TREE() }
+	</insert>
+	
+	<select id="getRecommendBackupList" resultType="hashMap">
+		SELECT * FROM TEST_RECOMMEND_BACK_UP_LIST ORDER BY DateReg ASC
+	</select>
+	
+	
+	<select id="setRecommendRestore" statementType="CALLABLE" parameterType="hashMap" resultType="string">
+	{ call TEST_SP_RECOMMEND_RESTORE( #{target, mode=IN} ) }
+	</select>
+	
+	<select id="getJoinLogCount" resultType="int">
+		SELECT ISNULL(COUNT(*), 0) 
+		FROM T_JOIN_FIRST_LOG with(nolock)
+		WHERE
+			userSeq = #{userSeq}
+	</select>
+	
+	<select id="getJoinLogEcount" resultType="int">
+		declare @CNT int = 0;
+		declare @ECOUNT int = 0;
+		
+		SELECT @CNT = COUNT(*) 
+		FROM T_JOIN_FIRST_LOG with(nolock)
+		WHERE
+			userSeq = #{userSeq};
+			
+		if @CNT > 0 
+		begin
+			SELECT @ECOUNT = ISNULL(eCount, 0)  
+			FROM T_JOIN_FIRST_LOG with(nolock)
+			WHERE
+				userSeq = #{userSeq};
+		end;
+			
+		SELECT @ECOUNT;
+	</select>
+	
+	<select id="getJoinLogNcount" resultType="int">
+		declare @CNT int = 0;
+		declare @NCOUNT int = 0;
+		
+		SELECT @CNT = COUNT(*) 
+		FROM T_JOIN_FIRST_LOG with(nolock)
+		WHERE
+			userSeq = #{userSeq};
+			
+		if @CNT > 0 
+		begin
+			SELECT @NCOUNT = ISNULL(nCount, 0) 
+			FROM T_JOIN_FIRST_LOG with(nolock)
+			WHERE
+				userSeq = #{userSeq}
+		end;
+			
+		SELECT @NCOUNT;
+	</select>
+	
+	<update id="setJoinLogCount">
+		UPDATE T_JOIN_FIRST_LOG SET 
+		eCount = eCount + 1
+		WHERE userSeq = #{userSeq}
+	</update>
+	
+	<update id="setJoinLogEcount">
+		UPDATE T_JOIN_FIRST_LOG SET 
+		eCount = #{eCount}
+		WHERE userSeq = #{userSeq}
+	</update>
+	
+	<update id="setJoinLogNcount">
+		UPDATE T_JOIN_FIRST_LOG SET 
+		nCount = #{nCount}
+		WHERE userSeq = #{userSeq}
+	</update>
+	
+	<select id="getUserSeqByNick" resultType="int">
+		SELECT Seq 
+		FROM T_MEMBERS 
+		WHERE 
+			NickName = #{nickName}
+	</select>
+	
+	<insert id="addJoinFirstLog">
+		INSERT INTO T_JOIN_FIRST_LOG (userSeq, nation, lang, nCount, eCount, createDt) 
+		VALUES(#{userSeq}, #{nation}, #{lang}, #{nCount}, #{eCount}, getDate())
+	</insert>
+	
+	<!-- SP2_MEM_SMS_CNT_CHECK_UPDATE2 참고 -->
+	<select id="setJoinCertSms" resultType="int">
+		DECLARE @CALL_FLAG INT = ${call_flag};
+		DECLARE @MEM_COUNTRY SMALLINT = ${mem_country};
+		DECLARE @MEM_PHONE NVARCHAR(200) = #{mem_phone};
+		DECLARE @SEC_CODE INT = ${sec_code};
+		
+		SET NOCOUNT ON;
+		DECLARE @RETURN_CODE INT = 0
+		DECLARE @MEM_SEQ int, @FlagDel varchar(5), @DateDel varchar(50), @SmsLimitCnt int, @SmsCnt int
+	
+	
+		if @CALL_FLAG = 1
+			SELECT TOP 1 @SmsLimitCnt = MemPwSmsLimitCnt  FROM T_CONFIG
+		else
+			SELECT TOP 1 @SmsLimitCnt = MemJoinSmsLimitCnt  FROM T_CONFIG
+	
+		
+		delete T2_MEMBERS_SMS_CNT where TryDate <![CDATA[<]]> convert(datetime, convert(varchar(10), getdate()-1, 21), 21)
+	
+		SELECT top 1 @MEM_SEQ = Seq, @FlagDel = FlagDel, @DateDel = DateDel FROM T_MEMBERS WHERE Phone = @MEM_PHONE and Country = @MEM_COUNTRY ORDER BY regdate desc 
+		if @MEM_SEQ is not null
+		begin
+			if @FlagDel = 'Y'
+			begin
+	
+				if DATEADD(month, 6, dbo.FN2_CONVERT_DATE_REG(@DateDel)) <![CDATA[<]]> getdate()
+				begin
+					Exec dbo.SP2_MEM_REMOVE @MEM_SEQ -- 탈퇴 후 6개월이 지났으면 개인정보 삭제
+				end
+				else
+					set @RETURN_CODE = 3 
+			end
+			else
+				set @RETURN_CODE = 1 
+		end
+	
+	
+		if (@CALL_FLAG = 0 and @RETURN_CODE = 0) or (@CALL_FLAG = 1 and @RETURN_CODE = 1)
+		begin
+			select top 1 @SmsCnt = TryCnt from T2_MEMBERS_SMS_CNT
+				where Phone = @MEM_PHONE and Country = @MEM_COUNTRY and TryDate >= convert(datetime, convert(varchar(10), getdate(), 21), 21)
+	
+			if @SmsCnt is null or @SmsCnt <![CDATA[<]]> @SmsLimitCnt
+			begin
+				if @SmsCnt is null update T2_MEMBERS_SMS_CNT set TryCnt = 0 where Phone = @MEM_PHONE and Country = @MEM_COUNTRY
+				update T2_MEMBERS_SMS_CNT set TryDate = getdate(), TryCnt = isNull(TryCnt,0) + 1, secCode = @SEC_CODE where Phone = @MEM_PHONE and Country = @MEM_COUNTRY
+				if @@ROWCOUNT = 0
+					insert into T2_MEMBERS_SMS_CNT(Country, Phone, TryDate, TryCnt, secCode)
+						values(@MEM_COUNTRY, @MEM_PHONE, getdate(), 1, @SEC_CODE)
+			end
+			else
+				set @RETURN_CODE = 2
+		end
+	
+		SELECT @RETURN_CODE AS ReturnCode
+	</select>
+	
+	<select id="setMemberJoinSp2" resultType="hashMap">
+    begin
+    	declare @MEM_COUNTRY  smallint = ${mem_country};
+      	declare @MEM_PHONE    nvarchar(200) = #{mem_phone};
+      	declare @MEM_PW       char(32) = #{mem_pw};
+      	declare @MEM_EMAIL    varchar(200) = #{mem_email};
+      	declare @MEM_NAME     nvarchar(50) = #{mem_name};
+      	declare @MEM_BITHER   varchar(20) = #{mem_birth};
+      	declare @MEM_GRENDER  char(1) = #{mem_gender};
+      	declare @MEM_MICKNAME nvarchar(50) = #{mem_nickName};
+      	declare @NOW_DATE     varchar(50) = #{now_date};
+      	declare @MEM_CHUCODE  varchar(30) = #{mem_chucode};
+      	declare @MEMBER_TYPE  int = #{mem_type};
+      	declare @CHU_PHONE    varchar(200) = #{chu_phone};
+      	declare @MEM_PHOTO    varchar(200) = #{chu_photo};
+      	
+      	declare @HOST		  nvarchar(3) = #{host};
+      	declare @NATION		  varchar(3) = #{nation};
+      	declare @LANG		  varchar(2) = #{lang};
+      
+        set nocount on;
+        declare @RESULTCODE int;
+        declare @RESULTMSG varchar(1000);
+        declare @MEM_JOIN_CH int;
+        declare @MEM_NICK_CH int;
+        declare @MEM_SEQ bigint;
+        declare @AlmoneyJoin int;
+        declare @MEM_CHU_CHECK int;
+        declare @PARENT_SEQ int= convert(int, REPLACE(isnull(@MEM_CHUCODE, '0'), '-', ''));
+        set @RESULTCODE = 0;
+        set @MEM_JOIN_CH = 0;
+        set @MEM_NICK_CH = 0;
+        set @MEM_CHU_CHECK = 0;
+        if @MEM_CHUCODE != ''
+            begin
+                select @MEM_CHU_CHECK = count(seq)
+                from T_MEMBERS with(nolock)
+                where seq = convert(int, Replace(@MEM_CHUCODE, '-', ''))
+                      and FlagDel = 'N';
+                if @MEM_CHU_CHECK = 0
+                    begin
+                        set @MEM_CHUCODE = '';
+                        set @PARENT_SEQ = 0;
+                end;
+        end;
+        if @MEM_CHUCODE = ''
+           and @CHU_PHONE != ''
+            begin
+                select @MEM_CHUCODE = left(convert(varchar(10), Seq), 4) + '-' + right(convert(varchar(10), Seq), 4)
+                from T_MEMBERS with(nolock)
+                where Phone = @CHU_PHONE
+                      and FlagDel = 'N';
+        end;
+        if @MEM_CHUCODE = ''
+            begin
+                set @MEM_CHUCODE = '-';
+                set @PARENT_SEQ = 0;
+        end;
+        set @RESULTCODE = 0;
+
+        declare @TmpTable table
+        (
+                                ReturnCode int
+                              , ErrText    varchar(max)
+        );
+        declare @ReturnCode int = 1;
+        declare @ErrText varchar(max) = '';
+        declare @EARN_JOIN tinyint = 15;
+        
+        begin tran;
+        begin try
+            select @MEM_NICK_CH = count(seq)
+            from T_MEMBERS
+            where NickName = @MEM_MICKNAME
+                  and FlagDel != 'Y';
+            select @AlmoneyJoin = AlmoneyJoin
+            from T_CONFIG;
+            select @MEM_JOIN_CH = count(Seq)
+            from T_MEMBERS
+            where Phone = @MEM_PHONE
+                  and Country = @MEM_COUNTRY
+                  and FlagDel != 'Y';
+            if @MEM_JOIN_CH = 0
+                begin
+                    if @MEM_NICK_CH = 0
+                        begin
+                            insert into T_MEMBERS(Country, Phone, Pw, Name, NickName, Email, Lv, Almoney, FlagCert, FlagAdult, FlagEmail, FlagSMS, FlagProfileOpen, FlagSelfAnswer, FlagDel, DateLogin, DateReg, ChuCode, QuestionCount, QuestionMoney, AnswerCount, AnswerMoney, AppID, sAuthType, sName, sBirthDate, sGender, sMobileCo, sCipherTime, sRequestNumber, sResponseNumber, sNationalInfo, MemberType, Photo, host, nation, lang)
+                        values(@MEM_COUNTRY, @MEM_PHONE, @MEM_PW, @MEM_NAME, @MEM_MICKNAME, @MEM_EMAIL, '1', 0, '', '', '', '', 'Y', 'N', 'N', @NOW_DATE, @NOW_DATE, @MEM_CHUCODE, 0, 0, 0, 0, '', 'M', @MEM_NAME, @MEM_BITHER, @MEM_GRENDER, null, null, null, null, null, @MEMBER_TYPE, @MEM_PHOTO, @HOST, @NATION, @LANG);
+                            set @MEM_SEQ = scope_identity();
+                            set @RESULTCODE = 0;
+                            
+                            delete @TmpTable;
+                            insert into @TmpTable
+                            exec SP_CHANGE_ALMONEY 
+                                 @EARN_JOIN, 
+                                 @MEM_SEQ, 
+                                 @AlmoneyJoin, 
+                                 0;
+                            select @ReturnCode = ReturnCode, @ErrText = ErrText
+                            from @TmpTable;
+                            if @ReturnCode != 1
+                                raiserror(@ErrText, 16, 1);
+                            delete T2_MEMBERS_SMS_CNT
+                            where Phone = @MEM_PHONE
+                                  and Country = @MEM_COUNTRY;
+                    end;
+                        else
+                        begin
+                            set @RESULTCODE = 2;
+                    end;
+            end;
+                else
+                begin
+                    set @RESULTCODE = 1;
+            end;
+            
+            if @RESULTCODE = 0
+                begin
+                    if @PARENT_SEQ = 0
+                        begin
+                            select @PARENT_SEQ = MemberSeq
+                            from TEST_RECOMMEND_HEAD
+                            where Type = 'DEFAULT';
+                    end;
+                    declare @TREE_RESULT_CODE int;
+                    exec @TREE_RESULT_CODE = TEST_RECOMMEND_INSERT 
+                         @PARENT_SEQ, 
+                         @MEM_SEQ, 
+                         @NOW_DATE, 
+                         'ON';
+                    if @TREE_RESULT_CODE != 0
+                        begin
+                            set @RESULTCODE = 3;
+                    end;
+            end;
+            commit tran;
+        end try
+        begin catch
+            set @RESULTCODE = 99;
+            set @RESULTMSG = error_message();
+            rollback tran;
+        end catch;
+        select @RESULTCODE as RESULTCODE, @RESULTMSG as RESULTMSG;
+    end;
+	</select>
+	
+	<select id="setAdminMemUpdate" statementType="CALLABLE" parameterType="hashMap" resultType="int">
+	{ call SP_MEMBER_INFO_UPDATE3(
+		#{mem_seq, mode=IN},
+		#{mem_name, mode=IN},
+		#{mem_nickName, mode=IN},
+		#{mem_pw, mode=IN},
+		#{mem_email, mode=IN},
+		#{mem_chucode, mode=IN},
+		#{mem_phone, mode=IN},
+		#{mem_type, mode=IN},
+		#{memo, mode=IN}
+	) }
+	</select>
+	
+	<select id="getUserPoneBySeq" resultType="string">
+		declare @MEM_SEQ int = #{userSeq};
+		select TOP 1 Phone 
+		from T2_MEMBERS_SMS_CNT 
+		where Country = 0 
+              and Phone like convert(varchar, @MEM_SEQ) + '|%' 
+              and TryDate > dateadd(MINUTE, -30, getdate()) 
+              order by TryDate desc;
+	</select>
+	
+	<select id="getChkNick" resultType="hashMap">
+		SELECT 
+			COUNT(SEQNO) AS CheckNick
+			, (SELECT COUNT(Seq) 
+				FROM 
+				T_MEMBERS 
+				WHERE 
+				NickName = #{nickName}
+			) AS CheckNick2 
+		FROM T_CONFIG WHERE NickNotUse LIKE '%' + #{ickName} + '%'
+	</select>
+	
+	<select id="getRankMember" resultType="member">
+		SELECT * 
+		FROM ( 
+		 		SELECT	 
+		 			ROW_NUMBER() OVER(ORDER BY ${flag2} DESC) AS Idx, *,  
+		 			RANK() OVER(ORDER BY ${flag2} DESC) AS rankA,  
+		 			RANK() OVER(ORDER BY CountQ DESC) AS rankQ  
+		 		FROM V_MEMBERS  
+		 		WHERE Lv != 99  
+		 	) T  
+		WHERE  
+		 	T.Idx BETWEEN #{st_num} AND #{en_num};
+	</select>
+	
+	<insert id="setNiceReq">
+		declare @MEM_SEQ int = #{userSeq};
+		declare @CERT_REQUEST_SEQ varchar(max) = #{reqSeq};
+		delete T2_MEMBERS_SMS_CNT 
+		where Country = 0 
+                and Phone like convert(varchar, @MEM_SEQ) + '|%';
+        insert into T2_MEMBERS_SMS_CNT
+        (Country
+        , Phone
+        )
+        values(0, convert(varchar, @MEM_SEQ) + '|' + @CERT_REQUEST_SEQ);
+	</insert>
+	
+	<update id="setIdCard">
+		declare @MEM_SEQ int         = #{userId}
+             , @id_card varchar(max) = #{id_card};
+
+         update T_MEMBERS_CERT
+         set 
+             id_card = case
+                             when id_card != '' and @id_card != '' then concat(id_card, '*', @id_card)
+                             else @id_card
+                         end
+         where MemberSeq = @MEM_SEQ;
+
+         if @@rowCount = 0
+             begin
+                 insert into T_MEMBERS_CERT
+                 (MemberSeq
+             , id_card
+                 )
+                 values(@MEM_SEQ, @id_card);
+         end;
+         update T_MEMBERS_CERT
+         set 
+             regdate = getdate(), 
+             CertStatus = case
+                             when sDI != ''
+                                     and id_card != ''
+                                     and Job != '' then 1
+                             else 0
+                         end
+         where MemberSeq = @MEM_SEQ;
+	</update>
+	
+	<update id="setCertEtc">
+		declare @MEM_SEQ      int          = #{mem_seq}
+               , @job          varchar(max) = #{job}
+               , @area         varchar(max) = #{area}
+               , @estate       varchar(max) = #{estate}
+               , @residence    varchar(max) = #{residence}
+               , @marriage     varchar(max) = #{marriage}
+               , @children     varchar(max) = #{children}
+               , @car          varchar(max) = #{car}
+               , @yearIncome   varchar(max) = #{yearIncome}
+               , @healthFlag   varchar(max) = #{healthFlag}
+               , @healthDetail varchar(max) = #{healthDetail}
+               , @likeField    varchar(max) = #{likeField}
+               , @email        varchar(max) = #{email}
+         
+         update T_MEMBERS_CERT
+           set 
+               Job = @job, 
+               Area = @area, 
+               RealEstate = @estate, 
+               Residence = @residence, 
+               Marriage = @marriage, 
+               Children = @children, 
+               Car = @car, 
+               YearIncome = @yearIncome, 
+               HealthFlag = @healthFlag, 
+               HealthDetail = @healthDetail, 
+               LikeField = @likeField,
+               email = @email
+         where MemberSeq = @MEM_SEQ;
+         
+         if @@ROWCOUNT = 0
+             insert into T_MEMBERS_CERT
+             (MemberSeq
+            , Job
+            , Area
+            , RealEstate
+            , Residence
+            , Marriage
+            , Children
+            , Car
+            , YearIncome
+            , HealthFlag
+            , HealthDetail
+            , LikeField
+            , email
+             )
+             values(@MEM_SEQ, @job, @area, @estate, @residence, @marriage, @children, @car, @yearIncome, @healthFlag, @healthDetail, @likeField, @email);
+
+             update T_MEMBERS_CERT
+             set 
+                 regdate = getdate(), 
+                 CertStatus = case
+                                 when sDI != ''
+                                         and id_card != ''
+                                         and Job != '' then 1
+                                 else 0
+                             end
+             where MemberSeq = @MEM_SEQ;
+	</update>
+	
+	<update id="setMemberNameBySeq">
+		UPDATE T_MEMBERS SET 
+		Name = #{userName} 
+		WHERE Seq = #{userSeq}
+	</update>
+	
+	<update id="setMemberNationBySeq">
+		UPDATE T_MEMBERS SET 
+		nation = #{nation} 
+		WHERE Seq = #{userSeq}
+	</update>
+	<update id="setMemberNickNameBySeq">
+		UPDATE T_MEMBERS SET 
+		NickName = #{nickName} 
+		WHERE Seq = #{userSeq}
+	</update>
+</mapper>

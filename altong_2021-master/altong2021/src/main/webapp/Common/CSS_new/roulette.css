@@ -1,0 +1,183 @@
+        @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+        * { padding:0; margin:0;  }
+        li { list-style:none; }
+        a { text-decoration:none; }
+        body { box-sizing:border-box; position:relative; } 
+        
+       div.pop1 {
+            font-family: 'Jua', sans-serif;
+            width:100%; height:100%;
+            background:rgba(0,0,0,.3);
+            position:absolute;
+            left:0; top:0;
+            z-index:9999;
+            display:none;
+        }
+        div.pop1 div.popUp {
+            border-radius: 30px;
+            position:fixed;
+            left:50%; top:50%;
+            transform:translate( -50%, -50%);
+            width:400px; height:350px;
+            background:url("/Common/images/popup-bg.png") no-repeat;
+            background-size:contain;
+            text-align:center;
+        }
+        div.pop1 div.popUp h1 { font-size:50px; margin-top:60px; font-weight:200; color:#fff; position:relative; z-index:15; }
+        div.pop1 div.popUp h1:after {
+            /*content:"축하합니다!";*/
+            font-size:50px; margin-top:10px; font-weight:200; color:#000; -webkit-text-stroke: 3px #000; text-shadow: 4px 4px #000;
+            position:absolute; left:50%; top:-10px; transform:translateX(-50%); width:100%; z-index:-10;
+        }
+        div.pop1 div.popUp h3 { font-size:50px; margin-top:10px; font-weight:200; color:#fff; position:relative; z-index:15; }
+        div.pop1 div.popUp h3:after {
+            /*content:"당첨되셨습니다!";*/
+            font-size:50px; margin-top:10px; font-weight:200; color:#000; -webkit-text-stroke: 3px #000; text-shadow: 4px 4px #000;
+            position:absolute; left:50%; top:-10px; transform:translateX(-50%); width:100%; z-index:-10;
+        }
+        div.pop1 div.popUp p { font-size:60px;  margin-top:14px; }
+        div.pop1 div.popUp p span { font-size:60px; font-weight:200; color:#fff; position:relative; z-index:15; -webkit-text-stroke: 1px #fd0031; text-shadow: 3px 3px #fd0031; }
+        /* div.pop1 div.popUp p span:after {
+            content:'';
+            position:absolute; left:50%; top:-10px; width:100%; transform:translateX(-50%);
+            font-size:60px; font-weight:200; color:#fd0031; -webkit-text-stroke: 3px #fd0031; text-shadow: 4px 4px #fd0031; z-index:-1;
+        }
+        */
+
+        div.pop2 {
+            font-family: 'Jua', sans-serif;
+            width:100%; height:100%;
+            background:rgba(0,0,0,.7);
+            position:absolute;
+            left:0; top:0;
+            z-index:9999;
+            display:none;
+        }
+        div.pop2 div.popUp {
+            border-radius: 30px/30px;
+            position:fixed;
+            left:50%; top:50%;
+            transform:translate( -50%, -50%);
+            width:400px; height:300px;
+            background:#bcbcbc;
+            background-size:cover;
+            text-align:center;
+        }
+        div.pop2 div.popUp h1 { font-size:40px; margin-top:60px; font-weight:200; color:#fff; position:relative; }
+        div.pop2 div.popUp h1:after { 
+            /*content:"룰렛 이용권이 없습니다."; */
+            font-size:40px; margin-top:60px; 
+            font-weight:200; color:#000; 
+            -webkit-text-stroke: 2px #000; text-shadow: 3px 3px #000; 
+            width:100%;
+            position:absolute;
+            left:50%; top:-60px; transform:translateX(-50%); z-index:-1;
+        }
+        div.pop2 div.popUp h3 { font-size:24px; margin-top:50px; font-weight:500; }
+
+        #wrap { 
+        	font-family: 'Jua', sans-serif;
+            width:800px; height:auto;
+            background:url("/Common/images/roulette-bg.png") no-repeat;
+            background-position: 50% 65%;
+            margin:0 auto;
+        }
+        .main { position:relative; }
+        .main .mw1 {
+            width:800px; height:50px;
+            font-size:80px;
+            font-weight:100;
+            color:#fd0031;
+            -webkit-text-stroke: 17px #fd0031;
+            text-align:center;
+            padding-top:50px;
+        }
+        .main .mw2 {
+            width:800px; height:50px;
+            font-size:80px;
+            font-weight:100;
+            color:#fff;
+            text-align:center;
+            padding-top:50px;
+            position:absolute;
+            left:0; top:0;
+        }
+        .main .ev {
+            position:absolute; 
+            right:120px; top:22px;
+            font-size:29px;
+            color:#333;
+        }
+        
+        .roulette { width:800px; margin-top:20px; height:auto; }
+        .roulette img.niddle{
+            width:100px;
+            display:block;
+            margin:0 auto;
+            transform:translateY(80px);
+            position:relative;
+            z-index:7;
+        }
+        .roulette img.roul {
+            width:500px; 
+            display:block;
+            margin:0 auto;
+        }
+        .roulette img.start {
+            width:160px; 
+            display:block;
+            margin:0 auto;
+            transform:translateY(-330px);
+        }
+        .roulette h3 span { color:#fd0031; }
+        .ticket {
+            width:400px;
+            color:#000;
+            border-bottom:3px solid #000;
+            padding-bottom:5px;
+            font-size:30px;
+            text-align:center;
+            margin:-130px auto 0;
+            font-weight:100;
+        }
+        .status { width:100%; height:auto; margin-top:30px; }
+        .status fieldset { width:70%; height:130px; border:5px solid #000; margin:0 auto; background:#fff; border-radius: 30px/30px; }
+        .status fieldset legend { 
+            font-size:25px; width:60%;
+            letter-spacing: 3px;
+            text-align: center; 
+            padding:5px; 
+            background:rgb(255, 238, 0); 
+            border-radius: 30px/30px;
+        }
+        .status ul { width:100%; height:70px; margin:0 auto; }
+        .status ul li { 
+            float:left; 
+            font-size:30px; 
+            width:30%; height:100%;
+            box-sizing: border-box; line-height:45px; 
+            text-align:center;
+        }
+        .status ul li:nth-child(2), .status ul li:nth-child(4) { width:5%; } 
+        .status ul li a { width:3px; height:50px; display:block; background:transparent; transform:translateY(15px);  margin:0 auto; position:relative; }
+        .status ul li a:after {
+            content:"OR";
+            position:absolute;
+            left:50%; top:10px;
+            transform:translateX(-50%);
+            width:50px; height:30px; 
+            line-height:30px;
+            font-size:20px; 
+            background:#fd0031;
+            border-radius: 30px;
+            color:#fff;
+        }
+        .status ul li p span { color:#fd0031; } 
+        .status ul li p:nth-child(2) { margin-top:-10px; }
+        .status ul li:last-child { margin-right:0; }
+        .caution {
+            width:650px; font-size:20px;
+            margin:40px auto 0;
+            padding-bottom:60px;
+        }
+        .caution p span { color:#fd0031; }

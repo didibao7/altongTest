@@ -1,0 +1,50 @@
+<decorators defaultdir="/decorators">
+    
+    <decorator name="admin" page="admin_decorator.jsp">
+        <pattern>/aadmin/*</pattern>
+    </decorator>
+     
+    <decorator name="popup" page="popup_decorator.jsp">
+        <pattern>/popup/*</pattern>
+        <pattern>/view/popup/*</pattern>
+        <pattern>/default/join/invite</pattern>
+    </decorator>
+    
+    <decorator name="statistics" page="statistics_decorator.jsp">
+        <pattern>/statistics/*</pattern>
+    </decorator>
+        
+        
+    <decorator name="main" page="main_decorator.jsp">
+        <pattern>/*</pattern>
+    </decorator>
+    
+    <excludes>
+    	<pattern>/rest/*</pattern>
+    	<pattern>/rest</pattern>
+    	<pattern>/index.jsp</pattern>
+        <pattern>/answer/answerView/*</pattern>
+        <pattern>/answer/answerList_QRe*</pattern>
+        <pattern>/answer/answerList_ARe*</pattern>
+        <pattern>/Common/include/*</pattern>
+        <pattern>/member/getBankList</pattern>
+        <pattern>/member/getBankList_Admin</pattern>
+        <pattern>/member/getBankReport</pattern>
+        <pattern>/member/getBankReport_Admin</pattern>
+        <pattern>/member/cert/certProc</pattern>
+        <pattern>/default/pop_certi_n</pattern>
+        <pattern>/default/joinInput_n</pattern>
+        <pattern>/message/message.phtml</pattern>
+        <pattern>/quiz/demoEnd</pattern>
+        <pattern>/quiz/gameDemo</pattern>
+        <pattern>/quiz/quizList</pattern>
+        <pattern>/aadmin/quiz/getQuiz</pattern>
+        <pattern>/aadmin/quiz/getQuizProc</pattern>
+        <pattern>/*_pop</pattern>
+        
+        
+        
+        <pattern>/default/cookiesCheck</pattern>
+    </excludes>
+
+</decorators>

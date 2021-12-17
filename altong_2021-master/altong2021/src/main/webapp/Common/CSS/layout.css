@@ -1,0 +1,63 @@
+#wrapper {
+	width:100%;
+}
+
+
+/* ------------메인 layout -------------- */ 
+#M_wrapper {
+	position:relative;
+	margin:0 auto;
+	width:90%;
+}
+
+
+#header_wrapper {
+	position:relative;
+	margin:0 auto;
+	width:100%;
+	background:url(/Common/images/bg/header_bg01.gif) repeat ;
+}	
+
+#header {
+	position:relative;
+	margin:0 auto;
+	width:100%;
+  height:44px;
+	}
+
+#input {
+	position:relative;
+	margin:0 auto;
+	width:100%;
+	z-index:1;
+}
+
+#list {
+	position:relative;
+	margin:0 auto;
+	padding-top:25px;
+	width:100%;
+}
+
+#board{
+	position:relative;
+	margin:0 auto;
+	width:100%;
+	height:200px;
+}
+
+#board_1 {
+	float:left;
+	padding:15px 10px 10px 17px;
+	width:470px;
+	height:200px;
+	border-bottom:2px solid #c4c4c9;border-top:2px solid #c4c4c9;border-left:2px solid #c4c4c9;border-right:2px solid #c4c4c9;
+}
+
+#board_2 {
+	float:right;
+	padding:15px 10px 10px 17px;
+	width:470px;
+	height:200px;
+	border-bottom:2px solid #c4c4c9;border-top:2px solid #c4c4c9;border-left:2px solid #c4c4c9;border-right:2px solid #c4c4c9;
+}

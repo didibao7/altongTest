@@ -1,0 +1,69 @@
+@charset "utf-8";
+
+.main_logo {
+  position: relative;
+}
+#acronym {
+  position: absolute;
+  top: -5%;
+  left: 86%;
+  background: #fd0031;
+  color: #fff;
+  border-radius: 50%;
+  width: 1.125rem;
+  height: 1.125rem;
+  text-align: center;
+  font-size: 0.625rem;
+  line-height: 1.125rem;
+  cursor: pointer;
+}
+#lang_list {
+  position: absolute;
+  top: -5%;
+  left: 110%;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s;
+  z-index: 9;
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+  width: 0;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+#lang_list a {
+  font-size: 0.875rem;
+  padding: 0.25rem 0;
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 5px;
+  white-space: nowrap;
+  font-weight: 500;
+  color: #555;
+  display: flex;
+  align-items: center;
+}
+#lang_list a:hover {
+  background: #eee;
+}
+
+#lang_list a span {
+  background: #fd0031;
+  color: #fff;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  text-align: center;
+  font-size: 10px;
+  line-height: 14px;
+  margin-right: 5px;
+  margin-bottom: -2px;
+  font-weight: normal;
+}
+#mainLogo {
+  cursor: pointer;
+}

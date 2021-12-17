@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.config">
+	
+	<!-- fn_SQL_Config_Select -->
+	<select id="getConfigList" resultType="config">
+		SELECT 
+			*
+		FROM T_CONFIG 
+	</select>
+	
+	<select id="getConfigForLv" resultType="hashMap">
+		select * from T_CONFIG_LV order by Lv
+	</select>
+	
+	<!-- fn_SQL_Board_Config(Common.vbs fn_SQL_Config_Select 와 동일한 구조임 -->
+	<select id="getBoardConfig" resultType="config">
+		SELECT * FROM T_CONFIG with(nolock) 
+	</select>
+	
+	<!-- fn_SQL_NickNameNotUse(Default.vbs) -->
+	<select id="getNickNameNotUse" resultType="int">
+		SELECT COUNT(*) AS CheckNick 
+		FROM T_CONFIG 
+		WHERE NickNotUse LIKE '%' || NickName || '%'
+	</select>
+	
+	<!-- fn_SQL_NickName_Check -->
+	<select id="getNickNameCheck" resultType="string">
+		SELECT NickNotUse 
+		FROM T_CONFIG 
+		WHERE SEQNO = 1
+	</select>
+		
+	<!-- fn_SQL_JoinConfig -->
+	<select id="getJoinConfig" resultType="string">
+		SELECT 
+			AlmoneyJoin 
+		FROM T_CONFIG
+	</select>
+	
+	<select id="getAlmoneyMoveQuestion" resultType="int">
+		select 
+			AlmoneyMoveQuestion 
+		from T_CONFIG
+	</select>
+	
+	<select id="getConfigLv" resultType="hashMap">
+		select 
+			Lv, ExchBaseAlmoney as ExchAlmoney, ExchLimitAlmoney, ExchAlmoneyTexRate, ExchStampCnt, 
+			ExchQusRegCnt, ExchQusChoiceRate, ExchAnsRegCnt, ExchAnsChoicedCnt, ExchAnsChoicedCnt, ExchAnsEstiCnt 
+		from T_CONFIG_LV 
+		order by Lv
+	</select>
+	
+	<select id="getConfigLv2" resultType="hashMap">
+		select 
+			Lv, LvUpPhoto, LvUpBaseAlmoney as LvUpAlmoney, LvUpStampCnt, LvUpQusRegCnt, LvUpAnsRegCnt, 
+			LvUpAnsChoicedCnt, LvUpAnsEstiCnt, LvUpReplyCnt, LvUpEducationCnt, LvUpRecmdLv_1, LvUpRecmdCnt_1 
+		from T_CONFIG_LV 
+		order by Lv
+	</select>
+	
+	<select id="getConfigLvCnt" resultType="int">
+		select count(*) from T_CONFIG_LV
+	</select>
+	
+	<!-- fn_SQL_Config_Update -->
+	<update id="configOriginalUpdate">
+		UPDATE T_CONFIG SET 
+			AlmoneyJoin 					= #{almoneyJoin},
+			AlmoneyExchange 				= #{almoneyExchange},
+			QuestionMin 					= #{questionMin},
+			QuestionMax 					= #{questionMax},
+			WriteMax 						= #{writeMax},
+			FileMax 						= #{fileMax},
+			ViewMoneySum 					= #{viewMoneySum},
+	        ViewMoneyQ 						= #{viewMoneyQ},
+	        ViewMoneyA 						= #{viewMoneyA},
+	        NickNotUse 						= #{nickNotUse},
+	        MoneyCompany 					= #{moneyCompany},
+	        MemJoinCertType 				= #{memJoinCertType},
+	        MemJoinSmsLimitCnt 				= #{memJoinSmsLimitCnt},
+	        MemJoinSmsTimeOut				= #{memJoinSmsTimeOut},
+	        MemPwSmsLimitCnt 				= #{memPwSmsLimitCnt},
+	
+	        Lv1_LimitQueDayRegistCnt        = #{lv1_LimitQueDayRegistCnt},
+	        Lv1_LimitQueDayDupRegistCnt     = #{lv1_LimitQueDayDupRegistCnt},
+	        Lv1_LimitQueContinueRegistTime  = #{lv1_LimitQueContinueRegistTime},
+	        Lv1_LimitAnsDayRegistCnt        = #{lv1_LimitAnsDayRegistCnt},
+	        Lv1_LimitAnsDayDupRegistCnt     = #{lv1_LimitAnsDayDupRegistCnt},
+	        Lv1_LimitAnsContinueRegistTime  = #{lv1_LimitAnsContinueRegistTime},
+	        Lv1_LimitRepDayRegistCnt        = #{lv1_LimitRepDayRegistCnt},
+	        Lv1_LimitRepDayDupRegistCnt     = #{lv1_LimitRepDayDupRegistCnt},
+	        Lv1_LimitRepContinueRegistTime  = #{lv1_LimitRepContinueRegistTime},
+	
+	        Lv2_LimitQueDayRegistCnt        = #{lv2_LimitQueDayRegistCnt},
+	        Lv2_LimitQueDayDupRegistCnt     = #{lv2_LimitQueDayDupRegistCnt},
+	        Lv2_LimitQueContinueRegistTime  = #{lv2_LimitQueContinueRegistTime},
+	        Lv2_LimitAnsDayRegistCnt        = #{lv2_LimitAnsDayRegistCnt},
+	        Lv2_LimitAnsDayDupRegistCnt     = #{lv2_LimitAnsDayDupRegistCnt},
+	        Lv2_LimitAnsContinueRegistTime  = #{lv2_LimitAnsContinueRegistTime},
+	        Lv2_LimitRepDayRegistCnt        = #{lv2_LimitRepDayRegistCnt},
+	        Lv2_LimitRepDayDupRegistCnt     = #{lv2_LimitRepDayDupRegistCnt},
+	        Lv2_LimitRepContinueRegistTime  = #{lv2_LimitRepContinueRegistTime},
+	
+	        Lv3_LimitQueDayRegistCnt        = #{lv3_LimitQueDayRegistCnt},
+	        Lv3_LimitQueDayDupRegistCnt     = #{lv3_LimitQueDayDupRegistCnt},
+	        Lv3_LimitQueContinueRegistTime  = #{lv3_LimitQueContinueRegistTime},
+	        Lv3_LimitAnsDayRegistCnt        = #{lv3_LimitAnsDayRegistCnt},
+	        Lv3_LimitAnsDayDupRegistCnt     = #{lv3_LimitAnsDayDupRegistCnt},
+	        Lv3_LimitAnsContinueRegistTime  = #{lv3_LimitAnsContinueRegistTime},
+	        Lv3_LimitRepDayRegistCnt        = #{lv3_LimitRepDayRegistCnt},
+	        Lv3_LimitRepDayDupRegistCnt     = #{lv3_LimitRepDayDupRegistCnt},
+	        Lv3_LimitRepContinueRegistTime  = #{lv3_LimitRepContinueRegistTime},
+	
+	        Lv4_LimitQueDayRegistCnt        = #{lv4_LimitQueDayRegistCnt},
+	        Lv4_LimitQueDayDupRegistCnt     = #{lv4_LimitQueDayDupRegistCnt},
+	        Lv4_LimitQueContinueRegistTime  = #{lv4_LimitQueContinueRegistTime},
+	        Lv4_LimitAnsDayRegistCnt        = #{lv4_LimitAnsDayRegistCnt},
+	        Lv4_LimitAnsDayDupRegistCnt     = #{lv4_LimitAnsDayDupRegistCnt},
+	        Lv4_LimitAnsContinueRegistTime  = #{lv4_LimitAnsContinueRegistTime},
+	        Lv4_LimitRepDayRegistCnt        = #{lv4_LimitRepDayRegistCnt},
+	        Lv4_LimitRepDayDupRegistCnt     = #{lv4_LimitRepDayDupRegistCnt},
+	        Lv4_LimitRepContinueRegistTime  = #{lv4_LimitRepContinueRegistTime},
+	
+	        Lv5_LimitQueDayRegistCnt        = #{lv5_LimitQueDayRegistCnt},
+	        Lv5_LimitQueDayDupRegistCnt     = #{lv5_LimitQueDayDupRegistCnt},
+	        Lv5_LimitQueContinueRegistTime  = #{lv5_LimitQueContinueRegistTime},
+	        Lv5_LimitAnsDayRegistCnt        = #{lv5_LimitAnsDayRegistCnt},
+	        Lv5_LimitAnsDayDupRegistCnt     = #{lv5_LimitAnsDayDupRegistCnt},
+	        Lv5_LimitAnsContinueRegistTime  = #{lv5_LimitAnsContinueRegistTime},
+	        Lv5_LimitRepDayRegistCnt        = #{lv5_LimitRepDayRegistCnt},
+	        Lv5_LimitRepDayDupRegistCnt     = #{lv5_LimitRepDayDupRegistCnt},
+	        Lv5_LimitRepContinueRegistTime  = #{lv5_LimitRepContinueRegistTime},
+	
+	        Lv6_LimitQueDayRegistCnt        = #{lv6_LimitQueDayRegistCnt},
+	        Lv6_LimitQueDayDupRegistCnt     = #{lv6_LimitQueDayDupRegistCnt},
+	        Lv6_LimitQueContinueRegistTime  = #{lv6_LimitQueContinueRegistTime},
+	        Lv6_LimitAnsDayRegistCnt        = #{lv6_LimitAnsDayRegistCnt},
+	        Lv6_LimitAnsDayDupRegistCnt     = #{lv6_LimitAnsDayDupRegistCnt},
+	        Lv6_LimitAnsContinueRegistTime  = #{lv6_LimitAnsContinueRegistTime},
+	        Lv6_LimitRepDayRegistCnt        = #{lv6_LimitRepDayRegistCnt},
+	        Lv6_LimitRepDayDupRegistCnt     = #{lv6_LimitRepDayDupRegistCnt},
+	        Lv6_LimitRepContinueRegistTime  = #{lv6_LimitRepContinueRegistTime},
+	
+	        Lv7_LimitQueDayRegistCnt        = #{lv7_LimitQueDayRegistCnt},
+	        Lv7_LimitQueDayDupRegistCnt     = #{lv7_LimitQueDayDupRegistCnt},
+	        Lv7_LimitQueContinueRegistTime  = #{lv7_LimitQueContinueRegistTime},
+	        Lv7_LimitAnsDayRegistCnt        = #{lv7_LimitAnsDayRegistCnt},
+	        Lv7_LimitAnsDayDupRegistCnt     = #{lv7_LimitAnsDayDupRegistCnt},
+	        Lv7_LimitAnsContinueRegistTime  = #{lv7_LimitAnsContinueRegistTime},
+	        Lv7_LimitRepDayRegistCnt        = #{lv7_LimitRepDayRegistCnt},
+	        Lv7_LimitRepDayDupRegistCnt     = #{lv7_LimitRepDayDupRegistCnt},
+	        Lv7_LimitRepContinueRegistTime  = #{lv7_LimitRepContinueRegistTime},
+	
+	        Lv8_LimitQueDayRegistCnt        = #{lv8_LimitQueDayRegistCnt},
+	        Lv8_LimitQueDayDupRegistCnt     = #{lv8_LimitQueDayDupRegistCnt},
+	        Lv8_LimitQueContinueRegistTime  = #{lv8_LimitQueContinueRegistTime},
+	        Lv8_LimitAnsDayRegistCnt        = #{lv8_LimitAnsDayRegistCnt},
+	        Lv8_LimitAnsDayDupRegistCnt     = #{lv8_LimitAnsDayDupRegistCnt},
+	        Lv8_LimitAnsContinueRegistTime  = #{lv8_LimitAnsContinueRegistTime},
+	        Lv8_LimitRepDayRegistCnt        = #{lv8_LimitRepDayRegistCnt},
+	        Lv8_LimitRepDayDupRegistCnt     = #{lv8_LimitRepDayDupRegistCnt},
+	        Lv8_LimitRepContinueRegistTime  = #{lv8_LimitRepContinueRegistTime},
+	
+			Lv9_LimitQueDayRegistCnt        = #{lv9_LimitQueDayRegistCnt},
+	        Lv9_LimitQueDayDupRegistCnt     = #{lv9_LimitQueDayDupRegistCnt},
+	        Lv9_LimitQueContinueRegistTime  = #{lv9_LimitQueContinueRegistTime},
+	        Lv9_LimitAnsDayRegistCnt        = #{lv9_LimitAnsDayRegistCnt},
+	        Lv9_LimitAnsDayDupRegistCnt     = #{lv9_LimitAnsDayDupRegistCnt},
+	        Lv9_LimitAnsContinueRegistTime  = #{lv9_LimitAnsContinueRegistTime},
+	        Lv9_LimitRepDayRegistCnt        = #{lv9_LimitRepDayRegistCnt},
+	        Lv9_LimitRepDayDupRegistCnt     = #{lv9_LimitRepDayDupRegistCnt},
+	        Lv9_LimitRepContinueRegistTime  = #{lv9_LimitRepContinueRegistTime},
+	
+			Lv10_LimitQueDayRegistCnt        = #{lv10_LimitQueDayRegistCnt},
+	        Lv10_LimitQueDayDupRegistCnt     = #{lv10_LimitQueDayDupRegistCnt},
+	        Lv10_LimitQueContinueRegistTime  = #{lv10_LimitQueContinueRegistTime},
+	        Lv10_LimitAnsDayRegistCnt        = #{lv10_LimitAnsDayRegistCnt},
+	        Lv10_LimitAnsDayDupRegistCnt     = #{lv10_LimitAnsDayDupRegistCnt},
+	        Lv10_LimitAnsContinueRegistTime  = #{lv10_LimitAnsContinueRegistTime},
+	        Lv10_LimitRepDayRegistCnt        = #{lv10_LimitRepDayRegistCnt},
+	        Lv10_LimitRepDayDupRegistCnt     = #{lv10_LimitRepDayDupRegistCnt},
+	        Lv10_LimitRepContinueRegistTime  = #{lv10_LimitRepContinueRegistTime},
+	
+			Lv11_LimitQueDayRegistCnt        = #{lv11_LimitQueDayRegistCnt},
+	        Lv11_LimitQueDayDupRegistCnt     = #{lv11_LimitQueDayDupRegistCnt},
+	        Lv11_LimitQueContinueRegistTime  = #{lv11_LimitQueContinueRegistTime},
+	        Lv11_LimitAnsDayRegistCnt        = #{lv11_LimitAnsDayRegistCnt},
+	        Lv11_LimitAnsDayDupRegistCnt     = #{lv11_LimitAnsDayDupRegistCnt},
+	        Lv11_LimitAnsContinueRegistTime  = #{lv11_LimitAnsContinueRegistTime},
+	        Lv11_LimitRepDayRegistCnt        = #{lv11_LimitRepDayRegistCnt},
+	        Lv11_LimitRepDayDupRegistCnt     = #{lv11_LimitRepDayDupRegistCnt},
+	        Lv11_LimitRepContinueRegistTime  = #{lv11_LimitRepContinueRegistTime},
+	
+	        Lv_LevelUpAuto_Yn               = #{lv_LevelUpAuto_Yn},
+	        Lv2_LevelUpAuto_Yn              = #{lv2_LevelUpAuto_Yn},
+	        Lv3_LevelUpAuto_Yn              = #{lv3_LevelUpAuto_Yn},
+	        Lv4_LevelUpAuto_Yn              = #{lv4_LevelUpAuto_Yn},
+	        Lv5_LevelUpAuto_Yn              = #{lv5_LevelUpAuto_Yn},
+	        Lv6_LevelUpAuto_Yn              = #{lv6_LevelUpAuto_Yn},
+	        Lv7_LevelUpAuto_Yn              = #{lv7_LevelUpAuto_Yn},
+	
+	        Lv2_LimitJoinAfterDay           = #{lv2_LimitJoinAfterDay},
+	        Lv2_LimitAlmoney                = #{lv2_LimitAlmoney},
+	        Lv2_LimitAnsEstiCnt             = #{lv2_LimitAnsEstiCnt},
+	        Lv2_LimitChuMemCnt              = #{lv2_LimitChuMemCnt},
+	        Lv2_LimitPhotoYn                = #{lv2_LimitPhotoYn},
+	        Lv2_LimitReplyCnt               = #{lv2_LimitReplyCnt},
+	
+	        Lv3_LimitLvMtPeriod             = #{lv3_LimitLvMtPeriod},
+	        Lv3_LimitQueRegistCnt           = #{lv3_LimitQueRegistCnt},
+	        Lv3_LimitAnsRegistCnt           = #{lv3_LimitAnsRegistCnt},
+	        Lv3_LimitAnsChoiceCnt           = #{lv3_LimitAnsChoiceCnt},
+	        Lv3_LimitAnsEstiCnt             = #{lv3_LimitAnsEstiCnt},
+	        Lv3_LimitAnsEstiPoint           = #{lv3_LimitAnsEstiPoint},
+	        Lv3_LimitChuMemCnt              = #{lv3_LimitChuMemCnt},
+	        Lv3_LimitReplyCnt               = #{lv3_LimitReplyCnt},
+	
+	        Lv4_LimitLvMtPeriod             = #{lv4_LimitLvMtPeriod},
+	        Lv4_LimitQueRegistCnt           = #{lv4_LimitQueRegistCnt},
+	        Lv4_LimitAnsRegistCnt           = #{lv4_LimitAnsRegistCnt},
+	        Lv4_LimitAnsChoiceCnt           = #{lv4_LimitAnsChoiceCnt},
+	        Lv4_LimitAnsEstiCnt             = #{lv4_LimitAnsEstiCnt},
+	        Lv4_LimitAnsEstiPoint           = #{lv4_LimitAnsEstiPoint},
+	        Lv4_LimitChuMemCnt              = #{lv4_LimitChuMemCnt},
+	        Lv4_LimitReplyCnt               = #{lv4_LimitReplyCnt},
+	
+	        Lv5_LimitLvMtPeriod             = #{lv5_LimitLvMtPeriod},
+	        Lv5_LimitQueRegistCnt           = #{lv5_LimitQueRegistCnt},
+	        Lv5_LimitAnsRegistCnt           = #{lv5_LimitAnsRegistCnt},
+	        Lv5_LimitAnsChoiceCnt           = #{lv5_LimitAnsChoiceCnt},
+	        Lv5_LimitAnsEstiCnt             = #{lv5_LimitAnsEstiCnt},
+	        Lv5_LimitAnsEstiPoint           = #{lv5_LimitAnsEstiPoint},
+	        Lv5_LimitChuMemCnt              = #{lv5_LimitChuMemCnt},
+	        Lv5_LimitReplyCnt               = #{lv5_LimitReplyCnt},
+	
+	        Lv6_LimitLvMtPeriod             = #{lv6_LimitLvMtPeriod},
+	        Lv6_LimitQueRegistCnt           = #{lv6_LimitQueRegistCnt},
+	        Lv6_LimitAnsRegistCnt           = #{lv6_LimitAnsRegistCnt},
+	        Lv6_LimitAnsChoiceCnt           = #{lv6_LimitAnsChoiceCnt},
+	        Lv6_LimitAnsEstiCnt             = #{lv6_LimitAnsEstiCnt},
+	        Lv6_LimitAnsEstiPoint           = #{lv6_LimitAnsEstiPoint},
+	        Lv6_LimitChuMemCnt              = #{lv6_LimitChuMemCnt},
+	        Lv6_LimitReplyCnt               = #{lv6_LimitReplyCnt},
+	
+	        Lv7_LimitLvMtPeriod             = #{lv7_LimitLvMtPeriod},
+	        Lv7_LimitQueRegistCnt           = #{lv7_LimitQueRegistCnt},
+	        Lv7_LimitAnsRegistCnt           = #{lv7_LimitAnsRegistCnt},
+	        Lv7_LimitAnsChoiceCnt           = #{lv7_LimitAnsChoiceCnt},
+	        Lv7_LimitAnsEstiCnt             = #{lv7_LimitAnsEstiCnt},
+	        Lv7_LimitAnsEstiPoint           = #{lv7_LimitAnsEstiPoint},
+	        Lv7_LimitChuMemCnt              = #{lv7_LimitChuMemCnt},
+	        Lv7_LimitReplyCnt               = #{lv7_LimitReplyCnt},
+	
+	        Lv8_LimitLvMtPeriod             = #{lv8_LimitLvMtPeriod},
+	        Lv8_LimitQueRegistCnt           = #{lv8_LimitQueRegistCnt},
+	        Lv8_LimitAnsRegistCnt           = #{lv8_LimitAnsRegistCnt},
+	        Lv8_LimitAnsChoiceCnt           = #{lv8_LimitAnsChoiceCnt},
+	        Lv8_LimitAnsEstiCnt             = #{lv8_LimitAnsEstiCnt},
+	        Lv8_LimitAnsEstiPoint           = #{lv8_LimitAnsEstiPoint},
+	        Lv8_LimitChuMemCnt              = #{lv8_LimitChuMemCnt},
+	        Lv8_LimitReplyCnt               = #{lv8_LimitReplyCnt},
+	
+			Lv9_LimitLvMtPeriod             = #{lv9_LimitLvMtPeriod},
+	        Lv9_LimitQueRegistCnt           = #{lv9_LimitQueRegistCnt},
+	        Lv9_LimitAnsRegistCnt           = #{lv9_LimitAnsRegistCnt},
+	        Lv9_LimitAnsChoiceCnt           = #{lv9_LimitAnsChoiceCnt},
+	        Lv9_LimitAnsEstiCnt             = #{lv9_LimitAnsEstiCnt},
+	        Lv9_LimitAnsEstiPoint           = #{lv9_LimitAnsEstiPoint},
+	        Lv9_LimitChuMemCnt              = #{lv9_LimitChuMemCnt},
+	        Lv9_LimitReplyCnt               = #{lv9_LimitReplyCnt},
+	
+			Lv10_LimitLvMtPeriod             = #{lv10_LimitLvMtPeriod},
+	        Lv10_LimitQueRegistCnt           = #{lv10_LimitQueRegistCnt},
+	        Lv10_LimitAnsRegistCnt           = #{lv10_LimitAnsRegistCnt},
+	        Lv10_LimitAnsChoiceCnt           = #{lv10_LimitAnsChoiceCnt},
+	        Lv10_LimitAnsEstiCnt             = #{lv10_LimitAnsEstiCnt},
+	        Lv10_LimitAnsEstiPoint           = #{lv10_LimitAnsEstiPoint},
+	        Lv10_LimitChuMemCnt              = #{lv10_LimitChuMemCnt},
+	        Lv10_LimitReplyCnt               = #{lv10_LimitReplyCnt},
+	
+			Lv11_LimitLvMtPeriod             = #{lv11_LimitLvMtPeriod},
+	        Lv11_LimitQueRegistCnt           = #{lv11_LimitQueRegistCnt},
+	        Lv11_LimitAnsRegistCnt           = #{lv11_LimitAnsRegistCnt},
+	        Lv11_LimitAnsChoiceCnt           = #{lv11_LimitAnsChoiceCnt},
+	        Lv11_LimitAnsEstiCnt             = #{lv11_LimitAnsEstiCnt},
+	        Lv11_LimitAnsEstiPoint           = #{lv11_LimitAnsEstiPoint},
+	        Lv11_LimitChuMemCnt              = #{lv11_LimitChuMemCnt},
+	        Lv11_LimitReplyCnt               = #{lv11_LimitReplyCnt},
+	
+	        Lv2_ExchangeBaseDeductAlmoney   = #{lv2_ExchangeBaseDeductAlmoney},
+	        Lv2_ExchangeLimitAlmoney        = #{lv2_ExchangeLimitAlmoney},
+	        Lv2_ExchangeBaseUnitAlmoney     = #{lv2_ExchangeBaseUnitAlmoney},
+	        Lv2_ExchangeRealMoneyDeductRate = #{lv2_ExchangeRealMoneyDeductRate},
+	
+	        Lv3_ExchangeBaseDeductAlmoney   = #{lv3_ExchangeBaseDeductAlmoney},
+	        Lv3_ExchangeLimitAlmoney        = #{lv3_ExchangeLimitAlmoney},
+	        Lv3_ExchangeBaseUnitAlmoney     = #{lv3_ExchangeBaseUnitAlmoney},
+	        Lv3_ExchangeRealMoneyDeductRate = #{lv3_ExchangeRealMoneyDeductRate},
+	
+	        Lv4_ExchangeBaseDeductAlmoney   = #{lv4_ExchangeBaseDeductAlmoney},
+	        Lv4_ExchangeLimitAlmoney        = #{lv4_ExchangeLimitAlmoney},
+	        Lv4_ExchangeBaseUnitAlmoney     = #{lv4_ExchangeBaseUnitAlmoney},
+	        Lv4_ExchangeRealMoneyDeductRate = #{lv4_ExchangeRealMoneyDeductRate},
+	
+	        Lv5_ExchangeBaseDeductAlmoney   = #{lv5_ExchangeBaseDeductAlmoney},
+	        Lv5_ExchangeLimitAlmoney        = #{lv5_ExchangeLimitAlmoney},
+	        Lv5_ExchangeBaseUnitAlmoney     = #{lv5_ExchangeBaseUnitAlmoney},
+	        Lv5_ExchangeRealMoneyDeductRate = #{lv5_ExchangeRealMoneyDeductRate},
+	
+	        Lv6_ExchangeBaseDeductAlmoney   = #{lv6_ExchangeBaseDeductAlmoney},
+	        Lv6_ExchangeLimitAlmoney        = #{lv6_ExchangeLimitAlmoney},
+	        Lv6_ExchangeBaseUnitAlmoney     = #{lv6_ExchangeBaseUnitAlmoney},
+	        Lv6_ExchangeRealMoneyDeductRate = #{lv6_ExchangeRealMoneyDeductRate},
+	
+	        Lv7_ExchangeBaseDeductAlmoney   = #{lv7_ExchangeBaseDeductAlmoney},
+	        Lv7_ExchangeLimitAlmoney        = #{lv7_ExchangeLimitAlmoney},
+	        Lv7_ExchangeBaseUnitAlmoney     = #{lv7_ExchangeBaseUnitAlmoney},
+	        Lv7_ExchangeRealMoneyDeductRate = #{lv7_ExchangeRealMoneyDeductRate},
+	
+	        Lv8_ExchangeBaseDeductAlmoney   = #{lv8_ExchangeBaseDeductAlmoney},
+	        Lv8_ExchangeLimitAlmoney        = #{lv8_ExchangeLimitAlmoney},
+	        Lv8_ExchangeBaseUnitAlmoney     = #{lv8_ExchangeBaseUnitAlmoney},
+	        Lv8_ExchangeRealMoneyDeductRate = #{lv8_ExchangeRealMoneyDeductRate},
+	
+			Lv9_ExchangeBaseDeductAlmoney   = #{lv9_ExchangeBaseDeductAlmoney},
+	        Lv9_ExchangeLimitAlmoney        = #{lv9_ExchangeLimitAlmoney},
+	        Lv9_ExchangeBaseUnitAlmoney     = #{lv9_ExchangeBaseUnitAlmoney},
+	        Lv9_ExchangeRealMoneyDeductRate = #{lv9_ExchangeRealMoneyDeductRate},
+	
+			Lv10_ExchangeBaseDeductAlmoney   = #{lv10_ExchangeBaseDeductAlmoney},
+	        Lv10_ExchangeLimitAlmoney        = #{lv10_ExchangeLimitAlmoney},
+	        Lv10_ExchangeBaseUnitAlmoney     = #{lv10_ExchangeBaseUnitAlmoney},
+	        Lv10_ExchangeRealMoneyDeductRate = #{lv10_ExchangeRealMoneyDeductRate},
+	
+			Lv11_ExchangeBaseDeductAlmoney   = #{lv11_ExchangeBaseDeductAlmoney},
+	        Lv11_ExchangeLimitAlmoney        = #{lv11_ExchangeLimitAlmoney},
+	        Lv11_ExchangeBaseUnitAlmoney     = #{lv11_ExchangeBaseUnitAlmoney},
+	        Lv11_ExchangeRealMoneyDeductRate = #{lv11_ExchangeRealMoneyDeductRate},
+	
+	        Lv2_ExchangeMtPeriod            = #{lv2_ExchangeMtPeriod},
+	        Lv2_ExchangeQueRegistCnt        = #{lv2_ExchangeQueRegistCnt},
+	        Lv2_ExchangeAnsRegistCnt        = #{lv2_ExchangeAnsRegistCnt},
+	        Lv2_ExchangeEstiCnt             = #{lv2_ExchangeEstiCnt},
+	        Lv2_ExchangeEstiPoint           = #{lv2_ExchangeEstiPoint},
+	
+	        Lv3_ExchangeMtPeriod            = #{lv3_ExchangeMtPeriod},
+	        Lv3_ExchangeQueRegistCnt        = #{lv3_ExchangeQueRegistCnt},
+	        Lv3_ExchangeAnsRegistCnt        = #{lv3_ExchangeAnsRegistCnt},
+	        Lv3_ExchangeEstiCnt             = #{lv3_ExchangeEstiCnt},
+	        Lv3_ExchangeEstiPoint           = #{lv3_ExchangeEstiPoint},
+	
+	        Lv4_ExchangeMtPeriod            = #{lv4_ExchangeMtPeriod},
+	        Lv4_ExchangeQueRegistCnt        = #{lv4_ExchangeQueRegistCnt},
+	        Lv4_ExchangeAnsRegistCnt        = #{lv4_ExchangeAnsRegistCnt},
+	        Lv4_ExchangeEstiCnt             = #{lv4_ExchangeEstiCnt},
+	        Lv4_ExchangeEstiPoint           = #{lv4_ExchangeEstiPoint},
+	
+	        Lv5_ExchangeMtPeriod            = #{lv5_ExchangeMtPeriod},
+	        Lv5_ExchangeQueRegistCnt        = #{lv5_ExchangeQueRegistCnt},
+	        Lv5_ExchangeAnsRegistCnt        = #{lv5_ExchangeAnsRegistCnt},
+	        Lv5_ExchangeEstiCnt             = #{lv5_ExchangeEstiCnt},
+	        Lv5_ExchangeEstiPoint           = #{lv5_ExchangeEstiPoint},
+	
+	        Lv6_ExchangeMtPeriod            = #{lv6_ExchangeMtPeriod},
+	        Lv6_ExchangeQueRegistCnt        = #{lv6_ExchangeQueRegistCnt},
+	        Lv6_ExchangeAnsRegistCnt        = #{lv6_ExchangeAnsRegistCnt},
+	        Lv6_ExchangeEstiCnt             = #{lv6_ExchangeEstiCnt},
+	        Lv6_ExchangeEstiPoint           = #{lv6_ExchangeEstiPoint},
+	
+	        Lv7_ExchangeMtPeriod            = #{lv7_ExchangeMtPeriod},
+	        Lv7_ExchangeQueRegistCnt        = #{lv7_ExchangeQueRegistCnt},
+	        Lv7_ExchangeAnsRegistCnt        = #{lv7_ExchangeAnsRegistCnt},
+	        Lv7_ExchangeEstiCnt             = #{lv7_ExchangeEstiCnt},
+	        Lv7_ExchangeEstiPoint           = #{lv7_ExchangeEstiPoint},
+	
+	        Lv8_ExchangeMtPeriod            = #{lv8_ExchangeMtPeriod},
+	        Lv8_ExchangeQueRegistCnt        = #{lv8_ExchangeQueRegistCnt},
+	        Lv8_ExchangeAnsRegistCnt        = #{lv8_ExchangeAnsRegistCnt},
+	        Lv8_ExchangeEstiCnt             = #{lv8_ExchangeEstiCnt},
+	        Lv8_ExchangeEstiPoint           = #{lv8_ExchangeEstiPoint},
+	
+			Lv9_ExchangeMtPeriod            = #{lv9_ExchangeMtPeriod},
+	        Lv9_ExchangeQueRegistCnt        = #{lv9_ExchangeQueRegistCnt},
+	        Lv9_ExchangeAnsRegistCnt        = #{lv9_ExchangeAnsRegistCnt},
+	        Lv9_ExchangeEstiCnt             = #{lv9_ExchangeEstiCnt},
+	        Lv9_ExchangeEstiPoint           = #{lv9_ExchangeEstiPoint},
+	
+			Lv10_ExchangeMtPeriod            = #{lv10_ExchangeMtPeriod},
+	        Lv10_ExchangeQueRegistCnt        = #{lv10_ExchangeQueRegistCnt},
+	        Lv10_ExchangeAnsRegistCnt        = #{lv10_ExchangeAnsRegistCnt},
+	        Lv10_ExchangeEstiCnt             = #{lv10_ExchangeEstiCnt},
+	        Lv10_ExchangeEstiPoint           = #{lv10_ExchangeEstiPoint},
+	
+			Lv11_ExchangeMtPeriod            = #{lv11_ExchangeMtPeriod},
+	        Lv11_ExchangeQueRegistCnt        = #{lv11_ExchangeQueRegistCnt},
+	        Lv11_ExchangeAnsRegistCnt        = #{lv11_ExchangeAnsRegistCnt},
+	        Lv11_ExchangeEstiCnt             = #{lv11_ExchangeEstiCnt},
+	        Lv11_ExchangeEstiPoint           = #{lv11_ExchangeEstiPoint},
+	
+	        Lv1_QueRegAlmoney               = #{lv1_QueRegAlmoney},
+	        Lv2_QueRegAlmoney               = #{lv2_QueRegAlmoney},
+	        Lv3_QueRegAlmoney               = #{lv3_QueRegAlmoney}, 
+	        Lv4_QueRegAlmoney               = #{lv4_QueRegAlmoney},
+	        Lv5_QueRegAlmoney               = #{lv5_QueRegAlmoney},
+	        Lv6_QueRegAlmoney               = #{lv6_QueRegAlmoney},
+	        Lv7_QueRegAlmoney               = #{lv7_QueRegAlmoney},
+	        Lv8_QueRegAlmoney               = #{lv8_QueRegAlmoney},
+			Lv9_QueRegAlmoney               = #{lv9_QueRegAlmoney},
+			Lv10_QueRegAlmoney               = #{lv10_QueRegAlmoney},
+			Lv11_QueRegAlmoney               = #{lv11_QueRegAlmoney}
+	</update>
+	
+	<update id="configNewUpdate">
+		update T_CONFIG_LV set
+			  LvUpPhoto = #{lvUpPhoto}
+			, LvUpBaseAlmoney = #{lvUpBaseAlmoney}
+			, LvUpStampCnt = #{lvUpStampCnt}
+			, LvUpQusRegCnt = #{lvUpQusRegCnt}
+			, LvUpQusChoiceRate = #{lvUpQusChoiceRate}
+			, LvUpAnsRegCnt = #{lvUpAnsRegCnt}
+			, LvUpAnsChoicedCnt = #{lvUpAnsChoicedCnt}
+			, LvUpAnsEstiCnt = #{lvUpAnsEstiCnt}
+			, LvUpReplyCnt = #{lvUpReplyCnt}
+			, LvUpEducationCnt = #{lvUpEducationCnt}
+			, LvUpRecmdLv_1 = #{lvUpRecmdLv_1}
+			, LvUpRecmdCnt_1 = #{lvUpRecmdCnt_1}
+		where Lv = #{lv}
+	</update>
+	
+	<update id="configExchangeUpdate">
+		update T_CONFIG_LV set
+			ExchBaseAlmoney = #{exchBaseAlmoney}
+			, ExchLimitAlmoney = #{exchLimitAlmoney}
+			, ExchAlmoneyTexRate = #{exchAlmoneyTexRate}
+			, ExchStampCnt = #{exchStampCnt}
+			, ExchQusRegCnt = #{exchQusRegCnt}
+			, ExchQusChoiceRate = #{exchQusChoiceRate}
+			, ExchAnsRegCnt = #{exchAnsRegCnt}
+			, ExchAnsChoicedCnt = #{exchAnsChoicedCnt}
+			, ExchAnsEstiCnt = #{exchAnsEstiCnt}
+		where Lv = #{lv}
+	</update>
+</mapper>

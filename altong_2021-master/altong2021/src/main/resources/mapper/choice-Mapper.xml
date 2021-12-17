@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.choice">
+	<!-- fn_SQL_File_Select -->
+	<!-- files-Mapper.xml 로 이동함 - 중복 -->
+	
+	<!-- fn_SQL_Answer_QuestionChoice -->
+	<select id="getAnswerQuestionChoice" resultType="choice">
+		SELECT 
+			COUNT(CASE WHEN FlagChoice = 'Y' THEN 1 END) CountC, 
+			COUNT(CASE WHEN FlagChoice = 'N' THEN 1 END) CountN 
+		FROM ${strData1}  with(nolock) 
+		WHERE MemberSeq = #{userSeq} AND FlagUse = 'Y' 
+	</select>
+	
+	<select id="getAnswerQuestionSpChoice" resultType="choice">
+		SELECT 
+			SUM_A_ChoicedAlmoney, 
+			SUM_A_ViewAlmoney 
+		FROM 
+			T_STATUS
+	</select>
+</mapper>

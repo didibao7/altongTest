@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.favorite">
+	<!-- fn_SQL_MyInterest_Get -->
+	<!-- memberSeq 는 Session 정보임  -->
+	<select id="getMyInterestGet" resultType="favorite">
+		SELECT * 
+			, CONCAT (
+				CASE WHEN Section1 IS NOT NULL THEN ( 
+								SELECT CodeName 
+								FROM T_SECTION_T 
+								WHERE Code = Section1 
+								) END, 
+				CASE WHEN Section2 IS NOT NULL THEN ( 
+								SELECT CONCAT ( 
+									' > ' 
+									, CodeName 
+									) 
+								FROM T_SECTION2 
+								WHERE Code = Section2 
+								) END, 
+				CASE WHEN Section3 IS NOT NULL THEN ( 
+								SELECT CONCAT ( 
+									' > ' 
+									, CodeName 
+									)
+								FROM T_SECTION3_1 
+								WHERE Code = Section3 
+								) END, 
+				CASE WHEN Section3 IS NOT NULL THEN ( 
+								SELECT CONCAT ( 
+									' > ' 
+									, CodeName 
+									)
+								FROM T_SECTION4 
+								WHERE Code = Section4 
+								) END, 
+				CASE WHEN Section4 IS NOT NULL THEN ( 
+								SELECT CONCAT ( 
+									' > ' 
+									, CodeName 
+									) 
+								FROM T_SECTION5$ 
+								WHERE Code = Section5 
+								) END, 
+				'' 
+			) AS CodeName 
+		FROM T_MYFAVORITE 
+		"WHERE MemberSeq = #{memberSeq}
+	</select>
+	
+	<!-- fn_SQL_Get_User_Interest -->
+	<select id="getUserInterest" resultType="favorite">
+		SELECT * 
+		FROM T_MYFAVORITE  with(nolock)  
+		WHERE MemberSeq = #{userSeq}
+	</select>
+	
+	<!-- fn_SQL_MyInterest_Del -->
+	<delete id="deleteMyInterest">
+		DELETE T_MYFAVORITE 
+		WHERE SEQNO = #{seq}
+	</delete>
+
+	<!-- fn_SQL_atten_insert -->
+	<!-- userSeq 는 Session 정보임 -->
+	<insert id="setAtten">
+		INSERT INTO T_MYFAVORITE (MemberSeq, Section1,Section2,Section3,Section4,Section5,) 
+		VALUES (
+			#{userSeq}, 
+			#{code1},
+			#{code2},
+			#{code3},
+			#{code4},
+			#{code5}
+		)
+	</insert>
+	
+	<!-- fn_SQL_MyInterest_Add -->
+	<insert id="addMyInterest">
+		INSERT INTO T_MYFAVORITE 
+		VALUES (
+			#{seq}, 
+			#{section1},
+			#{section2},
+			#{section3},
+			#{section4},
+			#{section5}
+		)
+	</insert>
+	
+	
+	
+</mapper>

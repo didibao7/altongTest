@@ -1,0 +1,14 @@
+<?
+include($_SERVER['DOCUMENT_ROOT'].'/Common/Global.alt');
+include($_SERVER['DOCUMENT_ROOT'].'/Common/Lib/DataBase.alt');
+include($_SERVER['DOCUMENT_ROOT'].'/Common/Lib/Security.alt');
+libLogin($_COOKIE['SESS']);?>
+<? $libUniv = 1; include($_SERVER['DOCUMENT_ROOT'].'/Common/Include/Header.alt'); ?>
+<? include_once $_SERVER['DOCUMENT_ROOT'] . "/Univ/Hongik/Common/top.phtml"; ?>
+<script src="/Univ/Hongik/common/js/fullView.js"></script>
+
+    <div class="not_bottom_div">
+        <iframe class="hongik_iframe" src="http://mmm.hongik.ac.kr/front/boardlist.do?siteGubun=1&menuGubun=1&bbsConfigFK=1&menuCode=006001"></iframe>
+    </div>
+    
+<? $notBottom=1; include $_SERVER["DOCUMENT_ROOT"] . "/Common/Include/MenuItem.alt" ?>

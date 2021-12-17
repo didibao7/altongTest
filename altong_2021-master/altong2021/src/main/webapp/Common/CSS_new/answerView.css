@@ -1,0 +1,371 @@
+@charset "utf-8";
+
+#atm_av_con {
+  padding-top: 60px;
+}
+#atm_av_con .center {
+  padding: 0 10px;
+}
+.atm_av_el {
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.atm_av_c9 {
+  padding-left: 35px;
+  position: relative;
+}
+.atm_av_c9 h3 {
+  font-size: 28px;
+  color: #fd0031;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+.atm_av_c9 .atm_icon_score1 {
+  font-weight: bold;
+  font-size: 16px;
+}
+.atm_av_c9 .atm_icon_score2 {
+  background: #ffee75;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 11px;
+  margin-right: 3px;
+}
+.atm_av_c9 .atm_av_c10 {
+  font-size: 12px;
+  color: #888;
+}
+.atm_av_c9 .atm_av_c10 span {
+  margin-left: 10px;
+}
+.atm_av_c9 .atm_av_c10 span img {
+  margin-bottom: -1px;
+  margin-right: 2px;
+}
+.atm_av_c6 {
+  padding: 15px 10px;
+}
+.atm_addviewG {
+  margin-bottom: 10px;
+}
+.atm_addviewG p,
+.atm_viewbtnG2 p {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: -0.5px;
+  padding: 3px 6px;
+  color: #666;
+  border: 1px solid #d3d3d3;
+  background: #fff;
+  cursor: pointer;
+}
+.atm_addviewG p span {
+  color: #fd0031;
+  margin-left: 2px;
+}
+.atm_addviewG .atm_viewbtnG_c2 {
+  background: #f1f1f1;
+}
+.atm_profile_el {
+  background: #fdfdfd;
+  border: 1px dotted #d1d1d1;
+  border-radius: 5px;
+  padding: 10px 10px 10px 70px;
+  position: relative;
+}
+.atm_profile_el figure {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+}
+.atm_profile_el figure img {
+  width: 100%;
+}
+.atm_profile_eltexts {
+  font-size: 12px;
+  font-weight: bold;
+  color: #888;
+}
+.atm_profile_el_c2 {
+  color: #333;
+  font-size: 14px;
+}
+.atm_profile_el_c2 span {
+  font-size: 10px;
+  border: 1px solid #fd0031;
+  padding: 0 5px;
+  margin-left: 4px;
+  border-radius: 15px;
+  color: #fd0031;
+  position: relative;
+  top: -1px;
+}
+.atm_botbtnG {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.atm_ttbar3_btn {
+  display: inline-block;
+  color: #fd0031;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 3px 65px;
+  border: 1px solid #fd0031;
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+/* 댓글 쓰기 */
+#replydiv_q {
+  display: block;
+}
+.atm_reply_c5 {
+  font-weight: bold;
+  font-size: 13px;
+  letter-spacing: -1px;
+  margin-bottom: 8px;
+}
+.atm_reply_input2 {
+  display: block;
+  border: 1px solid #d1d1d1;
+  width: 94%;
+  padding: 14px 1% 13px;
+  font-size: 12px;
+  height: 80px;
+  outline: none;
+  margin: 0 auto;
+  resize: none;
+}
+.atm_reply_writebox2 {
+  text-align: right;
+  margin-top: 10px;
+}
+.atm_reply_writebox2 p {
+  display: inline-block;
+}
+.atm_reply_c6 {
+  font-size: 12px;
+  font-weight: 500;
+  color: #ccc;
+}
+.atm_reply_c7 {
+  background: #ccc;
+  border-radius: 5px;
+  width: 80px;
+  height: 40px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 40px;
+  font-size: 12px;
+  color: #fff;
+}
+.atm_reply_c7 img {
+  display: inline-block;
+  width: 14px;
+  margin-bottom: -2px;
+}
+/************/
+
+.atm_reply_wrapper {
+  margin-top: 10px;
+  border-top: 1px solid #e9e9e9;
+}
+.atm_reply_el {
+  position: relative;
+  padding: 10px 10px 0 55px;
+  margin-bottom: 10px;
+}
+.atm_reply_el figure {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: absolute;
+  top: calc(50% + 5px);
+  left: 10px;
+  transform: translateY(-50%);
+}
+.atm_reply_el figure img {
+  width: 100%;
+}
+.atm_reply_eltexts {
+  font-size: 12px;
+  margin-bottom: 5px;
+  color: #999;
+}
+.atm_reply_eltexts a {
+  color: #999;
+  font-weight: bold;
+}
+.atm_reply_eltexts b {
+  font-weight: normal;
+  position: relative;
+  cursor: pointer;
+}
+.atm_reply_eltexts b.date_underLine {
+  text-decoration: underline;
+}
+.atm_reply_eltexts b span {
+  display: none;
+  width: 130px;
+  position: absolute;
+  top: 140%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #666;
+  color: #fff;
+  text-align: center;
+  border-radius: 10px;
+  z-index: 9;
+}
+.atm_reply_eltexts b span::after {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 10px;
+  background: #666;
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  z-index: 8;
+}
+.atm_reply_eltexts i {
+  font-style: normal;
+}
+.atm_reply_con .atm_reply_c4 {
+  font-size: 14px;
+  font-weight: 300;
+  background: #f1f1f1;
+  padding: 10px 30px 10px 10px;
+  border-radius: 15px 15px 15px 0;
+  position: relative;
+}
+.atm_reply_con .atm_reply_c4 .atm_mymenu_xbtn {
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.atm_reply_con .atm_reply_c4 .atm_mymenu_xbtn i {
+  width: 100%;
+  height: 1px;
+  background: #888;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.atm_reply_con .atm_reply_c4 .atm_mymenu_xbtn i:last-child {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* 답변 */
+
+.atm_av_ttG {
+  position: relative;
+  padding-left: 35px;
+}
+.atm_av_ttG h3 {
+  font-size: 28px;
+  color: #f76707;
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+.atm_av_c5 {
+  font-size: 16px;
+  font-weight: bold;
+}
+.atm_av_c7 {
+  font-size: 12px;
+  color: #888;
+}
+.atm_av_c7 span {
+  margin-left: 10px;
+}
+.atm_av_c7 span img {
+  margin-bottom: -1px;
+  margin-right: 2px;
+}
+.atm_viewbtnG2 .atm_viewbtnG_c2 {
+  background: #f1f1f1;
+}
+.atm_estimation {
+  text-align: center;
+  width: 100%;
+  background: #f7f7f7;
+  border-radius: 15px;
+  border: 1px solid #f5f5f5;
+  padding: 5px 0;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.atm_estimation .atm_esti_el {
+  display: inline-block;
+  width: 45px;
+  margin: 0 20px;
+  position: relative;
+}
+.atm_estimation .atm_esti_el a {
+  display: block;
+  width: 100%;
+}
+.atm_estimation .atm_esti_el.check_icon::after {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 20px;
+  background: url("http://image.altong.com/Common/images/esti_mark.png") center
+    no-repeat;
+  background-size: contain;
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.atm_estimation .atm_esti_el img {
+  display: block;
+  width: 100%;
+  margin-bottom: 3px;
+}
+.atm_estimation .atm_esti_el .atm_esti_c1 {
+  display: block;
+  font-size: 12px;
+  color: #9d9d9d;
+  letter-spacing: -1px;
+}
+.atm_estimation .atm_esti_el .atm_esti_c1 em {
+  font-style: normal;
+  font-weight: bold;
+  color: #fd0031;
+}
+
+.atm_viewbtnG2 p span {
+  color: #fd0031;
+  margin-left: 2px;
+}
+
+#replydiv_q {
+  display: none;
+}
+#replydiv_a {
+  display: none;
+}

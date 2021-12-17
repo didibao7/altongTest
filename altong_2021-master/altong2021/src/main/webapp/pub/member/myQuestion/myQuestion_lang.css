@@ -1,0 +1,62 @@
+@charset "utf-8";
+
+.atm_myjjim_el .atm_myjjim_c5 h3 {
+  top: 50%;
+}
+.atm_myjjim_el .atm_myjjim_c5 p {
+  display: inline-block;
+  vertical-align: middle;
+  color: #999;
+}
+.atm_icon_score {
+  background: #bbb;
+  color: #fff;
+}
+.lang_title {
+  display: inline-block;
+}
+.lang_title img {
+  display: inline-block;
+  width: 15px;
+  vertical-align: middle;
+  margin-top: -1px;
+  margin-right: 4px;
+}
+.lang_title span {
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: bold;
+  margin-top: -2px;
+}
+.atm_myjjim_el .beefup_head {
+  color: #777;
+}
+.atm_myjjim_el .beefup_head.trans {
+  color: #333;
+}
+.atm_myjjim_el .beefup_head img {
+  display: inline-block;
+  width: 15px;
+  vertical-align: middle;
+  margin-top: -2px;
+  margin-right: 3px;
+}
+
+.beefup__head img {
+  display: inline-block;
+  width: 15px;
+  vertical-align: middle;
+  margin-right: 3px;
+}
+.beefup__head {
+  color: #999;
+}
+.beefup__head.trans {
+  color: #333;
+}
+.atm_myjjim_el .atm_myjjim_c5.lang_answer p {
+  color: #333;
+}
+.atm_myjjim_c5 .atm_myjjim_answer_q {
+  font-style: italic;
+}

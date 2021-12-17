@@ -1,0 +1,223 @@
+<?
+/******************************
+	김태환 2019년 03월 21일
+*******************************/
+include(getenv('DOCUMENT_ROOT').'/Common/Global.alt');
+include(getenv('DOCUMENT_ROOT').'/Common/Lib/DataBase.alt');
+include(getenv('DOCUMENT_ROOT').'/Common/Lib/Security.alt');
+libLogin($_COOKIE['SESS']);
+
+
+if ($_POST['ACT'] == 'GetSaleList')
+{
+	$r = fGetSaleList();
+	libJsonExit($_POST['ACT'], array('pg'=>$_POST['pg'], 'rows'=>$r));
+}
+
+function fGetSaleList()
+{
+	$maxRow = 20;
+	$pg = (int)$_POST['pg'];
+
+	$sql = "
+		SELECT	convert(varchar(10), regdate, 20) as conDate,
+				alpay_amount,
+				alpay_balance
+		FROM T_STORE_PAY_ALMAENGLOG
+		WHERE store_code = ?
+		ORDER BY regdate DESC
+		OFFSET ? ROWS
+		FETCH NEXT ? ROWS ONLY;
+	";
+
+	$params = array($GLOBALS['SESS']['AlmaengCode'], $maxRow * $pg, $maxRow);
+	$r = libRowsSql('altong', $sql, $params);
+
+	if ($r) foreach ($r as $k => $v)
+	{
+		if ($v['alpay_amount'] > 0)
+		{
+			$r[$k]['pay_in'] = number_format($v['alpay_amount']);
+			$r[$k]['pay_out'] = 0;
+		}
+		else
+		{
+			$r[$k]['pay_in'] = 0;
+			$r[$k]['pay_out'] = number_format(-$v['alpay_amount']);
+		}
+
+		$r[$k]['balance'] = number_format($v['alpay_balance']);
+		unset($r[$k]['alpay_amount']);
+	}
+
+	return $r ? $r : array();
+}
+
+$r = fGetSaleList();
+
+
+?>
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>알pay (알맹이)</title>
+	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/alpay/common/css/style.css?v=2.1">
+	<link rel="stylesheet" type="text/css" href="/alpay/store/css/store.css?v=2">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="apple-touch-icon" sizes="57x57" href="/alpay/store/favicon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/alpay/store/favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/alpay/store/favicon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/alpay/store/favicon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/alpay/store/favicon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/alpay/store/favicon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/alpay/store/favicon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/alpay/store/favicon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/alpay/store/favicon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="/alpay/store/favicon/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/alpay/store/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="/alpay/store/favicon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/alpay/store/favicon/favicon-16x16.png">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="/alpay/common/js/common.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+</head>
+
+<script>
+function fAjax(param)
+{
+	if (document.xhr) {
+		$('#Tip').text('이전 작업이 진행중입니다.').css('display', 'block');
+		setTimeout(function () { $('#Tip').stop().fadeOut(300) }, 3000);
+		return;
+	}
+
+	$.ajax({
+		type: 'post',
+		data: param,
+		dataType: 'json',
+		success: function (r) {
+			switch (r.result) {
+				case 'GetSaleList':
+				{
+					document.r = r;
+					fMakeRow();
+					break;
+				}
+				default:
+					if (r.result) alert(r.result);
+					break;
+			}
+		},
+		error: function (r, textStatus, err) {
+			$('#divProg').slideUp();
+			$(window).unbind("scroll");
+			console.log(r);
+		},
+		complete: function () {
+			if (!document.isShow) document.xhr = false;
+		}
+	});
+}
+
+function fMakeRow()
+{
+	if (!document.isShow)
+	{
+		document.isShow = true;
+		return;
+	}
+
+	document.pg = parseInt(document.r.arr.pg, 10);
+
+	if (document.r.arr.rows.length)
+	{
+		var Clone;
+
+		$.each(document.r.arr.rows, function(index, item){
+			Clone = '<tr>';
+			Clone += '<td>' + item.conDate + '</td>';
+			Clone += '<td>' + item.pay_in + '</td>';
+			Clone += '<td>' + item.pay_out + '</td>';
+			Clone += '<td>' + item.balance + '</td>';
+			Clone += '</tr>';
+
+			Clone = $(Clone);
+			Clone.appendTo('#DataTable');
+		});
+	}
+	else
+		$(window).unbind("scroll");
+
+	$('#divProg').slideUp();
+	document.isScrolling = false;
+	document.isShow = false;
+	document.xhr = false;
+}
+
+$.fn.scrollBottom = function() { 
+    return $(document).height() - this.scrollTop() - this.height(); 
+};
+
+$(document).ready(function(){
+	document.pg = 0;
+
+	$(window).scroll(function() {
+		if($(window).scrollBottom() < 10) fScrolling();
+	});
+});
+
+function fScrolling()
+{
+	if (!document.xhr && !document.isScrolling) {
+		document.isScrolling = true;
+
+		$('#divProg').slideDown(300);
+		setTimeout(fMakeRow, 1000);
+
+		fAjax('ACT=GetSaleList&pg=' + (document.pg + 1));
+	}
+}
+
+</script>
+
+<body>
+	<header>
+		<div>
+			<p><a href="/alpay/store/AlpayStore.asp"><i class="material-icons">arrow_back</i></a></p>
+		</div>
+		<div>
+			<h3>매출 확인</h3>
+		</div>
+	</header>
+
+	<table id="DataTable" style="margin-top:100px;border:1px solid #ecebeb">
+		<tr bgcolor="#dddddd">
+			<td>날짜</td>
+			<td>입금</td>
+			<td>출금</td>
+			<td>잔액</td>
+		</tr>
+		<?
+			foreach ($r as $v)
+			{
+				echo '
+					<tr>
+						<td>'.$v['conDate'].'</td>
+						<td>'.$v['pay_in'].'</td>
+						<td>'.$v['pay_out'].'</td>
+						<td>'.$v['balance'].'</td>
+					</tr>
+				';
+			}
+		?>
+	</table>
+	<div id="divProg" style="margin-top:15px;width:100%;display:none"><div style="width:30px;margin:auto"><img src="<?=$libIMG_URL?>/Common/images/search_nick_loader.gif" style="width:100%"></div></div>
+	<br><br><br>
+</body>
+
+</html>

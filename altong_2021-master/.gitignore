@@ -1,0 +1,12 @@
+/setting/
+
+target/
+
+*.war
+*.ear
+*.db
+/src
+.idea/
+lib/
+pom.xml
+web.iml

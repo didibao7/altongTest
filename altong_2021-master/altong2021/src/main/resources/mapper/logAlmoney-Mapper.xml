@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.logAlmoney">
+	<!-- fn_SQL_Answer_ViewLog -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getAnswerViewLog" resultType="logAlmoney">
+		SELECT * FROM LOG_ALMONEY  with(nolock) 
+		WHERE MemberSeq = #{userSeq} AND TradeType = 'View' AND ContentsSeq = #{answerSeq}
+	</select>
+	
+	<!-- fn_SQL_Almoney_LogTotal -->
+	<!-- userSeq 는 Session 정보임 -->
+	<!--  -->
+	<select id="getAlmoneyLogTotal" resultType="HashMap">
+		select 
+			abs(ConAnsView + ConQueWrite) as Expense, 
+			EarnQueView + EarnAnsView + EarnAnsChoice + EarnEsti + EarnChildQue + EarnChildAns as Import 
+		from V_LOG_ALMONEY_COMBINED 
+		where MemberSeq = #{userSeq} 
+	</select>
+	
+	<!-- fn_SQL_Almoney_memTotal -->
+	<select id="getAlmoneyMemTotal" resultType="HashMap">
+		select 
+			abs(ConAnsView + ConQueWrite) as Expense, 
+			EarnQueView + EarnAnsView + EarnAnsChoice as Import 
+		from V_LOG_ALMONEY_COMBINED 
+		where MemberSeq = #{userSeq} 
+	</select>
+	
+	<!-- fn_SQL_MyInfo_AnswerView -->
+	<select id="getMyInfoAnswerViewCount" resultType="int">
+		select CountAnsView as CountV 
+		from V_LOG_ALMONEY_COMBINED 
+		where MemberSeq = #{strData}
+	</select>
+	
+	<!-- fn_SQL_Almoney_LogSum -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getAlmoneyLogSum" resultType="logAlmoney">
+		select isnull(sum(case 
+							when TradeType = 'Join' then Almoney 
+						end), 0) sumJoin, 
+		 		isnull(sum(case 
+		 					when TradeType = 'Answer' then Almoney 
+		 				end), 0) sumAnswer, 
+		 		isnull(sum(case 
+		 					when TradeType = 'ViewQ' then Almoney 
+		 				end), 0) sumViewQ, 
+		 		isnull(sum(case 
+		 					when TradeType = 'ViewA' then Almoney 
+		 				end), 0) sumViewA, 
+		 		isnull(sum(case 
+		 					when TradeType = 'ViewRQ' then Almoney 
+		 				end), 0) sumViewRQ, 
+		 		isnull(sum(case 
+		 					when TradeType = 'ViewRA' then Almoney 
+		 				end), 0) sumViewRA, 
+		 		isnull(sum(case 
+		 					when TradeType = 'Esti' then Almoney 
+		 				end), 0) sumEsti, 
+		 		isnull(sum(case 
+		 					when TradeType = 'Refund' then Almoney 
+		 				end), 0) sumRefund, 
+		 		isnull(sum(case 
+		 					when TradeType = 'Event' then Almoney 
+		 				end), 0) sumEvent, 
+		 		isnull(sum(case 
+		 					when TradeType = 'Etc' then Almoney 
+		 				end), 0) sumEtc, 
+		 		isnull(sum(case 
+		 					when TradeType in('Exchange', 'Withdraw') then abs(Almoney) 
+		 				end), 0) sumWithdraw, 
+		 		isnull(sum(case 
+		 					when TradeType = 'Question' then abs(Almoney) 
+		 				end), 0) sumQuestion, 
+		 		isnull(sum(case 
+		 					when TradeType = 'View' then abs(Almoney) 
+		 				end), 0) sumView 
+		 from LOG_ALMONEY with(nolock) 
+		 where MemberSeq = #{userSeq} 
+		 	and regdate <![CDATA[>=]]> convert(datetime, #{searchDateS}, 120) 
+		 	and regdate <![CDATA[<]]> dateadd(day, 1, convert(datetime, #{searchDateE}, 120))
+	</select>
+	
+	<!-- fn_SQL_Almoney_memSum -->
+	<select id="getAlmoneyMemSum" resultType="logAlmoney">
+		SELECT 
+			<if test="flagBank == '1'">
+				SUM(CASE WHEN TradeType = 'Join' THEN Almoney END) sumJoin, 
+				SUM(CASE WHEN TradeType = 'Answer' THEN Almoney END) sumAnswer, 
+				SUM(CASE WHEN TradeType = 'ViewQ' THEN Almoney END) sumViewQ, 
+				SUM(CASE WHEN TradeType = 'ViewA' THEN Almoney END) sumViewA 
+			</if>
+			<if test="flagBank == 'E'">
+				SUM(CASE WHEN TradeType = 'Question' THEN Almoney END) sumQuestion, 
+				SUM(CASE WHEN TradeType = 'View' THEN Almoney END) sumView 
+			</if>
+		FROM LOG_ALMONEY  with(nolock) 
+		WHERE MemberSeq = #{seq} AND regdate <![CDATA[>=]]> convert(datetime, #{SearchDateS}, 120) AND regdate <![CDATA[<]]> dateadd(day, 1, convert(datetime, #{searchDateE}, 120))
+	</select>
+	
+	<!-- fn_SQL_Almoney_memList -->
+	<select id="getAlmoneyMemList" resultType="logAlmoney">
+		SELECT  
+			ContentsSeq, TradeType, Almoney, Balance, convert(varchar(16), regdate, 120) as regdate 
+		FROM LOG_ALMONEY  with(nolock) 
+		WHERE MemberSeq = #{seq}  AND regdate <![CDATA[>=]]> convert(datetime, #{searchDateS}, 120) AND regdate <![CDATA[<]]> dateadd(day, 1, convert(datetime, #{searchDateE}, 120)) 
+		<if test="flagType == ''">
+			<if test="flagBank == '1'">
+				AND (TradeType = 'Join' OR TradeType = 'Answer' OR TradeType = 'ViewQ' OR TradeType = 'ViewA') 
+			</if>
+			<if test="flagBank == 'E'">
+				AND (TradeType = 'Question' OR TradeType = 'View') 
+			</if>
+		</if>
+		<if test="flagType != ''">
+			AND TradeType = #{flagType} 
+		</if>
+		ORDER BY regdate DESC
+	</select>
+	
+	<!-- fn_SQL_Almoney_LogList2 -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getAlmoneyLogList2" resultType="logAlmoney">
+		SELECT  
+			ContentsSeq, TradeType, Almoney, Balance, convert(varchar(16), regdate, 120) as regdate 
+		FROM LOG_ALMONEY  with(nolock) 
+		WHERE MemberSeq = #{userSeq}  AND regdate <![CDATA[>=]]> convert(datetime, #{searchDateS}, 120) AND regdate <![CDATA[<]]> dateadd(day, 1, convert(datetime, #{searchDateE},120)) 
+		<if test="flagType == ''">
+			<if test="flagBank == '1'">
+				AND (TradeType = 'Join' OR TradeType = 'Answer' OR TradeType = 'ViewQ' OR TradeType = 'ViewA') 
+			</if>
+			<if test="flagBank == 'E'">
+				AND (TradeType = 'Question' OR TradeType = 'View') 
+			</if>
+		</if>
+		<if test="flagType != ''">
+			AND TradeType = #{flagType} 
+		</if>
+		ORDER BY regdate DESC
+	</select>
+	
+	<!-- fn_SQL_Almoney_LogList -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getAlmoneyLogList" resultType="logAlmoney">
+		SELECT  
+			ContentsSeq, TradeType, Almoney, Balance, convert(varchar(16), regdate, 120) as regdate 
+		FROM LOG_ALMONEY  with(nolock) 
+		WHERE MemberSeq = #{userSeq}  AND regdate <![CDATA[>=]]> convert(datetime, #{searchDateS}, 120) AND regdate <![CDATA[<]]> dateadd(day, 1, convert(datetime, #{searchDateE},120)) 
+		ORDER BY regdate DESC 
+	</select>
+	
+	<!-- fn_SQL_OtherView_List -->
+	<select id="getOtherViewCount" resultType="int">
+		SELECT 
+			COUNT(L.Seq) 
+		FROM LOG_ALMONEY AS L  with(nolock) 
+			LEFT OUTER JOIN T_ANSWER AS A  with(nolock) ON L.ContentsSeq = A.Seq 
+			LEFT OUTER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq 
+		WHERE L.TradeType = 'View' AND L.MemberSeq = #{userSeq}
+		<if test="section1 != '0'">
+			AND Q.Section1 = #{section1} 
+		</if>
+	</select>
+	<select id="getOtherViewList" resultType="logAlmoney">
+		SELECT 
+			TOP ${p_Option} L.ContentsSeq AS AnswerSeq, L.regdate, A.Answer, Q.Seq AS QuestionSeq, Q.Section1 
+		FROM LOG_ALMONEY AS L  with(nolock) 
+			LEFT OUTER JOIN T_ANSWER AS A  with(nolock) ON L.ContentsSeq = A.Seq 
+			LEFT OUTER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq 
+		WHERE L.TradeType = 'View' AND L.MemberSeq = #{userSeq}
+		<if test="section1 != '0'">
+			AND Q.Section1 = #{section1} 
+		</if>
+		ORDER BY L.Seq DESC 
+	</select>
+	
+	<select id="getTotalAlmoney" resultType="hashMap">
+		select sum(EarnAnswerer) as Total
+		from V_LOG_ALMONEY_COMBINED
+	</select>
+	
+	<!-- fn_SQL_Question_LogInsert -->
+	<!-- userSeq 는 Session 정보임 -->
+	<!-- almoney 는 - 값으로 입력 받음 -->
+	<!-- 저장 프로시저 호출 -->
+	<!-- 
+	          @TypeCode    tinyint
+              , @UserSeq     int
+              , @Almoney     money
+              , @ContentsSeq bigint
+	 -->
+	<insert id="setQuestionLog" statementType="CALLABLE" parameterType="hashMap">
+		{ call SP_CHANGE_ALMONEY(
+				#{43, mode=IN, jdbcType=TINYINT}, 
+				#{userSeq, mode=IN, jdbcType=INTEGER},
+				#{almoney, mode=IN, jdbcType=DECIMAL},
+				#{questionSeq, mode=IN, jdbcType=BIGINT}
+			) }
+	</insert>
+	
+	<!-- fn_SQL_Question_LogInsert(Answer.wayforsky.vbs) -->
+	<!-- userAlmoney 는 Session 정보임 -->
+	<!-- dateReg = Now() -->
+	<!-- CInt 함수 대체 함수  convert(int, 숫자형으로변활항데이터)-->
+	<insert id="setQuestionLogInsert">
+		INSERT INTO LOG_ALMONEY (MemberSeq, ContentsSeq, Contents, TradeType, Almoney, Balance, DateReg) 
+		VALUES (
+			#{userSeq}, 
+			#{questionSeq}, 
+			#{questionSeq} || ' 질문에 대한 답변(' || #{answerSeq} || ') 채택으로 ' || #{almoney} || ' 알 차감', 
+			'Question', 
+			#{almoney}, 
+			convert(int, #{userAlmoney}) - convert(int, #{almoney}),
+			#{dateReg}
+		}
+	</insert>
+	
+	<!-- fn_SQL_Answer_LogInsert -->
+	<!-- almoney 는 + 값으로 입력 받음 -->
+	<insert id="setAnswerLog" statementType="CALLABLE" parameterType="hashMap">
+		{ call SP_CHANGE_ALMONEY(
+				#{10, mode=IN, jdbcType=TINYINT}, 
+				#{answerMemberSeq, mode=IN, jdbcType=INTEGER},
+				#{almoney, mode=IN, jdbcType=DECIMAL},
+				#{answerSeq, mode=IN, jdbcType=BIGINT}
+			) }
+	</insert>
+	
+	<!-- fn_SQL_Answer_LogInsert(Answer.wayforsky.vbs) -->
+	<!-- Cdbl 함수 이용 하여 answerMemberAlmoney, almoney 가공 -->
+	<!-- dateReg = Now() -->
+	<insert id="setAnswerLogInsert">
+		INSERT INTO LOG_ALMONEY (MemberSeq, ContentsSeq, Contents, TradeType, Almoney, Balance, DateReg) 
+		VALUES ( 
+			#{answerMemberSeq},
+			#{answerSeq},
+			#{questionSeq} || ' 질문에 대한 답변(' || #{answerSeq} || ') 채택으로 ' || #{almoney} || ' 알 지급.',
+			#{answer}, 
+			#{almoney}, 
+			#{cdblAnswerMemberAlmoney} + #{cdblAlmoney}, 
+			#{dateReg} 
+		)
+	</insert>
+	
+	<!-- fn_SQL_Almoney_Log(Common.vbs) -->
+	<insert id="setAnswerLogInsertCommon">
+		INSERT INTO LOG_ALMONEY (MemberSeq, ContentsSeq, Contents, TradeType, Almoney, Balance) 
+		VALUES ( 
+			#{answerMemberSeq},
+			#{answerSeq},
+			#{questionSeq} || ' 질문에 대한 답변(' || #{answerSeq} || ') 채택으로 ' || #{almoney} || ' 알 지급.',
+			#{answer}, 
+			#{almoney}, 
+			#{cdblAnswerMemberAlmoney} + #{cdblAlmoney}, 
+		)
+	</insert>
+	
+	<!-- fn_SQL_Almoney_Log(Common.vbs0 -->
+	<insert id="setAlmoneyLog">
+		INSERT INTO LOG_ALMONEY (MemberSeq, ContentsSeq, Contents, TradeType, Almoney, Balance) 
+		VALUES (
+			#{strData1},
+			#{strData2},
+			#{strData3},
+			#{strData4},
+			#{strData5},
+			#{strData6}
+		)
+	</insert>
+	
+	<!-- fn_SQL_Almoney_Read -->
+	<update id="setAlmoneyRead">
+		UPDATE #{strData2} SET ReadAlmoney = ReadAlmoney + #{strData3} 
+		WHERE Seq = #{strData1}
+	</update>
+	
+	
+	<!-- fn_SQL_Almoney_List -->
+	<select id="getAdmAlmoneyCount" resultType="int">
+		SELECT 
+			COUNT(Seq) 
+		FROM LOG_ALMONEY  with(nolock) 
+	</select>
+	<select id="getAdmAlmoneyLimit" resultType="logAlmoney">
+	SELECT * 
+	FROM 
+		(
+		SELECT 
+			TOP ${p_Option} ROW_NUMBER() OVER(ORDER BY ${psrc_Cond} desc) AS rownum, 
+			* 
+		FROM LOG_ALMONEY  with(nolock) 
+		) T 
+	WHERE
+		rownum BETWEEN #{st_num} AND #{en_num}
+	</select>
+	
+</mapper>

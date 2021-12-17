@@ -1,0 +1,222 @@
+@charset "utf-8";
+.csWrapper {
+  padding-top: 60px;
+  min-height: calc(100vh - 70px);
+}
+.csWrapper .center {
+  padding: 0 10px;
+}
+.csWrapper h1 {
+  font-size: 24px;
+  padding: 15px 0;
+  text-align: center;
+}
+.csWrapper .atm_cs_btn {
+  background: #f7f7f7;
+  border-radius: 15px;
+  margin: 10px 0;
+  padding: 10px 120px 10px 100px;
+  position: relative;
+  cursor: pointer;
+}
+.csWrapper .atm_cs_btn img {
+  width: 55px;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+}
+.csWrapper .atm_cs_btn img.cs_btn_img02 {
+  width: 45px;
+  left: 25px;
+}
+.csWrapper .atm_cs_btn img.cs_btn_img03 {
+  width: 43px;
+  left: 23px;
+}
+.csWrapper .atm_cs_btn p {
+  color: #666;
+  font-weight: bold;
+  font-size: 18px;
+}
+.csWrapper .atm_cs_btn h3 {
+  font-size: 20px;
+}
+.csWrapper .atm_cs_btn span {
+  display: block;
+  font-weight: 500;
+  color: #666;
+  font-size: 13px;
+}
+.csWrapper .atm_cs_btn a {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+  background: #fff;
+  padding: 3px 30px 3px 20px;
+  border-radius: 20px;
+  border: 1px solid #c4c4c4;
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.csWrapper .atm_cs_btn a i {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-top: 1px solid #999;
+  border-right: 1px solid #999;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%) rotate(45deg);
+}
+/* 공지사항 */
+.atm_ranka12 {
+  padding-top: 60px;
+  min-height: calc(100vh - 70px);
+}
+.atm_ranka12 .center {
+  padding: 0 10px;
+}
+.atm_ranka12 h1 {
+  font-size: 24px;
+  padding: 15px 0;
+  text-align: center;
+}
+.atm_ranka12 .atm_ranka12_el {
+  border: 1px solid #e3e3e3;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  position: relative;
+}
+.atm_ranka12 .atm_ranka12_el .atm_ranka12_c5 {
+  font-size: 16px;
+  font-weight: bold;
+}
+.atm_ranka12 .atm_ranka12_el .atm_ranka12_c7 {
+  font-size: 12px;
+  color: #999;
+}
+.atm_ranka12 .atm_ranka12_el .atm_ranka12_c7 img {
+  width: 9px;
+  margin-right: 2px;
+  margin-left: 5px;
+}
+.atm_ranka12 .atm_ranka12_el .right_more {
+  width: 10px;
+  height: 10px;
+  border-top: 1px solid #e3e3e3;
+  border-right: 1px solid #e3e3e3;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%) rotate(45deg);
+}
+/* 공지사항 상세 */
+.atm_av_el {
+  border: 1px solid #e3e3e3;
+  padding: 10px;
+  border-radius: 15px;
+}
+.atm_av_el .atm_av_c9 {
+  font-size: 16px;
+  font-weight: bold;
+}
+.atm_av_el .atm_av_c10 {
+  font-size: 12px;
+  color: #999;
+}
+.atm_av_el .atm_av_c10 img {
+  width: 9px;
+  margin-right: 2px;
+  margin-left: 5px;
+}
+.atm_av_el .atm_av_c6 {
+  padding: 10px;
+  margin-top: 10px;
+}
+.atm_av_el.list {
+  border: 0;
+  padding: 0;
+  text-align: center;
+}
+.atm_av_el.list ul {
+  display: inline-block;
+  margin: 20px 0;
+}
+.atm_av_el.list li {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  margin: 0 15px;
+}
+.atm_av_el.list li:nth-child(1) a,
+.atm_av_el.list li:nth-child(3) a {
+  display: block;
+  width: 15px;
+  height: 15px;
+  border-top: 2px solid #666;
+  border-left: 2px solid #666;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+.atm_av_el.list li:nth-child(1) a {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+.atm_av_el.list li:nth-child(3) a {
+  transform: translate(-50%, -50%) rotate(135deg);
+}
+.atm_av_el.list li img {
+  display: block;
+  width: 100%;
+}
+.atm_av_el.list li span {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: #666;
+}
+/* 공지사항 페이지 버튼 */
+.atm_boardnavi {
+  text-align: center;
+  margin-top: 10px;
+}
+.atm_boardnavi_el {
+  cursor: pointer;
+  font-size: 14px;
+  border: 1px solid #c4c4c4;
+  color: #555;
+  display: inline-block;
+  font-weight: 500;
+  padding: 0px 11px;
+  margin: 0 5px 10px;
+  border-radius: 2px;
+  line-height: 28px;
+  min-width: 50px;
+  text-align: center;
+}
+.atm_boardnavi_el_on {
+  border: 1px solid #fd0031;
+  color: #fd0031;
+  cursor: pointer;
+  font-size: 14px;
+  display: inline-block;
+  font-weight: 500;
+  padding: 0px 11px;
+  margin: 0 5px 10px;
+  border-radius: 2px;
+  line-height: 28px;
+  min-width: 50px;
+  text-align: center;
+}

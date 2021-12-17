@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.alpay">
+	<select id="getUserAlpayKR" resultType="int">
+		select 
+			AlpayKR 
+		from T_MEMBERS 
+		where Seq=#{userSeq}
+	</select>
+	
+	<select id="getAlpayLastAccount" resultType="hashMap">
+		declare
+			  @BankName			varchar(50)
+			, @BankAccountNo	varchar(50)
+			, @BankMemNm		varchar(80);
+
+		SELECT TOP 1 @BankName=BankName, @BankAccountNo=BankAccountNo, @BankMemNm=BankMemNm
+		FROM T2_ALPAY_EXCHANGE
+		WHERE MemberSeq = #{userSeq}
+		ORDER BY regdate DESC;
+
+		if @BankName is null
+		begin
+			SELECT TOP 1 @BankName=BankName, @BankAccountNo=BankAccountNo, @BankMemNm=BankMemNm
+			FROM T2_ALMONEY_EXCHANGE
+			WHERE MemberSeq = #{userSeq} and BankName is not null
+			ORDER BY ExchangeSeq DESC;
+		end;
+
+		SELECT @BankName as BankName, @BankAccountNo as BankAccountNo, @BankMemNm as BankMemNm;
+	</select>
+	
+	<select id="setAlpayExchange" resultType="int">
+		declare @ReturnCode int = 1;
+		declare @AlpayBalance money;
+		declare @UserSeq int = #{userSeq};
+
+		declare @newSeq bigint = #{newSeq};
+
+		begin try
+			begin tran
+
+			begin
+				SELECT	@AlpayBalance = AlpayKR - ${exchangeAlpay}
+				FROM	T_MEMBERS
+				WHERE 	Seq = @UserSeq;
+			end;
+
+			begin
+				UPDATE	T_MEMBERS
+				SET 	AlpayKR = @AlpayBalance
+				WHERE 	Seq = @UserSeq;
+			end;
+
+			if @AlpayBalance <![CDATA[<]]> 0
+				set @ReturnCode = 2;
+
+			if @ReturnCode = 1
+				begin
+					INSERT INTO T_STORE_PAY_LOG
+						(pay_seq, user_seq, store_code, alpay_text, alpay_amount, alpay_balance, regdate)
+					VALUES
+						(@newSeq, @UserSeq, #{store_code}, '현금 출금', #{exchangeAlpay}, @AlpayBalance, getdate());
+				end;
+			
+			if @ReturnCode = 1
+				begin
+					INSERT INTO T2_ALPAY_EXCHANGE
+						(MemberSeq, BankName, BankAccountNo, BankMemNm, ExchangeAlpay, RealMoney, regdate, ExchangeStatus)
+					VALUES
+						(@UserSeq, #{bankName}, #{bankAccountNo}, #{bankMemNm}, #{exchangeAlpay}, #{realMoney}, getdate(), '1');
+				end;
+
+			if @ReturnCode = 1
+				commit tran;
+			else
+				rollback tran;
+		end try
+		begin catch
+			rollback tran;
+			set @ReturnCode = 0;
+		end catch;
+
+		select @ReturnCode as ReturnCode
+	</select>
+	
+	<select id="getAlpayExchLimitBySeq" resultType="hashMap">
+		SELECT 	A.MemberSeq, M.NickName, M.Name, A.BankName, A.BankAccountNo, A.BankMemNm, A.ExchangeAlpay, A.RealMoney, M.AlpayKR, CONVERT(VARCHAR, A.regdate, 21) as regdate, A.ExchangeStatus, CONVERT(VARCHAR, A.actdate, 21) as actdate
+			, M.Lv, CONVERT(VARCHAR, (select top 1 regdate from T2_MEMBERS_LV_LOG where MemberSeq = A.MemberSeq order by regdate desc), 21) as LvDate
+		FROM 	T2_ALPAY_EXCHANGE A LEFT OUTER JOIN T_MEMBERS M
+		ON 		A.MemberSeq = M.Seq
+		WHERE 	A.MemberSeq = #{seq}
+		ORDER BY A.regdate DESC
+		OFFSET ${offset} ROWS
+		FETCH NEXT ${maxRow} ROWS ONLY
+	</select>
+	
+	<select id="getAlpayExchLimitAll" resultType="hashMap">
+		SELECT 	A.MemberSeq, M.NickName, M.Name, A.BankName, A.BankAccountNo, A.BankMemNm, A.ExchangeAlpay, A.RealMoney, M.AlpayKR, CONVERT(VARCHAR, A.regdate, 21) as regdate, A.ExchangeStatus, CONVERT(VARCHAR, A.actdate, 21) as actdate
+			, M.Lv, CONVERT(VARCHAR, (select top 1 regdate from T2_MEMBERS_LV_LOG where MemberSeq = A.MemberSeq order by regdate desc), 21) as LvDate
+		FROM 	T2_ALPAY_EXCHANGE A LEFT OUTER JOIN T_MEMBERS M
+		ON 		A.MemberSeq = M.Seq
+		ORDER BY A.regdate DESC
+		OFFSET ${offset} ROWS
+		FETCH NEXT ${maxRow} ROWS ONLY
+	</select>
+	
+	<select id="updateExch" resultType="hashMap">
+		UPDATE 	T2_ALPAY_EXCHANGE
+		SET 	ExchangeStatus = 2, actdate = getdate()
+		WHERE 	MemberSeq = #{seq} AND regdate = #{regdate} and ExchangeStatus = 1;
+
+		select 	@@rowcount as result, CONVERT(VARCHAR, getdate(), 21) as actdate;
+	</select>
+	
+	<select id="rejectExch" resultType="hashMap">
+		declare @MemberSeq int = #{seq};
+		declare @ReturnCode int = 1;
+		declare @regdate datetime2(2) = #{regdate};
+		declare @ExchangeAlpay money;
+		declare @AlpayBalance money;
+
+		declare @newSeq bigint = #{newSeq};
+
+		begin try
+			begin tran
+				if @ReturnCode = 1
+				begin
+					UPDATE 	T2_ALPAY_EXCHANGE
+					SET 	ExchangeStatus = 3, actdate = getdate()
+					WHERE 	MemberSeq = @MemberSeq AND regdate = @regdate and ExchangeStatus = 1;
+					if @@rowcount != 1 set @ReturnCode = 2;
+				end;
+
+				if @ReturnCode = 1
+				begin
+					SELECT 	@ExchangeAlpay = ExchangeAlpay
+					FROM 	T2_ALPAY_EXCHANGE
+					WHERE 	MemberSeq = @MemberSeq AND regdate = @regdate and ExchangeStatus = 3;
+					if @@rowcount != 1 set @ReturnCode = 3;
+				end;
+
+				if @ReturnCode = 1
+				begin
+					UPDATE 	T_MEMBERS
+					SET 	AlpayKR = AlpayKR + @ExchangeAlpay
+					WHERE 	Seq = @MemberSeq;
+					if @@rowcount != 1 set @ReturnCode = 4;
+				end;
+
+				if @ReturnCode = 1
+				begin
+					SELECT	@AlpayBalance = AlpayKR
+					FROM	T_MEMBERS
+					WHERE 	Seq = @MemberSeq;
+					if @@rowcount != 1 set @ReturnCode = 5;
+				end;	
+
+				if @ReturnCode = 1
+				begin
+					INSERT INTO T_STORE_PAY_LOG
+						(pay_seq, user_seq, store_code, alpay_text, alpay_amount, alpay_balance, regdate)
+					VALUES
+						(@newSeq, @MemberSeq, 0, '출금 취소', @ExchangeAlpay, @AlpayBalance, getdate());
+					if @@rowcount != 1 set @ReturnCode = 6;
+				end;
+
+				if @ReturnCode = 1
+					commit tran;
+				else
+				begin
+					rollback tran;
+				end;
+		end try
+		begin catch
+			rollback tran;
+			set @ReturnCode = 0;
+		end catch;
+
+		select @ReturnCode as result, CONVERT(VARCHAR, getdate(), 21) as actdate;
+	</select>
+	
+	<select id="getAlpayExchList" resultType="hashMap">
+		SELECT ROW_NUMBER() OVER ( 
+    		ORDER BY E.ExchangeSeq DESC 
+    		) AS Idx 
+	    	,E.ExchangeSeq 
+	    	,M.Seq 
+	    	,M.Name 
+	    	,M.NickName 
+	    	,M.Lv 
+	    	,( 
+	    		SELECT TOP 1 LEFT(DateReg, 10) 
+	    		FROM T2_MEMBERS_LV_LOG 
+	    		WHERE MemberSeq = M.Seq 
+	    			AND NewLv = M.Lv 
+	    		ORDER BY DateReg DESC 
+	    		) AS DateLvUp 
+	    	,M.Almoney 
+	    	,M.Country 
+	    	,M.Phone 
+	    	,E.BankName 
+	    	,E.BankAccountNo 
+	    	,E.BankMemNm 
+	    	,E.ExchangeAlmoney 
+	    	,E.RealMoney 
+	    	,E.DateExchange 
+	    	,E.Etc_Member 
+	    	,E.Etc_Result 
+	    	,E.ExchagneStatus 
+	    	,E.ResultMemberSeq 
+	    	,E.DateResult 
+	    FROM T2_ALMONEY_EXCHANGE AS E 
+	    LEFT OUTER JOIN T_MEMBERS AS M ON E.MemberSeq = M.Seq 
+	    ORDER BY E.DateExchange DESC
+	</select>
+	
+	<select id="changeExchangeAsk" resultType="hashMap">
+		SET NOCOUNT ON;
+
+		declare @ReturnCode int = 1;
+		declare @ErrText varchar(max) = '';
+		declare @tmpTable table(ReturnCode int, ErrText varchar(max));
+		declare @MemberSeq int;
+		declare @ExchangeAlmoney money;
+		declare @isRemovedAlmoney tinyint;
+		
+		begin try
+			begin tran
+		
+			if @ReturnCode = 1
+			begin
+				SELECT @MemberSeq = MemberSeq, @ExchangeAlmoney = ExchangeAlmoney, @isRemovedAlmoney = isRemovedAlmoney FROM T2_ALMONEY_EXCHANGE WHERE ExchangeSeq = #{exchangeSeq} and ExchagneStatus = #{alExchStatusCd1}
+				if @@rowcount = 0
+					set @ReturnCode = 11;
+				else
+					UPDATE T2_ALMONEY_EXCHANGE
+					SET ExchagneStatus = #{exchangeStatusCode},
+						DateResult = dbo.FN2_CONVERT_DATE_REG(#{dateReg}),
+						ResultMemberSeq = #{userSeq}
+					WHERE ExchangeSeq = #{exchangeSeq}
+			end;
+		
+			if @ReturnCode = 1
+			begin
+				if @isRemovedAlmoney = 1 and ${exchangeStatusCode} = ${alExchStatusCd3}
+				begin
+					delete @tmpTable;
+					insert @tmpTable exec SP_CHANGE_ALMONEY 31, @MemberSeq, @ExchangeAlmoney, #{exchangeSeq};
+					select @ReturnCode = ReturnCode, @ErrText = ErrText from @tmpTable;
+				end
+				else if @isRemovedAlmoney = 0 and ${exchangeStatusCode} = ${alExchStatusCd2}
+				begin
+					set @ExchangeAlmoney = @ExchangeAlmoney * -1;
+					delete @tmpTable;
+					insert @tmpTable exec SP_CHANGE_ALMONEY 41, @MemberSeq, @ExchangeAlmoney, #{exchangeSeq};
+					select @ReturnCode = ReturnCode, @ErrText = ErrText from @tmpTable;
+				end;
+			end;
+		
+			if @ReturnCode = 1
+				commit tran;
+			else
+				rollback tran;
+		end try
+		begin catch
+			rollback tran;
+			set @ReturnCode = 0;
+			set @ErrText = @ErrText + Error_Message();
+		end catch;
+		
+		select @ReturnCode as ReturnCode, @ErrText as ErrText;
+	</select>
+	
+	<select id="getMemoExchReadySetSP" statementType="CALLABLE" parameterType="int">
+	{ call SP2_MEMO_EXCH_READY_SET(
+		#{lv, mode=IN}
+	) }
+	</select>
+	
+	<select id="getMemoExchReadyCntBySeq" resultType="int">
+		select count(*) from T2_MEMO_EXCH_READY where MemberSeq = #{seq}
+	</select>
+	<select id="getMemoExchReadyAllBySeq" resultType="hashMap">
+		select 
+			MemberSeq, Lv, Nickname, Name, Almoney, StampCnt, QusRegCnt, QusChoiceCnt, AnsRegCnt, AnsChoicedCnt, AnsEstiCnt, CONVERT(VARCHAR, ExchDate, 21) as ExchDate, isExchOK  
+		from T2_MEMO_EXCH_READY where MemberSeq = #{seq} order by MemberSeq
+		OFFSET ${offset} ROWS
+		FETCH NEXT ${maxRow} ROWS ONLY
+	</select>
+	<select id="getMemoExchReadyCntByLv" resultType="int">
+		select count(*) from T2_MEMO_EXCH_READY where Lv = #{lv}
+	</select>
+	<select id="getMemoExchReadyAllByLv" resultType="hashMap">
+		select 
+			MemberSeq, Lv, Nickname, Name, Almoney, StampCnt, QusRegCnt, QusChoiceCnt, AnsRegCnt, AnsChoicedCnt, AnsEstiCnt, CONVERT(VARCHAR, ExchDate, 21) as ExchDate, isExchOK 
+		from T2_MEMO_EXCH_READY where Lv = #{lv} order by Lv desc, isExchOK desc, StampCnt desc, MemberSeq desc 
+		OFFSET ${offset} ROWS 
+		FETCH NEXT ${maxRow} ROWS ONLY
+	</select>
+	
+	<select id="getAlpayAdmLogBySeq" resultType="hashMap">
+		SELECT A.MemberSeq, M.NickName, M.Name, A.ExchangeAlmoney, A.RealMoney, M.Almoney, M.AlpayKR, CONVERT(VARCHAR, A.regdate, 21) as regdate
+		FROM T2_ALMONEY_EXCHANGE A LEFT OUTER JOIN T_MEMBERS M
+		ON A.MemberSeq = M.Seq
+		WHERE A.MemberSeq = #{seq} 
+		ORDER BY A.regdate DESC
+		OFFSET ${offset} ROWS
+		FETCH NEXT ${maxRow} ROWS ONLY
+	</select>
+	
+	<select id="getAlpayAdmLogAll" resultType="hashMap">
+		SELECT A.MemberSeq, M.NickName, M.Name, A.ExchangeAlmoney, A.RealMoney, M.Almoney, M.AlpayKR, CONVERT(VARCHAR, A.regdate, 21) as regdate
+		FROM T2_ALMONEY_EXCHANGE A LEFT OUTER JOIN T_MEMBERS M
+		ON A.MemberSeq = M.Seq
+		ORDER BY A.regdate DESC
+		OFFSET ${offset} ROWS
+		FETCH NEXT ${maxRow} ROWS ONLY
+	</select>
+</mapper>

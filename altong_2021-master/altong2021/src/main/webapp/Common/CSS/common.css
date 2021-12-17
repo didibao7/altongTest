@@ -1,0 +1,2340 @@
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("noto-sans-kr-v11-korean_latin-100");
+  src: url("/Common/font/noto-sans-kr-v11-korean_latin-100.eot");
+  src: local(※),
+    url("/Common/font/noto-sans-kr-v11-korean_latin-100.woff") format("woff");
+  font-weight: 100;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("noto-sans-kr-v11-korean_latin-300");
+  src: url("/Common/font/noto-sans-kr-v11-korean_latin-300.eot");
+  src: local(※),
+    url("/Common/font/noto-sans-kr-v11-korean_latin-300.woff") format("woff");
+  font-weight: 300;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("noto-sans-kr-v11-korean_latin-500");
+  src: url("/Common/font/noto-sans-kr-v11-korean_latin-500.eot");
+  src: local(※),
+    url("/Common/font/noto-sans-kr-v11-korean_latin-500.woff") format("woff");
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("noto-sans-kr-v11-korean_latin-700");
+  src: url("/Common/font/noto-sans-kr-v11-korean_latin-700.eot");
+  src: local(※),
+    url("/Common/font/noto-sans-kr-v11-korean_latin-700.woff") format("woff");
+  font-weight: 700;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("noto-sans-kr-v11-korean_latin-900");
+  src: url("/Common/font/noto-sans-kr-v11-korean_latin-900.eot");
+  src: local(※),
+    url("/Common/font/noto-sans-kr-v11-korean_latin-900.woff") format("woff");
+  font-weight: 900;
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("noto-sans-kr-v11-korean_latin-regular");
+  src: url("/Common/font/noto-sans-kr-v11-korean_latin-regular.eot");
+  src: local(※),
+    url("/Common/font/noto-sans-kr-v11-korean_latin-regular.woff")
+      format("woff");
+  font-weight: 400;
+}
+
+html {
+  overflow-y: scroll !important;
+}
+
+.mStep {
+  background: #b2bed4;
+}
+.mStep.type2 {
+  background: #fff;
+}
+.mStep ol {
+  width: 978px;
+  height: 70px;
+  margin: 0 auto;
+  background: #b2bed4;
+}
+.mStep ol:after {
+  display: block;
+  content: "";
+  clear: both;
+}
+.mStep li {
+  position: relative;
+  float: left;
+  width: 33.333%;
+  height: 68px;
+  line-height: 68px;
+  border-top: 1px solid #b2bed4;
+  border-bottom: 1px solid #b2bed4;
+  font-weight: bold;
+  color: #fff;
+  font-size: 16px;
+  background: url("http://img.cafe24.com/img/user/join/sfix_step.png") no-repeat
+    17px top;
+}
+.mStep li strong {
+  display: inline-block;
+  padding: 0 14px 0 98px;
+  line-height: 16px;
+  vertical-align: middle;
+}
+.mStep li.selected {
+  border-top-color: #5e8df4;
+  border-bottom-color: #5e8df4;
+  background-color: #7ca7f7;
+}
+.mStep li.selected:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 36px;
+  height: 70px;
+  background: url("http://img.cafe24.com/img/user/join/bg_step_before.gif")
+    no-repeat 0 0;
+}
+.mStep li:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -1px;
+  right: -36px;
+  width: 36px;
+  height: 70px;
+  background: url("http://img.cafe24.com/img/user/join/bg_step_disable.gif")
+    no-repeat 0 0;
+}
+.mStep li.selected:after {
+  background-image: url("http://img.cafe24.com/img/user/join/bg_step_after.gif");
+}
+.mStep li.third:after {
+  display: none;
+}
+.mStep li.third.selected:after {
+  display: block;
+}
+.mStep.step1 li.first,
+.mStep.step2 li.second,
+.mStep.step3 li.third {
+  background-position: 17px top;
+}
+.mStep.step2 li.first,
+.mStep.step3 li.first,
+.mStep.step3 li.second {
+  background-position: 17px -100px;
+}
+.mStep.step1 li.second {
+  background-position: 17px -200px;
+}
+.mStep.step1 li.third,
+.mStep.step2 li.third {
+  background-position: 17px -300px;
+}
+.mStep.type2 li {
+  width: 50%;
+}
+.mStep.type2 li.first:before,
+.mStep.type2 li.second:after {
+  display: none;
+}
+
+/* mTitle */
+.mTitle {
+  overflow: hidden;
+  padding: 19px 0 17px;
+  border-bottom: 2px solid #333;
+}
+.mTitle:after {
+  display: block;
+  content: "";
+  clear: both;
+}
+.mTitle h2,
+.mTitle h3,
+.mTitle p {
+  float: left;
+}
+.mTitle h2 {
+  font-size: 22px;
+}
+.mTitle p {
+  position: relative;
+  margin: 3px 0 0 10px;
+  padding: 0 0 0 10px;
+  line-height: 16px;
+  color: #8a8a8a;
+  font-size: 14px;
+}
+.mTitle p:before {
+  display: block;
+  position: absolute;
+  top: 4px;
+  left: 0;
+  content: "";
+  width: 1px;
+  height: 11px;
+  background: #dedede;
+}
+
+/* mTab */
+.mTab {
+  padding: 25px 0 14px;
+  background: #fff;
+}
+.mTab ul {
+  height: 44px;
+  border-bottom: 1px solid #7a7a7a;
+}
+.mTab ul:after {
+  display: block;
+  content: "";
+  clear: both;
+}
+.mTab li {
+  float: left;
+  width: 270px;
+  height: 45px;
+  border: 1px solid #dcdcdc;
+  border-bottom-color: #7a7a7a;
+  border-left: 0;
+  text-align: center;
+  background: #f8f8f8;
+  box-sizing: border-box;
+}
+.mTab li:first-child {
+  border-left: 1px solid #dcdcdc;
+}
+.mTab li a {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  line-height: 45px;
+  color: #8a8a8a;
+}
+.mTab li.selected {
+  margin: 0 0 0 -1px;
+  border: 1px solid #7a7a7a;
+  border-bottom-color: #fff;
+  font-weight: bold;
+  background: #fff;
+}
+.mTab li.selected:first-child {
+  margin: 0;
+}
+.mTab li.selected a {
+  color: #333;
+}
+.mTabCont {
+  display: none;
+}
+.mTabCont.selected {
+  display: block;
+}
+
+/* mBoard */
+.mBoard {
+  position: relative;
+}
+.mBoard th {
+  width: 140px;
+  padding: 15px 0 15px 14px;
+  border-bottom: 1px solid #e5e5e5;
+  line-height: 14px;
+  font-weight: normal;
+  color: #4f4f4f;
+  text-align: left;
+  font-size: 14px;
+}
+.mBoard td {
+  padding: 8px 14px;
+  border-bottom: 1px solid #e5e5e5;
+  line-height: 16px;
+  font-weight: bold;
+  font-size: 16px;
+  vertical-align: middle;
+}
+.mBoard td span {
+  font-size: 12px;
+  font-weight: normal;
+}
+.mBoard td .check {
+  display: inline-block;
+  font-size: 13px;
+  color: #1c9bea;
+}
+.mBoard td .check:before {
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 11px;
+  margin: 0 4px 0 10px;
+  vertical-align: middle;
+  background: url("http://img.cafe24.com/img/user/join/sfix_icon.png") no-repeat -50px -50px;
+}
+.mBoard td .explain {
+  padding: 0 0 0 30px;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 18px;
+  color: #898989;
+}
+.mBoard td .mList {
+  margin: 8px 0 0 4px;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 20px;
+  color: #8a8a8a;
+}
+.mBoard td .mList:first-child {
+  margin-top: 0;
+}
+.mBoard td .mList li {
+  position: relative;
+  padding: 0 0 0 8px;
+}
+.mBoard td .mList li:before {
+  display: block;
+  position: absolute;
+  top: 9px;
+  left: 1px;
+  content: "";
+  width: 3px;
+  height: 1px;
+  background: #8a8a8a;
+}
+.mRequired {
+  min-width: 100px;
+  position: absolute;
+  top: -38px;
+  right: 0;
+  text-align: right;
+  font-size: 14px;
+}
+
+/* mTooltip */
+.mTooltip {
+  position: relative;
+  display: inline-block;
+  width: 18px;
+  height: 17px;
+  vertical-align: middle;
+}
+.mTooltip .tooltip {
+  display: none;
+  width: 353px;
+  position: absolute;
+  left: 0;
+  top: 14px;
+  text-align: left;
+  border: 1px solid #5e6778;
+  background-color: #fff;
+  box-shadow: 3px 3px 0 #cecece;
+}
+.mTooltip .close {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  overflow: hidden;
+  width: 20px;
+  height: 19px;
+  text-indent: 120%;
+  font-size: 0;
+  white-space: nowrap;
+  background: url("http://img.cafe24.com/img/user/join/sflex_tooltip.png")
+    no-repeat -50px 0;
+}
+.mTooltip .content {
+  padding: 15px;
+  line-height: 1.2;
+}
+.mTooltip .titleEm {
+  display: block;
+  margin: 10px 0 7px;
+  padding: 0 20px 0 15px;
+  border-bottom: 0;
+  color: #1c1c1c;
+  font-size: 12px;
+  background: url("http://img.cafe24.com/img/user/join/sflex_tooltip.png")
+    no-repeat -100px -48px;
+}
+.mTooltip .titleEm:first-child {
+  margin-top: 0;
+}
+.mTooltip .title {
+  display: block;
+  margin: 10px 0 5px;
+  padding: 0 0 0 15px;
+  color: #6f6f6f;
+  font-size: 12px;
+  word-spacing: -1px;
+  background: url("http://img.cafe24.com/img/user/join/sflex_tooltip.png")
+    no-repeat -93px 5px;
+}
+.mTooltip .mList {
+  padding: 0 0 0 15px;
+  line-height: 18px;
+  color: #999;
+}
+.mTooltip .mList li {
+  padding-left: 10px;
+  text-indent: -10px;
+  font-size: 12px;
+}
+.mTooltip.show {
+  z-index: 80;
+}
+.mTooltip .icon {
+  position: absolute;
+  overflow: hidden;
+  width: 17px;
+  height: 16px;
+  text-indent: 120%;
+  font-size: 0;
+  white-space: nowrap;
+  cursor: pointer;
+  background: url("http://img.cafe24.com/img/user/join/sflex_tooltip.png")
+    no-repeat 0 0;
+}
+
+/* 약관 */
+/* as-is */
+.agreeArea .mAgree {
+  padding: 0 0 10px;
+}
+.agreeArea .mAgree:first-child {
+  padding-top: 20px;
+}
+.agreeArea .mAgree:after {
+  content: "";
+  clear: both;
+  display: block;
+  visibility: hidden;
+  height: 0;
+}
+.agreeArea .mAgree h3 {
+  float: left;
+  width: 165px;
+  padding: 0 0 0 14px;
+  font-size: 14px;
+}
+.agreeArea .mAgree .termsArea {
+  position: relative;
+  float: right;
+  width: 75%;
+}
+.agreeArea .mAgree .mTerms {
+  overflow: hidden;
+  overflow-y: auto;
+  position: relative;
+  margin: 5px 14px 0 80px;
+  height: 80px;
+  border: 1px solid #dbdbdb;
+  -webkit-overflow-scrolling: touch;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.agreeArea .mAgree .mTerms:first-child {
+  margin-top: 0;
+}
+.agreeArea .mAgree .mTerms .term {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 638px \0;
+}
+.agreeArea .mAgree label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-weight: bold;
+  font-size: 14px;
+  color: #4c83eb;
+}
+
+/* to-be */
+.agreeCheckArea {
+  margin: 20px 0 0;
+}
+.mAllCheck {
+  border: 1px solid #bac3d2;
+  padding: 15px 14px;
+  font-size: 14px;
+  color: #3875e9;
+  background: #fbfbfb;
+}
+.mAllCheck label {
+  font-weight: bold;
+}
+.termArea[class*="grid"] {
+  border: 1px solid #e4e4e4;
+  border-top: 0;
+}
+.termArea[class*="grid"]:after {
+  display: block;
+  content: "";
+  clear: both;
+}
+.termArea[class*="grid"] .mTerm {
+  float: left;
+  padding: 17px 15px 14px;
+  border-left: 1px solid #e4e4e4;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+.termArea.grid2 .mTerm {
+  width: 50%;
+}
+.termArea.grid3 .mTerm {
+  width: 33.333%;
+}
+.termArea[class*="grid"] .mTerm:first-child {
+  border-left: 0;
+}
+.termArea[class*="grid"] .mTerm h3 {
+  display: table-cell;
+  padding: 0 0 12px;
+  font-size: 14px;
+  vertical-align: middle;
+}
+.termArea[class*="grid"] .mTerm .terms {
+  overflow: hidden;
+  overflow-y: auto;
+  position: relative;
+  height: 135px;
+  margin: 0 0 10px;
+  border: 1px solid #dbdbdb;
+  -webkit-overflow-scrolling: touch;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.termArea[class*="grid"] .mTerm .terms .term {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 638px \0;
+}
+.termArea[class*="grid"] .mTerm label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #4c83eb;
+}
+
+/* 도움말 */
+.mHelp {
+  margin: 30px 0 50px;
+  padding: 17px 40px 15px 20px;
+  border: 1px solid #d4dae8;
+  background: #eceff6;
+}
+.mHelp > h2 {
+  padding: 0 0 10px 28px;
+  line-height: 15px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #1b87d4;
+  background: url("http://img.cafe24.com/img/user/join/sfix_icon.png") no-repeat -50px
+    top;
+}
+.mHelp > h3 {
+  margin: 15px 0 0 20px;
+  line-height: 24px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #6f6f6f;
+}
+.mHelp > h2 + h3 {
+  margin-top: 0;
+}
+.mHelp > ul {
+  padding: 0 0 0 20px;
+  line-height: 18px;
+  font-size: 12px;
+  color: #898989;
+}
+.mHelp ul li {
+  position: relative;
+  padding: 0 0 0 14px;
+}
+.mHelp > ul > li li {
+  padding-left: 8px;
+}
+.mHelp ul li:before {
+  display: block;
+  position: absolute;
+  top: 8px;
+  left: 0;
+  content: "";
+  width: 5px;
+  height: 1px;
+  background: #898989;
+}
+.mHelp > ul > li li:before {
+  width: 2px;
+  height: 2px;
+  background: #898989;
+}
+.mHelp ul li .icoLink {
+  display: inline-block;
+  width: 6px;
+  height: 10px;
+  margin: 0 0 0 3px;
+  vertical-align: middle;
+  padding: 0;
+  background: url("http://img.cafe24.com/img/user/join/sfix_icon.png") no-repeat
+    0 -50px;
+}
+.mHelp li dl {
+  position: relative;
+}
+.mHelp li dt {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 55px;
+  font-weight: bold;
+}
+.mHelp li dd {
+  padding: 0 0 0 55px;
+}
+.mHelp table {
+  border: 1px solid #cad0de;
+  margin: 5px 0;
+  font-size: 11px;
+  color: #4f4f4f;
+}
+.mHelp table th {
+  border: 1px solid #cad0de;
+  padding: 8px 3px;
+  text-align: center;
+  vertical-align: middle;
+  background: #f3f5fa;
+}
+.mHelp table td {
+  border: 1px solid #cad0de;
+  padding: 8px 14px;
+  background: #fff;
+}
+.mHelp table ul li:before {
+  top: 7px;
+  background: #4f4f4f;
+}
+
+/* 레이어 */
+.mLayer {
+  display: block;
+  position: absolute;
+  z-index: 110;
+  left: 50%;
+  width: 500px;
+  padding: 0 0 14px;
+  line-height: 1.5;
+  background: #fff;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -ms-border-radius: 5px;
+  border-radius: 5px;
+}
+.mLayer h2 {
+  height: 36px;
+  line-height: 36px;
+  padding: 0 40px 0 12px;
+  font-size: 13px;
+  color: #fff;
+  background: #4c83eb;
+  -moz-border-radius: 4px 4px 0 0;
+  -webkit-border-radius: 4px 4px 0 0;
+  -ms-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
+}
+.mLayer .wrap {
+  margin: 14px;
+  padding: 0 0 15px;
+  border-bottom: 1px solid #f2f2f2;
+  font-size: 13px;
+}
+.mLayer .wrap .mMyid {
+  margin: 14px 0;
+  padding: 17px 0;
+  border: 3px solid #eff0f2;
+  text-align: center;
+  color: #8a8a8a;
+}
+.mLayer .wrap .mMyid strong {
+  color: #4c83eb;
+}
+.mLayer .wrap em {
+  font-size: 11px;
+  color: #aaa;
+}
+.mLayer .wrap .mList {
+  font-size: 11px;
+  color: #aaa;
+}
+.mLayer .footer {
+  text-align: center;
+}
+.mLayer .btnEm {
+  margin: 0 2px;
+  padding-left: 20px;
+  line-height: 33px;
+  font-size: 13px;
+  background-position: left -300px;
+}
+.mLayer .btnEm:after {
+  height: 33px;
+  padding-right: 19px;
+  background-position: right -300px;
+}
+.mLayer .btnNormal {
+  margin: 0 2px;
+  padding-left: 20px;
+  line-height: 33px;
+  font-size: 13px;
+  font-weight: normal;
+  color: #333;
+  background-position: left -350px;
+}
+.mLayer .btnNormal:after {
+  height: 33px;
+  padding-right: 19px;
+  background-position: right -350px;
+}
+.mLayer .btnClose {
+  position: absolute;
+  right: 14px;
+  top: 12px;
+  width: 13px;
+  height: 13px;
+  line-height: 0;
+  font-size: 0;
+  text-indent: 120%;
+  background: url("http://img.cafe24.com/img/user/join/btn_layer_close.png")
+    no-repeat left top;
+}
+.mLayer .mBoard table {
+  margin: 15px 0 0;
+  border-top: 1px solid #dddde1;
+}
+.mLayer .mBoard th {
+  width: 22%;
+  padding: 16px 10px;
+  border-bottom-color: #dddde1;
+  font-size: 13px;
+  vertical-align: top;
+  background: #f7f7f7;
+}
+.mLayer .mBoard td {
+  padding: 12px 10px;
+  border-bottom-color: #dddde1;
+  font-size: 13px;
+  vertical-align: middle;
+}
+/* mLayer typeError */
+.mLayer.typeError h3 {
+  padding: 7px 0 20px;
+  text-align: center;
+  font-weight: normal;
+  font-size: 30px;
+  letter-spacing: -1px;
+}
+.mLayer.typeError h3 span {
+  font-weight: bold;
+}
+.mLayer.typeError .inner {
+  position: relative;
+  width: 290px;
+  margin: 0 auto;
+  padding: 21px 0 20px 180px;
+}
+.mLayer.typeError .inner:after {
+  display: block;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 40px;
+  width: 121px;
+  height: 121px;
+  background: url("http://img.cafe24.com/img/user/join/sfix_completed.png")
+    no-repeat 0 0;
+}
+.mLayer.typeError p strong {
+  color: #333;
+}
+/* mLayer typeEmpty */
+.mLayer.typeEmpty .wrap {
+  padding: 0;
+  border: 0;
+}
+
+/* Dimmed */
+.dimmed {
+  z-index: 100;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  background: #000;
+  opacity: 0.7;
+  filter: alpha(opacity=70);
+}
+.dimmed.hide {
+  background: none;
+}
+
+/* mComplete */
+.mComplete {
+  width: 700px;
+  margin: 0 auto;
+  padding: 50px 0 20px;
+  text-align: center;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.mComplete > h3 {
+  margin: 0 0 30px;
+  font-size: 28px;
+  line-height: 28px;
+}
+.mComplete > p {
+  margin: 20px 0 0;
+  line-height: 22px;
+}
+.mComplete > p.txtInfo {
+  line-height: 16px;
+}
+
+/* mBox */
+.mBox {
+  padding: 40px 14px;
+  margin: 40px 0 0;
+  border: 1px solid #cad7ee;
+  font-size: 14px;
+  background: #ecf3ff;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.mBox .memberId {
+  margin: 0 0 0 10px;
+  vertical-align: middle;
+  font-size: 28px;
+  color: #3a69bf;
+  letter-spacing: -1px;
+}
+/* mBox typeShop */
+.mBox.typeShop {
+  padding: 0;
+  text-align: left;
+}
+.mBox.typeShop li {
+  position: relative;
+  padding: 10px 160px 10px 65px;
+  border-top: 1px solid #cad7ee;
+  color: #3a69bf;
+}
+.mBox.typeShop li:first-child {
+  border-top: 0;
+}
+.mBox.typeShop li .info {
+  display: table;
+  width: 100%;
+  height: 41px;
+}
+.mBox.typeShop li .info a {
+  display: table-cell;
+  font-weight: bold;
+  color: #3a69bf;
+  vertical-align: middle;
+  word-break: break-all;
+}
+.mBox.typeShop li .btnNormal {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  margin: -17px 0 0;
+}
+/* 내 쇼핑몰 즐겨찾기 추가 버튼 */
+.mBox.typeShop li .btnNormal.myshop {
+  padding-left: 28px;
+}
+.mBox.typeShop li .btnNormal.myshop:after {
+  padding-right: 27px;
+}
+.mBox.typeShop li:after {
+  display: block;
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0;
+  background: url("http://img.cafe24.com/img/user/join/sfix_completed.png")
+    no-repeat 0 -190px;
+}
+.mBox.typeShop li:first-child:after {
+  background-position: 0 -140px;
+}
+/* mBox typeOrderList */
+.mBox.typeOrderList {
+  padding: 16px 30px;
+  margin-top: 0;
+  border-color: #e5e5e5;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: left;
+  background: #fbfbfb;
+}
+.mHeading + .mBox.typeOrderList {
+  margin-top: -1px;
+}
+.mBox.typeOrderList table th {
+  width: 75px;
+  padding: 5px 0;
+  vertical-align: top;
+}
+.mBox.typeOrderList table td {
+  padding: 6px 0 6px 9px;
+  color: #646464;
+}
+.mBox.typeOrderList .txtHeading {
+  display: inline-block;
+  padding: 0 0 0 10px;
+  line-height: 22px;
+  color: #fff;
+  background: url("http://img.cafe24.com/img/user/join/bg_txt_heading.png")
+    no-repeat left 0;
+}
+.mBox.typeOrderList .txtHeading:after {
+  position: relative;
+  content: "";
+  display: inline-block;
+  vertical-align: top;
+  padding: 0 10px 0 0;
+  height: 22px;
+  background: #fff url("http://img.cafe24.com/img/user/join/bg_txt_heading.png")
+    no-repeat right 0;
+}
+
+/* mGuide */
+.mGuide {
+  text-align: left;
+}
+.mGuide ul {
+  padding: 5px 0 0;
+}
+.mGuide li {
+  position: relative;
+  padding: 0 0 0 8px;
+  margin: 9px 0 0;
+  line-height: 14px;
+  font-size: 11px;
+  color: #aaa;
+}
+.mGuide li:after {
+  display: block;
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 2px;
+  height: 2px;
+  background: #a7c7eb;
+}
+.mGuide dl {
+  position: relative;
+  zoom: 1;
+}
+.mGuide dl:after {
+  display: block;
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: -8px;
+  width: 3px;
+  height: 1px;
+  clear: both;
+  background: #aaa;
+}
+.mGuide dt {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 52px;
+}
+.mGuide dd {
+  position: relative;
+  padding: 0 0 0 52px;
+}
+
+/* mInfo */
+.mInfo {
+  margin: 10px 0 0;
+}
+.mInfo .heading {
+  margin: 0 12px 0 0;
+}
+.mInfo:first-child {
+  margin-top: 0;
+}
+.mInfo .heading,
+.mInfo ul,
+.mInfo p {
+  display: inline-block;
+  vertical-align: top;
+}
+.mInfo li,
+.mInfo p {
+  position: relative;
+  padding: 0 0 0 8px;
+}
+.mInfo li:before,
+.mInfo p:before {
+  display: block;
+  position: absolute;
+  top: 9px;
+  left: 1px;
+  content: "";
+  width: 3px;
+  height: 1px;
+  background: #8a8a8a;
+}
+
+/* mAttach */
+.mAttach {
+  margin: 14px 0 0;
+}
+.mAttach .figure {
+  position: relative;
+  display: inline-block;
+  width: 86px;
+  height: 86px;
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+}
+.mAttach .figure a img {
+  width: 100%;
+}
+.btnFileDelete {
+  z-index: 1;
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  width: 27px;
+  height: 26px;
+  overflow: hidden;
+  text-indent: 120%;
+  font-size: 0;
+  white-space: nowrap;
+  background: url("http://img.cafe24.com/img/user/join/btn_file_delete.png")
+    no-repeat 0 0;
+}
+
+/* mHeading */
+.mHeading {
+  position: relative;
+  margin: 28px 0 0;
+  padding: 20px 30px;
+  border: 1px solid #7296d9;
+  color: #fff;
+  text-align: left;
+  background: #73a0f6;
+}
+.mHeading strong {
+  position: relative;
+  display: inline-block;
+  margin: 0 0 0 32px;
+}
+.mHeading strong:before {
+  position: absolute;
+  top: 50%;
+  left: -32px;
+  margin: -11px 0 0;
+  display: block;
+  content: "";
+  width: 22px;
+  height: 22px;
+  background: url("http://img.cafe24.com/img/user/join/bg_heading.png")
+    no-repeat 0 0;
+}
+
+/* mPostcode */
+.mPostcode {
+  display: block;
+  z-index: 110;
+  position: absolute;
+  width: 600px;
+  min-width: 300px;
+  font-size: 13px;
+  color: #1c1c1c;
+  line-height: 1.5;
+  background: #f0f0f0;
+}
+.mPostcode .btnClose {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 110;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  padding: 0;
+  font-size: 0;
+  text-indent: 120%;
+  cursor: pointer;
+  background: url("http://img.cafe24.com/img/user/join/ico_close.png") center
+    center no-repeat;
+}
+.mPostcode h2 {
+  margin: 0;
+  height: 36px;
+  padding: 0 38px 0 34px;
+  font-size: 15px;
+  line-height: 36px;
+  color: #fff;
+  text-align: center;
+  background: #666;
+}
+.mPostcode .content {
+  padding: 7px;
+  font-size: 13px;
+  background: #f0f0f0;
+}
+.mPostcode .search,
+.mPostcode .postcode {
+  width: 100%;
+  margin: 0 0 7px;
+  border: 1px solid #ccc;
+  color: #1b1b1b;
+  background: #fff;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-sizing: border-box;
+  -o-box-sizing: border-box;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+}
+.mPostcode .search {
+  position: relative;
+  margin: 7px 0;
+  padding: 6px 13px;
+}
+.mPostcode .search .searchForm {
+  position: relative;
+  margin: 0 50px 0 0;
+  padding: 0 34px 0 7px;
+  border: 1px solid #ccc;
+  border-radius: 1px;
+  -webkit-border-radius: 1px;
+  -moz-border-radius: 1px;
+  -ms-border-radius: 1px;
+  -o-border-radius: 1px;
+}
+.mPostcode .search .searchForm .fText {
+  width: 100%;
+  height: 27px;
+  line-height: 27px;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  color: #1b1b1b;
+  outline: 0;
+  vertical-align: middle;
+}
+.mPostcode .search .searchForm .btnDelete {
+  position: absolute;
+  right: 7px;
+  top: 4px;
+  width: 20px;
+  height: 21px;
+  border: 0;
+  cursor: pointer;
+  overflow: hidden;
+  text-indent: 120%;
+  font-size: 0;
+  white-space: nowrap;
+  outline: 0;
+  background: url("http://img.cafe24.com/img/user/join/btn_delete.png")
+    no-repeat 0 0;
+}
+.mPostcode .search .btnSearch {
+  position: absolute;
+  right: 13px;
+  top: 6px;
+  width: 43px;
+  height: 29px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #636363;
+  border-bottom-color: #020202;
+  outline: 0;
+  cursor: pointer;
+  font-size: 13px;
+  background: #222;
+  color: #fefefe;
+  text-align: center;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+}
+.mPostcode .search .txtInfo {
+  padding: 0;
+  margin: 5px 0 0;
+  font-size: 11px;
+  color: #757575;
+}
+
+.mPostcode .postcode .ctrl {
+  border-bottom: 1px solid #ececec;
+  padding: 7px 14px;
+  color: #757575;
+}
+.mPostcode .postcode .ctrl select {
+  max-width: 100%;
+  height: 29px;
+  line-height: 29px;
+  border: 1px solid #ccc;
+  padding: 0 35px 0 3px;
+  margin: 0;
+  font-size: 11px;
+  color: #353535;
+  vertical-align: middle;
+  background: #fff url("http://img.cafe24.com/img/user/join/bg_selectbox.gif")
+    no-repeat right center;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+}
+.mPostcode .postcode .ctrl select::-ms-expand {
+  display: none;
+}
+.mPostcode .addressList {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 354px;
+  min-height: 200px;
+  padding: 0 14px;
+}
+.mPostcode .addressList thead {
+  display: none;
+}
+.mPostcode .addressList td {
+  padding: 4px 0;
+  border-top: 1px solid #ececec;
+  vertical-align: middle;
+  line-height: 16px;
+  word-break: break-word;
+}
+.mPostcode .addressList tr:first-child td {
+  border-top: 0;
+}
+.mPostcode .addressList .right {
+  text-align: right;
+}
+.mPostcode .addressList .address > a {
+  position: relative;
+  display: block;
+  padding: 0 0 0 42px;
+  margin: 10px 0;
+  color: #1b1b1b;
+}
+.mPostcode .postcode .addressList .address > a:hover,
+.mPostcode .postcode .addressList .address > a:focus {
+  color: #246bd8;
+}
+.mPostcode .addressList .address > a > img {
+  position: absolute;
+  left: 0;
+  top: 2px;
+}
+.mPostcode .postcode .empty {
+  margin: 0;
+  padding: 95px 0;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.mPostcode .paginate {
+  padding: 7px 0;
+  text-align: center;
+  color: #1b1b1b;
+  font-size: 0;
+  line-height: 0;
+  background: #f1f1f1;
+}
+.mPostcode .paginate ol,
+.mPostcode .paginate ol li,
+.mPostcode .paginate ol li a,
+.mPostcode .paginate ol li strong {
+  display: inline-block;
+  vertical-align: middle;
+}
+.mPostcode .paginate ol {
+  padding: 0;
+  margin: 0 8px;
+  list-style-position: inside;
+}
+.mPostcode .paginate ol li {
+  padding: 0;
+  margin: 0 3px;
+  background: #fff;
+}
+.mPostcode .paginate ol li a,
+.mPostcode .paginate ol li strong {
+  width: 31px;
+  height: 27px;
+  border: 1px solid #d9d9d9;
+  text-align: center;
+  font-size: 13px;
+  line-height: 28px;
+  font-weight: bold;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+}
+.mPostcode .paginate ol li strong {
+  border-color: #508bed;
+  color: #508bed;
+}
+.mPostcode .paginate > a {
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid #d9d9d9;
+  display: inline-block;
+  width: 31px;
+  height: 27px;
+  color: #fff;
+  overflow: hidden;
+  text-indent: 120%;
+  font-size: 0;
+  line-height: 0;
+  background: #fff url("http://img.cafe24.com/img/user/join/btn_prev.png")
+    no-repeat 50% 50%;
+}
+.mPostcode .paginate .next {
+  background-image: url("http://img.cafe24.com/img/user/join/btn_next.png");
+}
+
+/* main */
+#main #container {
+  margin: 351px 0 0;
+  padding: 0 0 60px;
+  background: url("http://img.cafe24.com/img/user/join/bg_main_container.gif")
+    repeat-x left top;
+}
+#main #contents {
+  position: relative;
+}
+.mainArea {
+  margin: 0 19px;
+}
+.mainArea .mVisual {
+  position: absolute;
+  top: -351px;
+  left: 0;
+  width: 100%;
+  padding: 50px 0 87px;
+  background: url("http://img.cafe24.com/img/user/join/bg_visual.png") no-repeat
+    right -50px;
+}
+.mainArea .mVisual > p {
+  margin: 0 14px;
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 50px;
+  color: #333;
+}
+.mainArea .mVisual > p strong {
+  font-size: 50px;
+  font-weight: 900;
+}
+.mainArea .mVisual > p span {
+  font-size: 24px;
+}
+.mainArea .mVisual > p.sub {
+  margin-top: 35px;
+  line-height: 20px;
+  font-weight: normal;
+  font-size: 14px;
+  color: #9a9a9a;
+  letter-spacing: -1px;
+}
+.mainArea .mTitle {
+  border-bottom: 0;
+  padding: 21px 0 20px;
+}
+.mainArea .mTitle h2 {
+  font-size: 18px;
+  color: #fff;
+}
+.mainArea .mTitle p {
+  margin-top: 0;
+  font-size: 12px;
+  color: #e9eef7;
+}
+.mainArea .mTitle p:before {
+  top: 2px;
+  background: #97b6ee;
+}
+.mainArea .mCategory {
+  overflow: hidden;
+  width: 942px;
+  margin: 0 auto 21px;
+}
+.mainArea .mCategory li {
+  float: left;
+  width: 182px;
+  margin: 0 0 0 8px;
+}
+.mainArea .mCategory li:first-child {
+  margin-left: 0;
+}
+.mainArea .mCategory li a {
+  display: block;
+  padding: 72px 5px 16px;
+  text-align: center;
+  font-size: 11px;
+  color: #caddff;
+  background: url("http://img.cafe24.com/img/user/join/sfix_category.png")
+    no-repeat 0 0;
+}
+.mainArea .mCategory li a strong {
+  font-size: 16px;
+  color: #fff;
+}
+.mainArea .mCategory li.itemNormal a {
+  background-position: 0 0;
+}
+.mainArea .mCategory li.itemOperator a {
+  background-position: 0 -200px;
+}
+.mainArea .mCategory li.itemCorporation a {
+  background-position: 0 -400px;
+}
+.mainArea .mCategory li.itemYouth a {
+  background-position: 0 -600px;
+}
+.mainArea .mCategory li.itemForeigner a {
+  background-position: 0 -800px;
+}
+.mainArea .mCategory li a:hover,
+.mainArea .mCategory li a:focus,
+.mainArea .mCategory li a:hover strong,
+.mainArea .mCategory li a:focus strong {
+  color: #ecf357;
+}
+.mainArea .mCategory li.itemNormal a:hover,
+.mainArea .mCategory li.itemNormal a:focus {
+  background-position: -200px 0;
+}
+.mainArea .mCategory li.itemOperator a:hover,
+.mainArea .mCategory li.itemOperator a:focus {
+  background-position: -200px -200px;
+}
+.mainArea .mCategory li.itemCorporation a:hover,
+.mainArea .mCategory li.itemCorporation a:focus {
+  background-position: -200px -400px;
+}
+.mainArea .mCategory li.itemYouth a:hover,
+.mainArea .mCategory li.itemYouth a:focus {
+  background-position: -200px -600px;
+}
+.mainArea .mCategory li.itemForeigner a:hover,
+.mainArea .mCategory li.itemForeigner a:focus {
+  background-position: -200px -800px;
+}
+
+/* 회원정보입력 */
+.inputWrap {
+  display: inline-block;
+}
+
+/* 비밀번호 변경 캠페인*/
+.passwordArea .mVisual {
+  padding: 68px 245px 48px 0;
+  background: url("http://img.cafe24.com/img/user/password/bg_pw_visual.jpg")
+    no-repeat 100% 0;
+}
+.passwordArea .mVisual .heading {
+  margin: 0 0 35px;
+  font-size: 43px;
+  line-height: 56px;
+}
+.passwordArea .mVisual .name {
+  display: block;
+  font-size: 20px;
+  line-height: 30px;
+  color: #1c9bea;
+}
+.passwordArea .mVisual .sub {
+  font-size: 14px;
+  line-height: 24px;
+  color: #4f4f4f;
+}
+
+/* 쇼핑몰센터 */
+#ec #contents {
+  width: 1088px;
+  margin: 0;
+  padding: 0 55px 70px;
+  border-left: 0;
+}
+#ec .mStep {
+  padding: 70px 0 0;
+}
+#ec .mBreadcrumb {
+  right: 56px;
+}
+
+/* 2019.06.03 diana 추가 common css */
+/* 각 페이지의 타이틀 */
+.page_tit {
+  text-align: center;
+  color: white;
+  font-size: 1.05em;
+  font-weight: bold;
+  background-color: #2ac1bc;
+  padding: 8px 0;
+}
+
+/* ====================================== Media Query ========================================== */
+
+/* PC & Mobile */
+@media all and (max-width: 977px) {
+  .mTitle {
+    padding: 14px;
+  }
+  .agreeCheckArea {
+    margin: 0;
+    padding: 20px 14px 10px;
+  }
+  .mRequired {
+    right: 14px;
+  }
+  .mHelp {
+    margin: 30px 14px 50px;
+  }
+  .mStep ol {
+    width: 100%;
+  }
+  .mStep li.first:before {
+    display: none;
+  }
+  .mStep li.third.selected:after {
+    display: none;
+  }
+  /* main */
+  #main #container {
+    margin-top: 261px;
+    padding-bottom: 10px;
+    background: #5689e5;
+  }
+  #main #contents,
+  #main .mTitle {
+    background: #5689e5;
+  }
+  .mainArea {
+    margin: 0 14px;
+  }
+  .mainArea .mVisual {
+    padding: 20px 0 27px;
+    top: -261px;
+    background-image: url("http://img.cafe24.com/img/user/join/bg_visual_m.jpg");
+    background-position: right 0;
+  }
+  .mainArea .mCategory {
+    width: auto;
+    margin-bottom: 0;
+    border: 1px solid #3f5d98;
+    border-radius: 3px;
+    box-sizing: border-box;
+  }
+  .mainArea .mCategory li {
+    margin: 0;
+    float: none;
+    width: 100%;
+  }
+  .mainArea .mCategory li a {
+    position: relative;
+    border-top: 1px solid #8db2f5;
+    border-bottom: 1px solid #5376b8;
+    padding: 19px 48px 19px 96px;
+    text-align: left;
+    background: #709def
+      url("http://img.cafe24.com/img/user/join/sfix_category_t.png") no-repeat 0
+      0;
+  }
+  .mainArea .mCategory li:first-child a {
+    border-top: 0;
+  }
+  .mainArea .mCategory li:last-child a {
+    border-bottom: 0;
+  }
+  .mainArea .mCategory li.itemNormal a,
+  .mainArea .mCategory li.itemNormal a:hover,
+  .mainArea .mCategory li.itemNormal a:focus {
+    background-position: 0 0;
+  }
+  .mainArea .mCategory li.itemOperator a,
+  .mainArea .mCategory li.itemOperator a:hover,
+  .mainArea .mCategory li.itemOperator a:focus {
+    background-position: 0 -100px;
+  }
+  .mainArea .mCategory li.itemCorporation a,
+  .mainArea .mCategory li.itemCorporation a:hover,
+  .mainArea .mCategory li.itemCorporation a:focus {
+    background-position: 0 -200px;
+  }
+  .mainArea .mCategory li.itemYouth a,
+  .mainArea .mCategory li.itemYouth a:hover,
+  .mainArea .mCategory li.itemYouth a:focus {
+    background-position: 0 -300px;
+  }
+  .mainArea .mCategory li.itemForeigner a,
+  .mainArea .mCategory li.itemForeigner a:hover,
+  .mainArea .mCategory li.itemForeigner a:focus {
+    background-position: 0 -400px;
+  }
+  .mainArea .mCategory li a:hover,
+  .mainArea .mCategory li a:focus {
+    color: #caddff;
+  }
+  .mainArea .mCategory li a:hover strong,
+  .mainArea .mCategory li a:focus strong {
+    color: #fff;
+  }
+  .mainArea .mCategory li a:after {
+    display: block;
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 28px;
+    margin: -13px 0 0;
+    width: 16px;
+    height: 26px;
+    background: url("http://img.cafe24.com/img/user/join/sfix_icon_m.png")
+      no-repeat -100px -200px;
+  }
+  .passwordArea .mVisual .heading {
+    margin: 0 0 20px 14px;
+    font-size: 36px;
+  }
+  .passwordArea .mVisual .sub {
+    margin: 0 0 0 14px;
+    font-size: 12px;
+  }
+}
+
+/* Mobile */
+@media all and (max-width: 767px) {
+  /* form */
+  /* fCheck, fRadio */
+  .fCheck,
+  .fRadio {
+    font-size: 11px;
+  }
+  .fText {
+    width: 100%;
+    max-width: 400px;
+    padding: 6px;
+    border-color: #d3d3d3;
+    -moz-border-radius: 1px;
+    -webkit-border-radius: 1px;
+    -ms-border-radius: 1px;
+    border-radius: 1px;
+  }
+  .fText:focus {
+    padding: 5px;
+    border-width: 2px;
+  }
+  .fSelect button {
+    height: 27px;
+  }
+  .fSelect .now {
+    height: 27px;
+    min-width: 25px;
+  }
+  .RW {
+    display: none !important;
+  }
+  .RMI {
+    display: inline !important;
+  }
+  .RMB {
+    display: block !important;
+  }
+  .RMIB {
+    display: inline-block !important;
+  }
+  .gSingleM {
+    display: block;
+    margin-top: 7px;
+  }
+  .txtInfo {
+    font-size: 11px;
+  }
+  /* Button & Icon */
+  .mButton {
+    margin: 0;
+    padding: 30px 0;
+    min-width: 320px;
+    border-bottom: 1px solid #d3d3d3;
+    background: #fff;
+  }
+  .mButton:last-child {
+    margin-bottom: 0;
+    border-bottom: 0;
+  }
+  .btnNormal,
+  .btnBasic,
+  .btnSubmit,
+  .btnEm,
+  .btnMini,
+  .btnStrong,
+  .btnNormal:after,
+  .btnBasic:after,
+  .btnSubmit:after,
+  .btnEm:after,
+  .btnMini:after,
+  .btnStrong:after {
+    background-image: url("http://img.cafe24.com/img/user/join/sflex_btn_m.png");
+    background-size: 300px auto;
+  }
+  .btnNormal,
+  .btnBasic {
+    margin: 0 2px;
+    padding-left: 9px;
+    line-height: 29px;
+    font-size: 11px;
+  }
+  .btnNormal:after,
+  .btnBasic:after {
+    height: 29px;
+    padding-right: 8px;
+  }
+  .btnSubmit,
+  .btnEm {
+    margin: 0 2px;
+    padding-left: 26px;
+    line-height: 33px;
+    font-size: 13px;
+  }
+  .btnSubmit:after,
+  .btnEm:after {
+    height: 33px;
+    padding-right: 25px;
+  }
+  .btnStrong {
+    margin: 0 2px;
+    padding-left: 13px;
+    line-height: 33px;
+    font-size: 11px;
+  }
+  .btnStrong:after {
+    height: 33px;
+    padding-right: 12px;
+  }
+  .icoNext {
+    width: 8px;
+    height: 13px;
+    margin-left: 7px;
+    background-image: url("http://img.cafe24.com/img/user/join/sfix_icon_m.png");
+    background-size: 100px auto;
+  }
+  .icoPhone {
+    width: 12px;
+    height: 20px;
+    background-image: url("http://img.cafe24.com/img/user/join/sfix_icon_m.png");
+    background-size: 100px auto;
+  }
+  .icoCertify {
+    margin: 0 11px 0 0;
+    background-image: url("http://img.cafe24.com/img/user/join/sfix_icon_m.png");
+    background-size: 100px auto;
+  }
+  .icoCertify.document {
+    margin-right: 11px;
+    width: 14px;
+    height: 17px;
+  }
+  .icoCertify.phone {
+    width: 12px;
+    height: 17px;
+  }
+  .icoCertify.ipin {
+    width: 13px;
+    height: 13px;
+  }
+  .icoZoom {
+    background-image: url("http://img.cafe24.com/img/user/join/sfix_icon_m.png");
+    background-size: 100px auto;
+  }
+  img.icoRequired {
+    width: 6px;
+  }
+  /* mStep */
+  .mStep ol {
+    height: 60px;
+  }
+  .mStep li {
+    height: 58px;
+    line-height: 58px;
+    border-top: 1px solid #9eaec8;
+    border-bottom: 1px solid #9eaec8;
+    font-size: 11px;
+    text-align: center;
+    background-position: center top;
+    background-size: 50px auto;
+  }
+  .mStep li strong {
+    padding: 25px 14px 0;
+    line-height: 13px;
+  }
+  .mStep li.selected:before {
+    width: 14px;
+    height: 60px;
+    background: url("http://img.cafe24.com/img/user/join/bg_step_before_m.gif")
+      no-repeat 0 0;
+    background-size: 14px auto;
+  }
+  .mStep li:after {
+    width: 14px;
+    height: 60px;
+    right: -14px;
+    background-image: url("http://img.cafe24.com/img/user/join/bg_step_disable_m.gif");
+    background-size: 14px auto;
+  }
+  .mStep li.selected:after {
+    background-image: url("http://img.cafe24.com/img/user/join/bg_step_after_m.gif");
+    background-size: 14px auto;
+  }
+  .mStep.step1 li.first,
+  .mStep.step2 li.second,
+  .mStep.step3 li.third {
+    background-position: center top;
+  }
+  .mStep.step2 li.first,
+  .mStep.step3 li.first,
+  .mStep.step3 li.second {
+    background-position: center -50px;
+  }
+  .mStep.step1 li.second {
+    background-position: center -100px;
+  }
+  .mStep.step1 li.third,
+  .mStep.step2 li.third {
+    background-position: center -150px;
+  }
+  /* mBoard */
+  .mBoard {
+    background: #fff;
+  }
+  .mBoard th,
+  .mBoard td,
+  .mBoard td span,
+  .mBoard td .check {
+    font-size: 11px;
+  }
+  .mBoard td .check:before {
+    width: 13px;
+    height: 10px;
+    margin-left: 6px;
+    background-image: url("http://img.cafe24.com/img/user/join/sfix_icon_m.png");
+    background-size: 100px auto;
+  }
+  .mBoard td .explain {
+    padding-left: 14px;
+  }
+  .mBoard td .mList {
+    font-size: 11px;
+    line-height: 15px;
+  }
+  .mBoard td .mList li {
+    margin: 6px 0 0;
+  }
+  .mBoard td .mList li:first-child {
+    margin-top: 0;
+  }
+  .mBoard td .mList li:before {
+    top: 7px;
+  }
+  .mBoard th {
+    width: 56px;
+  }
+  .mBoard td .txtInfo .icoBar {
+    display: none;
+  }
+  .mRequired {
+    top: -25px;
+    font-size: 11px;
+  }
+  /* mTitle */
+  .mTitle {
+    background: #fff;
+  }
+  .mTitle h2 {
+    float: none;
+    font-size: 15px;
+  }
+  .mTitle p {
+    float: none;
+    margin: 13px 0 0;
+    padding: 0;
+    font-size: 11px;
+  }
+  .mTitle p:before {
+    display: none;
+  }
+  /* mTab */
+  .mTitle + .mTab {
+    margin: -2px 0 0;
+  }
+  .mTab {
+    padding: 0 0 38px;
+  }
+  .mTab ul {
+    border: 0;
+  }
+  .mTab li {
+    display: table;
+    width: 50%;
+  }
+  .mTab li:first-child {
+    border-left: 0;
+  }
+  .mTab li:last-child {
+    border-right: 0;
+  }
+  .mTab li a {
+    display: table-cell;
+    vertical-align: middle;
+    line-height: 16px;
+    font-size: 13px;
+  }
+  .mTabCont {
+    border-top: 1px solid #e5e5e5;
+  }
+  /* mTooltip */
+  .mTooltip .tooltip {
+    width: 285px;
+  }
+  /* 약관 */
+  /* as-is */
+  .agreeArea {
+    background: #fff;
+  }
+  .agreeArea .mAgree h3 {
+    float: none;
+    font-size: 13px;
+    line-height: 33px;
+  }
+  .agreeArea .mAgree label {
+    left: auto;
+    top: -28px;
+    right: 2px;
+    font-size: 13px;
+  }
+  .agreeArea .mAgree .termsArea {
+    float: none;
+    width: 100%;
+  }
+  .agreeArea .mAgree .mTerms {
+    height: 120px;
+    margin: 14px 14px 0;
+  }
+  /* to-be */
+  .agreeCheckArea {
+    background: #fff;
+  }
+  .mAllCheck {
+    padding: 9px;
+  }
+  .mAllCheck label {
+    font-size: 13px;
+    line-height: 18px;
+  }
+  .termArea[class*="grid"] .mTerm {
+    position: relative;
+    float: none;
+    width: 100%;
+    padding: 9px;
+    border-left: 0;
+  }
+  .termArea[class*="grid"] .mTerm h3 {
+    max-width: 205px;
+    height: 34px;
+    padding-bottom: 0;
+    font-size: 13px;
+    line-height: 18px;
+  }
+  .termArea[class*="grid"] .mTerm .terms {
+    height: 103px;
+    margin: 0;
+  }
+  .termArea[class*="grid"] .mTerm label {
+    position: absolute;
+    top: 15px;
+    right: 2px;
+    font-size: 13px;
+  }
+  /* 도움말 */
+  .mHelp {
+    border-width: 0;
+    padding: 20px 14px;
+    margin: 6px 0 0;
+  }
+  .mHelp > h2 {
+    padding-top: 1px;
+    background-image: url("http://img.cafe24.com/img/user/join/sfix_icon_m.png");
+    background-size: 100px auto;
+  }
+  .mHelp > h3 {
+    margin: 10px 0 2px;
+    font-size: 11px;
+  }
+  .mHelp ul {
+    padding-left: 0;
+    margin-bottom: -7px;
+    font-size: 11px;
+  }
+  .mHelp ul li {
+    padding: 0 0 7px 12px;
+  }
+  .mHelp ul li:before {
+    left: 3px;
+  }
+  .mHelp ul li .icoLink {
+    width: 7px;
+    margin-top: -3px;
+    background-image: url("http://img.cafe24.com/img/user/join/sfix_icon_m.png");
+    background-size: 100px auto;
+  }
+  .mHelp li dl:first-child {
+    margin: 7px 0 0;
+  }
+  .mHelp table {
+    margin: 0;
+  }
+  .mHelp table th,
+  .mHelp table td {
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+  /* 레이어 */
+  .mLayer {
+    min-width: 320px;
+    width: 90%;
+    max-width: 500px;
+  }
+  .mLayer .mBoard th {
+    font-size: 11px;
+  }
+  .mLayer .btnEm {
+    padding-left: 17px;
+    line-height: 29px;
+    font-size: 11px;
+  }
+  .mLayer .btnEm:after {
+    height: 29px;
+    padding-right: 16px;
+  }
+  .mLayer .btnNormal {
+    padding-left: 17px;
+    line-height: 29px;
+    font-size: 11px;
+  }
+  .mLayer .btnNormal:after {
+    height: 29px;
+    padding-right: 16px;
+  }
+  .mLayer .btnClose {
+    background-image: url("http://img.cafe24.com/img/user/join/btn_layer_close_m.png");
+    background-size: 13px auto;
+  }
+  /* mLayer typeError */
+  .mLayer.typeError .wrap {
+    font-size: 11px;
+  }
+  .mLayer.typeError h3 {
+    padding-bottom: 17px;
+    font-size: 20px;
+  }
+  .mLayer.typeError .inner {
+    width: 215px;
+    padding: 0 0 0 68px;
+  }
+  .mLayer.typeError .inner:after {
+    left: 0;
+    width: 61px;
+    height: 61px;
+    background: url("http://img.cafe24.com/img/user/join/sfix_completed_m.png")
+      no-repeat 0 0;
+    background-size: 61px auto;
+  }
+  /* mComplete */
+  .mComplete {
+    width: 100%;
+    padding: 44px 14px 0;
+    background: #fff;
+  }
+  .mComplete > h3 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    line-height: 20px;
+  }
+  .mComplete > p {
+    line-height: 15px;
+  }
+  /* mBox */
+  .mBox {
+    padding: 13px 14px;
+    margin-top: 20px;
+    font-size: 11px;
+  }
+  .mBox .memberId {
+    margin: 14px 0 0;
+    display: block;
+    font-size: 24px;
+  }
+  /* mBox typeShop */
+  .mBox.typeShop li {
+    padding: 5px 10px 5px 51px;
+    letter-spacing: -0.04em;
+  }
+  .mBox.typeShop .info {
+    min-height: 33px;
+  }
+  .mBox.typeShop .info a {
+    font-size: 11px;
+  }
+  .mBox.typeShop li:after {
+    left: 8px;
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0;
+    background: url("http://img.cafe24.com/img/user/join/sfix_completed_m.png")
+      no-repeat 0 -115px;
+    background-size: 60px auto;
+  }
+  .mBox.typeShop li:first-child:after {
+    background-position: 0 -75px;
+  }
+  /* mBox typeOrderList */
+  .mBox.typeOrderList {
+    padding: 10px 16px;
+    font-size: 11px;
+    line-height: 15px;
+  }
+  .mBox.typeOrderList table th {
+    width: 65px;
+    font-weight: normal;
+  }
+  .mBox.typeOrderList .txtHeading {
+    padding: 0 0 0 9px;
+    line-height: 20px;
+    background-image: url("http://img.cafe24.com/img/user/join/bg_txt_heading_m.png");
+    background-size: 200px auto;
+  }
+  .mBox.typeOrderList .txtHeading:after {
+    padding: 0 9px 0 0;
+    height: 20px;
+    background-image: url("http://img.cafe24.com/img/user/join/bg_txt_heading_m.png");
+    background-size: 200px auto;
+  }
+  /* mGuide */
+  .mGuide {
+    padding: 3px 6px;
+  }
+  .mGuide li {
+    padding: 0 0 0 6px;
+    line-height: 16px;
+  }
+  .mGuide li:after {
+    top: 6px;
+  }
+  .mGuide dl:after {
+    top: 6px;
+    left: -6px;
+  }
+  /* mInfo */
+  .mInfo .heading {
+    margin-right: 0;
+  }
+  .mInfo .heading,
+  .mInfo ul,
+  .mInfo p {
+    display: block;
+  }
+  .mInfo li:before,
+  .mInfo p:before {
+    top: 7px;
+  }
+  /* mAttach */
+  .btnFileDelete {
+    background: url("http://img.cafe24.com/img/user/join/btn_file_delete_m.png")
+      no-repeat 0 0;
+    background-size: 27px auto;
+  }
+  /* mHeading */
+  .mHeading {
+    margin-top: 14px;
+    padding: 10px 14px;
+    line-height: 15px;
+  }
+  .mHeading strong:before {
+    background: url("http://img.cafe24.com/img/user/join/bg_heading_m.png");
+    background-size: 22px auto;
+  }
+  /* mPostcode */
+  .mPostcode {
+    width: 90%;
+  }
+  .mPostcode .btnClose {
+    background-image: url("http://img.cafe24.com/img/user/join/ico_close_m.png");
+    background-size: 15px auto;
+  }
+  .mPostcode .search .searchForm .btnDelete {
+    background-image: url("http://img.cafe24.com/img/user/join/btn_delete_m.png");
+    background-size: 20px auto;
+  }
+  .mPostcode .postcode .ctrl select {
+    background-image: url("http://img.cafe24.com/img/user/join/bg_selectbox_m.gif");
+    background-size: 32px 27px;
+  }
+  .mPostcode .addressList {
+    max-height: 210px;
+    min-height: 150px;
+  }
+  .mPostcode .paginate > a {
+    background-image: url("http://img.cafe24.com/img/user/join/btn_prev_m.png");
+    background-size: 7px auto;
+  }
+  .mPostcode .paginate .next {
+    background-image: url("http://img.cafe24.com/img/user/join/btn_next_m.png");
+  }
+  /* main */
+  #main #container {
+    margin-top: 124px;
+  }
+  #main #footer {
+    padding-top: 0;
+  }
+  .mainArea .mVisual {
+    top: -124px;
+    padding: 18px 0 24px;
+    background-size: auto 117px;
+  }
+  .mainArea .mVisual > p {
+    font-size: 17px;
+    line-height: 22px;
+  }
+  .mainArea .mVisual > p strong {
+    font-size: 22px;
+  }
+  .mainArea .mVisual > p.sub {
+    margin-top: 9px;
+    font-size: 11px;
+    color: #777;
+    letter-spacing: 0;
+    line-height: 14px;
+  }
+  .mainArea .mTitle {
+    padding: 10px 0;
+  }
+  .mainArea .mTitle h2 {
+    font-size: 15px;
+  }
+  .mainArea .mCategory li a {
+    padding: 12px 24px 10px 48px;
+    background-image: url("http://img.cafe24.com/img/user/join/sfix_category_m.png");
+    background-size: 50px auto;
+  }
+  .mainArea .mCategory li a strong {
+    margin: 0 5px 0 0;
+    font-size: 13px;
+  }
+  .mainArea .mCategory li a:after {
+    right: 14px;
+    margin-top: -6px;
+    width: 8px;
+    height: 13px;
+    background-position: -50px -100px;
+    background-size: 100px auto;
+  }
+  /* 비밀번호 변경 캠페인*/
+  .passwordArea .mVisual {
+    padding: 25px;
+    background: #f7f7f7
+      url("http://img.cafe24.com/img/user/password/bg_pw_visual_m.jpg")
+      no-repeat 50% 0;
+    background-size: auto 282px;
+  }
+  .passwordArea .mVisual .heading {
+    margin: 0 0 130px;
+    font-size: 20px;
+    line-height: 25px;
+    text-align: center;
+  }
+  .passwordArea .mVisual .name {
+    margin: 0 0 10px;
+    font-size: 15px;
+    line-height: 15px;
+  }
+  .passwordArea .mVisual .sub {
+    margin: 0;
+    font-size: 11px;
+    line-height: 17px;
+  }
+  /* 쇼핑몰센터 */
+  #ec #contents {
+    width: 100%;
+    padding: 0 10px 30px;
+  }
+  #ec .mStep {
+    padding-top: 0;
+    margin: 0 -10px;
+  }
+}

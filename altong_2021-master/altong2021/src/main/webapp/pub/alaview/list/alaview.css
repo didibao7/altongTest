@@ -1,0 +1,122 @@
+@charset "utf-8";
+.atm_faq_c1 {
+  font-size: 14px;
+  font-weight: normal;
+  letter-spacing: -0.5px;
+  color: #484848;
+  display: inline-block;
+  line-height: 200%;
+  padding: 2px;
+  width: 100%;
+  margin-top: 10px;
+}
+.atm_faq_c1 h3 {
+  margin-left: 10px;
+  font-weight: bold;
+}
+.atm_faq_c1b {
+  padding: 2px;
+  background-color: #fff;
+  margin-bottom: 10px;
+}
+.alaview {
+  cursor: pointer;
+  position: relative;
+  margin: 5px 0 5px 0;
+  width: 20%;
+  float: left;
+  border: 2px solid #fff;
+  background-color: #c4c4c4;
+  display: inline-block;
+}
+.alaview_height {
+  position: relative;
+}
+.alaview_memo {
+  bottom: 0;
+  width: 100%;
+  padding: 3px;
+  font-size: 13px;
+  text-align: left;
+  line-height: 15px;
+  overflow: hidden;
+  position: relative;
+  background-color: #fff;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.gra_right {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 19px;
+  width: 15px;
+}
+.alaview_usr {
+  margin-top: -3px;
+  font-size: 12px;
+  color: #999;
+}
+.column p img.atm_logobar_btn_R1 {
+  width: 37px;
+  margin-top: -9px;
+  margin-left: -5px;
+}
+.alaview_mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #000;
+  opacity: 0.9;
+  z-index: 100;
+  text-align: center;
+  display: none;
+}
+.alaview_popup {
+  width: 100%;
+  max-width: 780px;
+  z-index: 101;
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 3px 0;
+  display: none;
+}
+.popup_div {
+  width: 100%;
+  background-color: black;
+  position: relative;
+}
+.material-icons {
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
+.popup_close {
+  position: absolute;
+  color: white;
+  font-size: 2em !important;
+  top: -30px;
+  right: 2px;
+  cursor: pointer;
+}
+.viewer {
+  height: 500px;
+  text-align: center;
+  background-color: black;
+}
+.viewer > iframe {
+  width: 90%;
+  height: 100%;
+}

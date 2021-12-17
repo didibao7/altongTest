@@ -1,0 +1,320 @@
+
+    <? include_once $_SERVER['DOCUMENT_ROOT'] . "/Common/Include/Header.alt"; ?>
+    <link rel="stylesheet" href="/Univ/Hongik/Common/css/hongik.css?1.1" />
+    <link rel="stylesheet" href="/Univ/Hongik/coupon/css/coupon.css" />
+    <link rel="stylesheet" type="text/css" href="/Univ/Hongik/coupon/css/Coupon_loader.css?v=1">
+    <script type="text/javascript" src="/Univ/Hongik/Common/js/top.js"></script>
+    <script type="text/javascript" src="/Univ/Hongik/coupon/js/coupon.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+  <body>
+    <div class="coupon_wrapper">
+      <? include_once $_SERVER['DOCUMENT_ROOT'] . "/Univ/Hongik/Common/top.phtml"; ?>
+      <div class="coupon_main_div01" id="AddCouponDiv">
+        <div class="coupon_main_innerdiv">
+          <!-- <div class="coupon_main_innerdiv_img">
+            <img
+              src="/Univ/img/bg_coupon_gauge.png"
+              alt="coupon_img_gauge"/>
+          </div> -->
+          <span
+            >추가 가능 쿠폰
+            <!-- TODO : coupon_num은 추가할 수 있는 쿠폰의 수 입니다. -->
+            <span class="coupon_num">2</span>장 !</span
+          ><i class="material-icons-round coupon_main_arrow">arrow_forward</i>
+          <span class="coupon_main_innerdiv_page" onclick="location.href='/Univ/Hongik/coupon/addCoupon.alt'">쿠폰 담으러 가기</span>
+          <!-- TODO : coupon_main_close 클릭 시 창은 사라집니다. -->
+          <i class="material-icons-round coupon_main_close" onClick="fCloseAddCouponDiv()">close</i>
+        </span>
+        </div>
+      </div>
+
+      <div class="coupon_main_div02">
+        <p class="coupon_main_div02_topA">주간 쿠폰 미션 달성률
+        </p>
+        <p class="coupon_main_div02_topB">미션 마감까지 <span class="coupon_main_point_number">4</span>일!</p>
+        <div class="coupon_main_div02_bottom">
+          <div class="coupon_main_gauge"><span>00%</span></div>
+          <div class="coupon_main_gauge_number">
+            <p>
+              <span>질문 <span class="coupon_main_point_number">8</span> / <span class="coupon_main_point_max">10</span></span>
+              <!-- TODO : 갯수가 완료되면 coupon_mission_clear 클래스 추가 -->
+              <span class="coupon_mission_clear">답변 <span class="coupon_main_point_number">5</span> / <span class="coupon_main_point_max">5</span></span>
+            </p>
+            <p>
+              <span>평가 <span class="coupon_main_point_number">6</span> / <span class="coupon_main_point_max">10</span></span>
+              <span>댓글 <span class="coupon_main_point_number">0</span> / <span class="coupon_main_point_max">7</span></span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="coupon_main_div03">
+        <p class="univ_main_tit">내 쿠폰함<span>더보기<i class="material-icons-round">arrow_forward_ios</i></span></p>
+        <div class="coupon_mycoupon_div">
+          <div class="coupon_mycoupon_scrolldiv">
+            <div class="coupon" onClick="fUseCouponModal()">
+              <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+              <p class="coupon_title">무조건 10% 할인</p>
+              <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+            </div>
+            <div class="coupon">
+              <p class="coupon_nick">쇼콜라</p>
+              <p class="coupon_title">아이스라떼 20% 할인</p>
+              <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+            </div>
+            <div class="coupon">
+              <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+              <p class="coupon_title">무조건 10% 할인</p>
+              <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="coupon_main_div04">
+        <p class="univ_main_tit">여럿이 사용한 쿠폰<span>더보기<i class="material-icons-round">arrow_forward_ios</i></span></p>
+        <div class="coupon" onClick="fAddCouponModal()">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+      </div>
+      
+      <div class="coupon_main_div03">
+        <p class="univ_main_tit">여럿이 보유중인 쿠폰<span>더보기<i class="material-icons-round">arrow_forward_ios</i></span></p>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+      </div>
+        
+      <div class="coupon_main_div04">
+        <p class="univ_main_tit">새로 나온 쿠폰<span>더보기<i class="material-icons-round">arrow_forward_ios</i></span></p>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+        <div class="coupon">
+          <p class="coupon_nick">난쟁이가 쏘아올린 작은 알</p>
+          <p class="coupon_title">무조건 10% 할인</p>
+          <p class="coupon_date"> ~ <span>19.04.25</span> 까지</p>
+        </div>
+      </div>
+
+      <div class="coupon_main_div03">
+        <p class="univ_main_tit">업종별 쿠폰</p>
+        <p class="coupon_main_intit"><i class="material-icons-round">check</i>즐기기</p>
+        <div class="coupon_category">
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_20.png">
+            <p>커피점 / 카페</p>
+          </div>
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_24.png">
+            <p>한식당</p>
+          </div>
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_18.png">
+            <p>주점</p>
+          </div>
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_5.png">
+            <p>배달음식</p>
+          </div>
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_8.png">
+            <p>중식당</p>
+          </div>
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_14.png">
+            <p>양식당</p>
+          </div>
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_17.png">
+            <p>일식당</p>
+          </div>
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_19.png">
+            <p>분식</p>
+          </div>
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_21.png">
+            <p>패스트푸드</p>
+          </div>
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_6.png">
+            <p>베이커리</p>
+          </div>
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_15.png">
+            <p>오락</p>
+          </div>
+        </div>
+        <p class="coupon_main_intit"><i class="material-icons-round">check</i>구매</p>
+        <div class="coupon_category">
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_3.png">
+            <p>마트 / 몰</p>
+          </div>
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_22.png">
+            <p>편의점</p>
+          </div>
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_9.png">
+            <p>서점</p>
+          </div>
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_12.png">
+            <p>안경점</p>
+          </div>
+        </div>
+        <p class="coupon_main_intit"><i class="material-icons-round">check</i>휴식/위생</p>
+        <div class="coupon_category">
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_4.png">
+            <p>목욕 / 찜질</p>
+          </div>
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_11.png">
+            <p>숙박</p>
+          </div>
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_16.png">
+            <p>이발 / 미용</p>
+          </div>
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_10.png">
+            <p>세탁소</p>
+          </div>
+        </div>
+        <p class="coupon_main_intit"><i class="material-icons-round">check</i>의약</p>
+        <div class="coupon_category">
+            <div class="coupon_category_btn">
+              <img src="/Univ/img/marker_7.png">
+              <p>병원</p>
+            </div>
+            <div class="coupon_category_btn">
+              <img src="/Univ/img/marker_2.png">
+              <p>동물병원</p>
+            </div>
+            <div class="coupon_category_btn">
+              <img src="/Univ/img/marker_13.png">
+              <p>약국</p>
+            </div>
+          </div>
+        <p class="coupon_main_intit"><i class="material-icons-round">check</i>자기계발</p>
+        <div class="coupon_category">
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_1.png">
+            <p>교습</p>
+          </div>
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_23.png">
+            <p>편의점</p>
+          </div>
+        </div>
+        <p class="coupon_main_intit"><i class="material-icons-round">check</i>기타</p>
+        <div class="coupon_category">
+          <div class="coupon_category_btn">
+            <img src="/Univ/img/marker_0.png">
+            <p>기타</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <? include $_SERVER["DOCUMENT_ROOT"] . "/Univ/Hongik/coupon/AddCouponModal.alt" ?>
+    <? include $_SERVER["DOCUMENT_ROOT"] . "/Univ/Hongik/coupon/UseCouponModal.alt" ?>
+    <? include $_SERVER["DOCUMENT_ROOT"] . "/Common/Include/MenuItem.alt" ?>
+  </body>
+</html>

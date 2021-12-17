@@ -1,0 +1,919 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.question">
+	<!-- fn_SQL_Event_Question_List -->
+	<select id="getEventQuestionList" resultType="question">
+		SELECT  TOP 30 Seq, Title, Almoney, ReadCount, DateReg, AnswerCount 
+		FROM V_ALLQ  with(nolock) 
+		WHERE FlagUse = 'Y' AND FlagEvent = 2 
+		ORDER BY Seq DESC, DateReg DESC
+	</select>
+	
+	<!-- fn_SQL_Answer_QuestionInfo -->
+	<select id="getAnswerQuestionInfo" resultType="question">
+		SELECT  TOP 30 Seq, Title, Almoney, ReadCount, DateReg, AnswerCount 
+		FROM V_QUESTIONINFO  with(nolock) 
+		WHERE Seq = #{questionSeq}
+	</select>
+	
+	<!-- fn_SQL_Answer_QuestionInfo_n -->
+	<select id="getAnswerQuestionInfoN" resultType="question">
+		SELECT  Q.Seq, Q.MemberSeq, Q.Title, Q.Contents, Q.Almoney, 
+				Q.FlagNickName, Q.FlagChoice, Q.ReadCount, Q.DateReg,
+				M.NickName, M.Lv, M.Photo, M.QuestionMoney, M.AnswerMoney
+		FROM     
+			dbo.T_QUESTION AS Q WITH (nolock) 
+		LEFT OUTER JOIN
+			dbo.T_MEMBERS AS M WITH (nolock) ON Q.MemberSeq = M.Seq 
+		WHERE Q.Seq = #{questionSeq}
+	</select>
+	
+	<!-- fn_SQL_Answer_SumChoice -->
+	<select id="getAnswerSumChoice" resultType="int">
+		SELECT SUM(Almoney) AS SumChoice FROM T_QUESTION with(nolock) 
+		WHERE SEQ IN (SELECT QuestionSeq FROM T_ANSWER  with(nolock) WHERE FlagChoice = 'Y')
+	</select>
+	
+	<!-- fn_SQL_Question_List -->
+	<select id="getQuestionList" resultType="question">
+		SELECT Seq, Title, Almoney, ReadCount, DateReg, AnswerCount
+		FROM V2_ALLQ  with(nolock) 
+		WHERE FlagUse = 'Y' 
+		<if test="section1 != '0' ">
+			AND Section1 = #{section1} 
+		</if>
+	</select>
+	
+	<select id="getQuestionInfoBySeq" resultType="question">
+		select 
+			* 
+		from 
+			T_QUESTION 
+		where 
+			Seq = #{questionSeq} 
+			and FlagUse='Y' 
+			and (${admin} MemberSeq=#{userSeq})
+	</select>
+	
+	<!-- getQuestionListCount -->
+	<!-- p_Option = COUNT 일 경우 -->
+	<select id="getQuestionListCount" resultType="int">
+		SELECT COUNT(Seq) 
+		FROM V2_ALLQ  with(nolock) 
+		WHERE FlagUse = 'Y' 
+		<if test="section1 != '0' ">
+			AND Section1 = #{section1} 
+		</if>
+		<if test="psrc_Cond != '' ">
+			<if test="psrc_Cond == 'DateReg' ">
+				 ORDER BY #{psrc_Cond} || ' ' || #{psrc_OrderBy}
+			</if>
+		</if>
+		<if test="psrc_Cond == '' ">
+			ORDER BY DateReg DESC
+		</if>
+	</select>
+	
+	<!-- getQuestionListLimit -->
+	<select id="getQuestionListLimit" resultType="question">
+		SELECT TOP #{p_Option} Seq, Title, Almoney, ReadCount, DateReg, AnswerCount
+		FROM V2_ALLQ  with(nolock) 
+		WHERE FlagUse = 'Y' 
+		<if test="section1 != '0' ">
+			AND Section1 = #{section1} 
+		</if>
+	</select>
+	
+	<!-- fn_SQL_Event_Question_List -->
+	<select id="getEventQuestionListLimt" resultType="question">
+		SELECT  
+			TOP 10 Seq, Title, Almoney, ReadCount, DateReg, AnswerCount 
+		FROM V_ALLQ  with(nolock) 
+		WHERE FlagUse = 'Y' AND FlagEvent = 2 
+		ORDER BY Seq DESC, DateReg DESC
+	</select>
+	
+	<!-- fn_SQL_Answer_QuestionInfo -->
+	<select id="getAnswerQuestionInfoAll" resultType="question">
+		SELECT * 
+		FROM V_QUESTIONINFO  with(nolock) 
+		WHERE Seq = #{questionSeq}
+	</select>
+	
+	<!-- fn_SQL_Answer_QuestionInfo_n 중복-->
+	
+	<!-- fn_SQL_Question_AnswerList -->
+	<!-- answer-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Question_Sum -->
+	<select id="getQuestionSum" resultType="double">
+		SELECT 
+			SUM(Almoney) AS SumAlmoney 
+		FROM T_QUESTION  with(nolock) 
+		WHERE FlagUse = 'Y'
+	</select>
+	
+	<!-- fn_SQL_Question_SumView -->
+	<!-- member-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Question_RankQ2 -->
+	<select id="getQuestionRankQ2Count" resultType="int">
+		SELECT 
+			COUNT(Seq)
+		FROM V2_RANKQ  with(nolock) 
+		WHERE FlagUse = 'Y' 
+	</select>
+	<!-- fn_SQL_Question_RankQ2 -->
+	<select id="getQuestionRankQ2Limit" resultType="question">
+		SELECT 
+			TOP #{p_Option} Seq, MemberSeq, Title, FlagUse, ReadCount, ReadAlmoney, AnswCount 
+		FROM V2_RANKQ  with(nolock) 
+		WHERE FlagUse = 'Y' 
+		ORDER BY #{psrc_Cond} DESC
+	</select>
+	<!-- fn_SQL_Question_RankQ2 -->
+	<select id="getQuestionRankQ2All" resultType="question">
+		SELECT 
+			Seq, MemberSeq, Title, FlagUse, ReadCount, ReadAlmoney, AnswCount 
+		FROM V2_RANKQ  with(nolock) 
+		WHERE FlagUse = 'Y' 
+		ORDER BY #{psrc_Cond} DESC
+	</select>
+	
+	<!-- fn_SQL_Question_Best -->
+	<select id="getQestionBest" resultType="question">
+		SELECT 
+			Seq, MemberSeq, Title, FlagUse, ReadCount, BestNumber, AnswerCount, ReadAlmoney, 
+			(select top 1 Photo from T_MEMBERS as M where M.Seq = Q.MemberSeq) as Photo,
+			(select top 1 NickName from T_MEMBERS as M where M.Seq = Q.MemberSeq) as NickName, 
+			(select top 1 Lv from T_MEMBERS as M where M.Seq = Q.MemberSeq) as Lv 
+		FROM V2_ALLQ3 as Q 
+		WHERE FlagUse    = 'Y' 
+			AND BestNumber > 0 
+		ORDER BY BestNumber
+	</select>
+	
+	<select id="getQestionBestCount" resultType="int">
+		select count(Q.Seq) as count
+		from T_QUESTION as Q WITH(NOLOCK)
+			left outer join T_MEMBERS as M WITH(NOLOCK) on Q.MemberSeq = M.Seq and M.FlagDel = 'N'
+		where Q.FlagUse = 'Y' and Q.BestNumber > 0
+	</select>
+	
+	<select id="getQestionBestList" resultType="question">
+		select Q.Seq, Q.MemberSeq, Q.Title, (Q.ReadCount + Q.ReadCount_Answ) as ReadCount, Q.AnswCount, M.Photo, M.NickName, M.Lv, Q.FlagChoice, convert(char(19), Q.regdate, 20) as conDate, Q.almoney,
+		(SELECT COUNT(Seq) FROM T_REPLY_QUESTION AS R WHERE R.QuestionSeq = Q.Seq AND R.FlagUse = 'Y') AS ReplyCount, Q.nation, Q.lang,
+		isnull((
+			select sum(Almoney)
+			from T_EXTRA_ALMONEY
+			where Type = 'Q'
+				and ContentsSeq = Q.Seq
+		), 0) as ExtraAlmoney,
+		isnull((
+			SELECT 
+				ISNULL(SUM(good), 0) AS good
+			FROM 
+				T_QUESTION_VOTE
+			WHERE 
+				contentSeq = Q.Seq
+				AND contentType = 'Q'), 0) as good,
+		isnull((			
+			SELECT  
+				ISNULL(SUM(bad), 0) AS bad
+			FROM 
+				T_QUESTION_VOTE
+			WHERE 
+				contentSeq = Q.Seq
+				AND contentType = 'Q'), 0) as bad 
+		from T_QUESTION as Q WITH(NOLOCK)
+			left outer join T_MEMBERS as M WITH(NOLOCK) on Q.MemberSeq = M.Seq and M.FlagDel = 'N'
+		where Q.FlagUse = 'Y' and Q.BestNumber > 0 
+			and	(
+				select count(*)
+				from T_SIREN as S
+					left outer join T_SIREN_REPORTER as SR on S.Type = SR.Type
+															and S.ContentsSeq = SR.ContentsSeq
+				where S.Type = 'Q'
+					and S.ContentsSeq = Q.Seq
+					and S.Result = 0
+			) <![CDATA[<]]> 3 
+		<if test="lang != ''">and Q.lang = #{lang} </if>
+		order by Q.BestNumber asc
+		OFFSET ((${pg} - 1) * ${maxRow}) ROWS
+		FETCH NEXT ${maxRow} ROWS ONLY
+	</select>
+	
+	<select id="getQestionSpList" resultType="question">
+		select Q.Seq, Q.MemberSeq, Q.Title, (Q.ReadCount + Q.ReadCount_Answ) as ReadCount, Q.AnswCount, M.Photo, M.NickName
+			, M.Lv, Q.Almoney, convert(varchar(19),Q.regdate,20) as conDate
+			, (SELECT COUNT(Seq) FROM T_REPLY_QUESTION AS R WHERE R.QuestionSeq = Q.Seq AND R.FlagUse = 'Y') AS ReplyCount
+		from T_QUESTION as Q WITH(NOLOCK)
+			left outer join T_MEMBERS as M WITH(NOLOCK) on Q.MemberSeq = M.Seq and M.FlagDel = 'N'
+		where Q.FlagUse = 'Y' and Q.Section_Special = #{sp}
+		order by Q.Seq_Order desc
+		OFFSET ((${pg} - 1) * ${maxRow}) ROWS
+		FETCH NEXT ${maxRow} ROWS ONLY
+	</select>
+	
+	<select id="getQuestionBestCnt" resultType="int">
+		select count(*) 
+		from T_QUESTION Q 
+		where FlagUse = 'Y' and BestNumber > 0 
+			and	(
+				select count(*)
+				from T_SIREN as S
+					left outer join T_SIREN_REPORTER as SR on S.Type = SR.Type
+															and S.ContentsSeq = SR.ContentsSeq
+				where S.Type = 'Q'
+					and S.ContentsSeq = Q.Seq
+					and S.Result = 0
+			) <![CDATA[<]]> 3 
+		<if test="lang != ''">and lang = #{lang} </if>
+	</select>
+	
+	<!-- fn_SQL_Question_MaxSeq -->
+	<select id="getQuestionMaxSeq" resultType="int">
+		SELECT 
+			MAX(Seq) AS Seq
+		FROM T_QUESTION
+	</select>
+	
+	<!-- fn_SQL_Question_Result -->
+	<!-- userSeq 는 session 정보임 -->
+	<select id="getQueInfoForTransBySeq" resultType="question">
+		SELECT 
+			* 
+		FROM T_QUESTION  with(nolock) 
+		WHERE Seq = #{seq}
+	</select>
+	
+	<!-- fn_SQL_Question_Search(Question.vbs) -->
+	<select id="getQuestionSearchCount" resultType="int">
+		SELECT 
+			COUNT(Seq)
+		FROM (
+			SELECT DISTINCT Seq, Title, Contents, Almoney, ReadCount, DateReg 
+			FROM (
+				SELECT Seq, Title, Contents, Almoney, ReadCount, DateReg FROM T_QUESTION  with(nolock)
+				WHERE (Title like '%" || #{psrc_Text} || "%' OR Contents like '%' || #{psrc_Text || '%') AND FlagUse = 'Y' 
+				UNION ALL 
+				SELECT Seq, Title, Contents, Almoney, ReadCount, DateReg FROM T_QUESTION   with(nolock) 
+				WHERE Seq IN (SELECT DISTINCT QuestionSeq FROM T_ANSWER  with(nolock)  WHERE Answer like '%' || #{psrc_Text} || '%' AND FlagUse = 'Y'
+			) AS T 
+		) AS Q
+	</select>
+	<!-- fn_SQL_Question_Search(Question.vbs) -->
+	<select id="getQuestionSearchLimit" resultType="question">
+		SELECT 
+			TOP #{p_Option} Seq, Title, Contents, Almoney, ReadCount, DateReg, 
+			(SELECT COUNT(*) AS AnswerCount FROM T_ANSWER AS A  with(nolock)  WHERE QuestionSeq = Q.Seq AND FlagUse = 'Y') AS AnswerCount 
+		FROM (
+			SELECT DISTINCT Seq, Title, Contents, Almoney, ReadCount, DateReg 
+			FROM (
+				SELECT Seq, Title, Contents, Almoney, ReadCount, DateReg FROM T_QUESTION  with(nolock)
+				WHERE (Title like '%" || #{psrc_Text} || "%' OR Contents like '%' || #{psrc_Text || '%') AND FlagUse = 'Y' 
+				UNION ALL 
+				SELECT Seq, Title, Contents, Almoney, ReadCount, DateReg FROM T_QUESTION   with(nolock) 
+				WHERE Seq IN (SELECT DISTINCT QuestionSeq FROM T_ANSWER  with(nolock)  WHERE Answer like '%' || #{psrc_Text} || '%' AND FlagUse = 'Y'
+			) AS T 
+		) AS Q
+		ORDER BY #{psrc_Cond} DESC
+	</select>
+	<!-- fn_SQL_Question_Search(Question.vbs) -->
+	<select id="getQuestionSearchList" resultType="question">
+		SELECT 
+			Seq, Title, Contents, Almoney, ReadCount, DateReg, 
+			(SELECT COUNT(*) AS AnswerCount FROM T_ANSWER AS A  with(nolock)  WHERE QuestionSeq = Q.Seq AND FlagUse = 'Y') AS AnswerCount 
+		FROM (
+			SELECT DISTINCT Seq, Title, Contents, Almoney, ReadCount, DateReg 
+			FROM (
+				SELECT Seq, Title, Contents, Almoney, ReadCount, DateReg FROM T_QUESTION  with(nolock)
+				WHERE (Title like '%" || #{psrc_Text} || "%' OR Contents like '%' || #{psrc_Text || '%') AND FlagUse = 'Y' 
+				UNION ALL 
+				SELECT Seq, Title, Contents, Almoney, ReadCount, DateReg FROM T_QUESTION   with(nolock) 
+				WHERE Seq IN (SELECT DISTINCT QuestionSeq FROM T_ANSWER  with(nolock)  WHERE Answer like '%' || #{psrc_Text} || '%' AND FlagUse = 'Y'
+			) AS T 
+		) AS Q
+		ORDER BY #{psrc_Cond} DESC
+	</select>
+	
+	<!-- fn_SQL_Question_Search2(Common.vbs) -->
+	<select id="getQuestionSearch2" resultType="question">
+		SELECT 
+			Seq, Title, Contents, Almoney, ReadCount, DateReg 
+		FROM T_QUESTION  with(nolock)  WHERE Title like '%' || psrc_Text || '%' AND FlagUse = 'Y' 
+		<if test="psrc_Cond == 'ReadCount'">
+			ORDER BY ReadCount DESC
+		</if>
+		<if test="psrc_Cond != 'ReadCount'">
+			ORDER BY DateReg DESC
+		</if>
+	</select>
+	
+	<!-- fn_SQL_MyInfo_Question -->
+	<select id="getMyInfoQuestion" resultType="question">
+		SELECT COUNT(Seq) AS CountQ, SUM(ReadAlmoney) AS SumQ 
+		FROM T_QUESTION  with(nolock) 
+		WHERE MemberSeq = #{strData} AND FlagUse = 'Y'
+	</select>
+	
+	<!-- fn_SQL_MyQuestion_List -->
+	<select id="getMyQuestionListCount" resultType="int">
+		SELECT 
+			COUNT(Seq) 
+		FROM V2_ALLQ4 AS Q  with(nolock) 
+		WHERE FlagUse = #{strData4} AND MemberSeq = #{strData3}
+		<if test="section1 != '0'">
+			AND Section1 = #{section1} 
+		</if>
+		<if test="strData5 == 'N'">
+			AND FlagChoice = 'N' AND AnswCount > 0 
+		</if>
+	</select>
+	<!-- fn_SQL_MyQuestion_List -->
+	<select id="getMyQuestionListLimit" resultType="question">
+		SELECT 
+			TOP ${strData1} Seq AS QuestionSeq, MemberSeq, Section1, Title, Contents, Almoney, FlagUse, ReadCount, regdate, AnswCount, FlagNickName 
+		FROM V2_ALLQ4 AS Q  with(nolock) 
+		WHERE FlagUse = #{strData4} AND MemberSeq = #{strData3}
+		<if test="section1 != '0'">
+			AND Section1 = #{section1} 
+		</if>
+		<if test="strData5 == 'N'">
+			AND FlagChoice = 'N' AND AnswCount > 0 
+		</if>
+		ORDER BY ${strData2} DESC
+	</select>
+	<!-- fn_SQL_MyQuestion_List -->
+	<select id="getMyQuestionListAll" resultType="question">
+		SELECT 
+			Seq AS QuestionSeq, MemberSeq, Section1, Title, Contents, Almoney, FlagUse, ReadCount, regdate, AnswCount, FlagNickName 
+		FROM V2_ALLQ4 AS Q  with(nolock) 
+		WHERE FlagUse = #{strData4} AND MemberSeq = #{strData3}
+		<if test="section1 != '0'">
+			AND Section1 = #{section1} 
+		</if>
+		<if test="strData5 == 'N'">
+			AND FlagChoice = 'N' AND AnswCount > 0 
+		</if>
+		ORDER BY #{strData2} DESC
+	</select>
+	
+	<!-- fn_SQL_MyQuestion_List2 -->
+	<select id="getMyQuestionList2Count" resultType="int">
+		SELECT 
+			COUNT(Seq) 
+		FROM V2_ALLQ AS Q  with(nolock) 
+		WHERE FlagUse = #{strData4} AND MemberSeq = #{strData3}
+		<if test="section1 != '0'">
+			AND Section1 = #{section1} 
+		</if>
+		<if test="viewFlag == 'N'">
+			AND FlagChoice = 'N' AND AnswCount > 0 
+		</if>
+		<if test="viewFlag == 'notAnswered'">
+			AND AnswerCount = 0 
+		</if>
+		<if test="viewFlag == 'answered'">
+			AND AnswerCount > 0 
+		</if>
+	</select>
+	<!-- fn_SQL_MyQuestion_List2 -->
+	<select id="getMyQuestionList2Limit" resultType="question">
+		SELECT 
+			TOP #{strData1} 
+		FROM V2_ALLQ AS Q  with(nolock) Seq AS QuestionSeq, MemberSeq, Section1, Title, Contents, Almoney, FlagUse, ReadCount, DateReg, AnswerCount 
+		WHERE FlagUse = #{strData4} AND MemberSeq = #{strData3}
+		<if test="section1 != '0'">
+			AND Section1 = #{section1} 
+		</if>
+		<if test="viewFlag == 'N'">
+			AND FlagChoice = 'N' AND AnswCount > 0 
+		</if>
+		<if test="viewFlag == 'notAnswered'">
+			AND AnswerCount = 0 
+		</if>
+		<if test="viewFlag == 'answered'">
+			AND AnswerCount > 0 
+		</if>
+		ORDER BY #{strData2} DESC 
+	</select>
+	<!-- fn_SQL_MyQuestion_List2 -->
+	<select id="getMyQuestionList2All" resultType="question">
+		SELECT 
+			Seq AS QuestionSeq, MemberSeq, Section1, Title, Contents, Almoney, FlagUse, ReadCount, DateReg, AnswerCount 
+		FROM V2_ALLQ AS Q  with(nolock) 
+		WHERE FlagUse = #{strData4} AND MemberSeq = #{strData3}
+		<if test="section1 != '0'">
+			AND Section1 = #{section1} 
+		</if>
+		<if test="viewFlag == 'N'">
+			AND FlagChoice = 'N' AND AnswCount > 0 
+		</if>
+		<if test="viewFlag == 'notAnswered'">
+			AND AnswerCount = 0 
+		</if>
+		<if test="viewFlag == 'answered'">
+			AND AnswerCount > 0 
+		</if>
+		ORDER BY #{strData2} DESC 
+	</select>
+	
+	<!-- fn_SQL_member_q_List -->
+	<select id="getMemberQlistCount" resultType="int">
+		SELECT 
+			COUNT(Seq) 
+		FROM T_QUESTION AS Q  with(nolock) 
+		WHERE MemberSeq = #{seq}
+		<if test='flagUse != ""'>
+			AND FlagUse = #{flagUse}
+			</if>
+		<if test='section1 != "0"'>
+			AND Section1 = #{section1} 
+		</if>
+	</select>
+	<!-- fn_SQL_member_q_List -->
+	<select id="getMemberQlistLimit" resultType="question">
+	SELECT * 
+	FROM 
+		(
+			SELECT 
+				TOP ${p_Option} ROW_NUMBER() OVER(ORDER BY Q.${psrc_Kind} desc) AS rownum, 
+				Seq AS QuestionSeq, MemberSeq, Section1, Title, Contents, Almoney, FlagUse, ReadCount, DateReg, 
+				(SELECT COUNT(*) AS AnswerCount FROM T_ANSWER AS A  with(nolock) WHERE QuestionSeq = Q.Seq AND FlagUse = 'Y') AS AnswerCount 
+			FROM T_QUESTION AS Q  with(nolock) 
+			WHERE MemberSeq = #{seq}
+			<if test='flagUse != ""'>
+			AND FlagUse = #{flagUse}
+			</if>
+			<if test='section1 != "0"'>
+				AND Section1 = #{section1} 
+			</if>
+		) A
+	WHERE
+		rownum BETWEEN #{st_num} AND #{en_num}
+	</select>
+	<!-- fn_SQL_member_q_List -->
+	<select id="getMemberQlistAll" resultType="question">
+		SELECT 
+			Seq AS QuestionSeq, MemberSeq, Section1, Title, Contents, Almoney, FlagUse, ReadCount, DateReg, 
+			(SELECT COUNT(*) AS AnswerCount FROM T_ANSWER AS A  with(nolock) WHERE QuestionSeq = Q.Seq AND FlagUse = 'Y') AS AnswerCount 
+		FROM T_QUESTION AS Q  with(nolock) 
+		WHERE FlagUse = #{strData4} AND MemberSeq = #{strData3}
+		<if test="section1 != '0'">
+			AND Section1 = #{section1} 
+		</if>
+		ORDER BY ${strData2} DESC
+	</select>
+	
+	<select id="getAlmoneyOne" resultType="hashMap">
+		SELECT 
+			SUM_Q_Almoney, SUM_Q_ViewAlmoney 
+		FROM T_STATUS
+	</select>
+	
+	<!-- 질문 - getReportDetail.asp -->
+	<select id="getQuestionDetailBySeq" resultType="question">
+		SELECT Title, Contents, MemberSeq 
+		FROM T_QUESTION 
+		WHERE Seq = #{contentSeq}
+	</select>
+	
+	<select id="getBestNumberBySeq" resultType="string">
+		select BestNumber 
+		from T_QUESTION 
+		where Seq = #{seq}
+	</select>
+	
+	<select id="getMemberQuestionAlmoney" resultType="question">
+		SELECT 
+			Q.MemberSeq
+			, ISNULL(M.Almoney,0) AS Almoney 
+		FROM 
+			T_QUESTION AS Q LEFT OUTER JOIN 
+			T_MEMBERS AS M ON ( Q.MemberSeq = M.Seq )
+		<if test="userLv == '99'">
+		WHERE Q.Seq = #{seq}
+		</if>
+		<if test="userLv != '99'">
+		WHERE Q.Seq = #{seq} AND Q.MemberSeq = #{userSeq}
+		</if>
+	</select>
+	
+	<select id="getGetQuestionSP3" statementType="CALLABLE" parameterType="hashMap" resultType="question">
+	{ call SP3_GET_QUESTION(
+		#{questionSeq, mode=IN}
+	  )
+	}
+	</select>
+	
+	<!-- fn_SQL_Question_ReadUpdate -->
+	<update id="setQuestionRead">
+		UPDATE T_QUESTION SET 
+			ReadCount = ReadCount + 1 
+		WHERE Seq = #{questionSeq}
+	</update>
+	
+	<!-- fn_SQL_Question_ChoiceUpdate -->
+	<!-- userSeq 는 Session 정보임 -->
+	<update id="setQuestionChoiceUpdate">
+		UPDATE T_QUESTION SET FlagChoice = 'Y' 
+		WHERE Seq = #{questionSeq} AND MemberSeq = #{userSeq}
+	</update>
+	
+	<!-- fn_SQL_Question_ReadUpdate -->
+	<update id="setQuestionReadUpdate">
+		UPDATE T_QUESTION SET ReadCount = ReadCount + 1 
+		WHERE Seq = #{questionSeq} 
+	</update>
+	
+	<!-- fn_SQL_Question_Update -->
+	<!-- dateReg 는 ASP 의 Now() -->
+	<!-- regdate 는 ASP 의 getdate() -->
+	<!-- userSeq 는 Session 정보임 -->
+	<update id="updateQuestion">
+		UPDATE T_QUESTION SET 
+			Section1 = #{section1},
+			Title = #{title},
+			Contents = #{contents},
+			Almoney = #{almoney},
+			FlagNickName = #{flagNickName},
+			FlagMinor = #{flagMinor},
+			FlagUse = #{flagUse},
+			DateReg = #{dateReg},
+			FlagNickPrice = #{flagNickPrice},
+			lang = #{lang} 
+		WHERE Seq = #{seq} AND MemberSeq = #{userSeq}
+	</update>
+	
+	<!-- fn_SQL_QuestionAdmin_Update -->
+	<!-- dateReg 는 ASP 의 Now() -->
+	<!-- regdate 는 ASP 의 getdate() -->
+	<update id="updateQuestionAdmin">
+		UPDATE T_QUESTION SET 
+			Section1 = #{section1},
+			Title = #{title},
+			Contents = #{contents},
+			Almoney = #{almoney},
+			FlagNickName = #{flagNickName},
+			FlagMinor = #{flagMinor},
+			FlagUse = #{flagUse},
+			DateReg = #{dateReg},
+			FlagNickPrice = #{flagNickPrice},
+			lang = #{lang} 
+		WHERE Seq = #{seq} AND MemberSeq = #{memberSeq}
+	</update>
+	<update id="updateQuestionAdminBySeq">
+		UPDATE T_QUESTION SET 
+			Title = #{title},
+			Contents = #{contents}
+		WHERE Seq = #{seq}
+	</update>
+	
+	
+	<!-- fn_SQL_Question_Delete -->
+	<update id="deleteQuestion">
+		UPDATE T_QUESTION SET 
+			FlagUse = 'N'
+		WHERE Seq = #{questionSeq}
+	</update>
+	
+	<delete id="deleteQuestionAsParams">
+		DELETE FROM T_QUESTION 
+		<if test='userLv == "99" '>
+			WHERE 
+				Seq     = #{seq}
+				AND FlagUse = #{flag}
+		</if>
+		<if test='userLv != "99" '>
+			WHERE 
+				Seq     = #{seq}
+				AND FlagUse = #{flag}
+				AND MemberSeq = #{userSeq}
+		</if>
+	</delete>
+	
+	<!-- fn_SQL_Question_Insert -->
+	<!-- userSeq 는 Session 정보임  -->
+	<!-- dateReg 는 ASP Now() -->
+	<!-- univ 는 ASP CDbl, JAVA double Session 정보임 -->
+	<insert id="setQuestion">
+		INSERT INTO T_QUESTION (Seq_Order, MemberSeq, Section1, Section2, Section3, Title, Contents, Almoney, FlagNickName, FlagMinor, FlagUse, FlagChoice, BestNumber, ReadCount, ReadAlmoney, DateReg, Section_Special, FlagNickPrice, nation, lang) 
+		VALUES (
+			<if test='flagUse == "Y" '>
+				(select max(Seq_Order) + 1 from T_QUESTION),
+			</if>
+			<if test='flagUse != "Y" '>
+				0,
+			</if>
+			#{userSeq},
+			#{section1},
+			'',
+			'',
+			#{title},
+			#{contents},
+			#{almoney},
+			#{flagNickName},
+			#{flagMinor},
+			#{flagUse},
+			'N',
+			'',
+			'',
+			'',
+			#{dateReg},
+			${univ},
+			#{flagNickPrice},
+			#{nation},
+			#{lang}
+		)
+	</insert>
+		
+	<select id="getEventInQuestionCount" resultType="int">
+		select count(EV_Seq) as count
+		from V_EVENT2
+		where STATUS = #{status} 
+		<if test="lang != ''">
+			and lang = #{lang}
+		</if>
+	</select>
+	<!-- 질문_이벤트 리스트 -->
+	<select id="getEventListInQuestion" resultType="question">
+		SELECT
+			EV_Seq as ev_seq,
+			Q_Seq as q_seq,
+			Title as ev_title,
+			convert(char(19), regdate, 20) as conDate,
+			ReadCount as ev_readCount,
+			ReadCount_Answ,
+			AnswCount as ev_answCount, 
+			Almoney as ev_alMoney,
+			nation,
+			lang
+		FROM
+			V_EVENT2
+		WHERE
+			STATUS = #{status}
+			<if test="lang != ''">
+			and lang = #{lang}
+			</if>
+		ORDER BY Q_Seq DESC
+		OFFSET ((${pg} - 1) * ${maxRow}) ROWS
+		FETCH NEXT ${maxRow} ROWS ONLY
+	</select>
+
+	<select id="getInterviewCount" resultType="int">
+		SELECT count(idx) as count
+		FROM 
+			EV_INTERVIEW_T
+	</select>
+	<!-- 이벤트_인터뷰 리스트  -->
+	<select id="getInterviewList" resultType="question">
+		SELECT 
+			idx as itv_idx,
+			title as itv_title,
+			member_seq as itv_member_seq,
+			contents as itv_contents,
+			date_reg as itv_date_reg,
+			page_view as itv_page_view
+		FROM 
+			EV_INTERVIEW_T
+		ORDER BY idx DESC
+		OFFSET ((${pg} - 1) * ${maxRow}) ROWS
+		FETCH NEXT ${maxRow} ROWS ONLY
+	</select>
+	
+	<!-- 이벤트_인터뷰  -->
+	<select id="getInterview" parameterType="int" resultType="question">
+	SELECT 
+		idx as itv_idx,
+		title as itv_title,
+		member_seq as itv_member_seq,
+		contents as itv_contents,
+		date_reg as itv_date_reg,
+		page_view as itv_page_view
+	FROM 
+		EV_INTERVIEW_T
+	WHERE
+		idx = ${value}
+	</select>
+	
+	<select id="getQuestionNewSeq" resultType="int">
+		SELECT 
+			IDENT_CURRENT('T_QUESTION') as NewSeq
+	</select>
+	
+	<!-- 이벤트 열람시 조회수 상승. -->
+	<update id="plusPageView" parameterType="int">
+	UPDATE 
+		EV_INTERVIEW_T
+	SET
+		page_view = page_view + 1
+    WHERE 
+    	idx = ${value}			
+	</update>
+	
+	<select id="rankList" resultType="HashMap">
+	SELECT  
+		TOP 50 seq AS seq,
+		memberSeq,
+		title,
+		flagUse,
+		readCount,
+		readAlmoney,
+		answCount
+	FROM
+	    T_QUESTION
+	ORDER BY readAlmoney DESC
+	</select>
+	
+	<select id="getRankCountOld" resultType="int">
+		SELECT 
+			COUNT(Seq)
+		FROM 
+			V2_RANKQ  with(nolock)
+		WHERE 
+			FlagUse = 'Y'
+	</select>
+	<select id="getRankCount" resultType="int">
+		SELECT 
+			COUNT(Seq)
+		FROM 
+			(
+				SELECT  TOP (50) Seq, ReadAlmoney
+				FROM     dbo.T_QUESTION_RANK AS Q WITH (nolock)
+				WHERE  (FlagUse = 'Y') AND (Almoney > 0) AND (Almoney != 100000) AND (MemberSeq != 10000691)
+				<if test="lang != ''">
+					AND Q.lang = #{lang}
+				</if>
+			) T
+	</select>
+	<select id="getRankList" resultType="v2Rank">
+		SELECT * 
+		FROM (
+			SELECT 
+				ROW_NUMBER() OVER(ORDER BY ${psrc_Cond} DESC) AS rownum,
+				Seq, MemberSeq, Title, FlagUse, ReadCount, ReadAlmoney, AnswCount, nation, lang  
+			FROM 
+				(
+					SELECT TOP (50) Seq, Title, Almoney, ReadCount, FlagUse, MemberSeq, AnswCount, ReadAlmoney , nation, lang  
+					FROM (
+					SELECT  TOP (50) QuestionSeq AS Seq, Title, Almoney, ReadCount, FlagUse, MemberSeq, AnswCount, ReadAlmoney, nation, lang 
+					FROM     dbo.T_QUESTION_RANK AS Q WITH (nolock)
+					WHERE  (FlagUse = 'Y') AND (Almoney > 0) AND (Almoney != 100000) AND (MemberSeq != 10000691) 
+					<if test="lang != ''">
+						AND Q.lang = #{lang}
+					</if>
+					
+					) x ORDER BY ReadAlmoney DESC
+				) S
+		) T 
+		WHERE 
+			T.rownum BETWEEN ${st_num} AND ${en_num}
+	</select>
+	
+	<update id="setBestChoiceMulti">
+		BEGIN TRY
+			BEGIN TRAN
+				UPDATE T_QUESTION set BestNumber = 0 where FlagUse = 'N' and BestNumber > 0;
+				
+				UPDATE A SET A.BestNumber = A.RowNum FROM (SELECT BestNumber, ROW_NUMBER() OVER (ORDER BY BestNumber) AS RowNum FROM T_QUESTION where BestNumber > 0) AS A;
+				
+				UPDATE T_QUESTION SET BestNumber = BestNumber + 1 WHERE FlagUse = 'Y' AND BestNumber >= ${bestRank};
+				
+				UPDATE T_QUESTION SET BestNumber = #{bestRank} WHERE Seq = #{questionSeq};
+			COMMIT TRAN
+		END TRY
+		BEGIN catch
+			ROLLBACK TRAN
+		END catch
+	</update>
+	
+	<update id="setBestChoiceZero">
+		UPDATE 
+			T_QUESTION 
+		SET 
+			BestNumber = 0 
+		WHERE Seq = #{questionSeq}
+	</update>
+	
+	<select id="deleteQuestionSpAsParams" statementType="CALLABLE" parameterType="hashMap" resultType="string">
+	{ call SP_QUESTION_DELETE(
+		#{que_seq, mode=IN},
+		#{mem_seq, mode=IN}
+	)}
+	</select>
+	
+	<select id="getSearchKeyWordChCount" parameterType="string" resultType="int">
+		DECLARE @KEYWORD_STR nvarchar(200) = #{src_Text};
+		set nocount on;
+        set @KEYWORD_STR = REPLACE(@KEYWORD_STR, '"', '');
+        set @KEYWORD_STR = '"' + @KEYWORD_STR + '"';
+        select count(*)
+        from SYS.DM_FTS_PARSER(@KEYWORD_STR, 1042, 0, 0);
+	</select>
+	<select id="getSearchKeyWordChData" parameterType="hashMap" resultType="question">
+		DECLARE @KEYWORD_STR nvarchar(200) = #{src_Text};
+		DECLARE @KEYFILTER_STR nvarchar(200) = #{filter_str};
+		set nocount on;
+        set @KEYWORD_STR = REPLACE(@KEYWORD_STR, '"', '');
+        set @KEYWORD_STR = '"' + @KEYWORD_STR + '"';
+        select *
+        from SYS.DM_FTS_PARSER(@KEYWORD_STR, 1042, 0, 0)
+        where not display_term in(@KEYFILTER_STR, 'quot', ';')
+	</select>
+	
+	<select id="getSearchSpData" statementType="CALLABLE" parameterType="hashMap" resultType="question">
+	{ call SP_ALTONG_SEARCH_SELECT(
+		#{page_num, mode=IN},
+		#{page_size, mode=IN},
+		#{search_str, mode=IN},
+		#{order_type, mode=IN}
+	)}
+	</select>
+	<select id="getSearchDataCnt" resultType="int">
+		SELECT COUNT(seq)
+		FROM [T_QUESTION] WITH (NOLOCK)
+		INNER JOIN (
+			SELECT [KEY] AS SE_SEQ, RANK
+			FROM FREETEXTTABLE(T_QUESTION, *, #{search_str})
+			) AS SE ON SE_SEQ = seq
+		WHERE FlagUse = 'Y'
+	</select>
+	<select id="getSearchData" parameterType="hashMap" resultType="question">
+		DECLARE @PAGE_NUM INT = ${page_num};
+		DECLARE @PAGE_SIZE INT = ${page_size};
+		DECLARE @SEARCH_STR NVARCHAR(200) = #{search_str};
+		DECLARE @ORDER_TYPE CHAR(1) = #{order_type};
+		 
+		SET NOCOUNT ON;
+
+	    DECLARE @ST_NUM INT;
+	    DECLARE @EN_NUM INT;
+	
+	    SET @ST_NUM = ((@PAGE_NUM - 1) * @PAGE_SIZE)  + 1;
+	    SET @EN_NUM = @PAGE_NUM * @PAGE_SIZE;
+	    
+	    SELECT *
+		FROM (
+			SELECT  Q.Seq, Q.Title, Q.Contents, Q.Almoney, Q.ReadCount, Q.FlagUse, Q.DateReg, ISNULL(aCnt, 0) AS AnswerCount, 
+				Q.MemberSeq, Photo, FlagNickName, M.NickName AS NickName, M.Lv AS Lv,
+				ROW_NUMBER() OVER (
+					ORDER BY CASE 
+							WHEN @ORDER_TYPE = 'R'
+								THEN Rank
+							ELSE 0
+							END DESC, CASE 
+							WHEN @ORDER_TYPE = 'N'
+								THEN Q.Seq
+							ELSE ''
+							END DESC
+					) AS ROWNUM
+			FROM [T_QUESTION] AS Q WITH (NOLOCK)
+			INNER JOIN T_MEMBERS AS M  with(nolock) ON Q.MemberSeq = M.Seq 
+			INNER JOIN (
+				SELECT [KEY] AS SE_SEQ, RANK
+				FROM FREETEXTTABLE(T_QUESTION, *, @SEARCH_STR) --Where RANK >= 100
+				) AS SE ON SE_SEQ = Q.Seq
+			LEFT JOIN (
+				SELECT COUNT(seq) AS aCnt, QuestionSeq
+				FROM T_ANSWER WITH (NOLOCK)
+				WHERE FlagUse = 'Y'
+				GROUP BY QuestionSeq
+				) AS AA ON Q.Seq = AA.QuestionSeq
+			) AS QQ 
+		WHERE FlagUse = 'Y'
+			AND ROWNUM BETWEEN @ST_NUM AND @EN_NUM
+	</select>
+	
+	<select id="getQuestionCountAdm" resultType="int">
+		SELECT 
+			COUNT(Seq) AS Cnt 
+		FROM 
+			T_QUESTION WITH(NOLOCK) 
+		WHERE 
+			(Section2 = 0) 
+			AND FlagUse = 'Y'
+	</select>
+	
+	<select id="getQuestionAdm" parameterType="int" resultType="hashMap">
+		DECLARE @PAZING_SIZE INT = 30; 
+		DECLARE @PAGE INT = #{page}; 
+		SELECT Seq, Title, IIF(flag_Contents = 0, Contents, '(이미지 포함)') as Contents, DateReg, lang  
+		FROM (SELECT ROW_NUMBER() OVER (ORDER BY Seq DESC) AS ROW_NUMBER, Seq, Title, Contents, CHARINDEX('data:image',Contents) AS flag_Contents,DateReg, lang FROM T_QUESTION WITH(NOLOCK) WHERE (Section2 = 0) AND FlagUse = 'Y') A 
+		WHERE ROW_NUMBER BETWEEN ((@PAGE - 1) * @PAZING_SIZE + 1) AND ((@PAGE) * @PAZING_SIZE);
+	</select>
+	
+	<update id="setCategoryQuestionAdm">
+		UPDATE T_QUESTION SET 
+		Section1 = #{section1} 
+		<if test='section2 != "0"'>,Section2 = #{section2}</if>
+		<if test='section3 != "0"'>,Section3 = #{section3}</if>
+		<if test='section4 != "0"'>,Section4 = #{section4}</if>
+		<if test='section5 != "0"'>,Section5 = #{section5}</if>
+		WHERE Seq = #{seq}
+	</update>
+	
+	<update id="setChangeLangQuestion">
+		UPDATE T_QUESTION SET lang = #{lang} WHERE Seq = #{seq}
+	</update>
+</mapper>

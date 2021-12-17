@@ -1,0 +1,979 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.answer">
+	<!-- fn_SQL_Answer_SumChoice -->
+	<select id="getAnswerSumChoice" resultType="int">
+		SELECT SUM(Almoney) AS SumChoice FROM T_QUESTION with(nolock)
+		WHERE SEQ IN (SELECT QuestionSeq FROM T_ANSWER  with(nolock) WHERE FlagChoice = 'Y')
+	</select>
+	
+	<!-- fn_SQL_Answer_SumView -->
+	<select id="getAnswerSumView" resultType="int">
+		SELECT SUM(AnswerMoney) AS SumViewA FROM T_MEMBERS  with(nolock) WHERE FlagDel = 'N'
+	</select>
+	
+	<!-- fn_SQL_Replysum -->
+	<!-- replay-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Answer_Section1T -->
+	<!-- section-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Answer_Section1 -->
+	<!-- section-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Answer_Section2 -->
+	<!-- section-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_reply_Del -->
+	<!-- replay-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Answer_Favorite -->
+	<!-- section-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_ReplyList -->
+	<!-- replay-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Event_Question_List -->
+	<!-- question-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Answer_QuestionInfo -->
+	<!-- question-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Answer_QuestionInfo_n -->
+	<!-- question-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_File_Select -->
+	<!-- files-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Answer_QuestionChoice -->
+	<!-- choice-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Question_ReadUpdate -->
+	<!-- question-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Question_AnswerList -->
+	<select id="getQuestionAnswerList" resultType="answer">
+		SELECT RANK() OVER (ORDER BY PointSum DESC) AS PointRank, * 
+			FROM ( 
+				SELECT
+					A.Seq, A.QuestionSeq, A.MemberSeq, A.Answer, A.FlagNickName, A.FlagChoice, A.PointCount1, A.PointCount2, A.PointCount3, A.PointCount4, A.PointCount5, A.PointCount6, A.ReadCount, A.DateReg, 
+					(PointCount1 * 7 + PointCount2 * 3 + PointCount3 * 1 - PointCount4 * 1 - PointCount5 * 3) AS PointSum, 
+					M.NickName 
+				FROM T_ANSWER AS A WITH(NOLOCK) 
+				LEFT OUTER JOIN T_MEMBERS AS M  with(nolock) ON A.MemberSeq = M.Seq 
+				WHERE A.QuestionSeq = #{questionSeq} AND A.FlagUse = 'Y'
+			) AS T 
+				ORDER BY FlagChoice DESC, (PointCount1 * 7 + PointCount2 * 3 + PointCount3 * 1 - PointCount4 * 1 - PointCount5 * 3) DESC"
+	</select>
+	
+	<!-- fn_SQL_Answer_MaxSeq -->
+	<select id="getAnswerMaxSeq" resultType="int">
+		SELECT MAX(Seq) AS Seq FROM T_ANSWER
+	</select>
+	
+	<select id="getCountCAndCountN" resultType="hashMap">
+		select 
+			count(case when FlagChoice = 'Y' then 1 end) CountC, 
+			count(case when FlagChoice = 'N' then 1 end) CountN
+		from T_Question
+		where Memberseq = #{seq} and FlagUse = 'Y'
+	</select>
+	
+	<!-- fn_SQL_Reply_MaxSeq -->
+	<!-- replay-Mapper.xml 로 이동함 -->
+	
+	
+	<!-- fn_SQL_Question_AnswerView -->
+	<select id="getQuestionAnswerView" resultType="answer">
+		SELECT A.Answer, A.FlagNickName, A.FlagChoice, A.PointCount1, A.PointCount2, A.PointCount3, A.PointCount4, A.PointCount5, PointCount6, A.ReadCount, A.DateReg, M.NickName, M.Seq AS MemberSeq 
+		FROM T_ANSWER AS A  with(nolock) 
+		LEFT OUTER JOIN T_MEMBERS AS M  with(nolock) ON A.MemberSeq = M.Seq 
+		WHERE A.Seq = #{answerSeq} AND A.FlagUse = 'Y'
+	</select>
+	
+	<!-- fn_SQL_Question_AnswerView2 -->
+	<select id="getQuestionAnswerView2" resultType="answer">
+		SELECT A.Answer, A.FlagChoice, M.NickName AS NickName, M.Intro, M.Seq AS MemberSeq, PointCount1, PointCount2, PointCount3, PointCount4, PointCount5, PointCount6, ReadCount, A.DateReg, FlagNickName
+		FROM T_ANSWER AS A  with(nolock) 
+		LEFT OUTER JOIN T_MEMBERS AS M  with(nolock) ON M.Seq = A.MemberSeq 
+		WHERE A.Seq = #{answerSeq} AND A.FlagUse = 'Y'
+	</select>
+	
+	<!-- fn_SQL_Question_AnswerView2(Answer.waytosky.vbs) -->
+	<select id="getQuestionAnswerView2InSeq" resultType="answer">
+		SELECT A.Answer, A.FlagChoice, CASE WHEN FlagNickName = 'Y' Then M.NickName Else '비공개' End AS NickName, M.Intro, M.Seq AS MemberSeq, PointCount1, PointCount2, PointCount3, PointCount4, 
+				PointCount5, PointCount6, ReadCount, A.DateReg, FlagNickName
+		FROM T_ANSWER AS A  with(nolock) 
+		LEFT OUTER JOIN T_MEMBERS AS M  with(nolock) ON M.Seq = A.MemberSeq 
+		WHERE A.Seq = #{answerSeq} AND A.FlagUse = 'Y'
+	</select>
+	
+	<select id="getQuestionAnswerViewSP" resultType="answer">
+		declare @Seq BIGINT = #{answerSeq};
+		
+        set nocount on;
+
+        declare @QuestionSeq BIGINT;
+        declare @MemberSeq int;
+        declare @Answer nvarchar(max);
+        declare @FlagNickName varchar(1);
+        declare @FlagChoice varchar(1);
+        declare @Regdate datetime;
+        declare @ReadCount int;
+        declare @PointCount1 int;
+        declare @PointCount2 int;
+        declare @PointCount3 int;
+        declare @PointCount4 int;
+        declare @PointCount5 int;
+        declare @PointCount6 int;
+
+        declare @NickName varchar(200);
+        declare @Lv varchar(2);
+        declare @Photo varchar(200);
+        declare @Intro varchar(500);
+        declare @Q_Almoney money;
+        declare @A_Almoney money;
+
+        select top 1 @QuestionSeq = QuestionSeq
+                   , @MemberSeq = MemberSeq
+                   , @Answer = Answer
+                   , @ReadCount = ReadCount
+                   , @Regdate = regdate
+                   , @FlagNickName = FlagNickName
+                   , @FlagChoice = FlagChoice
+                   , @PointCount1 = PointCount1
+                   , @PointCount2 = PointCount2
+                   , @PointCount3 = PointCount3
+                   , @PointCount4 = PointCount4
+                   , @PointCount5 = PointCount5
+                   , @PointCount6 = PointCount6
+        from dbo.T_ANSWER with(nolock)
+        where Seq = @Seq;
+
+        select top 1 @NickName = NickName
+                   , @Lv = Lv
+                   , @Photo = Photo
+                   , @Intro = Intro
+                   , @Q_Almoney = L.EarnQueView --Q_Almoney
+                   , @A_Almoney = L.EarnAnsChoice + L.EarnAnsView --A_Almoney
+        from dbo.T_MEMBERS as M with(nolock)
+             left join V_LOG_ALMONEY_COMBINED as L on L.MemberSeq = M.Seq
+        where Seq = @MemberSeq
+              and FlagDel = 'N';
+
+
+        select @QuestionSeq as QuestionSeq
+             , @MemberSeq as MemberSeq
+             , @Answer as Answer
+             , @ReadCount as ReadCount
+             , convert(varchar, @Regdate, 20) as regdate
+             , @FlagNickName as FlagNickName
+             , @FlagChoice as FlagChoice
+             , @PointCount1 as PointCount1
+             , @PointCount2 as PointCount2
+             , @PointCount3 as PointCount3
+             , @PointCount4 as PointCount4
+             , @PointCount5 as PointCount5
+             , @PointCount6 as PointCount6
+             , @NickName as NickName
+             , @Lv as Lv
+             , @Photo as Photo
+             , @Intro as Intro
+             , @Q_Almoney as Q_Almoney
+             , @A_Almoney as A_Almoney;
+	</select>
+	
+	<!-- fn_SQL_Answer_MemberInfo -->
+	<!-- member-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Member_Almoney -->
+	<!-- member-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Answer_MemberAlmoney -->
+	<!-- member-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Answer_AD -->
+	<!-- ad-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Answer_ViewLog -->
+	<!-- logAlmoney-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Answer_ZzimCheck -->
+	<!-- myZzim-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Answer_View -->
+	<!-- userLv, userSeq 는 Session 정보임 -->
+	<select id="getAnswerView" resultType="answer">
+		SELECT Answer, FlagNickName FROM T_ANSWER  with(nolock) 
+		<if test='userLv == "99"'>
+			WHERE Seq = #{seq} 
+		</if>
+		<if test='userLv != "99"'>
+			WHERE MemberSeq = #{userSeq} AND Seq = #{seq} 
+		</if>
+	</select>
+	
+	<!-- fn_SQL_Estimate_PointCount -->
+	<select id="getEstimatePointCount" resultType="answer">
+		SELECT PointCount || #{arrayNum} 
+		FROM T_ANSWER  with(nolock) 
+		WHERE Seq = #{seq}
+	</select>
+	
+	<!-- fn_SQL_Answer_RankA2 -->
+	<select id="getAnswerRank2Count" resultType="int">
+		SELECT COUNT(Seq) 
+		FROM V2_RANKA  with(nolock) 
+		<if test="section1 != '0'">
+			WHERE Section1 = #{section1} 
+		</if>
+	</select>
+	<!-- fn_SQL_Answer_RankA2 -->
+	<!-- p_Option 는 숫자형으로 받을 것 -->
+	<select id="getAnswerRank2Info" resultType="answer">
+		SELECT TOP #{p_Option} Seq, QuestionSeq, Answer, ReadCount, ReadAlmoney, PointCount, Section1 
+		FROM V2_RANKA  with(nolock) 
+		<if test="section1 != '0'">
+			WHERE Section1 = #{section1}
+		</if>
+		ORDER BY ReadAlmoney DESC, Seq DESC
+	</select>
+	<!-- fn_SQL_Answer_RankA2 -->
+	<select id="getAnswerRank2Many" resultType="answer">
+		SELECT Seq, QuestionSeq, Answer, ReadCount, ReadAlmoney, PointCount, Section1 
+		FROM V2_RANKA  with(nolock) 
+		<if test="section1 != '0'">
+			WHERE Section1 = #{section1}
+		</if>
+		ORDER BY ReadAlmoney DESC, Seq DESC
+	</select>
+	
+	<!-- fn_SQL_Estimate_PointCount(Answer.waytosky.vbs) 중복 -->	
+	
+	<!-- fn_SQL_Answer_RankA(Answer.waytosky.vbs) -->
+	<select id="getAnswerRankACount" resultType="int">
+		SELECT COUNT(Seq) 
+		FROM V_RANKA  with(nolock) 
+		<if test="section1 != '0'">
+			WHERE Section1 = #{section1} 
+		</if>
+	</select>
+	<!-- fn_SQL_Answer_RankA(Answer.waytosky.vbs) -->
+	<!-- p_Option 는 숫자형으로 받을 것 -->
+	<select id="getAnswerRankAInfo" resultType="answer">
+		SELECT TOP #{p_Option} Seq, QuestionSeq, Answer, ReadCount, ReadAlmoney, PointCount, Section1 
+		FROM V_RANKA  with(nolock) 
+		<if test="section1 != '0'">
+			WHERE Section1 = #{section1}
+		</if>
+		ORDER BY ReadAlmoney DESC, Seq DESC
+	</select>
+	<!-- fn_SQL_Answer_RankA(Answer.waytosky.vbs) -->
+	<select id="getAnswerRankAMany" resultType="answer">
+		SELECT Seq, QuestionSeq, Answer, ReadCount, ReadAlmoney, PointCount, Section1 
+		FROM V_RANKA  with(nolock) 
+		<if test="section1 != '0'">
+			WHERE Section1 = #{section1}
+		</if>
+		ORDER BY ReadAlmoney DESC, Seq DESC
+	</select>
+	
+	<!-- fn_SQL_Answer_RankA_A -->
+	<select id="getAnswerRankA" resultType="answer">
+		SELECT SEQ,PointCount, Section1 FROM V_RANKA ORDER BY ReadAlmoney DESC, Seq DESC 
+	</select>
+	
+	<!-- fn_SQL_Answer_RankU(Answer.waytosky.vbs) -->
+	<select id="getAnswerRankUCount" resultType="int">
+		SELECT COUNT(Seq) 
+		FROM ( 
+			SELECT TOP (1000) COUNT(B.MemberSeq) AS CountA, A.Seq, A.NickName, A.Photo, A.FlagDel, A.AnswerMoney, A.AnswerCount 
+			FROM T_MEMBERS A  with(nolock) , V_RANKA B  with(nolock) 
+			WHERE A.Seq=B.MemberSeq AND FlagDel = 'N' 
+	        group by A.Seq, A.NickName, A.Photo, A.FlagDel,  A.AnswerMoney, A.AnswerCount 
+			ORDER BY #{psrc_Cond} DESC 
+		) T 
+	</select>
+	<!-- fn_SQL_Answer_RankA(Answer.waytosky.vbs) -->
+	<!-- p_Option 는 숫자형으로 받을 것 -->
+	<select id="getAnswerRankUInfo" resultType="answer">
+		SELECT TOP #{p_Option} COUNTA, Seq, QuestionSeq, Answer, ReadCount, ReadAlmoney, PointCount, Section1 
+		FROM ( 
+			SELECT TOP (1000) COUNT(B.MemberSeq) AS CountA, A.Seq, A.NickName, A.Photo, A.FlagDel, A.AnswerMoney, A.AnswerCount 
+			FROM T_MEMBERS A  with(nolock) , V_RANKA B  with(nolock) 
+			WHERE A.Seq=B.MemberSeq AND FlagDel = 'N' 
+	        group by A.Seq, A.NickName, A.Photo, A.FlagDel,  A.AnswerMoney, A.AnswerCount 
+			ORDER BY #{psrc_Cond} DESC 
+		) T 
+	</select>
+	<!-- fn_SQL_Answer_RankA(Answer.waytosky.vbs) -->
+	<select id="getAnswerRankUMany" resultType="answer">
+		SELECT COUNTA, Seq, QuestionSeq, Answer, ReadCount, ReadAlmoney, PointCount, Section1 
+		FROM ( 
+			SELECT TOP (1000) COUNT(B.MemberSeq) AS CountA, A.Seq, A.NickName, A.Photo, A.FlagDel, A.AnswerMoney, A.AnswerCount 
+			FROM T_MEMBERS A  with(nolock) , V_RANKA B  with(nolock) 
+			WHERE A.Seq=B.MemberSeq AND FlagDel = 'N' 
+	        group by A.Seq, A.NickName, A.Photo, A.FlagDel,  A.AnswerMoney, A.AnswerCount 
+			ORDER BY #{psrc_Cond} DESC 
+		) T 
+	</select>
+	
+	<select id="getAnserForQuestionSeqBySeq" resultType="int">
+		select 
+			QuestionSeq 
+		from T_ANSWER with(nolock) 
+		where Seq = #{seq}
+	</select>
+	
+	<!-- fn_SQL_member_a_List -->
+	<select id="getMemberAdmAlistCount" resultType="int">
+		SELECT 
+			COUNT(A.Seq) 
+		FROM T_ANSWER AS A with(nolock) 
+			LEFT OUTER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq
+		WHERE A.MemberSeq = #{seq} 
+		
+		<if test='flagUse != ""'>
+			AND A.FlagUse = #{flagUse}
+		</if>
+		<if test='flagChoice != ""'>
+			AND A.FlagChoice = #{flagChoice} 
+		</if>
+	</select>
+	<!-- fn_SQL_member_a_List -->
+	<select id="getMemberAdmAlistLimit" resultType="answer">
+	SELECT * 
+	FROM 
+		(
+			SELECT 
+				TOP ${p_Option} ROW_NUMBER() OVER(ORDER BY A.QuestionSeq desc) AS rownum, 
+				A.Seq AS AnswerSeq, A.QuestionSeq, A.FlagChoice, Q.Title, Q.Almoney, Q.ReadCount, Q.DateReg, 
+				(SELECT COUNT(*) AS AnswerCount FROM T_ANSWER  with(nolock) WHERE QuestionSeq = Q.Seq AND FlagUse = 'Y') AS AnswerCount 
+			FROM T_ANSWER AS A  with(nolock) 
+				LEFT OUTER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq
+			WHERE A.MemberSeq = #{seq}
+			<if test='flagUse != ""'>
+			AND A.FlagUse = #{flagUse}
+		</if>
+			<if test='flagChoice != ""'>
+			AND A.FlagChoice = #{flagChoice} 
+			</if>
+		) T
+	WHERE
+		rownum BETWEEN #{st_num} AND #{en_num}
+	</select>
+	
+	
+	<!-- fn_SQL_member_v_List -->
+	<select id="getMemberAdmVlistCount" resultType="int">
+		SELECT 
+			COUNT(L.Seq) 
+		FROM LOG_ALMONEY AS L  with(nolock)  
+			LEFT OUTER JOIN T_ANSWER AS A  with(nolock) ON L.ContentsSeq = A.Seq 
+			LEFT OUTER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq 
+		WHERE L.TradeType = 'View' AND L.MemberSeq = #{seq} 
+		
+		<if test='section1 != ""'>
+			AND Q.Section1 = #{section1}
+		</if>
+	</select>
+	<!-- fn_SQL_member_v_List -->
+	<select id="getMemberAdmVlistLimit" resultType="answer">
+	SELECT * 
+	FROM 
+		(
+			SELECT 
+				TOP ${p_Option} ROW_NUMBER() OVER(ORDER BY L.Seq desc) AS rownum, 
+				L.ContentsSeq AS AnswerSeq, L.regdate, A.Answer, Q.Seq AS QuestionSeq, Q.Section1  
+			FROM LOG_ALMONEY AS L  with(nolock) 
+				LEFT OUTER JOIN T_ANSWER AS A  with(nolock) ON L.ContentsSeq = A.Seq 
+				LEFT OUTER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq 
+			WHERE L.TradeType = 'View' AND L.MemberSeq = #{seq} 
+			<if test='section1 != ""'>
+				AND Q.Section1 = #{section1}
+			</if>
+		) T
+	WHERE
+		rownum BETWEEN #{st_num} AND #{en_num}
+	</select>
+	
+	
+	<!-- fn_SQL_Answer_RankU_T(Answer.waytosky.vbs) -->
+	<!-- member-Mapper.xml 로 이동함 -->
+	
+	
+	<!-- fn_SQL_Answer_SumChoice -->
+	<!-- question-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Answer_SumView -->
+	<!-- member-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Question_AnswerList -->
+	<select id="getQuestionAnswerRankList" resultType="answer">
+		SELECT RANK() OVER (ORDER BY PointSum DESC) AS PointRank, * FROM ( 
+			SELECT 
+				A.Seq, A.QuestionSeq, A.MemberSeq, A.Answer, A.FlagNickName, A.FlagChoice, A.PointCount1, A.PointCount2, A.PointCount3, A.PointCount4, A.PointCount5, A.PointCount6, A.ReadCount, A.DateReg, 
+				(PointCount1 * 7 + PointCount2 * 3 + PointCount3 * 1 - PointCount4 * 1 - PointCount5 * 3) AS PointSum, 
+				M.NickName 
+			FROM T_ANSWER AS A WITH(NOLOCK) 
+			LEFT OUTER JOIN T_MEMBERS AS M  with(nolock) ON A.MemberSeq = M.Seq 
+			WHERE A.QuestionSeq = #{questionSeq} AND A.FlagUse = 'Y'
+		) AS T 
+		ORDER BY FlagChoice DESC, (PointCount1 * 7 + PointCount2 * 3 + PointCount3 * 1 - PointCount4 * 1 - PointCount5 * 3) DESC	
+	</select>
+	
+	<!-- fn_SQL_Question_Answer(Question.vbs) -->
+	<select id="" resultType="int">
+		SELECT COUNT(*) AS AnswerCount 
+		FROM T_ANSWER  with(nolock) 
+		WHERE QuestionSeq = #{questionSeq}
+	</select>
+	
+	<!-- fn_SQL_MyInfo_Answer -->
+	<select id="getMyInfoAnswerCount" resultType="int">
+		SELECT COUNT(Seq) AS CountA, SUM(ReadAlmoney) AS SumA 
+		FROM T_ANSWER  with(nolock) 
+		WHERE MemberSeq = #{strData} AND FlagUse = 'Y'
+	</select>
+	
+	<!-- fn_SQL_MyAnswer_List -->
+	<select id="getMyAnswerListCount" resultType="int">
+		SELECT 
+			COUNT(A.Seq) 
+		FROM T_ANSWER AS A  with(nolock) 
+		INNER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq and Q.FlagUse = 'Y' 
+		WHERE A.FlagUse = #{strData4} and A.MemberSeq = #{strData3} 
+		<if test="flagChoice != ''">
+			AND A.FlagChoice = #{FlagChoice} 
+		</if>
+	</select>
+	<!-- fn_SQL_MyAnswer_List -->
+	<select id="getMyAnswerListLimit" resultType="answer">
+		SELECT 
+			TOP ${strData1} A.Seq AS AnswerSeq, A.QuestionSeq, A.FlagChoice, A.FlagNickName, Q.Title, Q.Almoney, A.ReadCount, convert(char(19), A.regdate, 20) as conDate, Q.AnswCount, A.Answer  
+		FROM T_ANSWER AS A  with(nolock) 
+		INNER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq and Q.FlagUse = 'Y' 
+		WHERE A.FlagUse = #{strData4} and A.MemberSeq = #{strData3} 
+		<if test="flagChoice != ''">
+			AND A.FlagChoice = #{FlagChoice} 
+		</if>
+		ORDER BY A.DateReg DESC
+	</select>
+	<!-- fn_SQL_MyAnswer_List -->
+	<select id="getMyAnswerListAll" resultType="answer">
+		SELECT 
+			A.Seq AS AnswerSeq, A.QuestionSeq, A.FlagChoice, A.FlagNickName, Q.Title, Q.Almoney, A.ReadCount, convert(char(19), A.regdate, 20) as conDate, Q.AnswCount, A.Answer
+		FROM T_ANSWER AS A  with(nolock) 
+		INNER JOIN T_QUESTION AS Q  with(nolock) ON A.QuestionSeq = Q.Seq and Q.FlagUse = 'Y' 
+		WHERE A.FlagUse = #{strData4} and A.MemberSeq = #{strData3} 
+		<if test="flagChoice != ''">
+			AND A.FlagChoice = #{FlagChoice} 
+		</if>
+		ORDER BY A.DateReg DESC
+	</select>
+	
+	<!-- 답변 - getReportDetail.asp -->
+	<select id="getReplyAnswer" resultType="answer">
+		SELECT QuestionSeq 
+				,Answer 
+				,( 
+					SELECT CONCAT('질문("', Title, '")의 답변') 
+					FROM T_QUESTION 
+					WHERE Seq = QuestionSeq 
+				) AS Title
+				,MemberSeq
+		FROM T_ANSWER 
+		WHERE Seq = #{contentSeq}
+	</select>
+	
+	<!-- 답변 댓글의 Seq - getReportDetail.asp -->
+	<select id="getReplyAnswerSeq" resultType="int">
+		SELECT QuestionSeq 
+		FROM T_ANSWER 
+		WHERE Seq = #{answerSeq}
+	</select>
+	
+	<!-- fn_SQL_Answer_Insert -->
+	<!-- userSeq 는 Session 정보 임 -->
+	<!-- dateReg = Now() -->
+	<insert id="setAnswer">
+		if not exists(select seq from T_ANSWER where QuestionSeq = #{questionSeq} and MemberSeq = #{userSeq} and FlagUse = 'Y') 
+		begin 
+			INSERT INTO T_ANSWER (QuestionSeq, MemberSeq, Answer, FlagNickName, FlagUse, FlagChoice, PointCount1, PointCount2, PointCount3, PointCount4, PointCount5, ReadCount, ReadAlmoney, DateReg, nation, lang) 
+			VALUES (
+				#{questionSeq},
+				#{userSeq},
+				#{contents},
+				#{flagNickName},
+				#{flagUse},
+				'N',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				#{dateReg},
+				#{nation},
+				#{lang}
+			);
+			
+			update t_question set AnswCount = AnswCount + 1 where Seq = #{questionSeq};
+			update t_members set A_Count = A_Count + 1 where Seq = #{userSeq};
+		end
+	</insert>
+	
+	<!-- fn_SQL_Answer_Insert(Answer.wayforsky.vbs) -->
+	<!-- userSeq 는 Session 정보 임 -->
+	<!-- dateReg = Now() -->
+	<insert id="addAnswer">
+		INSERT INTO T_ANSWER 
+			(QuestionSeq, MemberSeq, Answer, FlagNickName, FlagUse, FlagChoice, PointCount1, PointCount2, PointCount3, PointCount4, PointCount5, ReadCount, ReadAlmoney, DateReg) 
+			VALUES (
+				#{questionSeq},
+				#{userSeq},
+				'N'||#{content},
+				#{flagNickName},
+				#{flagUse},
+				'N',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				#{dateReg}
+			)
+	</insert>
+	
+	<!-- fn_SQL_Reply_Insert -->
+	<!-- replay-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Question_ChoiceUpdate -->
+	<!-- question-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Answer_ChoiceUpdate -->
+	<update id="setAnswerChoiceUpdate">
+		UPDATE T_ANSWER SET FlagChoice = 'Y' 
+		WHERE Seq = #{answerSeq} AND MemberSeq = #{answerMemberSeq}
+	</update>
+	
+	
+	<!-- fn_SQL_Question_LogInsert -->
+	<!-- logAlmoney-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Answer_LogInsert -->
+	<!-- logAlmoney-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Question_MemberUpdate -->
+	<!-- member-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Answer_MemberUpdate -->
+	<!-- member-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Almoney_Update -->
+	<!-- member-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Almoney_Read -->
+	<!-- logAlmoney-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Answer_Zzim -->
+	<!-- myZzim-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Get_Recommender -->
+	<!-- member-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Get_Recommender_Money -->
+	<!-- member-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Get_Category_Name -->
+	<!-- section-Mapper.xml 로 이동함 -->
+	
+	
+	<!-- fn_SQL_Answer_Update -->
+	<!-- dateReg = Now() 를 받아 올것 -->
+	<!-- userLv, userSeq 는 Session 정보임 -->
+	<update id="setAnswerUpdate">
+		UPDATE T_ANSWER SET 
+			Answer = #{contents},
+			FlagUse = #{flagUse},
+			FlagNickName = #{flagNickName},
+			DateReg = #{dateReg},
+			regdate = getdate()
+		<if test='userLv == "99"'>
+			WHERE Seq = #{seq}
+		</if>
+		<if test='userLv != "99"'>
+			WHERE Seq = #{seq} and MemberSeq = #{userSeq}
+		</if>
+	</update>
+	
+	<!-- fn_SQL_Answer_Update(Answer.waytosky.vbs) -->
+	<update id="setAnswerUpdateWayToSky">
+		UPDATE T_ANSWER SET 
+			Answer = #{contents},
+			FlagUse = #{flagUse},
+			DateReg = #{dateReg},
+			
+		<if test="userLv == '99'">
+			WHERE Seq = #{seq}
+		</if>
+		<if test="userLv != '99'">
+			WHERE Seq = #{seq} and MemberSeq = #{userSeq}
+		</if>
+	</update>
+	
+	<!-- fn_SQL_Answer_Delete -->
+	<update id="answerDeleteWayToSky">
+		UPDATE T_ANSWER SET 
+			FlagUse = 'N',
+			DateReg = #{dateReg}
+		WHERE Seq = #{AnswerSeq}
+	</update>
+	
+	<!-- fn_SQL_Answer_Delete(Answer.waytosky.vbs) -->
+	<update id="answerDelete">
+   		BEGIN TRY
+   			BEGIN TRAN
+				UPDATE T_ANSWER SET 
+					FlagUse = 'N',
+					DateReg = #{dateReg},
+					regdate = getdate() 
+				WHERE Seq = #{answerSeq};
+				
+				update t_question set AnswCount = AnswCount - 1 where Seq = #{questionSeq};
+				
+				update t_members set A_Count = A_Count - 1 where Seq = #{questionMemSeq};
+			
+			COMMIT TRAN
+		END TRY
+		BEGIN catch
+			ROLLBACK TRAN
+		END catch
+	</update>
+	
+	<!-- fn_SQL_Estimate_Insert -->
+	<!-- logEstimate-Mapper.xml 로 이동함 -->
+	
+	<!-- fn_SQL_Estimate_Update -->
+	<update id="setEstimateUpdate">
+		UPDATE T_ANSWER SET 
+			PointCount||#{arrayNum} = PointCount||#{arrayNum} || ' + 1' 
+		WHERE Seq = #{seq}
+	</update>
+	
+	<!-- fn_SQL_Answer_ReadUpdate -->
+	<update id="setAnswerReadUpdate">
+		UPDATE T_ANSWER SET ReadCount = ReadCount + 1 
+		WHERE Seq = #{answerSeq};
+		
+		update t_question set ReadCount_Answ = ReadCount_Answ + 1 where Seq = #{questionSeq};
+	</update>
+	
+	<!-- fn_SQL_Answer_ReadUpdate(Answer.waytosky.vbs)   -->
+	<update id="setAnswerReadUpdateWayToSky">
+		UPDATE T_ANSWER SET ReadCount = ReadCount + 1 
+		WHERE Seq = #{answerSeq}
+	</update>
+	
+	<select id="getChoiceAndViewA" resultType="HashMap">
+		SELECT 
+			SUM_A_ChoicedAlmoney,
+			ROUND(SUM_A_ViewAlmoney,0) AS SUM_A_ViewAlmoney
+		FROM
+			T_STATUS	
+	</select>
+	
+	<select id="fn_SQL_Answer_Section1" resultType="HashMap">
+	SELECT 
+		Code AS SectionCode1,
+	    CodeName AS SectionName1
+	FROM
+		T_SECTION_T
+	WHERE
+		FlagUse = 'Y'	   
+	</select>
+	
+	<select id="setMoveQuestion" resultType="hashMap">
+		SET ANSI_NULLS ON
+
+		declare @ReturnCode int = 1
+		declare @ErrText varchar(max) = ''
+		declare @tmpTable table(ReturnCode int, ErrText varchar(max))
+		declare @AlmoneyMoveQuestion int
+		declare @Seq_Order bigint
+
+		begin try
+			begin TRAN
+
+			select @AlmoneyMoveQuestion = -AlmoneyMoveQuestion from T_CONFIG
+
+			if @ReturnCode = 1
+			begin
+				insert @tmpTable exec SP_CHANGE_ALMONEY 1, #{userSeq}, @AlmoneyMoveQuestion, #{questionSeq}
+				select @ReturnCode = ReturnCode, @ErrText = ErrText from @tmpTable
+			end
+
+			if @ReturnCode = 1
+			begin
+				INSERT INTO T_REPLY_QUESTION (QuestionSeq, MemberSeq, Reply)
+					VALUES (#{questionSeq}, 10003513, (select NickName from T_MEMBERS where Seq = #{userSeq}) + '님이 이 질문을 꼭대기로 올리셨어요.')
+			end
+
+			if @ReturnCode = 1
+			begin
+				select @Seq_Order = Seq_Order from T_QUESTION where Seq = #{questionSeq} and FlagUse = 'Y'
+				if @Seq_Order is null
+					set @ReturnCode = 51
+				else if (select count(*) from T_QUESTION where Seq_Order > @Seq_Order) = 0
+					set @ReturnCode = 52
+			end
+
+			if @ReturnCode = 1
+			begin
+				update T_QUESTION set Seq_Order = (select max(Seq_Order) + 1 from T_QUESTION) where Seq = #{questionSeq}
+				update T_QUESTION_OriOrder set regdate = getdate() where Seq = #{questionSeq}
+				if @@ROWCOUNT = 0
+					insert into T_QUESTION_OriOrder(Seq, Seq_Order) values(#{questionSeq}, @Seq_Order)
+				commit TRAN
+			end
+			else
+				ROLLBACK TRAN
+		end try
+		begin catch
+			ROLLBACK TRAN
+			set @ReturnCode = 0
+			set @ErrText = @ErrText + Error_Message()
+		end catch
+
+		select @ReturnCode as ReturnCode, @ErrText as ErrText
+	</select>
+	
+	<select id="getAnswerBySeq" resultType="answer">
+		SELECT 
+			Title
+			, Contents
+			, (select NickName from T_MEMBERS where Seq=Q.MemberSeq and FlagDel='N') as NickName
+			, FlagNickName
+			, lang 
+		FROM 
+			T_QUESTION as Q WITH(NOLOCK) 
+		WHERE Seq = #{questionSeq}
+	</select>
+	
+	<select id="getAnswerChoiceInfo" resultType="answer">
+		SELECT 
+			QuestionSeq
+			, FlagChoice
+			, MemberSeq 
+		FROM 
+			T_ANSWER 
+		WHERE Seq = #{answerSeq}
+	</select>
+	
+	<select id="getAnswerCnt" resultType="int">
+		select 
+			count(Seq) as AnswerCnt
+		from T_ANSWER
+		where QuestionSeq = #{questionSeq}
+			and FlagUse = 'Y'
+	</select>
+	
+	<select id="setAnswerCancelOrDelete" statementType="CALLABLE" parameterType="hashMap" resultType="hashMap">
+	{ call SP2_CHOICE_ANSWER_CANCEL_DELETE(
+		#{answerSeq, mode=IN},
+		#{dateReg, mode=IN}
+	) }
+	</select>
+	
+	<select id="setAnswerEstimate" statementType="CALLABLE" parameterType="hashMap" resultType="hashMap">
+	{ call SP2_ANSWER_ESTIMATE2(
+		#{gubun, mode=IN},
+		#{ans_seq, mode=IN},
+		#{mem_seq, mode=IN},
+		#{point_count_no, mode=IN},
+		#{date_reg, mode=IN}
+	)}
+	</select>
+	
+	<select id="setAnswerChoice" statementType="CALLABLE" parameterType="hashMap" resultType="hashMap">
+	{ call SP2_CHOICE_ANSWER(
+		#{ans_seq, mode=IN}
+	)}
+	</select>
+	
+	<select id="getQuestionCount" statementType="CALLABLE" parameterType="hashMap" resultType="int">
+	{ call SP2_FAVORITE_CATEGORY_QUESTION_GET5(
+		#{call_flag, mode=IN},
+		#{order_flag, mode=IN},
+		#{lang, mode=IN},
+		#{page_num, mode=IN},
+		#{page_size, mode=IN},
+		#{code1, mode=IN},
+		#{code2, mode=IN},
+		#{code3, mode=IN},
+		#{code4, mode=IN},
+		#{code5, mode=IN}
+	)}
+	</select>
+	
+	<select id="getSpQuestionCount" statementType="CALLABLE" parameterType="hashMap" resultType="int">
+	{ call SP2_FAVORITE_CATEGORY_QUESTION_GET5(
+		#{call_flag, mode=IN},
+		#{order_flag, mode=IN},
+		#{lang, mode=IN},
+		#{page_num, mode=IN},
+		#{page_size, mode=IN},
+		#{code1, mode=IN},
+		#{code2, mode=IN},
+		#{code3, mode=IN},
+		#{code4, mode=IN},
+		#{code5, mode=IN}
+	)}
+	</select>
+	<select id="getSpQuestionList" statementType="CALLABLE" parameterType="hashMap" resultType="question">
+	{ call SP2_FAVORITE_CATEGORY_QUESTION_GET5(
+		#{call_flag, mode=IN},
+		#{order_flag, mode=IN},
+		#{lang, mode=IN},
+		#{page_num, mode=IN},
+		#{page_size, mode=IN},
+		#{code1, mode=IN},
+		#{code2, mode=IN},
+		#{code3, mode=IN},
+		#{code4, mode=IN},
+		#{code5, mode=IN}
+	)}
+	</select>
+	
+	<select id="getSpQuestionCountByLang" statementType="CALLABLE" parameterType="hashMap" resultType="int">
+	{ call SP2_FAVORITE_CATEGORY_QUESTION_GET5(
+		#{call_flag, mode=IN},
+		#{order_flag, mode=IN},
+		#{lang, mode=IN},
+		#{page_num, mode=IN},
+		#{page_size, mode=IN},
+		#{code1, mode=IN},
+		#{code2, mode=IN},
+		#{code3, mode=IN},
+		#{code4, mode=IN},
+		#{code5, mode=IN}
+	)}
+	</select>
+	<select id="getSpQuestionListByLang" statementType="CALLABLE" parameterType="hashMap" resultType="question">
+	{ call SP2_FAVORITE_CATEGORY_QUESTION_GET5(
+		#{call_flag, mode=IN},
+		#{order_flag, mode=IN},
+		#{lang, mode=IN},
+		#{page_num, mode=IN},
+		#{page_size, mode=IN},
+		#{code1, mode=IN},
+		#{code2, mode=IN},
+		#{code3, mode=IN},
+		#{code4, mode=IN},
+		#{code5, mode=IN}
+	)}
+	</select>
+	
+	<delete id="deleteAnswerAsParams">
+		DELETE FROM T_ANSWER 
+		<if test='userLv == "99" '>
+			WHERE 
+				Seq     = #{seq}
+				AND FlagUse = #{flag}
+		</if>
+		<if test='userLv != "99" '>
+			WHERE 
+				Seq     = #{seq}
+				AND FlagUse = #{flag}
+				AND MemberSeq = #{userSeq}
+		</if>
+	</delete>
+	
+	<select id="getMemberReceivedAnswerCount" resultType="int">
+		DECLARE @MEM_SEQ   INT = #{userSeq};
+        DECLARE @PAGE_NUM  INT = ${n_curpage};
+        DECLARE @PAGE_SIZE INT = ${n_pagesize};
+        DECLARE @VIEW_FLAG VARCHAR(10) = #{viewFlag};
+  
+		SET NOCOUNT ON;
+		DECLARE @RETURN_CODE INT = 0;
+    	DECLARE @ST_NUM INT = (@PAGE_NUM - 1) * @PAGE_SIZE + 1;
+    	DECLARE @END_NUM INT = @PAGE_NUM * @PAGE_SIZE;
+		
+		SELECT COUNT(Seq) AS [Count]
+	    FROM T_ANSWER
+	    WHERE
+	      QuestionSeq IN (
+	        SELECT Seq
+	        FROM T_QUESTION
+	        WHERE
+	          MemberSeq = @MEM_SEQ
+	          AND FlagUse = 'Y'
+	      )
+	      AND FlagUse = 'Y'
+	      AND FlagChoice != CASE WHEN @VIEW_FLAG != 'choice' THEN '' ELSE 'N' END
+	</select>
+	
+	<select id="getMemberReceivedAnswer" resultType="answer">
+		DECLARE @MEM_SEQ   INT = #{userSeq};
+        DECLARE @PAGE_NUM  INT = ${n_curpage};
+        DECLARE @PAGE_SIZE INT = ${n_pagesize};
+        DECLARE @VIEW_FLAG VARCHAR(10) = #{viewFlag};
+  
+		SET NOCOUNT ON;
+		DECLARE @RETURN_CODE INT = 0;
+    	DECLARE @ST_NUM INT = (@PAGE_NUM - 1) * @PAGE_SIZE + 1;
+    	DECLARE @END_NUM INT = @PAGE_NUM * @PAGE_SIZE;
+    	
+    	SELECT *
+	    FROM (
+	           SELECT
+	               ROW_NUMBER()
+	               OVER (
+	                 ORDER BY A.regdate DESC
+	                 )                                 AS Idx
+	             , A.Seq                               AS AnswerSeq
+	             , QuestionSeq
+	             , Q.Title
+	             , -- 질문 제목
+	               (CASE WHEN A.FlagNickName = 'Y'
+	                 THEN IsNULL(NickName, '탈퇴 회원')
+	                ELSE '비공개' END)                    AS NickName
+	             , -- 닉네임 공개여부 체크
+	             Answer
+	             , dbo.FN2_CONVERT_DATE_REG(A.DateReg) AS DateReg
+	           FROM T_ANSWER AS A
+	             LEFT OUTER JOIN T_MEMBERS AS M ON A.MemberSeq = M.Seq
+	                                               AND M.FlagDel = 'N'
+	             -- 탈퇴한 회원 제외
+	             LEFT OUTER JOIN T_QUESTION AS Q ON Q.Seq = A.QuestionSeq
+	           WHERE
+	             QuestionSeq IN (
+	               SELECT Seq
+	               FROM T_QUESTION
+	               WHERE
+	                 MemberSeq = @MEM_SEQ
+	                 AND FlagUse = 'Y'
+	             )
+	             AND A.FlagUse = 'Y'
+	             AND A.FlagChoice != CASE WHEN @VIEW_FLAG != 'choice' THEN '' ELSE 'N' END
+	         ) AS Query1
+	    WHERE
+	      Idx BETWEEN @ST_NUM
+	      AND @END_NUM
+	</select>
+	
+	<select id="getQuestionSeq" resultType="string">
+		SELECT QuestionSeq FROM T_ANSWER WHERE Seq = #{seq}
+	</select>
+	
+	<select id="getAnsInfoForTransBySeq" resultType="answer">
+		SELECT 
+			* 
+		FROM T_ANSWER  with(nolock) 
+		WHERE Seq = #{seq}
+	</select>
+</mapper>

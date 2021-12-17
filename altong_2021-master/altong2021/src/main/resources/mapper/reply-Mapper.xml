@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.reply">
+	<!-- fn_SQL_Replysum -->
+	<select id="getAnswerSumViewForAnswer" resultType="int">
+		<if test='flag == "Q"'>
+			SELECT count(Seq) AS sumreply FROM T_REPLY_QUESTION with(nolock) WHERE QuestionSeq = #{targetSeq} AND FlagUse = 'Y'
+		</if>
+		<if test='flag != "Q"'>
+			SELECT count(Seq) AS sumreply FROM T_REPLY_ANSWER with(nolock) WHERE AnswerSeq = #{targetSeq} AND FlagUse = 'Y'
+		</if>
+	</select>
+	
+	<!-- fn_SQL_MyRply_Question -->
+	<select id="getMyReplyQuestionCount" resultType="int">
+		SELECT COUNT(Seq) AS CountR 
+		FROM T_REPLY_QUESTION  with(nolock) 
+		WHERE MemberSeq = #{strData}
+	</select>
+	
+	<!-- fn_SQL_My_Reply_List -->
+	<!-- userSeq 는 Sesson 정보임 -->
+	<select id="getMyReplyListCount" resultType="int">
+		SELECT 
+			COUNT(Seq) 
+		FROM V2_ALL_REPLY 
+		WHERE MemberSeq = #{userSeq} 
+	</select>
+	<!-- userSeq 는 Sesson 정보임 -->
+	<select id="getMyReplyListLimit" resultType="reply">
+		SELECT 
+			TOP #{p_Option} *  
+		FROM V2_ALL_REPLY 
+		WHERE MemberSeq = #{userSeq} 
+		ORDER BY #{psrc_Cond} DESC
+	</select>
+	<!-- userSeq 는 Sesson 정보임 -->
+	<select id="getMyReplyListAll" resultType="reply">
+		SELECT 
+			* 
+		FROM V2_ALL_REPLY 
+		WHERE MemberSeq = #{userSeq} 
+		ORDER BY #{psrc_Cond} DESC
+	</select>
+	
+	<!-- fn_SQL_Other_Reply_List -->
+	<select id="getOtherReplyListCount" resultType="int">
+		SELECT 
+			COUNT(Seq) 
+		FROM V2_ALL_REPLY 
+		WHERE MemberSeq = #{userSeq}
+	</select>
+	<select id="getReceivedReplyCount" resultType="int">
+		SELECT 
+			COUNT(Seq) 
+		FROM V2_ALL_RECIVED_REPLY 
+		WHERE MemberSeq = #{userSeq} 
+	</select>
+	<!-- fn_SQL_Other_Reply_List -->
+	<select id="getOtherReplyListLimit" resultType="reply">
+		SELECT 
+			TOP ${p_Option} * 
+		FROM V2_ALL_REPLY 
+		WHERE MemberSeq = #{userSeq} 
+		ORDER BY ${psrc_Cond} DESC 
+	</select>
+	<select id="getReceivedReplyLimit" resultType="reply">
+		SELECT 
+			TOP ${p_Option} * 
+		FROM V2_ALL_RECIVED_REPLY 
+		WHERE MemberSeq = #{userSeq} 
+		ORDER BY ${psrc_Cond} DESC 
+	</select>
+	<!-- fn_SQL_Other_Reply_List -->
+	<select id="getOtherReplyListAll" resultType="reply">
+		SELECT 
+			*
+		FROM V2_ALL_REPLY 
+		WHERE MemberSeq = #{psrc_memberseq} 
+		ORDER BY #{psrc_Cond} DESC 
+	</select>
+	
+	<!-- fn_SQL_My_Answer_Reply_List -->
+	<select id="getMyAnswerReplyListCount" resultType="int">
+		SELECT 
+			COUNT(A.Seq) 
+		FROM T_REPLY_ANSWER  A with(nolock), T_ANSWER  B with(nolock), T_MEMBERS  C with(nolock) 
+		WHERE A.AnswerSeq = B.Seq 
+			AND B.MemberSeq = C.Seq 
+			AND A.MemberSeq = #{userSeq} 
+	</select>
+	<!-- fn_SQL_My_Answer_Reply_List -->
+	<select id="getMyAnswerReplyListLimit" resultType="reply">
+		SELECT 
+			TOP #{p_Option} A.Seq, A.AnswerSeq, A.Reply, A.DateReg, B.FlagUse, B.QuestionSeq, B.MemberSeq, C.NickName 
+		FROM T_REPLY_ANSWER  A with(nolock), T_ANSWER  B with(nolock), T_MEMBERS  C with(nolock) 
+		WHERE A.AnswerSeq = B.Seq 
+			AND B.MemberSeq = C.Seq 
+			AND A.MemberSeq = #{userSeq} 
+		ORDER BY #{psrc_Cond} DESC 
+	</select>
+	<!-- fn_SQL_My_Answer_Reply_List -->
+	<select id="getMyAnswerReplyListAll" resultType="reply">
+		SELECT 
+			A.Seq, A.AnswerSeq, A.Reply, A.DateReg, B.FlagUse, B.QuestionSeq, B.MemberSeq, C.NickName 
+		FROM T_REPLY_ANSWER  A with(nolock), T_ANSWER  B with(nolock), T_MEMBERS  C with(nolock) 
+		WHERE A.AnswerSeq = B.Seq 
+			AND B.MemberSeq = C.Seq 
+			AND A.MemberSeq = #{userSeq} 
+		ORDER BY #{psrc_Cond} DESC 
+	</select>
+	
+	<!-- 질문 댓글 - getReportDetail.asp -->
+	<select id="getReplyQeustion" resultType="reply">
+		SELECT QuestionSeq 
+			,( 
+				SELECT CONCAT ('질문("', Title, '")의 댓글')  
+				FROM T_QUESTION 
+				WHERE Seq = QuestionSeq 
+			) AS title,
+			reply,
+			memberSeq
+		FROM T_REPLY_QUESTION 
+		WHERE Seq = #{contentSeq}	
+	</select>
+	
+	<!-- 답변 댓글 - getReportDetail.asp -->
+	<select id="getReplyAnswer" resultType="reply">
+		SELECT AnswerSeq 
+			,Reply 
+			,MemberSeq 
+		FROM T_REPLY_ANSWER 
+		WHERE Seq = #{contentSeq}	
+	</select>
+	
+	<select id="getReplyQuestionCntBySeq" resultType="int">
+		select count(Seq) as SumReply 
+		from T_REPLY_QUESTION with(nolock) 
+		where QuestionSeq = #{seq} 
+		and FlagUse = 'Y'
+	</select>
+	
+	<select id="getReplyQuestionListBySeq" resultType="reply">
+		select A.Seq, A.QuestionSeq, A.MemberSeq, A.Reply, A.nick1, A.nick2, A.almoney, convert(char(19), A.regdate, 20) as conDate, M.NickName, M.Photo, M.Lv, M.nation, A.lang 
+			, (select count(*) from T_SIREN as S left outer join T_SIREN_REPORTER as SR on S.Type=SR.Type and S.ContentsSeq=SR.ContentsSeq where S.Type = 'QR' and S.ContentsSeq = A.Seq and S.Result = 0) as SirenN
+		from T_REPLY_QUESTION A with(nolock)
+			left outer join T_MEMBERS M on M.Seq = A.MemberSeq
+		where A.QuestionSeq = #{seq}
+			and FlagUse = 'Y'
+		order by A.Seq desc
+	</select>
+	
+	
+	<!-- fn_SQL_reply_Del -->
+	<update id="deleteReply">
+		<if test='flag == "Q"'>
+			UPDATE T_REPLY_QUESTION SET FlagUse = 'N' WHERE Seq = #{replySeq}
+		</if>
+		<if test='flag != "Q"'>
+			UPDATE T_REPLY_ANSWER SET FlagUse = 'N' WHERE Seq = #{replySeq}
+		</if>
+	</update>
+	
+	<!-- fn_SQL_ReplyList -->
+	<select id="getReplyList" resultType="reply">
+		<if test='flag == "Q"'>
+			SELECT 
+				A.Seq, A.QuestionSeq, A.MemberSeq, A.Reply, A.nick1, A.nick2, A.almoney, convert(char(19), A.regdate, 20) as conDate,  M.NickName, M.Photo, M.Lv, M.nation, A.lang, 
+				(	select count(*) 
+					from T_SIREN as S left outer join T_SIREN_REPORTER as SR on S.Type=SR.Type and S.ContentsSeq=SR.ContentsSeq 
+					where S.Type = 'QR' and S.ContentsSeq = A.Seq and S.Result = 0
+				) as SirenN 
+			FROM T_REPLY_QUESTION A with(nolock)  , T_MEMBERS M with(nolock) 
+			WHERE A.MemberSeq = M.Seq AND A.QuestionSeq = #{targetSeq} AND FlagUse = 'Y'
+			ORDER BY A.Seq DESC
+		</if>
+		<if test='flag != "Q"'>
+			SELECT A.Seq, A.AnswerSeq, A.MemberSeq, A.Reply, A.nick1, A.nick2, A.almoney, convert(char(19), A.regdate, 20) as conDate,  M.NickName, M.Photo, M.Lv, M.nation, A.lang,  
+			(	select count(*) 
+				from T_SIREN as S left outer join T_SIREN_REPORTER as SR on S.Type=SR.Type and S.ContentsSeq=SR.ContentsSeq 
+				where S.Type = 'AR' and S.ContentsSeq = A.Seq and S.Result = 0
+			) as SirenN 
+			FROM T_REPLY_ANSWER A with(nolock)  , T_MEMBERS M with(nolock) 
+			WHERE A.MemberSeq = M.Seq AND A.AnswerSeq = #{targetSeq} AND FlagUse = 'Y'
+			ORDER BY A.Seq DESC
+		</if>
+	</select>
+	
+	<select id="getReplyListOrg" resultType="reply">
+		<if test='flag == "Q"'>
+			SELECT 
+				A.Seq, A.QuestionSeq, A.MemberSeq, A.Reply,  convert(char(19), A.regdate, 20) as conDate,  M.NickName, M.Photo, M.Lv , 
+				(	select count(*) 
+					from T_SIREN as S left outer join T_SIREN_REPORTER as SR on S.Type=SR.Type and S.ContentsSeq=SR.ContentsSeq 
+					where S.Type = 'QR' and S.ContentsSeq = A.Seq and S.Result = 0
+				) as SirenN 
+			FROM T_REPLY_QUESTION A with(nolock)  , T_MEMBERS M with(nolock) 
+			WHERE A.MemberSeq = M.Seq AND A.QuestionSeq = #{targetSeq} AND FlagUse = 'Y'
+			ORDER BY A.Seq ASC
+		</if>
+		<if test='flag != "Q"'>
+			SELECT A.Seq, A.AnswerSeq, A.MemberSeq, A.Reply,  convert(char(19), A.regdate, 20) as conDate,  M.NickName, M.Photo, M.Lv , 
+			(	select count(*) 
+				from T_SIREN as S left outer join T_SIREN_REPORTER as SR on S.Type=SR.Type and S.ContentsSeq=SR.ContentsSeq 
+				where S.Type = 'AR' and S.ContentsSeq = A.Seq and S.Result = 0
+			) as SirenN 
+			FROM T_REPLY_ANSWER A with(nolock)  , T_MEMBERS M with(nolock) 
+			WHERE A.MemberSeq = M.Seq AND A.AnswerSeq = #{targetSeq} AND FlagUse = 'Y'
+			ORDER BY A.Seq ASC
+		</if>
+	</select>
+	
+	<!-- fn_SQL_Reply_MaxSeq -->
+	<select id="getReplyMaxSeq" resultType="int">
+		SELECT MAX(Seq) AS Seq FROM T_REPLY_QUESTION
+	</select>
+	
+	<!-- fn_SQL_Replysum -->
+	<select id="getReplySum" resultType="int">
+		<if test='flag == "Q"'>
+			SELECT count(Seq) AS sumreply FROM T_REPLY_QUESTION with(nolock) WHERE QuestionSeq = #{targetSeq} AND FlagUse = 'Y'
+		</if>
+		<if test='flag != "Q"'>
+			SELECT count(Seq) AS sumreply FROM T_REPLY_ANSWER with(nolock) WHERE AnswerSeq = #{targetSeq} AND FlagUse = 'Y'
+		</if>
+	</select>
+	
+	<!-- fn_SQL_ReplyList -->
+	<select id="getReplyListInfo" resultType="reply">
+		<if test='flag == "Q"'>
+			SELECT A.Seq, A.QuestionSeq, A.MemberSeq, A.Reply,  A.DateReg, A.lang, M.NickName, M.Photo FROM T_REPLY_QUESTION A with(nolock)  , T_MEMBERS M with(nolock)  
+			WHERE A.MemberSeq = M.Seq AND A.Seq = #{targetSeq} AND FlagUse = 'Y' 
+		</if>
+		<if test='flag != "Q"'>
+			SELECT A.Seq, A.AnswerSeq, A.MemberSeq, A.Reply,  A.DateReg, A.lang,  M.NickName, M.Photo FROM T_REPLY_ANSWER A with(nolock)  , T_MEMBERS M with(nolock) 
+			WHERE A.MemberSeq = M.Seq AND A.Seq = #{targetSeq} AND FlagUse = 'Y' 
+		</if>
+		ORDER BY A.Seq ASC
+	</select>
+	
+	<select id="getQuestionSeqBySeq" resultType="int">
+		select 
+			QuestionSeq 
+		from T_REPLY_QUESTION as A with(nolock) 
+		where Seq = #{seq}
+	</select>
+	
+	<select id="getAnswerSeqBySeq" resultType="reply">
+		select 
+			AnswerSeq, (select QuestionSeq from T_ANSWER with(nolock) where Seq = A.AnswerSeq) as QuestionSeq 
+		from T_REPLY_ANSWER as A with(nolock) 
+		where Seq = #{seq}
+	</select>
+	
+	<!-- fn_SQL_reply_Del -->
+	<update id="setReplyDel">
+		<if test='flag == "Q"'>
+			UPDATE T_REPLY_QUESTION SET FlagUse = 'N' WHERE Seq = #{replySeq}
+		</if>
+		<if test='flag != "Q"'>
+			UPDATE T_REPLY_ANSWER SET FlagUse = 'N' WHERE Seq = #{replySeq}
+		</if>
+	</update>
+	
+	<!-- fn_SQL_Reply_Insert -->
+	<!-- userSeq 는 Session 정보임 -->
+	<!-- dateReg = Now() -->
+	<insert id="setReply">
+		<if test='flag == "Q"'>
+			INSERT INTO T_REPLY_QUESTION (QuestionSeq, MemberSeq, Reply, lang, DateReg) 
+			VALUES (
+				#{targetSeq},
+				#{userSeq},
+				#{contents},
+				#{lang},
+				#{dateReg}
+			)
+		</if>
+		<if test='flag != "Q"'>
+			INSERT INTO T_REPLY_ANSWER (AnswerSeq, MemberSeq, Reply, lang, DateReg) 
+			VALUES (
+				#{targetSeq},
+				#{userSeq},
+				#{contents},
+				#{lang},
+				#{dateReg}
+			)
+		</if>
+	</insert>
+	
+	<delete id="deleteReplyQuestion">
+		DELETE FROM T_REPLY_QUESTION 
+		WHERE Seq         = #{seq} 
+			AND QuestionSeq = #{questionSeq}
+			AND MemberSeq   = #{userSeq}
+	</delete>
+	<delete id="deleteReplyAnswer">
+		DELETE FROM T_REPLY_ANSWER 
+		WHERE Seq         = #{seq} 
+			AND MemberSeq   = #{userSeq}
+	</delete>
+	
+	<select id="getReplyInfo" resultType="reply">
+		<if test='flag == "Q"'>
+			SELECT A.Seq, A.QuestionSeq, A.MemberSeq, A.Reply,  A.DateReg,  M.NickName, M.Photo FROM T_REPLY_QUESTION A with(nolock)  , T_MEMBERS M with(nolock)  
+			WHERE A.MemberSeq = M.Seq AND A.Seq = #{targetSeq} AND FlagUse = 'Y' 
+		</if>
+		<if test='flag != "Q"'>
+			SELECT A.Seq, A.AnswerSeq, A.MemberSeq, A.Reply,  A.DateReg,  M.NickName, M.Photo FROM T_REPLY_ANSWER A with(nolock)  , T_MEMBERS M with(nolock) 
+			WHERE A.MemberSeq = M.Seq AND A.Seq = #{targetSeq} AND FlagUse = 'Y' 
+		</if>
+	</select>
+</mapper>

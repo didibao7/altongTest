@@ -1,0 +1,289 @@
+@charset "utf-8";
+
+/* 퀴즈 이벤트 배너 */
+#quizView {
+  background: #faca22;
+  padding: 10px 60px;
+  overflow: hidden;
+  margin-top: 30px;
+  height: 130px;
+  transition: all 0.3s;
+}
+#quizView .qiuz_logo {
+  width: 30%;
+  float: left;
+  text-align: center;
+}
+#quizView ul {
+  display: inline-block;
+  font-weight: bold;
+  text-align: justify;
+}
+#quizView ul li span {
+  font-size: 14px;
+  background: #fd0031;
+  color: #fff;
+  padding: 2px 10px;
+  border-radius: 4px;
+  letter-spacing: 2px;
+}
+#quizView ul li:nth-child(2) {
+  font-size: 40px;
+  color: #fff;
+  letter-spacing: 3px;
+}
+#quizView ul li:nth-child(3) {
+  font-size: 18px;
+  color: #888;
+  letter-spacing: 5px;
+}
+#quizView ul li:nth-child(3) b {
+  color: #fd0031;
+}
+#quizView .quizTime_count {
+  width: 70%;
+  text-align: center;
+  float: right;
+}
+#quizView .quizTime_count h6 {
+  font-size: 20px;
+}
+#quizView .quizTime_count .quizTime_el {
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-align: center;
+  padding-top: 5px;
+  position: relative;
+}
+#quizView .quizTime_count .quizTime_el div {
+  display: inline-block;
+  background: #333;
+  padding: 5px 10px;
+  margin: 0 2%;
+  border-radius: 5px;
+  font-size: 24px;
+}
+#quizView .quizTime_count .quizTime_el a {
+  display: inline-block;
+  position: absolute;
+  top: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2ac1bc;
+  color: #fff;
+  padding: 5px 15px;
+  font-size: 14px;
+  border-radius: 30px;
+}
+/* 참여신청 페이지 */
+#quizStart_wrapper {
+  padding-top: 60px;
+  min-height: calc(100vh - 70px);
+  text-align: center;
+  position: relative;
+}
+#quizStart_wrapper h1 {
+  font-size: 24px;
+  text-align: center;
+  padding: 15px 0;
+}
+#total_al {
+  color: #666;
+}
+#total_al em {
+  font-style: normal;
+  color: #fd0031;
+}
+#quizStart_wrapper .quiz_entry_box {
+  padding: 20px;
+  border: 1px solid #c4c4c4;
+  border-radius: 20px;
+  transition: all 0.3s;
+  width: 95%;
+  max-width: 500px;
+  margin: 30px auto;
+}
+#quizTm {
+  font-size: 18px;
+  font-weight: bold;
+}
+#quizTm ul {
+  display: inline-block;
+  margin: 10px 0;
+}
+#quizTm ul li {
+  display: inline-block;
+  font-size: 24px;
+  color: #ff5001;
+}
+#req {
+  display: block;
+  margin-top: 60px;
+}
+#req p {
+  font-size: 15px;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 20px;
+}
+#req p .entry_money {
+  color: #fd0031;
+  font-weight: bold;
+  font-size: 17px;
+}
+#entry_agree {
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+  background: #fff;
+  border: 1px solid #c4c4c4;
+  width: 100px;
+  padding: 5px 0;
+  border-radius: 20px;
+  margin-top: 50px;
+  cursor: pointer;
+}
+.black_background {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+}
+.entry_check_box {
+  background: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  line-height: 1.8em;
+  width: 90%;
+  max-width: 380px;
+  border-radius: 5px;
+}
+.entry_check_box .game_name {
+  font-weight: bold;
+  color: #333;
+  font-size: 16px;
+}
+.entry_check_box .entry_money {
+  color: #fd0031;
+  font-weight: bold;
+  font-size: 17px;
+}
+.entry_check_box button {
+  border: 1px solid #c4c4c4;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 5px 20px;
+  border-radius: 20px;
+  color: #666;
+  margin-top: 30px;
+  cursor: pointer;
+  background: #fff;
+}
+/* 미디어 쿼리는 css 맨 밑에 들어갑니다. */
+@media screen and (max-width: 768px) {
+  /* 퀴즈 이벤트 배너 */
+  #quizView {
+    padding: 10px 40px 10px 10%;
+    height: 120px;
+  }
+  #quizView ul li:nth-child(2) {
+    font-size: 35px;
+    letter-spacing: 2px;
+    margin-top: 3px;
+  }
+  #quizView ul li:nth-child(3) {
+    font-size: 16px;
+    letter-spacing: 3px;
+    margin-top: 3px;
+  }
+  #quizView .quizTime_count h6 {
+    font-size: 18px;
+  }
+  #quizView .quizTime_count .quizTime_el div {
+    font-size: 20px;
+  }
+}
+@media screen and (max-width: 480px) {
+  /* 퀴즈 이벤트 배너 */
+  #quizView {
+    padding: 10px 0 10px 5px;
+    height: 100px;
+  }
+  #quizView .qiuz_logo {
+    text-align: right;
+  }
+
+  #quizView ul li span {
+    font-size: 12px;
+    padding: 2px 5px;
+    letter-spacing: 1px;
+  }
+  #quizView ul li:nth-child(2) {
+    font-size: 25px;
+    letter-spacing: 0;
+  }
+  #quizView ul li:nth-child(3) {
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  #quizView .quizTime_count h6 {
+    font-size: 14px;
+  }
+  #quizView .quizTime_count .quizTime_el div {
+    font-size: 13px;
+    margin: 0 3px;
+    padding: 5px;
+  }
+  #quizView .quizTime_count .quizTime_el a {
+    display: block;
+    padding: 0;
+    width: 120px;
+    letter-spacing: -0.5px;
+  }
+  /* 참여 신청 페이지 */
+  #quizStart_wrapper {
+    padding-top: 45px;
+    letter-spacing: -1px;
+  }
+  #quizStart_wrapper h1 {
+    font-size: 18px;
+  }
+  #quizStart_wrapper .quiz_entry_box {
+    padding: 10px;
+    top: 55%;
+  }
+  #quizStart_wrapper .quiz_time_alarm {
+    font-size: 16px;
+  }
+  #quizStart_wrapper .quiz_time_alarm ul {
+    margin: 5px 0;
+  }
+  #quizStart_wrapper .quiz_time_alarm ul li {
+    font-size: 18px;
+  }
+  #entry {
+    margin-top: 20px;
+  }
+  #entry p {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  #entry_agree {
+    margin-top: 20px;
+  }
+  .entry_check_box {
+    letter-spacing: -1px;
+  }
+}

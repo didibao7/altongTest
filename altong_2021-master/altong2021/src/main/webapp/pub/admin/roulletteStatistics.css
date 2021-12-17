@@ -1,0 +1,126 @@
+@charset "utf-8";
+#roullette_event {
+  text-align: center;
+}
+#roullette_event > ul {
+  display: inlilne-block;
+  overflow: hidden;
+  margin: 10px 0;
+}
+#roullette_event > ul li {
+  width: 25%;
+  float: left;
+  list-style: none;
+}
+#roullette_event > ul li a.on {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  font-size: 18px;
+}
+#roullette_event p {
+  text-align: justify;
+  background: rgb(255, 187, 0);
+  font-size: 25px;
+  padding-left: 10px;
+}
+#roullette_event > table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+#roullette_event .all_statistics td {
+  width: 25%;
+  font-size: 18px;
+}
+#roullette_event .all_statistics td span {
+  font-weight: bold;
+}
+#roullette_event .all_rank th {
+  border: 1px solid #666;
+  background: rgb(255, 187, 0);
+  text-align: center;
+  padding: 5px 0;
+}
+#roullette_event .all_rank td {
+  border: 1px solid #999;
+}
+#roullette_event > div {
+  overflow: hidden;
+}
+#roullette_event > div > table {
+  width: 49%;
+  float: left;
+}
+#roullette_event > div > table:first-child {
+  margin-right: 2%;
+}
+#roullette_event > div > table th {
+  border: 1px solid #666;
+  background: rgb(255, 187, 0);
+  text-align: center;
+  padding: 5px 0;
+}
+#roullette_event > div > table td {
+  border: 1px solid #999;
+  padding: 4px 0;
+}
+.roullette_search {
+  font-size: 18px;
+}
+.roullette_search span {
+  display: inline-block;
+  vertical-align: middle;
+}
+.roullette_search input {
+  display: inline-block;
+  vertical-align: middle;
+}
+.roullette_search input[type="number"] {
+  width: 100px;
+  border: 1px solid #999;
+}
+.roullette_search input[type="submit"] {
+  font-size: 16px;
+}
+
+/* 총 담청알 순위 리스트 */
+#roullette_event.roullette_list .roullette_search {
+  margin-bottom: 10px;
+}
+.roullette_search {
+  text-align: justify;
+}
+#roullette_event.roullette_list table {
+  width: 100%;
+}
+#roullette_event.roullette_list table th {
+  text-align: center;
+  background: rgb(255, 187, 0);
+  border: 1px solid #666;
+  height: 30px;
+}
+#roullette_event.roullette_list table td {
+  text-align: center;
+  border: 1px solid #666;
+}
+
+#roullette_event.date p {
+  background: rgba(142, 204, 255, 0.705);
+}
+#roullette_event.date .date_select {
+  text-align: justify;
+}
+#roullette_event.date .date_select input[type="submit"] {
+  margin-left: 5px;
+  padding: 0 5px;
+  margin-bottom: 10px;
+}
+#roullette_event.date .all_rank th {
+  background: rgba(142, 204, 255, 0.705);
+}
+#roullette_event.date > div > table th {
+  background: rgba(142, 204, 255, 0.705);
+}
+#roullette_event.roullette_list.date table th {
+  background: rgba(142, 204, 255, 0.705);
+}

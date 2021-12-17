@@ -1,0 +1,69 @@
+/* 2019.12. 24 박준희 쪽지창 + mask 추가 */
+.message_mask {
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  opacity: 0.6;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #000;
+  display: none;
+}
+.user_message {
+  z-index: 150;
+  background-color: white;
+  position: fixed;
+  width: 100%;
+  height: 300px;
+  top: 0;
+  left: 0;
+  display: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+.user_message .message_user {
+  font-weight: 600;
+  font-size: 1.05em;
+}
+.user_message .message_user .message_username {
+  color: #0000b1;
+}
+.user_message .message_user > img {
+  border-radius: 100%;
+  width: 50px;
+  margin-right: 3px;
+}
+.user_message .message_usertext {
+  border: 1px solid #d2d2d2;
+  margin-top: 8px;
+  width: 100%;
+  font-weight: 500;
+  padding: 5px;
+  border-radius: 3px;
+  resize: none;
+  height: 180px;
+}
+.user_message .message_btns {
+  text-align: center;
+  margin-top: 12px;
+}
+.user_message .message_send {
+  padding: 3px 20px;
+  background-color: #ff5001;
+  color: white;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  border-radius: 25px;
+  display: inline-block;
+  margin-right: 15px;
+}
+.user_message .message_cancle {
+  padding: 3px 15px;
+  background-color: #8e8e8e;
+  color: white;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  border-radius: 25px;
+  display: inline-block;
+}

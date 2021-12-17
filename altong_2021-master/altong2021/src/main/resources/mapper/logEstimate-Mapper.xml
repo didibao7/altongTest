@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.logEstimate">
+	<!-- fn_SQL_Estimate_Check(Common.vbs) -->
+	<!-- userSeq 는 Session 정보임 -->
+	<select id="getEstimateCheck" resultType="int">
+		SELECT 
+			COUNT(*) AS EstimateCount 
+		FROM LOG_ESTIMATE 
+		WHERE 
+			MemberSeq = #{userSeq} AND Gubun = #{gubun} AND Seq = #{seq}
+	</select>
+	
+	<select id="getLogEstimateBySeq" resultType="logEstimate">
+		SELECT 
+			TOP 1 * 
+		FROM 
+			LOG_ESTIMATE 
+		WHERE 
+			Seq = #{answerSeq} AND MemberSeq = #{userSeq}
+		ORDER BY DateReg DESC
+	</select>
+	
+	<!-- fn_SQL_Estimate_Insert -->
+	<!-- userSeq 는 Session 정보임 -->
+	<insert id="setEstimateInsert">
+		INSERT INTO LOG_ESTIMATE (Gubun, Seq, MemberSeq) VALUES ( 
+			#{gubun},
+			#{seq},
+			#{userSeq}
+		)
+	</insert>
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.report">
+	<!-- fn_SQL_Report_Action_Count -->
+	<select id="getReportActionCount" resultType="int">
+		SELECT COUNT(Seq) AS Cnt 
+		FROM  T2_REPORT WITH(NOLOCK) 
+		WHERE ContentsSeq = #{contentsSeq}
+			 AND ContentsType = #{contentsType} 
+			 AND ReportMemberSeq = #{reportMemSeq}
+	</select>
+	
+	<select id="getReportList" resultType="reply">
+		SELECT R.Seq AS seq ,
+				R.ContentsSeq AS contentSeq, 
+				R.ContentsType AS contentType, 
+				M.NickName AS reporter, 
+				R.ReportMemberSeq AS reporterSeq, 
+				R.ReportReason AS reason, 
+				R.ReportEtc AS comment, 
+				R.ReportUrl AS [url], 
+				R.DateReg AS [date], 
+				R.AdminStatus AS adminStatus, 
+				R.AdminEtc AS adminComment, 
+				R.ResultMemberSeq AS charge, 
+				R.DateResult AS resultDate 
+		FROM T2_REPORT AS R 
+		LEFT OUTER JOIN T_MEMBERS AS M ON M.Seq = R.ReportMemberSeq 
+		WHERE R.Seq = #{reportSeq}
+	</select>
+	
+	<select id="getQuestionReportCnt" resultType="int">
+		select count(Seq) as Cnt 
+		from T2_REPORT with(nolock) 
+		where ContentsSeq = #{questionSeq} 
+			and ContentsType = 'Question' 
+			and ReportMemberSeq = #{userSeq}
+	</select>
+	
+	<!-- fn_SQL_Report_Insert -->
+	<insert id="setReport">
+		INSERT INTO T2_REPORT (ContentsSeq, ContentsType, ReportMemberSeq, ReportReason, ReportEtc, ReportUrl, DateReg, AdminStatus) 
+		VALUES (
+			#{contentsSeq},
+			#{contentsType},
+			#{reportMemberSeq},
+			#{reportReason},
+			#{reportEtc},
+			#{reportUrl},
+			dbo.FN2_CONVERT_DATE_REG(#{dateReg}),
+			#{adminStatus}
+		) 
+	</insert>
+</mapper>

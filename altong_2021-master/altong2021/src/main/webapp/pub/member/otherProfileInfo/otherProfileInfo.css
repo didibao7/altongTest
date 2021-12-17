@@ -1,0 +1,208 @@
+@charset "utf-8";
+
+#otherInfo_wrapper {
+  padding-top: 60px;
+}
+#otherInfo_wrapper .center {
+  padding: 0 5px;
+}
+
+.other_infomain {
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  padding: 5px;
+  padding-left: 70px;
+  padding-right: 180px;
+  position: relative;
+  margin-top: 30px;
+}
+.other_infomain figure {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  top: 45%;
+  left: 10px;
+  transform: translateY(-50%);
+}
+.other_infomain figure img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.other_infomain figure figcaption {
+  position: absolute;
+  top: 98%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+}
+.other_infomain ul {
+  display: inline-block;
+  margin-left: 10px;
+}
+.other_infomain ul li span {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: bold;
+  color: #fd0031;
+  padding: 1px 5px;
+  border-radius: 10px;
+  border: 1px solid #fd0031;
+  margin-right: 5px;
+}
+.other_infomain ul li:nth-child(1) {
+  margin-bottom: 5px;
+}
+.other_infomain ul li:nth-child(2) {
+  font-size: 20px;
+  font-weight: bold;
+}
+/* 다국어 국기 이미지 추가 */
+.other_infomain ul li:nth-child(2) img {
+  display: inline-block;
+  margin-right: 5px;
+  height: 20px;
+  margin-bottom: -2px;
+  box-shadow: 0 0 1px 0px #999;
+}
+.other_infomain ul li p {
+  display: inline-block;
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+  margin-right: 5px;
+}
+.other_infomain .other_info_edit {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+.other_infomain .other_info_edit img {
+  width: 40px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.other_infomain .other_info_edit img:last-child {
+  width: 35px;
+  margin-right: 0;
+}
+
+.other_nick {
+  text-align: center;
+  margin: 30px 0;
+  font-size: 19px;
+  color: #444;
+}
+
+.other_active ol {
+  width: 100%;
+}
+.other_active ol li {
+  background: #eee;
+  border-radius: 10px;
+  margin-bottom: 5px;
+  padding: 8px 0;
+  color: #666;
+  font-weight: bold;
+  font-size: 15px;
+}
+.other_active ol li div {
+  display: inline-block;
+  width: 50%;
+  text-align: center;
+}
+.other_active ol li p {
+  display: inline-block;
+  width: 50%;
+  padding-left: 20px;
+}
+.other_active ol li p span {
+  color: #fd0031;
+  cursor: pointer;
+}
+
+/* footer 고정 */
+.site {
+  display: flex;
+  min-height: 60vh;
+  flex-direction: column;
+}
+.site-content {
+  flex: 1;
+  margin-bottom: 20px;
+}
+/* 쪽지 보내기 */
+.more_btn_list {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  display: none;
+}
+.user_message {
+  display: none;
+  background: #fff;
+  width: 90%;
+  max-width: 400px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 20px;
+  padding: 15px;
+}
+.user_message h5 {
+  font-size: 16px;
+  text-align: center;
+}
+.user_message h5 span {
+  color: #eb639d;
+}
+.user_message .message_usertext {
+  border: 1px solid #d2d2d2;
+  margin-top: 8px;
+  width: 100%;
+  font-weight: 500;
+  padding: 5px;
+  border-radius: 3px;
+  resize: none;
+  height: 180px;
+  outline: none;
+}
+.user_message .message_btns {
+  text-align: center;
+  margin-top: 12px;
+}
+.user_message .message_btns span {
+  padding: 3px 0px;
+  border: 1px solid #fd0031;
+  color: #fd0031;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  border-radius: 25px;
+  display: inline-block;
+  font-size: 14px;
+  cursor: pointer;
+  width: 40%;
+}
+.user_message .message_btns .message_cancle {
+  border: 1px solid #8e8e8e;
+  color: #666;
+  margin-right: 15px;
+}
+@media screen and (max-width: 480px) {
+  .other_infomain figure figcaption {
+    font-size: 12px;
+  }
+  .other_infomain ul li:nth-child(2) img {
+    height: 16px;
+  }
+}

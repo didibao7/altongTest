@@ -1,0 +1,35 @@
+@charset "utf-8";
+
+.atm_ranka_tab2 {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+.atm_ranka_tab2_pc {
+  margin-top: 0;
+  display: inline-block;
+  bottom: -4px;
+}
+.atm_ranka12_con .atm_ranka12_el {
+  position: relative;
+}
+.atm_rankq2_con .atm_ranka12_el {
+  position: relative;
+}
+.atm_rank_el_container .atm_rank_el .atm_ranka_el_c1 {
+  top: 31%;
+}
+.atm_rank_el .language_icon {
+  right: 15px;
+}
+@media screen and (max-width: 480px) {
+  .atm_rank_el_container .atm_rank_el .atm_ranka_el_c1 {
+    right: 10px;
+  }
+  .atm_ranka_tabc9 {
+    margin-top: 3px;
+  }
+  .atm_ranka_tab2 {
+    margin-top: 5px;
+  }
+}

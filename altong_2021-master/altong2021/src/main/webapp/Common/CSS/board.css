@@ -1,0 +1,213 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+
+<!--테이블-->
+
+
+
+
+
+.boardList02  caption {
+  /*position:absolute;*/
+  overflow:hidden;	
+  width:1px;
+  height:1px;
+  top:auto;
+  text-indent:-9999%;	
+  font-size:0;
+  line-height:0;
+}	
+
+.boardList02 {
+	border-bottom:2px solid #cecece;
+}
+
+.boardList02 th {
+  font-size:17px;
+  color:#2c2c2c;
+  text-align:center;
+  height:36px;
+  padding:4px 0px 4px 0px;
+  border-top : 2px solid #cecece; border-collapse : collapse;
+  border-bottom:1px solid #cecece;
+	
+}
+
+.boardList02 td {
+	color:#777;
+  text-align:center;
+  padding:8px 4px 6px 4px;
+  height:33px;
+  border-bottom:1px solid #fff;
+}
+
+
+<!---->
+
+
+
+
+
+.boardList01  caption {
+  /*position:absolute;*/
+  overflow:hidden;	
+  width:1px;
+  height:1px;
+  top:auto;
+  text-indent:-9999%;	
+  font-size:0;
+  line-height:0;
+}	
+
+.boardList01 {
+	border-bottom:2px solid #cecece;
+}
+
+.boardList01 th {
+  font-size:17px;
+  color:#2c2c2c;
+  text-align:center;
+  height:36px;
+  padding:4px 0px 4px 0px;
+  border-top : 2px solid #4f5053 ; border-collapse : collapse;
+  border-bottom:1px solid #cecece;
+	
+}
+
+.boardList01 td {
+	color:#777;
+  text-align:center;
+  padding:8px 4px 6px 4px;
+  height:33px;
+  border-bottom:1px solid #fff;
+}
+
+
+
+
+
+.rowboardList01 {
+	border-top:2px solid #cecece;
+	border-bottom:1px solid #cecece;
+}
+.rowboardList01 caption {
+	position:absolute;
+	overflow:hidden;
+	top:auto;
+	text-indent:-9999%;
+	width:1px;
+	height:1px;
+	font-size:0;
+	line-height:0;
+	
+}
+.rowboardList01 th, .rowboardList01 td {
+	border-bottom: 1px solid #c9c9c9;
+	color:#3f3e3e;
+	height:25px;
+}
+.rowboardList01 th {
+	padding:6px 20px;
+	background:#eeeeee;
+	  color:#2c2c2c;
+	
+}
+.rowboardList01 td {
+	padding:6px 15px;
+	color:#777;
+}
+
+
+
+
+
+
+
+.rowboardList_top{
+	border-top:2px solid #4f5053;
+	border-bottom:1px solid #cecece;
+}
+.rowboardList_top caption {
+	position:absolute;
+	overflow:hidden;
+	top:auto;
+	text-indent:-9999%;
+	width:1px;
+	height:1px;
+	font-size:0;
+	line-height:0;
+	
+}
+.rowboardList_top th, .rowboardList_top td {
+	border-bottom: 1px solid #c9c9c9;
+	color:#3f3e3e;
+	height:45px;
+}
+.rowboardList_top th {
+	padding:6px 20px;
+	background:#eeeeee;
+	  color:#2c2c2c;
+	
+}
+.rowboardList_top td {
+	padding:6px 15px;
+	color:#2c2c2c;
+}
+
+
+
+
+
+
+
+
+
+
+
+<!---->
+
+
+
+
+.left{
+	text-align:left;
+	height:20px;
+}
+
+/* ------ 버튼/ 페이징 영역 ------ */
+
+.paging {
+	clear:both;
+	margin-top:20px;
+	text-align:center;
+}
+
+.paging .num a, .paging .num strong {
+	padding:5px 6px 5px 9px;
+	text-decoration:none;
+	color:#a4a4a4;
+	line-height:1.2em;
+}
+.paging .num a:hover, .paging .num a:focus {
+	color: #e0200c;
+}
+.paging .num  strong {
+	font-weight:bold;
+	color: #e0200c;
+}
+.paging .num .firstItem {
+	background-image:none;
+}
+
+<!--테이블-->
+
+
+
+
+.boardList_graph01  {
+  padding:10px 4px 15px 4px;
+  font-weight:bold;
+ border-bottom:1px solid #c4c4c9;border-top:1px solid #c4c4c9;border-left:1px solid #c4c4c9;border-right:1px solid #c4c4c9;
+}

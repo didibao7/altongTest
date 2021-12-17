@@ -1,0 +1,330 @@
+@charset "utf-8";
+
+/* 메뉴 다국어 링크 */
+#languages_menu {
+  text-align: center;
+  margin-top: 10px;
+}
+#languages_menu span {
+  display: inline-block;
+}
+#languages_menu span a {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 10px;
+  padding: 0 4px;
+  border: 0;
+}
+/* 푸터 다국어 링크 */
+#footer_languages {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 10px 0;
+  margin-top: -2%;
+  position:relative;
+  z-index:2;
+}
+#footer_languages p {
+  font-weight: bold;
+  vertical-align: middle;
+  text-align: center;
+}
+#footer_languages a {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 5%;
+  vertical-align: middle;
+  padding: 0 2%;
+}
+/* 질문리스트 번역 버튼 */
+.lang_container {
+  display: inline-block;
+}
+#languages_pack {
+  display: inline-block;
+  width: 174px;
+  overflow-x: scroll;
+  vertical-align: middle;
+  position: relative;
+}
+#languages_pack::-webkit-scrollbar {
+  display: none;
+}
+#languages_pack .language_box {
+  width: 1218px;
+  overflow: hidden;
+}
+#languages_pack input {
+  font-family: "Noto Sans KR", sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  width: 52px;
+  margin: 0 3px;
+  border: 1px solid #aaa;
+  float: left;
+  background: #fafafa;
+  text-align: center;
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+  border-radius: 5px;
+}
+#right_lang {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  position: relative;
+  vertical-align: middle;
+}
+#right_lang i {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid #666;
+  border-right: 2px solid #666;
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  cursor: pointer;
+}
+#left_lang {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  position: relative;
+  vertical-align: middle;
+}
+#left_lang i {
+  display: none;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid #666;
+  border-right: 2px solid #666;
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-135deg);
+  cursor: pointer;
+}
+/* 질문리스트 국기 스타일 */
+.section_list_el > ul > li:last-child > img {
+  display: inline-block;
+  width: 23px;
+  vertical-align: middle;
+  margin-right: 3px;
+}
+/* 번역버튼 */
+.language_icon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+.language_icon img {
+  display: block;
+  width: 30px;
+}
+/* 좋아요, 싫어요 */
+.section_list_el ul > li > ul {
+  display: inline-block;
+}
+.lang_smile {
+  display: inline-block;
+  margin-left: 15px;
+  line-height: 13px;
+  position: relative;
+  top: -1px;
+}
+.lang_smile p {
+  display: inline-block;
+  margin-right: 15px;
+}
+.lang_smile p img {
+  width: 13px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 1px;
+}
+.lang_smile p.honhonAl img {
+  width: 14px;
+}
+.lang_smile p span {
+  display: inline-block;
+  font-size: 12px;
+  color: #888;
+  margin-left: 2px;
+}
+/* 국가명 */
+#section_list .section_list_el figure {
+  top: 45%;
+}
+.nation_n {
+  position: absolute;
+  top: 42px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+  letter-spacing: -0.5px;
+}
+/* 번역버튼 클릭 시 나타나는 번역 글 */
+
+#section_list .section_list_el > ul > li:first-child span.answerTitle_trans {
+  font-size: 17px;
+  padding: 0;
+  margin-right: 0;
+  margin-left: -2px;
+  letter-spacing: -0.5px;
+  display: inline;
+}
+/* 210316 아이콘 컬러 수정 */
+#section_list ul ul ul li img {
+  width: 11px;
+}
+/* 210317 드롭다운 추가 */
+.lang_mobile {
+  display: none;
+}
+
+@media screen and (max-width: 480px) {
+  /* 질문리스트 번역 버튼 */
+  #section_question .sq_tit {
+    height: auto;
+    padding-left: 5px;
+    overflow: hidden;
+    margin-top: 5px;
+  }
+  /*
+  .lang_container {
+    display: block;
+    margin-top: -10px;
+    margin-bottom: 5px;
+  }
+  #left_lang {
+    width: 12px;
+    height: 12px;
+  }
+  #left_lang i {
+    width: 10px;
+    height: 10px;
+    top: 59%;
+  }
+  #right_right {
+    width: 12px;
+    height: 12px;
+  }
+  #right_lang i {
+    width: 10px;
+    height: 10px;
+    top: 44%;
+  }*/
+  #section_question .sq_tit ul {
+    display: inline-block;
+    margin-bottom: 5px;
+  }
+  /* 번역버튼 */
+  .language_icon {
+    bottom: 7px;
+    right: 7px;
+  }
+  .language_icon img {
+    width: 25px;
+  }
+  /* 좋아요, 싫어요 */
+  #section_list ul > li > ul > li {
+    margin-right: 7px;
+  }
+
+  .lang_smile {
+    margin-left: 7px;
+    top: 0;
+  }
+  .lang_smile p {
+    margin-right: 7px;
+  }
+  .lang_smile p.honhonAl img {
+    width: 11px;
+  }
+  .lang_smile p img {
+    width: 10px;
+  }
+  .lang_smile p span {
+    font-size: 11px;
+    letter-spacing: -1px;
+  }
+  /* 국가명 */
+  .nation_n {
+    font-size: 11px;
+  }
+  #footer_languages {
+    margin-top: -12%;
+  }
+
+  #section_list .section_list_el > ul > li:first-child span.answerTitle_trans {
+    font-size: 15px;
+  }
+  /* 추가수정 */
+  #section_list ul ul ul li:last-child img {
+    margin: 0 4px -2px 0;
+  }
+  #section_list ul ul ul li span::before {
+    top: 50%;
+    left: 49%;
+  }
+  /* 210316 아이콘 컬러 수정 */
+  #section_list ul ul ul li img {
+    width: 9px;
+  }
+  #section_list ul ul ul li:last-child img {
+    margin: 0 3px -2px 0;
+  }
+  /* 210317 모바일용 드롭다운메뉴추가 */
+  .lang_container {
+    display: none;
+  }
+  .lang_mobile {
+    display: inline-block;
+    width: 26%;
+    float: left;
+    position: relative;
+    bottom: -3px;
+    margin-left: 5px;
+  }
+  .lang_mobile::after {
+    content: "";
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-left: 2px solid #333;
+    border-top: 2px solid #333;
+    position: absolute;
+    top: 7px;
+    right: 15px;
+    transform: rotate(-135deg);
+    z-index: 0;
+  }
+  .lang_mobile select {
+    width: 100%;
+    font-size: 15px;
+    padding-left: 15px;
+    font-weight: bold;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 0;
+    background: #fafafa;
+    color: #333;
+    position: relative;
+    background: transparent;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+    border-radius: 5px;
+  }
+  /* 210319 여백 간격 조절 */
+  form[name="frm_sch"] .lang_mobile select {
+    margin-bottom: 10px;
+  }
+}

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.message">
+	
+	<select id="getReceiverMsgSeqBegin" resultType="int">
+		select MIN(S.Seq)
+		from T_MESSAGE as S
+		left outer join T_MEMBERS M on S.sender=M.Seq and M.FlagDel='N'
+		left outer join T_BLOCK_FRIENDS B on S.receiver=B.MemberSeq and S.sender=B.BlockMemberSeq
+		where S.receiver=${receiver} and S.FlagUse_receiver='Y'
+	</select>
+	
+	<select id="getReceiverMsgSeqEnd" resultType="int">
+		select MAX(S.Seq)
+		from T_MESSAGE as S
+		left outer join T_MEMBERS M on S.sender=M.Seq and M.FlagDel='N'
+		left outer join T_BLOCK_FRIENDS B on S.receiver=B.MemberSeq and S.sender=B.BlockMemberSeq
+		where S.receiver=${receiver} and S.FlagUse_receiver='Y'
+	</select>
+	
+	<select id="getReceiveMsg" resultType="message">
+		select S.Seq, S.sender as WriterSeq, S.contents, convert(varchar(16), S.regdate, 20) as conDate
+			, M.NickName as WriterNic, M.Photo as WriterPhoto, B.BlockMemberSeq
+		from T_MESSAGE as S
+		left outer join T_MEMBERS M on S.sender=M.Seq and M.FlagDel='N'
+		left outer join T_BLOCK_FRIENDS B on S.receiver=B.MemberSeq and S.sender=B.BlockMemberSeq
+		where S.receiver=${receiver} and S.FlagUse_receiver='Y'
+		order by S.regdate desc 
+		OFFSET ((${pg}-1) * ${maxRow}) ROWS
+		FETCH NEXT ${maxRow} ROWS ONLY
+	</select>
+	
+	<select id="getSendMsgSeqBegin" resultType="int">
+		select MIN(S.Seq)
+		from T_MESSAGE as S
+		left outer join T_MEMBERS M on S.receiver=M.Seq and M.FlagDel='N'
+		left outer join T_BLOCK_FRIENDS B on S.sender=B.MemberSeq and S.receiver=B.BlockMemberSeq
+		where S.sender=${sender} and S.FlagUse_sender='Y'
+	</select>
+	
+	<select id="getSendMsgSeqEnd" resultType="int">
+		select MAX(S.Seq)
+		from T_MESSAGE as S
+		left outer join T_MEMBERS M on S.receiver=M.Seq and M.FlagDel='N'
+		left outer join T_BLOCK_FRIENDS B on S.sender=B.MemberSeq and S.receiver=B.BlockMemberSeq
+		where S.sender=${sender} and S.FlagUse_sender='Y'
+	</select>
+	
+	<select id="getSendMsg" resultType="message">
+		select S.Seq, S.receiver as WriterSeq, S.contents, convert(varchar(16), S.regdate, 20) as conDate, S.is_read
+			, M.NickName as WriterNic, M.Photo as WriterPhoto, B.BlockMemberSeq
+		from T_MESSAGE as S
+		left outer join T_MEMBERS M on S.receiver=M.Seq and M.FlagDel='N'
+		left outer join T_BLOCK_FRIENDS B on S.sender=B.MemberSeq and S.receiver=B.BlockMemberSeq
+		where S.sender=${sender} and S.FlagUse_sender='Y'
+		order by S.regdate desc
+		OFFSET ((${pg}-1) * ${maxRow}) ROWS
+		FETCH NEXT ${maxRow} ROWS ONLY
+	</select>
+	
+	<select id="setSendMsg" resultType="int">
+		SET NOCOUNT ON;
+		if exists (select 1 from T_BLOCK_FRIENDS where MemberSeq=#{userSeq} and BlockMemberSeq=#{blockUserSeq})
+			select 1;
+		else
+		begin
+			if exists (select 1 from T_BLOCK_FRIENDS where MemberSeq=#{blockUserSeq} and BlockMemberSeq=#{userSeq})
+				select 2;
+			else
+			begin
+				insert into T_MESSAGE(sender, receiver, contents) values(#{userSeq}, #{blockUserSeq}, #{contents});
+				if @@ROWCOUNT = 0
+					select 3;
+				else
+					select 0;
+			end;
+		end;
+	</select>
+	
+	<update id="setDelMsg">
+		update T_MESSAGE set FlagUse_sender='N'
+		where Seq = ${msgSeq} and sender = ${userSeq};
+
+		update T_MESSAGE set FlagUse_receiver='N'
+		where Seq = ${msgSeq} and receiver = ${userSeq};
+	</update>
+	
+	<update id="setReadMsg">
+		update 
+			T_MESSAGE 
+		set 
+			is_read='Y' 
+		where Seq = #{seq} and receiver = #{receiver}
+	</update>
+	
+	<select id="getMsg" resultType="message">
+		<if test='tab == "RECEIVE"'>
+			update T_MESSAGE set is_read='Y' where Seq=${msgSeq} and receiver = ${userSeq};
+
+			select top 1 S.Seq, S.sender as WriterSeq, S.contents, convert(varchar(16), S.regdate, 20) as conDate
+				, M.NickName as WriterNic, M.Photo as WriterPhoto, B.BlockMemberSeq
+			from T_MESSAGE as S
+			left outer join T_MEMBERS M on S.sender=M.Seq and M.FlagDel='N'
+			left outer join T_BLOCK_FRIENDS B on S.receiver=B.MemberSeq and S.sender=B.BlockMemberSeq
+			where S.receiver = ${userSeq} and S.FlagUse_receiver='Y' and S.Seq ${sign} ${msgSeq} 
+			
+		</if>
+		<if test='tab != "RECEIVE"'>
+			select top 1 S.Seq, S.receiver as WriterSeq, S.contents, convert(varchar(16), S.regdate, 20) as conDate, S.is_read
+				, M.NickName as WriterNic, M.Photo as WriterPhoto, B.BlockMemberSeq
+			from T_MESSAGE as S
+			left outer join T_MEMBERS M on S.receiver=M.Seq and M.FlagDel='N'
+			left outer join T_BLOCK_FRIENDS B on S.sender=B.MemberSeq and S.receiver=B.BlockMemberSeq
+			where S.sender = ${userSeq} and S.FlagUse_sender='Y' and S.Seq ${sign} ${msgSeq} 
+			
+		</if>
+	</select>
+</mapper>

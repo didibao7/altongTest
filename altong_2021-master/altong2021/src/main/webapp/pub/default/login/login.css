@@ -1,0 +1,143 @@
+@charset "utf-8";
+
+#atm_login_wrapper {
+  padding-top: 60px;
+}
+.atm_loginmain {
+  text-align: center;
+  color: #666;
+  padding: 80px 0;
+}
+.atm_login_con {
+  width: 90%;
+  max-width: 410px;
+  margin: 0 auto;
+  padding: 10px;
+}
+.atm_login_id {
+  margin-bottom: 15px;
+}
+.atm_login_select {
+  width: 37%;
+  height: 38px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #666;
+  border: 0;
+  border-bottom: 1px solid #c4c4c4;
+  outline: none;
+  padding: 10px;
+  float: left;
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  background: url("../joinInput_n2/images/select_down.svg") no-repeat;
+  background-size: 15px;
+  background-position: right center;
+}
+.atm_login_select::-ms-expand {
+  display: none;
+}
+.atm_login_id input {
+  width: 49%;
+  height: 30px;
+  border: 0;
+  border-bottom: 1px solid #c4c4c4;
+  font-weight: bold;
+  padding: 3px;
+  outline: none;
+  float: right;
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+}
+.atm_login_id + input {
+  width: 100%;
+  height: 37px;
+  border: 0;
+  border-bottom: 1px solid #c4c4c4;
+  font-weight: bold;
+  padding: 10px;
+  outline: none;
+  margin-bottom: 40px;
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+}
+.atm_login_keep {
+  padding-left: 23px;
+  position: relative;
+}
+.atm_login_keep input {
+  display: none;
+}
+.atm_login_keep input + label {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #c4c4c4;
+  border-radius: 2px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+.atm_login_keep input:checked + label {
+  border: 1px solid #fd0031;
+  background: url("/Common/images/check.svg") center no-repeat;
+  background-size: contain;
+}
+.atm_login_keep p {
+  line-height: 24px;
+  font-size: 12px;
+}
+.atm_login_btn {
+  width: 100%;
+  height: 35px;
+  line-height: 35px;
+  border: 1px solid #c4c4c4;
+  text-align: center;
+  border-radius: 20px;
+  color: #666;
+  font-weight: bold;
+  margin: 10px 0;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.atm_login_btn:hover {
+  background: #c4c4c4;
+  color: #fff;
+}
+p.atm_login_c4 {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  padding-bottom: 60px;
+  border-bottom: 1px solid #c4c4c4;
+}
+span.atm_login_c4 {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  padding-bottom: 60px;
+}
+
+.site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.site-content {
+  flex: 1;
+}
+
+#atm_login_wrapper {
+  min-height: 70vh;
+}
